@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config = {
-  darkMode: ["class", "[data-theme='dark']"],
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -23,10 +23,10 @@ const config = {
         transparent: "transparent",
         white: "#FFFFFF",
         lightgray: "#F2F2F2",
-        primary: "#1C0477",
+        primary: "#013975",
         btnprimary: "#0357EE",
         darkBlue: "#020E23",
-        secondary: "#00A8CC",
+        secondary: "#0064BE",
         accountBg: "#E7EEFA",
         accent: "#F0C422",
         black: "#1C1C1C",
@@ -41,11 +41,15 @@ const config = {
         regionGrayText: "#5F5F5F",
         lightButton: "#C2D8FF",
       },
+      boxShadow: {
+        dropShadow: "box-shadow: 0px 4px 4px 0px #00000040",
+      },
+
       backgroundImage: {
         upvector: "url('/new.png')",
         downvector: "url('/downvector.png')",
         logobg: "url('/logoBackground.png')",
-        heromobile: "url('/mobilebg-hero.png')",
+        hero: "url('/hero.png')",
         swapbg: "url('/bg-swap.png')",
         "hero-gradient": "linear-gradient(180deg, #3C42D1 70%, #00000033 30%)",
       },
