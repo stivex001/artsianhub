@@ -42,7 +42,8 @@ const config = {
         lightButton: "#C2D8FF",
       },
       boxShadow: {
-        dropShadow: "box-shadow: 0px 4px 4px 0px #00000040",
+        dropShadow: "0px 4px 4px 0px #00000040",
+        cardShadow: "0px 4px 4px 0px #00000040;"
       },
 
       backgroundImage: {

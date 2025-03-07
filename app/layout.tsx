@@ -58,6 +58,7 @@ export default function RootLayout({
         <body
           className={`${josefin.variable} ${geistMono.variable} antialiased`}
         >
+          <ScrollToTop />
           <Navbar />
           <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden "> {children}</div>
           <Toaster position="top-center" />

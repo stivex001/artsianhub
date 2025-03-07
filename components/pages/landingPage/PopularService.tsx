@@ -1,11 +1,13 @@
 "use client";
 import { Headings } from "@/components/shared/Headings";
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation } from "swiper/modules";
 import image1 from "@/components/assets/images/people.png";
 import Image, { StaticImageData } from "next/image";
-import { BackIcon, ForwardIcon } from "@/components/assets/icons/ArtsIcons";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper/modules";
 
 type Props = {};
 interface PopularService {
@@ -33,49 +35,26 @@ export const PopularService = (props: Props) => {
     <div className="py-14 flex flex-col gap-16">
       <Headings title="Popular Services" className="text-center text-5xl" />
       <Swiper
-        spaceBetween={20}
-        navigation={{ prevEl: ".prev-button", nextEl: ".next-button" }}
-        loop={true}
-        className="mySwiper relative"
-        breakpoints={{
-          640: {
-            slidesPerView: 1,
-          },
-          768: {
-            slidesPerView: 1,
-          },
-          1024: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
-          1200: {
-            slidesPerView: 1,
-            spaceBetween: 10,
-          },
+        slidesPerView={1}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
         }}
-        centeredSlides={true}
+        loop={true}
+        className="flex flex-col gap-5 w-full h-full"
         pagination={true}
-        modules={[Pagination, Navigation]}
+        modules={[Pagination]}
+      
       >
-        {serviceData?.map((service) => (
-          <SwiperSlide key={service?.id}>
-            <section className="w-[300px] h-[350px] ">
-              <Image
-                src={service?.image}
-                alt="service"
-                width={300}
-                height={350}
-                className="w-full h-full object-cover rounded-[10px]"
-              />
-            </section>
-          </SwiperSlide>
-        ))}
-        <div className="prev-button cursor-pointer absolute bottom-[0%] lg:left-[40%] left-[20%] z-[1000]">
-            <BackIcon />
-          </div>
-          <div className="next-button cursor-pointer absolute bottom-[0%] lg:right-[40%] right-[20%] z-[1000]">
-            <ForwardIcon />
-          </div>
+        <SwiperSlide>Slide 1</SwiperSlide>
+        <SwiperSlide>Slide 2</SwiperSlide>
+        <SwiperSlide>Slide 3</SwiperSlide>
+        <SwiperSlide>Slide 4</SwiperSlide>
+        <SwiperSlide>Slide 5</SwiperSlide>
+        <SwiperSlide>Slide 6</SwiperSlide>
+        <SwiperSlide>Slide 7</SwiperSlide>
+        <SwiperSlide>Slide 8</SwiperSlide>
+        <SwiperSlide>Slide 9</SwiperSlide>
       </Swiper>
     </div>
   );
