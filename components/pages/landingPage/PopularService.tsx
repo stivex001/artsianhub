@@ -8,8 +8,6 @@ import image4 from "@/components/assets/images/people.png";
 import Image, { StaticImageData } from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
 type Props = {};
@@ -23,6 +21,7 @@ const serviceData: PopularService[] = [
   { id: 2, image: image2 },
   { id: 3, image: image3 },
   { id: 4, image: image4 },
+  { id: 5, image: image4 },
 ];
 
 export const PopularService = (props: Props) => {
@@ -38,17 +37,17 @@ export const PopularService = (props: Props) => {
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2, spaceBetween: 20 },
           1024: { slidesPerView: 3, spaceBetween: 40 },
-          1200: { slidesPerView: 3.5, spaceBetween: 50 },
+          1200: { slidesPerView: 4, spaceBetween: 100 },
         }}
         pagination={{
           clickable: true, // Enables dot navigation
         }}
         modules={[Pagination]} 
-        className="max-w-[90%] mx-auto"
+        className="w-full"
       >
         {serviceData?.map((service) => (
-          <SwiperSlide key={service?.id} className="flex justify-center">
-            <div className="w-[300px] h-[350px] shadow-lg rounded-lg overflow-hidden">
+          <SwiperSlide key={service?.id} className="flex min-w-[300px] justify-center">
+            <div className="w-[300px] mb-14 h-[350px] shadow-lg rounded-lg overflow-hidden">
               <Image
                 src={service.image}
                 alt="service"
