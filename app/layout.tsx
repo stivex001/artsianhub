@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Josefin_Sans } from "next/font/google";
 import "./globals.css";
+import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/ui/navigations/Navbar";
+import { Navbar } from "@/components/navigations/Navbar";
 import ScrollToTop from "@/utils/ScrollToTop";
 
 const josefin = Josefin_Sans({
@@ -58,7 +59,7 @@ export default function RootLayout({
         <body
           className={`${josefin.variable} ${geistMono.variable} antialiased`}
         >
-          <ScrollToTop />
+          {/* <ScrollToTop /> */}
           <Navbar />
           <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden "> {children}</div>
           <Toaster position="top-center" />
