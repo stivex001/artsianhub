@@ -6,6 +6,7 @@ import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navigations/Navbar";
 import ScrollToTop from "@/utils/ScrollToTop";
+import Footer from "@/components/navigations/Footer";
 
 const josefin = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -59,10 +60,14 @@ export default function RootLayout({
         <body
           className={`${josefin.variable} ${geistMono.variable} antialiased`}
         >
+          <Toaster position="top-center" />
           {/* <ScrollToTop /> */}
           <Navbar />
-          <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden "> {children}</div>
-          <Toaster position="top-center" />
+          <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden ">
+            {" "}
+            {children}
+          </div>
+          <Footer />
         </body>
       </QueryProviders>
     </html>

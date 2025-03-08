@@ -1,7 +1,9 @@
+import { Artisan } from "@/components/pages/landingPage/Artisan";
 import { Arts } from "@/components/pages/landingPage/Arts";
 import { Beauty } from "@/components/pages/landingPage/Beauty";
 import { Crafts } from "@/components/pages/landingPage/Crafts";
 import { Digital } from "@/components/pages/landingPage/Digital";
+import { Explore } from "@/components/pages/landingPage/Explore";
 import { Fashion } from "@/components/pages/landingPage/Fashion";
 import { Food } from "@/components/pages/landingPage/Food";
 import { Hero } from "@/components/pages/landingPage/Hero";
@@ -24,6 +26,8 @@ export default function Home() {
       <Digital />
       <Crafts />
       <Skilled />
+      <Artisan />
+      <Explore />
     </div>
   );
 }

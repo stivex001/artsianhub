@@ -22,7 +22,7 @@ const config = {
         current: "currentColor",
         transparent: "transparent",
         white: "#FFFFFF",
-        lightgray: "#F2F2F2",
+        lightgray: "#E4E3F0",
         primary: "#013975",
         btnprimary: "#0357EE",
         darkBlue: "#020E23",
