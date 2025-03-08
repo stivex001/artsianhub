@@ -66,8 +66,8 @@ export default function RootLayout({
           <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden ">
             {" "}
             {children}
+            <Footer />
           </div>
-          <Footer />
         </body>
       </QueryProviders>
     </html>
