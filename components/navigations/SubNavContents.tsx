@@ -19,7 +19,7 @@ export const SubNavContents = ({ sub, icon, title }: Props) => {
       className="absolute left-40 top-10 bg-white shadow-dropShadow rounded-[20px] p-8 z-50 w-[500px] flex flex-col gap-5"
     >
       <div className="flex items-center gap-3 ml-5">
-        <div className="w-5 h-5">
+        <div className="w-6 h-6">
           <Image src={icon} alt="icon" className="w-full h-full object-cover" />
         </div>
         <span className="text-sm text-black font-[family-name:var(--font-josefin-sans)] ">

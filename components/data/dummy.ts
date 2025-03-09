@@ -178,3 +178,31 @@ export const Product: ProductData[] = [
     url: "#",
   },
 ];
+
+export const category = [
+  {
+    id: 1,
+    label: "Plumber",
+    value: "plumber",
+  },
+  {
+    id: 2,
+    label: "Carpenter",
+    value: "carpenter",
+  },
+  {
+    id: 3,
+    label: "Barber",
+    value: "barber",
+  },
+  {
+    id: 4,
+    label: "Electrician",
+    value: "electrician",
+  },
+  {
+    id: 5,
+    label: "Painter",
+    value: "painter",
+  },
+];
