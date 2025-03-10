@@ -53,7 +53,9 @@ export const Navbar = (props: Props) => {
         <div className="text-primary font-[family-name:var(--font-josefin-sans)] ">
           Login /Sign up
         </div>
-        <CustomButton>Join as an Artisan</CustomButton>
+        <CustomButton>
+          <Link href="/auth/login">Join as an Artisan</Link>
+        </CustomButton>
       </div>
     </nav>
   );

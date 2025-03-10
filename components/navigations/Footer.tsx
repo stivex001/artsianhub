@@ -1,16 +1,24 @@
+"use client";
+
 import React from "react";
 import Container from "../ui/Container";
 import { UKFlagIcon } from "../assets/icons/UKflag";
 import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
+import { usePathname } from "next/navigation";
 
 type Props = {};
 
 const Footer = (props: Props) => {
+  const pathname = usePathname();
   const { customerLinks, artisansLinks, aboutLinks } = useNavigationLinks();
 
+  const isAuthPage = pathname.startsWith("/auth");
+
+  const hideFooter = isAuthPage;
+
   return (
-    <div className="bg-white py-20 ">
+    <div className={`${hideFooter && "hidden"} bg-white py-20`}>
       <Container className="flex flex-col lg:flex-row justify-between">
         <div className="lg:w-9/12  grid sm:grid-cols-2 lg:grid-cols-3">
           <FooterLinks links={customerLinks} title="For Customers" />
