@@ -33,7 +33,7 @@ export const Digital = (props: Props) => {
   return (
     <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
       <Headings title="Digital & Creative Artisans" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
         {fashionData?.map((item) => (
           <CategoryCard key={item?.id} item={item} />
         ))}

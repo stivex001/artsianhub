@@ -27,7 +27,7 @@ const serviceData: PopularService[] = [
 export const PopularService = (props: Props) => {
   return (
     <div className="py-14 flex flex-col gap-16 relative">
-      <Headings title="Popular Services" className="text-center text-5xl" />
+      <Headings title="Popular Services" className="text-center text-4xl lg:text-5xl" />
       <Swiper
         spaceBetween={20}
         loop={true}

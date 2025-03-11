@@ -12,7 +12,7 @@ export const CategoryCard = ({ item }: CategoryProps) => {
       <div className=" flex items-center justify-center shadow-cardShadow rounded-[10px]">
         <Image src={item?.image} alt="category" width={216} height={324} className="w-full rounded-[10px]" />
       </div>
-      <p className="text-sm text-black font-[300px] font-[family-name:var(--font-josefin-sans)]">{item?.desc}</p>
+      <p className="text-[10px] lg:text-sm text-black font-[300px] font-[family-name:var(--font-josefin-sans)]">{item?.desc}</p>
     </div>
   );
 };
