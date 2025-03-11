@@ -23,7 +23,7 @@ export const CustomButton: FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    "font-bold w-fit rounded-[20px] text-sm font-[family-name:var(--font-josefin-sans)] transition-all leading-[140%] flex items-center justify-center gap-x-1 capitalize duration-300 ease-in font-medium disabled:cursor-not-allowed";
+    "font-bold w-fit rounded-[20px] text-xs md:text-sm font-[family-name:var(--font-josefin-sans)] transition-all leading-[140%] flex items-center justify-center gap-x-1 capitalize duration-300 ease-in font-medium disabled:cursor-not-allowed";
   const variants = {
     primary:
       "bg-primary text-white border-primary hover:bg-primary/80 active:bg-primary/90 disabled:bg-primary/30",
