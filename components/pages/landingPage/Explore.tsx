@@ -42,11 +42,11 @@ export const Explore = (props: Props) => {
   return (
     <section className="bg-lightgray px-5 lg:px-16 py-14 flex flex-col gap-8 ">
       <Headings title="Explore more..." className=" text-3xl" />
-      <div className="grid lg:grid-cols-2 justify-between gap-y-9 gap-x-[165px]">
+      <div className="grid grid-cols-2 justify-between gap-y-9 gap-x-4 lg:gap-x-[165px]">
         {explore?.map((ex) => (
           <div key={ex.id}>
             <p
-              className="text-sm font-[300px] font-[family-name:var(--font-josefin-sans)] text-primary"
+              className="text-[7px] lg:text-sm font-[300px] font-[family-name:var(--font-josefin-sans)] text-primary"
               dangerouslySetInnerHTML={{ __html: ex.desc }}
             />
           </div>

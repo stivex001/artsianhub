@@ -19,13 +19,13 @@ const Footer = (props: Props) => {
 
   return (
     <div className={`${hideFooter && "hidden"} bg-white py-20`}>
-      <Container className="flex flex-col lg:flex-row justify-between">
-        <div className="lg:w-9/12  grid sm:grid-cols-2 lg:grid-cols-3">
+      <Container className="flex  justify-between">
+        <div className="lg:w-9/12  grid grid-cols-3 gap-5">
           <FooterLinks links={customerLinks} title="For Customers" />
           <FooterLinks links={artisansLinks} title="For Artisans" />
           <FooterLinks links={aboutLinks} title="About" />
         </div>
-        <div className="text-base font-[300px] font-[family-name:var(--font-josefin-sans)] text-primary">
+        <div className="text-[7px] lg:text-base font-[300px] font-[family-name:var(--font-josefin-sans)] text-primary">
           <div className="flex items-center justify-end gap-2 text-right">
             <UKFlagIcon />
 
@@ -33,7 +33,7 @@ const Footer = (props: Props) => {
               MansayHUb <br /> 020 3678 1134{" "}
             </h2>
           </div>
-          <h2>(open 24 hours a day, 7 days week)</h2>
+          <h2 className="text-right">(open 24 hours a day, 7 days week)</h2>
         </div>
       </Container>
     </div>
