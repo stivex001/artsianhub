@@ -9,9 +9,11 @@ import image8 from "@/components/assets/images/cart.png";
 import { StaticImageData } from "next/image";
 
 export interface ServiceData {
+  id: number;
   title: string;
   icon: StaticImageData;
   subNav: {
+    id: number;
     name: string;
     desc: string;
     url: string;
@@ -26,25 +28,30 @@ export interface ProductData {
 
 export const services: ServiceData[] = [
   {
+    id: 1,
     title: "Fashion & Textile Artisans",
     icon: image1,
     subNav: [
       {
+        id: 1,
         name: "Tailors & Dressmakers -",
         desc: "Custom clothing, alterations, and bespoke fashion.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Shoemakers & Leatherworkers -",
         desc: "Handmade shoes, bags, and accessories.",
         url: "/services",
       },
       {
+        id: 3,
         name: "Weavers & Textile Designers -",
         desc: "Handwoven fabrics, scarves, and upholstery.",
         url: "/services",
       },
       {
+        id: 4,
         name: "Embroidery Artists -",
         desc: "Custom embroidery for clothing and decor.",
         url: "/services",
@@ -52,15 +59,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 2,
     title: "Food & Culinary Artisans",
     icon: image2,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -68,15 +78,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 3,
     title: "Home & Interior Artisans",
     icon: image3,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -84,15 +97,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 4,
     title: "Beauty & Personal Care Artisans",
     icon: image4,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -100,15 +116,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 5,
     title: "Visual & Performing Arts Artisans",
     icon: image5,
     subNav: [
       {
+        id: 3,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 4,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -116,15 +135,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 6,
     title: "Digital & Creative Artisans",
     icon: image6,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -132,15 +154,18 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 7,
     title: "Craft & Handmade Goods Artisans",
     icon: image7,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
         url: "/services",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
         url: "/services",
@@ -148,18 +173,21 @@ export const services: ServiceData[] = [
     ],
   },
   {
+    id: 8,
     title: "Skilled Trades & Repair Artisans",
     icon: image8,
     subNav: [
       {
+        id: 1,
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
-        url: "/services",
+        url: "/services/:id",
       },
       {
+        id: 2,
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
-        url: "/services",
+        url: "/services/:id",
       },
     ],
   },

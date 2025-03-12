@@ -52,7 +52,7 @@ const config = {
         downvector: "url('/downvector.png')",
         logobg: "url('/logoBackground.png')",
         hero: "url('/hero.png')",
-        swapbg: "url('/bg-swap.png')",
+        service: "url('/service.png')",
         "hero-gradient": "linear-gradient(180deg, #3C42D1 70%, #00000033 30%)",
       },
       keyframes: {
