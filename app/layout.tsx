@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { Geist_Mono, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import "swiper/swiper-bundle.css";
@@ -9,9 +10,14 @@ import ScrollToTop from "@/utils/ScrollToTop";
 import Footer from "@/components/navigations/Footer";
 
 const josefin = Josefin_Sans({
-  variable: "--font-josefin-sans",
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
+
+// const josefin = Josefin_Sans({
+//   variable: "--font-josefin-sans",
+//   subsets: ["latin"],
+// });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -58,7 +64,7 @@ export default function RootLayout({
       </head>
       <QueryProviders>
         <body
-          className={`${josefin.variable} ${geistMono.variable} antialiased`}
+          className={` ${josefin.className} ${geistMono.variable} antialiased`}
         >
           <Toaster position="top-center" />
           {/* <ScrollToTop /> */}

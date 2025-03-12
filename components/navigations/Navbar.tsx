@@ -44,7 +44,7 @@ export const Navbar = (props: Props) => {
             onClose={() => setIsModalOpen(false)}
             icon={PolygonWhite}
           >
-            <ExploreContent />
+            <ExploreContent onClose={() => setIsModalOpen(false)} />
           </DropdownModal>
         </div>
       </div>

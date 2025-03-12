@@ -1,15 +1,24 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { ServiceData } from "../data/dummy";
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {
   sub: any;
   title: string;
   icon: StaticImageData;
+  onClose: (value: boolean) => void;
 };
 
-export const SubNavContents = ({ sub, icon, title }: Props) => {
+export const SubNavContents = ({ sub, icon, title, onClose }: Props) => {
+  const router = useRouter();
+  const handleClick = (id: string) => {
+    router.push(`/services`);
+    onClose(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -22,20 +31,17 @@ export const SubNavContents = ({ sub, icon, title }: Props) => {
         <div className="w-6 h-6">
           <Image src={icon} alt="icon" className="w-full h-full object-cover" />
         </div>
-        <span className="text-sm text-black font-[family-name:var(--font-josefin-sans)] ">
-          {title}
-        </span>
+        <span className="text-sm text-black  ">{title}</span>
       </div>
       <div className="flex flex-col gap-3">
         {sub?.map((item: any, idx: number) => (
           <p
+            onClick={() => handleClick(item.name)}
             key={idx}
-            className=" text-sm text-primary font-[family-name:var(--font-josefin-sans)] "
+            className=" text-sm text-primary"
           >
             {item?.name}
-            <span className="ml-3 text-sm text-black font-[family-name:var(--font-josefin-sans)] ">
-              {item?.desc}
-            </span>
+            <span className="ml-3 text-sm text-black">{item?.desc}</span>
           </p>
         ))}
       </div>

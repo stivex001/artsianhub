@@ -14,6 +14,7 @@ export interface ServiceData {
   subNav: {
     name: string;
     desc: string;
+    url: string;
   }[];
 }
 
@@ -31,18 +32,22 @@ export const services: ServiceData[] = [
       {
         name: "Tailors & Dressmakers -",
         desc: "Custom clothing, alterations, and bespoke fashion.",
+        url: "/services",
       },
       {
         name: "Shoemakers & Leatherworkers -",
         desc: "Handmade shoes, bags, and accessories.",
+        url: "/services",
       },
       {
         name: "Weavers & Textile Designers -",
         desc: "Handwoven fabrics, scarves, and upholstery.",
+        url: "/services",
       },
       {
         name: "Embroidery Artists -",
         desc: "Custom embroidery for clothing and decor.",
+        url: "/services",
       },
     ],
   },
@@ -53,10 +58,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -67,10 +74,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -81,10 +90,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -95,10 +106,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -109,10 +122,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -123,10 +138,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },
@@ -137,10 +154,12 @@ export const services: ServiceData[] = [
       {
         name: "Bakers & Pastry Chefs",
         desc: "Handmade baked goods and pastries.",
+        url: "/services",
       },
       {
         name: "Specialty Food Makers",
         desc: "Custom sauces, spices, and preserves.",
+        url: "/services",
       },
     ],
   },

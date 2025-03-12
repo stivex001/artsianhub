@@ -8,9 +8,11 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { SubNavContents } from "./SubNavContents";
 
-type Props = {};
+type Props = {
+  onClose:(value: boolean) => void
+};
 
-export const ExploreContent = (props: Props) => {
+export const ExploreContent = ({onClose}: Props) => {
   const [openService, setOpenService] = useState<number | null>(null);
 
   const toggleService = (index: number) => {
@@ -50,13 +52,11 @@ export const ExploreContent = (props: Props) => {
               )}
 
               {openService === index && (
-                // service?.subNav?.map((sub, idx) => (
-
-                // ))}
                 <SubNavContents
                   sub={service?.subNav}
                   title={service?.title}
                   icon={service?.icon}
+                  onClose={onClose}
                 />
               )}
             </div>
