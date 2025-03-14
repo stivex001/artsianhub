@@ -128,3 +128,33 @@ export const ForwardIcon = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
+
+export const DoubleCheckIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    width={28}
+    height={26}
+    fill="none"
+    {...props}
+  >
+    <path fill="url(#a)" d="M0 0h28v26H0z" />
+    <defs>
+      <pattern
+        id="a"
+        width={1}
+        height={1}
+        patternContentUnits="objectBoundingBox"
+      >
+        <use xlinkHref="#b" transform="matrix(.01032 0 0 .01111 .036 0)" />
+      </pattern>
+      <image
+        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAADXElEQVR4nO3bz2sTQRQH8FXUehBPgoqFXorWzFt66B8Q9JB5ifXoVTwVEVNt3qTqQfZ/EOpNvPkH6H/gwR8g1F4Ez4LgUVtQDxrZTRSVNNlNNvNmZt8XHvSyye4nry/DZDeKJBKJRCKRSCQSiUQikUgkUT1ZOKo76hYSvEaj9tBAz49Se9rAK02wju3FOac/StyM5zWpHX40mLbeptcSOdvJYSD3/mC72NnZuODH6ZVc7ci19GcyO0yvzNJGvYxcCxrY5YbB8ms3ci0OoPRmUZFr4QZBgebHQuloYIeU0WHcqMi1cIOgQLtV2sA3pPhOy9ROpZX+rQm+F+1otr0RX5CbFDeHnPvd4tBMeyO+IqfRt5dOTwndx7bR2b4ilwhtZ2+EGxP3K4Kvo5DTaIJ7ZUBb2RvxFblJcTP7giwDmuDLTHDHvTFn6XQlQeryqHPWHaXTD2PU6xS93png5nljn5FRoMEKskAbO8gCbewgC7Sxg+w3NKnnmuB6g+AmGvXGhSVciNBPkiQ6+PuYelI/pEk9chXZW+gWnV/4/7gkiQ5OhG0B2UtoTfBjZW3l8LBjk6LYOZCxC61pkb2ETqvRVRf2Oz7Ji20R2VtobdT71c7ZExNjk11kb6EHI+Rd+svGiJc6oAkeTrKEa5gaTrKECxJ6EmzNhOw9dBFszYgcBHQfW+2Mm9mNDbVscyYHCY35Opulk4ODxgmxbSAHB40FsW0hBwmNObFtIgcLjWOwbSMHDY2D1cjFdTj5D3JXrc5ydVFJaMxKfdIG7msTX0NSj9HAT9vIFYEGJ0qgjUCzdyFKR/PDoYwOYEeVGW0EWlYdxv7yLrhHlLWBz0Ovtb14nA+6Qg/d6258jg06ezrJARwssdK7qYY2VRdafB3dXpzLHpgJpZsJtq8ktSNDm8rAFht0hr0Zz4eArQm2L20snxl2jYPb2D6wQv/V2e10vnn2BbmLpF6k42K/Ts6uj+K1Ua9jDTrkYH+18VGgZ5jsLioDT8f9Z8zyHIJP0r9V7UGeEcR9rn6PC4JneWc99/l62cVNo66Om8kCXTD1G7VjjQ4sDe582hq1hPMK2rOlX2+avRHWVGlvhDVV2hthTZX2RtiDFdgbcSYY+N6IRCKRSCQSiUQikUgkEklUofwC5vsud36VjFIAAAAASUVORK5CYII="
+        id="b"
+        width={90}
+        height={90}
+        preserveAspectRatio="none"
+      />
+    </defs>
+  </svg>
+)

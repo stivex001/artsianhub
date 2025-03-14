@@ -72,7 +72,7 @@ const Login = (props: Props) => {
           </div>
         </div>
         <div className="my-9">
-          <CustomButton type="submit" label="Login" className="w-full" />
+          <CustomButton type="submit" label="Login" className="w-full rounded-[10px]" />
         </div>
         <div className="flex flex-col justify-center">
           <span className="text-center font-[200] text-[10px]">

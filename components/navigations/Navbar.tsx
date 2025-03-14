@@ -61,11 +61,11 @@ export const Navbar = (props: Props) => {
       </div>
 
       <div className="flex items-center gap-2 md:gap-6">
-        <div className="text-primary text-xs md:text-xl font-[family-name:var(--font-josefin-sans)] ">
+        <Link href="/auth/login" className="text-primary text-xs md:text-xl">
           Login /Sign up
-        </div>
+        </Link>
         <CustomButton>
-          <Link href="/auth/login">Join as an Artisan</Link>
+          <Link href="/artisan/auth/login">Join as an Artisan</Link>
         </CustomButton>
       </div>
     </nav>
