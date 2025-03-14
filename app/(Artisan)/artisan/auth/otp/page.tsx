@@ -1,16 +1,18 @@
+"use client";
 import ArtisanAuthLayout from "@/components/Artisan/auth/ArtisanAuthLayout";
 import React from "react";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const OTP = (props: Props) => {
+  const router = useRouter();
   return (
     <ArtisanAuthLayout>
       <div className="flex flex-col items-center justify-center h-[60vh]">
@@ -38,6 +40,7 @@ const OTP = (props: Props) => {
           type="button"
           label="Proceed to Profile Setup"
           className="w-full rounded-[10px]"
+          onClick={() => router.push(`/artisan/dashboard`)}
         />
       </div>
     </ArtisanAuthLayout>
