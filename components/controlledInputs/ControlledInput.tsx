@@ -11,11 +11,10 @@ type ControlledInputProps = {
   label: string;
   control?: Control<any>;
   rules?: { required: boolean; pattern?: RegExp; maxLength?: number };
-
   placeholder?: string;
   type?: string;
   method?: string;
-  currency?: string;
+  art?: boolean;
   dontShowTime?: boolean;
   variant?: "primary" | "secondary" | "tertiary";
 } & React.ComponentProps<typeof Input>;
@@ -30,6 +29,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   method,
   variant = "primary",
   dontShowTime = false,
+  art = false,
   ...props
 }) => {
   const {
@@ -41,7 +41,8 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     rules,
   });
 
-  const baseStyles = "w-full h-9 py-5 px-4 font-[family-name:var(--font-josefin-sans)]";
+  const baseStyles =
+    "w-full h-9 py-5 px-4 font-[family-name:var(--font-josefin-sans)]";
   const styles = {
     primary: "border-bordergray bg-gray1 rounded-[10px] focus:ring-primary",
     secondary:
@@ -60,6 +61,28 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+
+  if (art) {
+    return (
+      <div className="border border-[#B5B5B5] h-12 rounded-[10px] relative mb-4">
+        <Label className="text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ">
+         {label}
+        </Label>
+        <input
+          id={name}
+          name={name}
+          type={type === "password" && showPassword ? "text" : type}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={onBlur}
+          value={value}
+          ref={ref}
+          className={`py-3 w-full bg-transparent outline-none px-3`}
+          {...props}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={`space-y-1`}>
