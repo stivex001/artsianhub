@@ -7,14 +7,25 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import { DownLargeArrowIcon, PolygonWhite } from "../assets/icons/NavIcons";
 import { DropdownModal } from "../shared/DropdownModal";
 import { ExploreContent } from "./ExploreContent";
+import { usePathname } from "next/navigation";
 
 type Props = {};
 
 export const Navbar = (props: Props) => {
+  const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const isAuthPage = pathname.startsWith("/auth");
+  const isArtisanPage = pathname.startsWith("/artisan");
+
+  const hideNav = isArtisanPage;
+
   return (
-    <nav className="w-full bg-white fixed top-0 z-50 h-[96px] flex items-center justify-between px-3 sm:px-5 lg:px-10 shadow-dropShadow">
+    <nav
+      className={`${
+        hideNav && "hidden"
+      } w-full bg-white fixed top-0 z-50 h-[96px] flex items-center justify-between px-3 sm:px-5 lg:px-10 shadow-dropShadow`}
+    >
       <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
         <Link href="/" className="w-[65px] h-12">
           <Image

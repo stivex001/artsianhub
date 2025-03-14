@@ -6,7 +6,7 @@ type Props = {
 
 export const AuthLayout = ({ children }: Props) => {
   return (
-    <section className="flex items-center justify-center py-8">
+    <section className="flex items-center justify-center py-8 mt-24">
       <div className="lg:w-7/12 flex justify-between w-11/12 h-screen rounded-[10px]">
         <section className="bg-hero bg-cover bg-no-repeat object-top w-1/2 h-full sm:block hidden rounded-l-[10px] ">
           {/* <Image src={img} alt="hero" className="h-full  object-center bg-center" /> */}

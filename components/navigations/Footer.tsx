@@ -14,8 +14,9 @@ const Footer = (props: Props) => {
   const { customerLinks, artisansLinks, aboutLinks } = useNavigationLinks();
 
   const isAuthPage = pathname.startsWith("/auth");
+  const isArisanPage = pathname.startsWith("/artisan");
 
-  const hideFooter = isAuthPage;
+  const hideFooter = isAuthPage || isArisanPage;
 
   return (
     <div className={`${hideFooter && "hidden"} bg-white py-20`}>

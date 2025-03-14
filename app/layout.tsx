@@ -69,7 +69,7 @@ export default function RootLayout({
           <Toaster position="top-center" />
           {/* <ScrollToTop /> */}
           <Navbar />
-          <div className="w-full h-[calc(100vh-96px)] pt-24 scrollbar-hidden ">
+          <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
             {" "}
             {children}
             <Footer />
