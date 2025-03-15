@@ -40,7 +40,7 @@ const config = {
         placeholderText: "#84888D",
         regionGrayText: "#5F5F5F",
         lightButton: "#C2D8FF",
-        gray1: "#B5B5B5"
+        grayish: "#9694A4"
       },
       boxShadow: {
         dropShadow: "0px 4px 4px 0px #00000040",
