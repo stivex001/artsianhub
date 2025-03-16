@@ -15,7 +15,7 @@ const Sidebar = (props: Props) => {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex flex-col lg:w-[18%] bg-white h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden py-14">
+    <aside className="hidden lg:flex flex-col lg:w-[18%] bg-white h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden py-14 sticky top-0">
       <div className="w-[106px] h-20 mx-auto">
         <Image
           src={logo}

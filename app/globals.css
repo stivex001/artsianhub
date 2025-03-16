@@ -2,50 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @font-face {
-  font-family: "SatoshiRegular";
-  src: url("../public/satoshi/fonts/Satoshi-Regular.woff"),
-    url("../public/satoshi/fonts/Satoshi-Regular.ttf"),
-    url("../public/satoshi/fonts/Satoshi-Regular.woff2");
-  font-weight: 400;
-  font-style: normal;
-} */
 
-/* @font-face {
-  font-family: "SatoshiBold";
-  src: url("../public/satoshi/fonts/Satoshi-Medium.woff"),
-    url("../public/satoshi/fonts/Satoshi-Medium.ttf"),
-    url("../public/satoshi/fonts/Satoshi-Medium.woff2");
-  font-weight: 500;
-  font-style: normal;
-} */
-
-/* @font-face {
-  font-family: "PoppinsNormal";
-  src: url("../public/poppins/Poppins-Regular.ttf");
-  font-weight: 400;
-  font-style: normal;
-} */
-/* @font-face {
-  font-family: "PoppinsBold";
-  src: url("../public/poppins/Poppins-Bold.ttf");
-  font-weight: 500;
-  font-style: normal;
-} */
-
-/* @font-face {
-  font-family: "PoppinsSemiBold";
-  src: url("../public/poppins/Poppins-SemiBold.ttf");
-  font-weight: 600;
-  font-style: normal;
-} */
-
-/* @font-face {
-  font-family: "GraphikMedium";
-  src: url("../public/Graphik2/GraphikMedium.otf");
-  font-weight: 500;
-  font-style: normal;
-} */
 
 * {
   padding: 0;
@@ -58,6 +15,15 @@ html {
   overflow-x: hidden;
   scroll-padding-top: 250px;
   scrollbar-width: 0px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .scrollbar-hidden {

@@ -5,7 +5,7 @@ type Props = {};
 
 export const AdminHeader = (props: Props) => {
   return (
-    <header className="bg-white w-full sticky top-0 left-0 z-50 flex items-center justify-end py-2 px-5">
+    <header className="bg-white rounded-t-[10px] w-full sticky top-0 left-0 z-50 flex items-center justify-end pt-14 pb-5 px-5">
       <div className="flex items-center gap-5">
         <button>
           <NotificationIcon />
