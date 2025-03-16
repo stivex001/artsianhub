@@ -3,6 +3,9 @@
 import { Descriptions } from "@/components/shared/Headings";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Profile from "@/components/Artisan/settings/Profile";
+import KYC from "@/components/Artisan/settings/KYC";
+import Security from "@/components/Artisan/settings/Security";
 
 type Props = {};
 
@@ -34,9 +37,15 @@ const Settings = (props: Props) => {
               </TabsTrigger>
             </div>
           </TabsList>
-          <TabsContent value="Profile">Profile</TabsContent>
-          <TabsContent value="kyc">KYC</TabsContent>
-          <TabsContent value="Security">Security</TabsContent>
+          <TabsContent value="Profile">
+            <Profile />
+          </TabsContent>
+          <TabsContent value="kyc">
+            <KYC />
+          </TabsContent>
+          <TabsContent value="Security">
+            <Security />
+          </TabsContent>
         </Tabs>
       </div>
     </section>
