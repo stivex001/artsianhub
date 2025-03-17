@@ -86,7 +86,7 @@ const TablesComponent = ({
   return (
     <div className="w-full flex flex-col h-full no-scrollbar scrollbar-hidden">
       {/* Desktop View */}
-      <div className="hidden lg:flex flex-col h-full">
+      <div className="hidden lg:flex flex-col h-full no-scrollbar scrollbar-hidden">
         {/* Container with relative positioning and overflow */}
         <div className="relative flex flex-col h-full overflow-auto">
           <table className="w-full no-scrollbar scrollbar-hidden">

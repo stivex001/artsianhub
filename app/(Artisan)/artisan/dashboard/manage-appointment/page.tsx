@@ -1,4 +1,6 @@
 "use client";
+import FilterComponent from "@/components/controlledInputs/FilterComponent";
+import SearchComponent from "@/components/controlledInputs/SearchComponent";
 import CustomPagination from "@/components/shared/CustomPagination";
 import { Descriptions } from "@/components/shared/Headings";
 import StatusButton from "@/components/shared/StatusButton";
@@ -10,6 +12,26 @@ type DateProps = {
   date: string;
   time?: string;
 };
+
+const headers = [
+  "Status",
+  "Name",
+  "Email",
+  "Phone number",
+  "Description",
+  "Date",
+  "Pricing",
+  "Action",
+];
+
+const filterOptions = [
+  { id: "all", label: "All" },
+  { id: "pending", label: "Pending" },
+  { id: "accept", label: "Accept" },
+  { id: "success", label: "Successful Payment" },
+  { id: "Decline", label: "Decline" },
+  { id: "expire", label: "Expire" },
+];
 
 const DateTimeDisplay = ({ date, time }: DateProps) => {
   return (
@@ -32,16 +54,10 @@ const ManageAppointment = (props: Props) => {
     setCurrentPage(page);
   };
 
-  const headers = [
-    "Status",
-    "Name",
-    "Email",
-    "Phone number",
-    "Description",
-    "Date",
-    "Pricing",
-    "Action",
-  ];
+  const handleFiterChange = () => {
+    // Handle filter change
+    console.log("Filter changed");
+  };
 
   const tableData = Array.from({ length: 11 }).map(() => ({
     status: "pending",
@@ -72,8 +88,17 @@ const ManageAppointment = (props: Props) => {
   return (
     <section className="flex flex-col gap-5">
       <Descriptions title="Manage Appointment" />
-      <Wrapper>
-        <div className="w-full h-[68vh] overflow-y-auto no-scrollbar scrollbar-hidden">
+      <div className="flex items-center justify-between">
+        <div className="max-w-[300px]">
+          <SearchComponent onChange={() => {}} />
+        </div>
+        <FilterComponent
+          onFilterChange={handleFiterChange}
+          options={filterOptions}
+        />
+      </div>
+      <Wrapper className="overflow-hidden no-scrollbar scrollbar-hidden">
+        <div className="w-full h-[68vh] overflow-y-auto no-scrollbar scrollbar-hidden pb-5">
           <TablesComponent
             data={tableData}
             isLoading={false}
@@ -94,7 +119,7 @@ const ManageAppointment = (props: Props) => {
             hideActionButton
           />
         </div>
-        <div className="flex justify-between items-center px-4">
+        <div className="flex justify-between items-center px-4 ">
           <div className="text-sm text-gray-600">
             Page {currentPage} of {totalPages}
           </div>

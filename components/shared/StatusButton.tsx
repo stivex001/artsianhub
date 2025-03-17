@@ -12,7 +12,7 @@ type Styles = {
 };
 
 const statusStyles: Record<string, Styles> = {
-  pending: { backgroundColor: "#FFF3CD", color: "#856404", text: "Pending" },
+  pending: { backgroundColor: "#FFD6D0", color: "#fff", text: "Pending" },
   approved: { backgroundColor: "#ECFDF3", color: "#358619", text: "Approved" },
   completed: {
     backgroundColor: "#358619",
@@ -45,8 +45,8 @@ const statusStyles: Record<string, Styles> = {
     color: "#721C24",
     text: "Cancelled",
   },
-  accepted: { backgroundColor: "#E7F6EC", color: "#036B26", text: "Accepted" },
-  declined: { backgroundColor: "#F8D7DA", color: "#721C24", text: "Declined" },
+  accept: { backgroundColor: "#1F873B", color: "#fff", text: "Accepted" },
+  decline: { backgroundColor: "#DD1919", color: "#fff", text: "Declined" },
   inactive: { backgroundColor: "#F8D7DA", color: "#721C24", text: "Inactive" },
   "awaiting inspection": {
     backgroundColor: "#FFF3CD",
@@ -70,7 +70,7 @@ const StatusButton = ({ status }: StatusButtonProps) => {
 
   return (
     <button
-      className="text-10px rounded-[20px] px-5 py-1"
+      className="py-4 px-2 rounded-[10px]"
       style={{ backgroundColor: styles.backgroundColor, color: styles.color }}
     >
       {styles.text}

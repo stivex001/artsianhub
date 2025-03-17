@@ -48,6 +48,10 @@ html {
   background: #1c0477;
 }
 
+body {
+  @apply no-scrollbar;
+}
+
 .tabling {
   border-collapse: separate;
   border-spacing: 0px 10px;

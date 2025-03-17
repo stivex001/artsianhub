@@ -188,3 +188,33 @@ export const ScheduleIcon = (props: SVGProps<SVGSVGElement>) => (
     </defs>
   </svg>
 )
+
+export const FunnelIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    width={25}
+    height={25}
+    fill="none"
+    {...props}
+  >
+    <path fill="url(#a)" d="M0 0h25v25H0z" />
+    <defs>
+      <pattern
+        id="a"
+        width={1}
+        height={1}
+        patternContentUnits="objectBoundingBox"
+      >
+        <use xlinkHref="#b" transform="scale(.01111)" />
+      </pattern>
+      <image
+        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJElEQVR4nO2cvy5EQRSHJxIRSnEOQqmilJ2zjd4LaJ1R2E6tpFT7E7yOwht4A8l2aIhoyE1EJSTM3jlz5vclp72b+fbs/W42mw2hACR6zFFP8l83HbKk939NTEfBA9RJ/jqUMdkuJYsx2a4lixHZTUiWwrKbkiyFZDcpWXqW3bRk6Uk2JKcv2d0blV+2Hk/iugAAAAAAlbG8OZrjqBcs+vTnZ2NxN48s6Xx1uDObTTSJXhk42LvF6dxk0nw0RTG9lD4QGx0Sfe4cQbRUIxq3Dv5RdLoMuehu+Cx69hmA4h9XtjAxPXBMp1lj+B0cdUhRX4sfWPoafVuIaSuUgAZJGxK9X0RyS49+lPM+/Gc2R9MseuNY8u3a9sFMsAANdIljui8thfPPeH64uxIs4S+OWi5+bcVRy8bvN0jSdXlJycr3FxOk8jiSpfg5juPYXPz8xVHtxs9XHNV2/DzEkaqIX+VxpJriV3Ecx9XFr744ar3xqyuOOgqeIQNx9BE/43EkT/EzHMexu/jZi6P6jZ+tOKrv+FmIIzURv8JxpJbiVzCO7cWv/zg2HL9+49h4/AAAAAAAbMCZHu9Kn8M8DNEQ7QrGRkO0KxgbDdGuYGw0RLuCsdEQ7QrGRkO0KxgbDdGuYGw0RLuCsdEQ7QrGRkO0K/h/v4O+6/5afinurZc+h3kYcu2IJmzu5EQT5OaFIbcf6HNzFwe7Gz29JAAAAAAAAACEpvkAbBbYn62EossAAAAASUVORK5CYII="
+        id="b"
+        width={90}
+        height={90}
+        preserveAspectRatio="none"
+      />
+    </defs>
+  </svg>
+)
