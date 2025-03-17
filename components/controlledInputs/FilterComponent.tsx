@@ -59,7 +59,7 @@ const FilterComponent = ({ onFilterChange, options }: filterProps) => {
       </button>
 
       {isOpen && (
-        <div className="absolute mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-200">
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg z-10 rounded-[10px] border border-black">
           <ul className="py-1">
             {options?.map((filter) => (
               <li key={filter.id} className="px-1">
