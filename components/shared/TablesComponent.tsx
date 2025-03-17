@@ -97,7 +97,7 @@ const TablesComponent = ({
                 position: "sticky",
                 top: 0,
                 zIndex: 10,
-                width: "100%"
+                width: "100%",
 
                 // boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)", // Subtle shadow for separation
               }}
@@ -105,7 +105,7 @@ const TablesComponent = ({
               <tr className="border-b rounded-[10px] bg-[#5691D1] ">
                 {headers.map((header, i) => (
                   <th key={i} className={headerClassName}>
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-3 items-center whitespace-nowrap">
                       {i === 0 && showCheckBox && (
                         <CustomCheckBox
                           checked={
@@ -127,9 +127,12 @@ const TablesComponent = ({
               </tr>
               <tr className="h-2" aria-hidden="true"></tr>
             </thead>
-            <tbody style={{backgroundColor: "red"}} className="">
+            <tbody style={{ backgroundColor: "red" }} className="">
               {data.map((eachRow, index) => {
                 const formatedValue = getFormattedValue(eachRow, index);
+
+                console.log(formatedValue, "row");
+
                 return (
                   <tr
                     key={index}
@@ -139,19 +142,16 @@ const TablesComponent = ({
                     // className={`bg-white border-b last:border-b-0`}
                   >
                     {formatedValue.map((item: any, i: number) => (
-                      <td
-                        key={i}
-                        className="px-4 py-7 text-sm text-black mb-5"
-                      >
-                        <div className="flex items-center gap-3">
+                      <td key={i} className="px-4 py-7 text-sm text-black mb-5">
+                        <div className="flex items-center gap-3 whitespace-nowrap">
                           {i === 0 && showCheckBox && (
                             <CustomCheckBox
                               onChange={() => toggleRow(index, eachRow)}
                               checked={selectedRows.includes(index)}
                             />
                           )}
-                          {renderData(item)}
-                          {/* dshuihish */}
+
+                          <p className="text-black text-sm">{item} </p>
                         </div>
                       </td>
                     ))}

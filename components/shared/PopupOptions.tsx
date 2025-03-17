@@ -8,7 +8,7 @@ type OptionsPopupProps = {
 const OptionsPopup = ({ options, popUpFunction }: OptionsPopupProps) => {
   return (
     <div className="relative">
-      <div className="w-[171px] inset-x-[-120px] absolute z-10 shadow-lg top-4 right-6 rounded-[4px] bg-whiteColor p-2 flex flex-col">
+      <div className="w-[171px] inset-x-[-120px] absolute z-[99] shadow-lg top-4 right-6 rounded-[4px] bg-white p-2 flex flex-col">
         {options.map((option, inx) => (
           <p
             role="button"
