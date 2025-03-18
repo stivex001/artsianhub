@@ -3,7 +3,6 @@
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -15,37 +14,75 @@ import ScheduleIcon from "../assets/images/Schedule.png";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";
 
-type Props = {};
+type Props = {
+  range?: boolean;
+  date: any;
+  setDate: any;
+};
 
-const CustomDatePicker = (props: Props) => {
-  const [date, setDate] = useState<Date>();
+const CustomDatePicker = ({ range = false, date, setDate }: Props) => {
 
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button
-          //   variant={"default"}
-          className={cn(
-            "w-[90px] h-8 px-2.5 border border-black rounded-[5px] flex items-center justify-between font-[300]",
-            !date && "text-muted-foreground"
-          )}
-        >
-          {date ? (
-           <span className="text-[10px]">{formatDate(`${date}`)}</span> 
-          ) : (
-            <span className="text-[10px] ">From</span>
-          )}
-          <Image src={ScheduleIcon} alt="" className="w-5 h-5 object-cover" />
-        </button>
+        {range ? (
+          <button
+            className={cn(
+              "w-[300px] h-14 px-2.5 border border-black rounded-[10px] text-black text-xl flex items-center justify-between font-[300]",
+              !date && "text-muted-foreground"
+            )}
+          >
+            {date?.from ? (
+              date.to ? (
+                <>
+                  {formatDate(date.from)} -{" "}
+                  {formatDate(date.to)}
+                </>
+              ) : (
+                format(date.from, "LLL dd, y")
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+            <Image src={ScheduleIcon} alt="" className="w-5 h-5 object-cover" />
+          </button>
+        ) : (
+          <button
+            className={cn(
+              "w-[90px] h-8 px-2.5 border border-black rounded-[5px] flex items-center justify-between font-[300]",
+              !date && "text-muted-foreground"
+            )}
+          >
+            {date ? (
+              <span className="text-[10px]">{formatDate(`${date}`)}</span>
+            ) : (
+              <span className="text-[10px] ">From</span>
+            )}
+            <Image src={ScheduleIcon} alt="" className="w-5 h-5 object-cover" />
+          </button>
+        )}
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0 z-50 bg-white">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-        />
-      </PopoverContent>
+      {range ? (
+        <PopoverContent className="w-auto p-0 z-50 bg-white" align="start">
+          <Calendar
+            initialFocus
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      ) : (
+        <PopoverContent className="w-auto p-0 z-50 bg-white">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+        </PopoverContent>
+      )}
     </Popover>
   );
 };

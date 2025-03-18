@@ -1,12 +1,14 @@
 "use client";
+import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
-import SearchComponent from "@/components/controlledInputs/SearchComponent";
 import CustomPagination from "@/components/shared/CustomPagination";
 import { Descriptions } from "@/components/shared/Headings";
 import StatusButton from "@/components/shared/StatusButton";
 import TablesComponent from "@/components/shared/TablesComponent";
 import Wrapper from "@/components/shared/Wrapper";
+import { addDays } from "date-fns";
 import React, { useState } from "react";
+import { DateRange } from "react-day-picker";
 
 type DateProps = {
   date: string;
@@ -47,6 +49,10 @@ type Props = {};
 const ManageAppointment = (props: Props) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(3);
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
   const totalPages = 5;
 
   const handlePageChange = (page: number) => {
@@ -89,8 +95,8 @@ const ManageAppointment = (props: Props) => {
     <section className="flex flex-col gap-5">
       <Descriptions title="Manage Appointment" />
       <div className="flex items-center justify-between">
-        <div className="max-w-[300px]">
-          <SearchComponent onChange={() => {}} />
+        <div className="">
+          <CustomDatePicker range date={date} setDate={setDate} />
         </div>
         <FilterComponent
           onFilterChange={handleFiterChange}

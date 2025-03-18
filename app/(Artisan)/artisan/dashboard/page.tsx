@@ -1,3 +1,5 @@
+"use client";
+
 import { AppointmentReview } from "@/components/Artisan/dashboard/AppointmentReview";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import Charts from "@/components/shared/Charts";
@@ -8,6 +10,8 @@ import React from "react";
 type Props = {};
 
 const ArtisanDashboard = (props: Props) => {
+  const [date, setDate] = React.useState<Date>();
+
   return (
     <section className="flex flex-col gap-[30px]">
       <div className="flex flex-col gap-6">
@@ -34,8 +38,8 @@ const ArtisanDashboard = (props: Props) => {
                 </button>
               </div>
               <div className="flex items-center gap-4">
-                <CustomDatePicker />
-                <CustomDatePicker />
+                <CustomDatePicker date={date} setDate={setDate} />
+                <CustomDatePicker date={date} setDate={setDate} />
               </div>
             </div>
             <Charts />
