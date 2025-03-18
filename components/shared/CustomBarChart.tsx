@@ -8,34 +8,11 @@ import {
   Cell,
 } from "recharts";
 
-const data = [
-  {
-    name: "Total Appointment",
-    value: 60,
-    color: "#5691D1",
-    labelColor: "#5691D1",
-  },
-  {
-    name: "Accepted Appointment",
-    value: 30,
-    color: "#1F873B",
-    labelColor: "#1F873B",
-  },
-  {
-    name: "Declined Appointment",
-    value: 18,
-    color: "#AE2525",
-    labelColor: "#AE2525",
-  },
-  {
-    name: "Completed Appointment",
-    value: 28,
-    color: "#0D3D73",
-    labelColor: "#0D3D73",
-  },
-];
+type BarChartProps = {
+  data: any;
+};
 
-const CustomBarChart = () => {
+const CustomBarChart = ({ data }: BarChartProps) => {
   return (
     <div className="w-full h-96">
       <ResponsiveContainer width="100%" height="100%">
@@ -48,7 +25,7 @@ const CustomBarChart = () => {
             angle={5}
             interval={0}
             tick={({ x, y, payload }) => {
-              const entry = data.find((d) => d.name === payload.value);
+              const entry = data?.find((d: any) => d.name === payload.value);
               return (
                 <text
                   x={x}
@@ -65,8 +42,6 @@ const CustomBarChart = () => {
                 </text>
               );
             }}
-            
-
           />
           <YAxis tick={{ fill: "#4A4A4A" }} />
           <Tooltip cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} />
@@ -80,7 +55,7 @@ const CustomBarChart = () => {
             //   fontWeight: "semibold",
             // }}
           >
-            {data.map((entry, index) => (
+            {data?.map((entry: any, index: number) => (
               <Cell key={index} fill={entry.color} />
             ))}
           </Bar>
