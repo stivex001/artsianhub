@@ -18,12 +18,12 @@ html {
 }
 
 .no-scrollbar::-webkit-scrollbar {
-  display: none;
+  display: none !important; /* Chrome, Safari */
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  overflow: -moz-scrollbars-none; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
 .scrollbar-hidden {
