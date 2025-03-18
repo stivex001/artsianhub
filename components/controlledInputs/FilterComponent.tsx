@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import filter from "@/components/assets/images/filter.svg";
 import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 interface Filter {
   id: string;
@@ -10,9 +11,16 @@ interface Filter {
 type filterProps = {
   onFilterChange: (filterId: string) => void;
   options: Filter[];
+  className?: string;
+  showIcon?: boolean;
 };
 
-const FilterComponent = ({ onFilterChange, options }: filterProps) => {
+const FilterComponent = ({
+  onFilterChange,
+  options,
+  className,
+  showIcon,
+}: filterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
 
@@ -36,26 +44,32 @@ const FilterComponent = ({ onFilterChange, options }: filterProps) => {
   const getSelectedFilterLabel = () => {
     if (!selectedFilter) return "Filter";
     const selected = options?.find((filter) => filter.id === selectedFilter);
-    return selected ? selected.label : "Filter";
+    return selected ? selected.label : options?.[0]?.label;
   };
 
   return (
     <div className="relative z-20">
       <button
         onClick={toggleDropdown}
-        className="flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors"
+        className={`flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors ${className}`}
         style={{ minWidth: "120px" }}
       >
         <div className="flex items-center gap-2">
-          <Image src={filter} alt="logo" />
-          <span className="text-sm text-black">{getSelectedFilterLabel()}</span>
+          {!showIcon && (
+            <Image src={filter} alt="logo" className="text-white" />
+          )}
+          <span className={`text-sm text-black ${className}`}>
+            {getSelectedFilterLabel()}
+          </span>
         </div>
-        {/* <ChevronDown
-          size={18}
-          className={`text-gray-700 transition-transform duration-200 ${
-            isOpen ? "transform rotate-180" : ""
-          }`}
-        /> */}
+        {showIcon && (
+          <ChevronDown
+            size={18}
+            className={`text-white transition-transform duration-200 ${
+              isOpen ? "transform rotate-180" : ""
+            }`}
+          />
+        )}
       </button>
 
       {isOpen && (
