@@ -5,7 +5,7 @@ export const useNavigationLinks = () => {
       href: "#",
     },
     {
-      label: "How it Works",
+      label: "Getting Started",
       href: "#",
     },
     {
@@ -38,7 +38,15 @@ export const useNavigationLinks = () => {
   ];
   const aboutLinks = [
     {
-      label: "About MansayHub",
+      label: "Privacy Policy",
+      href: "#",
+    },
+    {
+      label: "Terms & Conditions",
+      href: "#",
+    },
+    {
+      label: "FAQ",
       href: "#",
     },
     {
