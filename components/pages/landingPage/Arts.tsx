@@ -2,7 +2,7 @@ import React from "react";
 import image1 from "@/components/assets/images/buy.png";
 import image2 from "@/components/assets/images/bar.png";
 import image3 from "@/components/assets/images/makup.png";
-import image4 from "@/components/assets/images/mascara.png";
+import image4 from "@/components/assets/images/Interiorlogo.png";
 import image5 from "@/components/assets/images/iMac.png";
 import image6 from "@/components/assets/images/Drawing.png";
 import image7 from "@/components/assets/images/Hammer.png";

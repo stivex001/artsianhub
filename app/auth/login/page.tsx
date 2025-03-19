@@ -6,8 +6,10 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
 import React from "react";
-import google from "@/components/assets/images/google.png"
+import google from "@/components/assets/images/google.svg";
 import Image from "next/image";
+import { GoogleIcon } from "@/components/assets/icons/NavIcons";
+import { GoogleLogoIcon } from "@/components/assets/icons/ArtsIcons";
 
 type Props = {};
 
@@ -72,14 +74,22 @@ const Login = (props: Props) => {
           </div>
         </div>
         <div className="my-9">
-          <CustomButton type="submit" label="Login" className="w-full rounded-[10px]" />
+          <CustomButton
+            type="submit"
+            label="Login"
+            className="w-full rounded-[10px]"
+          />
         </div>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col gap-5 justify-center">
           <span className="text-center font-[200] text-[10px]">
             Or sign in with google
           </span>
-          <button type="button" className="flex items-center justify-center">
+          <button
+            type="button"
+            className="flex items-center justify-center gap-2 h-9 border border-[#878E96] rounded-[10px] text-sm font-bold text-[#6C6F73]"
+          >
             <Image src={google} alt="google" />
+            <span className="mt-0.5">Continue with Google</span>
           </button>
         </div>
         <h2 className=" max-w-xs mx-auto text-xs font-[300] absolute left-10 bottom-6 ">

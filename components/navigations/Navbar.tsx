@@ -42,7 +42,7 @@ export const Navbar = (props: Props) => {
             onClick={() => setIsModalOpen(!isModalOpen)}
             className="flex items-center gap-3 cursor-pointer"
           >
-            <h3 className="font-[300px] text-xs md:text-xl font-[family-name:var(--font-josefin-sans)] text-primary">
+            <h3 className="font-[300] text-xs md:text-xl text-primary">
               {" "}
               Explore{" "}
             </h3>
@@ -60,13 +60,23 @@ export const Navbar = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 md:gap-6">
-        <Link href="/auth/login" className="text-primary text-xs md:text-xl">
-          Login /Sign up
-        </Link>
-        <CustomButton>
-          <Link href="/artisan/auth/login">Join as an Artisan</Link>
-        </CustomButton>
+      <div className="flex items-center gap-2 md:gap-16">
+        <div className="flex items-center gap-16">
+          <Link href="/contact-us" className="text-primary font-[300] text-xs md:text-xl">
+            Contact Us
+          </Link>
+          <Link href="/about" className="text-primary font-[300] text-xs md:text-xl">
+            About Us
+          </Link>
+        </div>
+        <div className="flex items-center gap-2 md:gap-6">
+          <Link href="/auth/login" className="text-primary font-[300] text-xs md:text-xl">
+            Login /Sign up
+          </Link>
+          <CustomButton>
+            <Link href="/artisan/auth/login" className="font-[300]">Join as an Artisan</Link>
+          </CustomButton>
+        </div>
       </div>
     </nav>
   );
