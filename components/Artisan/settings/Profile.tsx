@@ -35,7 +35,7 @@ const Profile = (props: Props) => {
 
   return (
     <Wrapper className="py-6 ">
-      <form action="">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="border-b border-[#5691D1] px-7">
           <h1 className="text-xl font-semibold pb-4">Profile</h1>
         </div>
@@ -43,7 +43,10 @@ const Profile = (props: Props) => {
           <ProfilePics />
           <EditProfile control={control} />
           <div className=" w-[20%] text-end px-8">
-            <button className="text-primary flex text-end justify-end">
+            <button
+              type="submit"
+              className="text-primary flex text-end justify-end"
+            >
               <Pencil className="size-4" />
               Edit
             </button>
