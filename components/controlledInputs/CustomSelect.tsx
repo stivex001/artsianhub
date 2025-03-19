@@ -71,8 +71,7 @@ export const CustomSelect = ({
     <div className="mb-4 space-y-2">
       <Label
         htmlFor={name}
-        className="text-base capitalize text-[#1C2434]"
-        style={{ fontFamily: "SatoshiBold" }}
+        className="text-base capitalize font-semibold"
       >
         {label}
       </Label>
@@ -83,7 +82,7 @@ export const CustomSelect = ({
             placeholder={placeholder}
           />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-white z-[99]">
           <div className="p-2 sticky top-0 z-50 bg-white">
             <input
               type="text"
