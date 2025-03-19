@@ -42,9 +42,9 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   });
 
   const baseStyles =
-    "w-full h-9 py-5 px-4 font-[family-name:var(--font-josefin-sans)]";
+    "w-full h-9 text-white py-5 px-4 placeholder:text-lightgray";
   const styles = {
-    primary: "border-bordergray bg-gray1 rounded-[10px] focus:ring-primary",
+    primary: "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
     secondary:
       "border-bordergray bg-white h-14 rounded-[10px] focus:ring-primary",
     tertiary:
@@ -77,7 +77,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
           onBlur={onBlur}
           value={value}
           ref={ref}
-          className={`py-3 w-full bg-transparent outline-none px-3`}
+          className={`py-3 w-full bg-transparent outline-none px-3 placeholder:text-white`}
           {...props}
         />
       </div>
