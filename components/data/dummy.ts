@@ -253,3 +253,18 @@ export const category = [
     value: "painter",
   },
 ];
+
+export const location = [
+  {
+    id: 1,
+    label: "Chesterfield",
+    value: "chesterfield",
+  },
+  {
+    id: 2,
+    label: "Sunderland",
+    value: "Sunderland",
+  },
+
+ 
+];

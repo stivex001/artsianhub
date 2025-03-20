@@ -4,8 +4,9 @@ import Image from "next/image";
 import { ChevronDown } from "lucide-react";
 
 interface Filter {
-  id: string;
+  id: number;
   label: string;
+  value?: string;
 }
 
 type filterProps = {
@@ -13,6 +14,8 @@ type filterProps = {
   options: Filter[];
   className?: string;
   showIcon?: boolean;
+  iconStyle?: string;
+  filterStyle?: boolean;
 };
 
 const FilterComponent = ({
@@ -20,6 +23,8 @@ const FilterComponent = ({
   options,
   className,
   showIcon,
+  iconStyle,
+  filterStyle,
 }: filterProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
@@ -42,7 +47,7 @@ const FilterComponent = ({
 
   // Get the label of the currently selected filter
   const getSelectedFilterLabel = () => {
-    if (!selectedFilter) return "Filter";
+    if (!selectedFilter) return options?.[0]?.label;
     const selected = options?.find((filter) => filter.id === selectedFilter);
     return selected ? selected.label : options?.[0]?.label;
   };
@@ -51,21 +56,24 @@ const FilterComponent = ({
     <div className="relative z-20">
       <button
         onClick={toggleDropdown}
-        className={`flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors ${className}`}
-        style={{ minWidth: "120px" }}
+        className={`${
+          filterStyle ? "min-w-[180px]" : "min-w-[120px]"
+        }  flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors ${className}`}
+        // style={{ minWidth: "120px" }}
       >
         <div className="flex items-center gap-2">
           {!showIcon && (
             <Image src={filter} alt="logo" className="text-white" />
           )}
-          <span className={`text-sm text-black ${className}`}>
+          <span
+            className={`text-sm lg:text-xl font-[300] text-black ${className}`}
+          >
             {getSelectedFilterLabel()}
           </span>
         </div>
         {showIcon && (
           <ChevronDown
-            size={18}
-            className={`text-white transition-transform duration-200 ${
+            className={`${iconStyle} text-white transition-transform duration-200 size-4 lg:size-6 ${
               isOpen ? "transform rotate-180" : ""
             }`}
           />
@@ -79,9 +87,9 @@ const FilterComponent = ({
               <li key={filter.id} className="px-1">
                 <button
                   onClick={() => handleFilterSelect(filter)}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md ${
+                  className={`w-full text-left px-3 py-2 text-sm font-[300] rounded-md ${
                     selectedFilter === filter.id
-                      ? "bg-purple-100 text-blackColor"
+                      ? "bg-secondary text-white"
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
