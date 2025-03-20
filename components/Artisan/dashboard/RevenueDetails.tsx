@@ -15,18 +15,18 @@ const data = [
 ];
 
 const filterOptions = [
-  { id: "January", label: "January" },
-  { id: "Febuary", label: "Febuary" },
-  { id: "March", label: "March" },
-  { id: "April", label: "April" },
-  { id: "May", label: "May" },
-  { id: "June", label: "June" },
-  { id: "July", label: "July" },
-  { id: "August", label: "August" },
-  { id: "September", label: "September" },
-  { id: "October", label: "October" },
-  { id: "November", label: "November" },
-  { id: "December", label: "December" },
+  { id: 1, label: "January" },
+  { id: 2, label: "February" },
+  { id: 3, label: "March" },
+  { id: 4, label: "April" },
+  { id: 5, label: "May" },
+  { id: 6, label: "June" },
+  { id: 7, label: "July" },
+  { id: 8, label: "August" },
+  { id: 9, label: "September" },
+  { id: 10, label: "October" },
+  { id: 11, label: "November" },
+  { id: 12, label: "December" },
 ];
 
 const RevenueDetails = (props: Props) => {
