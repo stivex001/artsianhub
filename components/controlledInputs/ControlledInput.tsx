@@ -17,9 +17,14 @@ type ControlledInputProps = {
   type?: string;
   method?: string;
   className?: string;
-  labelClassName?:string;
+  labelClassName?: string;
   art?: boolean;
   dontShowTime?: boolean;
+  isTextArea?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  rows?: number;
+  cols?: number;
   variant?: "primary" | "secondary" | "tertiary";
 } & React.ComponentProps<typeof Input>;
 
@@ -30,12 +35,17 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   rules,
   placeholder = "",
   type = "text",
+  isTextArea = false,
   method,
   variant = "primary",
   dontShowTime = false,
   art = false,
   className,
   labelClassName,
+  maxLength,
+  minLength,
+  rows = 4,
+  cols = 50,
   ...props
 }) => {
   const {
@@ -47,8 +57,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     rules,
   });
 
-  const baseStyles =
-    "w-full h-9 text-white py-5 px-4 placeholder:text-lightgray";
+  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray";
   const styles = {
     primary:
       "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
@@ -71,63 +80,104 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
   if (art) {
     return (
-      <div className={`border border-[#B5B5B5] h-12 rounded-[10px] relative mb-4 ${className}`}>
-        <Label className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName} `}>
-          {label}
-        </Label>
-        <input
-          id={name}
-          name={name}
-          type={type === "password" && showPassword ? "text" : type}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}
-          ref={ref}
-          className={`py-3 w-full bg-transparent outline-none px-3 placeholder:text-white`}
-          {...props}
-        />
+      <div>
+        <div
+          className={`border border-[#B5B5B5]  rounded-[10px] relative mb-4 ${className}`}
+        >
+          <Label
+            className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
+          >
+            {label}
+          </Label>
+          {isTextArea ? (
+            <textarea
+              id={name}
+              name={name}
+              placeholder={placeholder}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              ref={ref}
+              className={`bg-transparent outline-none py-4 px-3 placeholder:text-white h-auto resize-none`}
+              maxLength={maxLength}
+              minLength={minLength}
+              rows={rows}
+              cols={cols}
+            />
+          ) : (
+            <input
+              id={name}
+              name={name}
+              type={type === "password" && showPassword ? "text" : type}
+              placeholder={placeholder}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              ref={ref}
+              className="py-3 w-full bg-transparent outline-none px-3 placeholder:text-white"
+              {...props}
+            />
+          )}
+        </div>
+        {error && (
+          <p className="mt-1 text-xs text-red-500 capitalize">
+            {error.message}
+          </p>
+        )}
       </div>
     );
   }
 
   return (
-    <div className={`space-y-1`}>
+    <div className="space-y-1">
       <Label
         htmlFor={name}
         className={`text-base font-semibold capitalize font-[family-name:var(--font-josefin-sans)]`}
       >
         {label}
       </Label>
-      <div className={`flex items-center relative`}>
-        <input
-          id={name}
-          name={name}
-          type={type === "password" && showPassword ? "text" : type}
-          placeholder={placeholder}
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}
-          ref={ref}
-          className={inputClassName}
-          {...props}
-        />
 
-        {type === "color" && (
-          <div
-            className="w-8 h-8 border rounded"
-            style={{ backgroundColor: value || "#ffffff" }}
+      <div className="relative">
+        {isTextArea ? (
+          <textarea
+            id={name}
+            name={name}
+            placeholder={placeholder}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            ref={ref}
+            className={`${inputClassName} h-auto resize-none`}
+            maxLength={maxLength}
+            minLength={minLength}
+            rows={rows}
+            cols={cols}
+          />
+        ) : (
+          <input
+            id={name}
+            name={name}
+            type={type === "password" && showPassword ? "text" : type}
+            placeholder={placeholder}
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value}
+            ref={ref}
+            className={inputClassName}
+            {...props}
           />
         )}
-        {type === "password" && (
+
+        {type === "password" && !isTextArea && (
           <div
-            className="absolute right-5 cursor-pointer"
+            className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
             onClick={togglePasswordVisibility}
           >
             <EyeIcon />
           </div>
         )}
       </div>
+
       {error && (
         <p className="mt-1 text-xs text-red-500 capitalize">{error.message}</p>
       )}

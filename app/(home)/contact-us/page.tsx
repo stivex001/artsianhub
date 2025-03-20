@@ -38,11 +38,11 @@ const ContactUs = (props: Props) => {
         Contact Us
       </h1>
       <AuthLayout
-        className="-mt-7"
+        className="!-mt-7"
         title="Get in Touch"
-        desc="Feel free to contact us on your queries and we will get back to you as soon as possible."
+        desc="We welcome your questions and look forward  to providing a swift response."
       >
-        <form
+        <form 
           onSubmit={handleSubmit(onSubmit)}
           className="w-8/12 mx-auto pt-16"
         >
@@ -94,13 +94,16 @@ const ContactUs = (props: Props) => {
               name="message"
               control={control}
               placeholder=""
-              type="text"
+              type="textarea"
               label="Message"
               variant="primary"
               rules={{ required: true }}
               className="shadow-dropShadow bg-white border-none"
               labelClassName="text-[#D8D8D9] font-semibold"
               art
+              isTextArea={true}
+              rows={5}
+              cols={40}
             />
           </div>
           <div className="my-9">
