@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import React, { useState } from "react";
 import { useController, Control } from "react-hook-form";
 import { cn } from "../../lib/utils";
@@ -14,6 +16,8 @@ type ControlledInputProps = {
   placeholder?: string;
   type?: string;
   method?: string;
+  className?: string;
+  labelClassName?:string;
   art?: boolean;
   dontShowTime?: boolean;
   variant?: "primary" | "secondary" | "tertiary";
@@ -30,6 +34,8 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   variant = "primary",
   dontShowTime = false,
   art = false,
+  className,
+  labelClassName,
   ...props
 }) => {
   const {
@@ -44,7 +50,8 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   const baseStyles =
     "w-full h-9 text-white py-5 px-4 placeholder:text-lightgray";
   const styles = {
-    primary: "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
+    primary:
+      "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
     secondary:
       "border-bordergray bg-white h-14 rounded-[10px] focus:ring-primary",
     tertiary:
@@ -64,9 +71,9 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
   if (art) {
     return (
-      <div className="border border-[#B5B5B5] h-12 rounded-[10px] relative mb-4">
-        <Label className="text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ">
-         {label}
+      <div className={`border border-[#B5B5B5] h-12 rounded-[10px] relative mb-4 ${className}`}>
+        <Label className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName} `}>
+          {label}
         </Label>
         <input
           id={name}
