@@ -10,8 +10,8 @@ import {
 
 const data = [
   {
-    name: "Total Appointment",
-    value: 60,
+    name: "Total No of Appointment",
+    value: 50,
     color: "#5691D1",
     labelColor: "#5691D1",
   },
@@ -45,8 +45,6 @@ const CustomBarChart = () => {
         >
           <XAxis
             dataKey="name"
-            angle={5}
-            interval={0}
             tick={({ x, y, payload }) => {
               const entry = data.find((d) => d.name === payload.value);
               return (
@@ -55,7 +53,7 @@ const CustomBarChart = () => {
                   y={y + 30}
                   fill={entry ? entry.labelColor : "#333"}
                   textAnchor="middle"
-                  style={{ fontSize: "10px" }}
+                  style={{ fontSize: "12px" }}
                 >
                   {payload.value.split(" ").map((line: any, index: number) => (
                     <tspan x={x} dy={index === 0 ? 0 : 14} key={index}>
@@ -65,21 +63,10 @@ const CustomBarChart = () => {
                 </text>
               );
             }}
-            
-
           />
           <YAxis tick={{ fill: "#4A4A4A" }} />
           <Tooltip cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} />
-          <Bar
-            dataKey="value"
-            barSize={67}
-            // label={{
-            //   position: "top",
-            //   fill: "#000",
-            //   fontSize: 10,
-            //   fontWeight: "semibold",
-            // }}
-          >
+          <Bar dataKey="value" barSize={40}>
             {data.map((entry, index) => (
               <Cell key={index} fill={entry.color} />
             ))}

@@ -4,7 +4,6 @@ import { Headings } from "../shared/Headings";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import { Product, services } from "../data/dummy";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { SubNavContents } from "./SubNavContents";
 
