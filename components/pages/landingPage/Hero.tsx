@@ -5,6 +5,8 @@ import { DropdownModal } from "@/components/shared/DropdownModal";
 import React, { useState } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
+import SearchedArtisan from "@/components/Artisan/SearchedArtisan";
+import { PolygonBlue } from "@/components/assets/icons/NavIcons";
 
 type Props = {};
 
@@ -20,6 +22,10 @@ export const Hero = (props: Props) => {
     console.log("Filter changed");
   };
 
+  const handleSearch = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="relative bg-hero bg-cover bg-center bg-no-repeat aspect-[3/2] flex flex-col items-center justify-center ">
       <div className="flex flex-col justify-between">
@@ -27,11 +33,11 @@ export const Hero = (props: Props) => {
           find and Hire Skilled Artisans
         </h1>
 
-        <div className="w-8/12 lg:w-10/12 mx-auto bg-secondary rounded-[20px] px-6 py-4 text-white shadow-dropShadow mt-14 flex flex-col gap-5">
-          <h1 className="text-xs lg:text-base text-center font-bold  ">
+        <div className="relative w-8/12 lg:w-10/12 mx-auto bg-secondary z-[9999] rounded-[20px] px-6 py-4 text-white shadow-dropShadow mt-14 flex flex-col gap-5">
+          <h1 className="text-xs lg:text-base text-center font-bold z-50 ">
             Find Artisans Close to your Area
           </h1>
-          <div className="flex flex-wrap items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between z-50">
             <div className="">
               <p className="font-semibold text-[10px] text-white">Category</p>
               <FilterComponent
@@ -54,10 +60,22 @@ export const Hero = (props: Props) => {
                 filterStyle
               />
             </div>
-            <CustomButton className="bg-[#5691D1] !w-[110px] mt-2">
+            <CustomButton
+              onClick={handleSearch}
+              className="bg-[#5691D1] !w-[110px] mt-2"
+            >
               Search
             </CustomButton>
           </div>
+          <DropdownModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            icon={PolygonBlue}
+            className="min-w-[1240px] mx-auto top-48 -left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
+            iconStyle="right-96 -top-[44px]"
+          >
+            <SearchedArtisan onClose={() => setIsModalOpen(false)} />
+          </DropdownModal>
         </div>
         <h1 className="pt-20 text-5xl text-white text-center">Uncover</h1>
       </div>

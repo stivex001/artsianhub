@@ -27,12 +27,12 @@ const headers = [
 ];
 
 const filterOptions = [
-  { id: "all", label: "All" },
-  { id: "pending", label: "Pending" },
-  { id: "accept", label: "Accept" },
-  { id: "success", label: "Successful Payment" },
-  { id: "Decline", label: "Decline" },
-  { id: "expire", label: "Expire" },
+  { id: 1, label: "All" },
+  { id: 2, label: "Pending" },
+  { id: 3, label: "Accept" },
+  { id: 4, label: "Successful Payment" },
+  { id: 5, label: "Decline" },
+  { id: 6, label: "Expire" },
 ];
 
 const DateTimeDisplay = ({ date, time }: DateProps) => {

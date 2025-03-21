@@ -8,6 +8,7 @@ interface DropdownModalProps {
   children: React.ReactNode;
   icon?: FC<React.ComponentProps<"svg">>;
   className?: string;
+  iconStyle?: string;
 }
 
 export const DropdownModal: React.FC<DropdownModalProps> = ({
@@ -16,13 +17,14 @@ export const DropdownModal: React.FC<DropdownModalProps> = ({
   children,
   className,
   icon: Icon,
+  iconStyle
 }) => {
   if (!isOpen) return null;
 
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-[#b3d2ed]/70 z-40" onClick={onClose} />
 
       {/* Modal Content */}
       <motion.div
@@ -32,7 +34,7 @@ export const DropdownModal: React.FC<DropdownModalProps> = ({
         transition={{ duration: 0.3, ease: "easeOut" }}
         className={`absolute -left-24 top-[72px] bg-white shadow-dropShadow rounded-[20px] p-8 z-50 w-[350px] ${className}`}
       >
-        <div className="absolute -top-3 right-10">{Icon && <Icon />}</div>
+        <div className={`absolute -top-3 right-10 ${iconStyle}`}>{Icon && <Icon />}</div>
         {children}
       </motion.div>
     </>
