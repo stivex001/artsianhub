@@ -71,8 +71,8 @@ export const Hero = (props: Props) => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             icon={PolygonBlue}
-            className="min-w-[1240px] mx-auto top-48 -left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
-            iconStyle="right-96 -top-[44px]"
+            className="min-w-[1240px] mx-auto !z-30 !top-48 !-left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
+            iconStyle="right-96 !-top-[44px]"
           >
             <SearchedArtisan onClose={() => setIsModalOpen(false)} />
           </DropdownModal>

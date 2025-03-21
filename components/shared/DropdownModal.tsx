@@ -24,7 +24,7 @@ export const DropdownModal: React.FC<DropdownModalProps> = ({
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-[#b3d2ed]/70 z-40" onClick={onClose} />
+      <div className="fixed inset-0 bg-[#b3d2ed]/70 z-20" onClick={onClose} />
 
       {/* Modal Content */}
       <motion.div

@@ -5,12 +5,14 @@ import { CustomButton } from "../clickable/CustomButton";
 import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";
+import { useRouter } from "next/navigation";
 
 // Types
 interface Artisan {
   status: "Available" | "Unavailable";
   accountName: string;
   rating: number;
+  id: number;
   photo: StaticImageData;
 }
 
@@ -20,6 +22,7 @@ interface Props {
 
 // Mock Data
 const artisanData: Artisan[] = Array.from({ length: 6 }).map(() => ({
+  id: Math.floor(Math.random()),
   status: Math.random() > 0.5 ? "Available" : "Unavailable",
   accountName: "John Henry",
   rating: Math.floor(Math.random() * 5) + 1, // Random rating between 1 and 5
@@ -43,6 +46,7 @@ const renderStars = (rating: number) => {
 };
 
 const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
+  const router = useRouter()
   const [currentPage, setCurrentPage] = useState(3);
 
   const totalPages = 6;
@@ -70,9 +74,9 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
         </p>
 
         <div className="grid grid-cols-3 gap-x-20 gap-y-3">
-          {artisanData.map((artisan, index) => (
-            <div key={index}>
-              <div className="relative rounded-[10px] overflow-hidden">
+          {artisanData.map((artisan) => (
+            <div key={artisan?.id}>
+              <div onClick={() => router.push(`/available-artisan/${artisan?.id}`)} className="relative rounded-[10px] overflow-hidden cursor-pointer">
                 <Image
                   src={artisan.photo}
                   alt={artisan.accountName}
