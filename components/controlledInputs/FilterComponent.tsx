@@ -81,7 +81,7 @@ const FilterComponent = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg z-10 rounded-[10px] border border-black">
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg z-[99] rounded-[10px] border border-black">
           <ul className="py-1">
             {options?.map((filter) => (
               <li key={filter.id} className="px-1">

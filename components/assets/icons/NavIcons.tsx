@@ -101,3 +101,18 @@ export const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
     </defs>
   </svg>
 )
+
+export const RatingIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={54}
+    height={53}
+    fill="none"
+    {...props}
+  >
+    <path
+      fill="#013975"
+      d="m27 0 6.286 20.038H53.63L37.172 32.423l6.286 20.038L27 40.078 10.542 52.462l6.286-20.039L.37 20.038h20.344L27 0Z"
+    />
+  </svg>
+)
