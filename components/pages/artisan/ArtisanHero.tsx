@@ -8,9 +8,13 @@ type Props = {};
 
 export const ArtisanHero = (props: Props) => {
   return (
-    <div className="w-10/12 mx-auto">
-      <div className="flex items-center justify-between mb-3">
-        <CustomButton label="Leave a review" className="!bg-secondary" />
+    <div className="w-10/12 mx-auto py-8 pb-[160px]">
+      {/* Top section with button and rating */}
+      <div className="flex justify-between mb-6">
+        <CustomButton
+          label="Leave a review"
+          className="!bg-secondary mb-4 sm:mb-0"
+        />
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-light text-primary">Rate</h1>
           <div className="relative">
@@ -21,28 +25,51 @@ export const ArtisanHero = (props: Props) => {
           </div>
         </div>
       </div>
-      <section className="flex items-center justify-between">
-        <div className="w-[40%]">
+
+      {/* Main hero section */}
+      <section className="flex flex-col lg:flex-row items-center">
+        {/* Left text content */}
+        <div className="w-full lg:w-[45%]">
           <p className="text-primary text-base font-semibold">
             The best solution
           </p>
-          <h1 className="text-primary text-6xl font-semibold pt-3 pb-8">
+          <h1 className="text-primary text-4xl md:text-5xl lg:text-6xl font-semibold pt-3 pb-6">
             The best solution for every house problem...
           </h1>
           <p className="text-base text-primary font-semibold">
-            The best solution for every house problem... The best solution for
-            every house problem...
+            The best solution for every house <br /> problem... The best
+            solution for every house problem...
           </p>
         </div>
-        <div className="w-[60%]  flex -space-x-48 ">
-        {/* <div className="w-[220px] h-1 bg-primary mx-auto absolute bottom-0"/> */}
-          <div className="flex-1 ">
-            <Image src={image1} alt="" className="rounded-full shadow-dropShadow" />
+
+        {/* Right image circles */}
+        <div className="w-full lg:w-[55%] flex">
+          <div className="relative w-full max-w-sm lg:max-w-lg 2xl:max-w-[1000px] aspect-square">
+            {/* First circular image */}
+            <div className="absolute -left-10 z-10 w-4/5 h-full rounded-full overflow-hidden shadow-dropShadow">
+              <Image
+                src={image1}
+                alt="Construction worker"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
+
+            {/* Second circular image (overlapping) */}
+            <div className="absolute w-4/5 h-full left-2/4 rounded-full overflow-hidden shadow-dropShadow">
+              <Image
+                src={image1}
+                alt="Construction worker"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
+
+            {/* Bottom indicator line */}
+            <div className="absolute -bottom-10 left-[60%] -translate-x-1/2 w-1/3 h-1 bg-blue-900 rounded-full"></div>
           </div>
-          <div className="flex-1">
-            <Image src={image1} alt="" className="rounded-full shadow-dropShadow " />
-          </div>
-          
         </div>
       </section>
     </div>
