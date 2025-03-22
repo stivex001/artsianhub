@@ -3,19 +3,15 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import cutting from "@/components/assets/images/cutting.png";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+// import "swiper/css";
+// import "swiper/css/navigation";
+// import "swiper/css/pagination";
 
 type Props = {};
 
 export const ServiceReview = (props: Props) => {
-  const totalReviews = 413;
-  const averageRating = 325.18;
 
   // Sample data for carousel items - replace with your actual data
   const reviewItems = [
