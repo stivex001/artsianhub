@@ -49,6 +49,20 @@ export const Testimonial = (props: Props) => {
       image: image1,
       rating: 4,
     },
+    {
+      id: 4,
+      text: "Very responsive and professional. Got the job done quickly and efficiently.",
+      name: "Michael Brown",
+      image: image1,
+      rating: 4,
+    },
+    {
+      id: 5,
+      text: "Very responsive and professional. Got the job done quickly and efficiently.",
+      name: "Michael Brown",
+      image: image1,
+      rating: 4,
+    },
   ];
 
   return (

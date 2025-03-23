@@ -25,7 +25,7 @@ type ControlledInputProps = {
   maxLength?: number;
   rows?: number;
   cols?: number;
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary"| "normal";
 } & React.ComponentProps<typeof Input>;
 
 const ControlledInput: React.FC<ControlledInputProps> = ({
@@ -59,6 +59,8 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
   const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray";
   const styles = {
+    normal:
+      "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
     primary:
       "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
     secondary:

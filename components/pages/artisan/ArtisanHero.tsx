@@ -8,7 +8,7 @@ type Props = {};
 
 export const ArtisanHero = (props: Props) => {
   return (
-    <div className="w-10/12 mx-auto py-8 pb-[160px]">
+    <div className="w-11/12 mx-auto py-8 pb-[160px]">
       {/* Top section with button and rating */}
       <div className="flex justify-between mb-6">
         <CustomButton
@@ -33,7 +33,7 @@ export const ArtisanHero = (props: Props) => {
           <p className="text-primary text-base font-semibold">
             The best solution
           </p>
-          <h1 className="text-primary text-4xl md:text-5xl lg:text-6xl font-semibold pt-3 pb-6">
+          <h1 className="text-primary max-w-lg text-4xl md:text-5xl lg:text-6xl font-semibold pt-3 pb-6">
             The best solution for every house problem...
           </h1>
           <p className="text-base text-primary font-semibold">
