@@ -113,12 +113,12 @@ export const ArtisanProfile = (props: Props) => {
             </div>
 
             {/* Chat Button */}
-            <div className="flex justify-end mt-10">
+            {/* <div className="flex justify-end mt-10">
               <button className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-[10px] hover:bg-primary-dark transition-colors">
                 <FaComments />
                 <span className="text-sm font-semibold">Chat with Artisan</span>
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
