@@ -48,7 +48,7 @@ const config = {
       },
 
       backgroundImage: {
-        upvector: "url('/new.png')",
+        upvector: "url('/arti.png')",
         downvector: "url('/downvector.png')",
         logobg: "url('/logoBackground.png')",
         hero: "url('/hero.png')",

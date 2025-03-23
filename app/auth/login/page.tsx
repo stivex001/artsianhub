@@ -8,8 +8,6 @@ import Link from "next/link";
 import React from "react";
 import google from "@/components/assets/images/google.svg";
 import Image from "next/image";
-import { GoogleIcon } from "@/components/assets/icons/NavIcons";
-import { GoogleLogoIcon } from "@/components/assets/icons/ArtsIcons";
 
 type Props = {};
 
