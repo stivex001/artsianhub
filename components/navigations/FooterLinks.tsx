@@ -19,7 +19,8 @@ export const FooterLinks = ({ links, title }: LinksProps) => {
 
   const isAboutPage = pathname.startsWith("/about");
   const isContactPage = pathname.startsWith("/contact-us");
-  const changeFooterBg = isAboutPage || isContactPage;
+  const artisanDetails = pathname.startsWith("/available-artisan");
+  const changeFooterBg = isAboutPage || isContactPage || artisanDetails;
 
   return (
     <div className="flex flex-col gap-2 lg:gap-6">
