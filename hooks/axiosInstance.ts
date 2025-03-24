@@ -12,7 +12,9 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const { accessToken } = useAuthStore();
+  // Access the store state directly without hooks
+  const accessToken = useAuthStore.getState().accessToken;
+  
   if (accessToken) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -23,11 +25,12 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      const { logout } = useAuthStore();
-      logout();
+      // Access the logout function directly from the store
+      useAuthStore.getState().logout();
       window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }
 );
+
 export default axiosInstance;
