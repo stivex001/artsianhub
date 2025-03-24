@@ -1,3 +1,6 @@
+
+"use client"
+
 import { AuthUser } from "@/components/api/type";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

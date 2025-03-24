@@ -21,7 +21,7 @@ export const AuthLayout = ({ children, title, desc, className }: Props) => {
             {desc}
           </p>
         </section>
-        <section className="relative w-1/2  flex  justify-center bg-white shadow-dropShadow rounded-[10px]">
+        <section className="relative w-full lg:w-1/2  flex  justify-center bg-white shadow-dropShadow rounded-[10px]">
           {children}
         </section>
       </div>
