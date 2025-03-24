@@ -60,8 +60,8 @@ export const Navbar = (props: Props) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 md:gap-16">
-        <div className="flex items-center gap-16">
+      <div className="hidden lg:flex items-center gap-2 md:gap-16">
+        <div className=" flex items-center gap-16">
           <Link href="/contact-us" className="text-primary font-[300] text-xs md:text-xl">
             Contact Us
           </Link>
