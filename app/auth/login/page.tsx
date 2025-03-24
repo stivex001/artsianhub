@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/rules-of-hooks */
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { AuthLayout } from "@/components/pages/auth/AuthLayout";
@@ -8,6 +9,9 @@ import Link from "next/link";
 import React from "react";
 import google from "@/components/assets/images/google.svg";
 import Image from "next/image";
+import { useAuthStore } from "@/store/authStore";
+import { useAuth } from "@/api/crud/auth";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -29,9 +33,37 @@ const fields: Field[] = [
 const Login = (props: Props) => {
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
+  const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
+
+  const { isValid } = formState;
+
+  const { loginUser } = useAuth();
+
+  const { isPending, mutateAsync } = loginUser;
+
+  const onSubmit = async (data: any) => {
+    try {
+      await mutateAsync(data, {
+        onSuccess: (response: any) => {
+          if (response?.status === true) {
+            const token = response?.data?.access_token;
+            const user = response?.data?.user;
+            if (token && user) {
+              setAccessToken(token);
+              setCurrentUser(user);
+            }
+            toast.success("Login successfully!");
+          } else {
+            toast.error(response?.message);
+          }
+        },
+        onError: (error: any) => {
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {
+      // console.log("An error occurred: ", error);
+    }
   };
 
   return (
@@ -76,6 +108,8 @@ const Login = (props: Props) => {
             type="submit"
             label="Login"
             className="w-full rounded-[10px]"
+            disabled={!isValid}
+            isLoading={isPending}
           />
         </div>
         <div className="flex flex-col gap-5 justify-center">
@@ -90,7 +124,7 @@ const Login = (props: Props) => {
             <span className="mt-0.5">Continue with Google</span>
           </button>
         </div>
-        <h2 className=" max-w-xs mx-auto text-xs font-[300] absolute left-10 bottom-6 ">
+        <h2 className="text-center lg:text-left lg:max-w-xs mx-auto text-xs font-[300] absolute left-10 bottom-6 ">
           Your membership signifies your agreement to the Mansayhub Terms of
           Service and Privacy Policy. You may occasionally receive emails from
           us. Please review our Privacy Policy to understand how we handle your

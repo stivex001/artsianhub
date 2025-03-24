@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { ApiError } from "@/components/api/type";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
@@ -57,11 +58,11 @@ export const handleNotFoundError = (error: ApiError) => {
   }
 };
 
-export const handleServerError = (error: ApiError) => {
-  if (error.status && error.status >= 500) {
-    console.error("Server error:", error.message);
-  }
-};
+// export const handleServerError = (error: ApiError) => {
+//   if (error.status && error.status >= 500) {
+//     console.error("Server error:", error.message);
+//   }
+// };
 
 export const globalErrorHandler = (error: unknown) => {
   const apiError = handleApiError(error);
@@ -70,7 +71,7 @@ export const globalErrorHandler = (error: unknown) => {
   handleAuthenticationError(apiError);
   handleForbiddenError(apiError);
   handleNotFoundError(apiError);
-  handleServerError(apiError);
+  // handleServerError(apiError);
 
   return apiError;
 };
