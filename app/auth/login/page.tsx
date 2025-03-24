@@ -18,7 +18,7 @@ type Props = {};
 const fields: Field[] = [
   {
     name: "email",
-    type: "email",
+    type: "text",
     errorMessage: "Email is required",
     isRequired: true,
   },
@@ -45,24 +45,22 @@ const Login = (props: Props) => {
     try {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
-          if (response?.status === true) {
-            const token = response?.data?.access_token;
-            const user = response?.data?.user;
-            if (token && user) {
-              setAccessToken(token);
-              setCurrentUser(user);
-            }
-            toast.success("Login successfully!");
-          } else {
-            toast.error(response?.message);
+          console.log(response, "res__");
+          const token = response?.token;
+          // const user = response?.data?.user;
+          if (token) {
+            setAccessToken(token);
+            // setCurrentUser(user);
           }
+          toast.success(response?.message);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          console.log(error, "wrror");
+          toast.error(error?.data?.error);
         },
       });
     } catch (error) {
-      // console.log("An error occurred: ", error);
+      console.log("An error occurred: ", error);
     }
   };
 
@@ -79,9 +77,9 @@ const Login = (props: Props) => {
           <ControlledInput
             name="email"
             control={control}
-            placeholder="Enter Email"
-            type="email"
-            label="email"
+            placeholder="Enter Email / Phone Number"
+            type="text"
+            label="Email / Phone Number"
             variant="primary"
             rules={{ required: true }}
           />
@@ -111,6 +109,13 @@ const Login = (props: Props) => {
             disabled={!isValid}
             isLoading={isPending}
           />
+          <Link
+            href={"/auth/signup"}
+            className="text-xs font-semibold flex items-center justify-center my-4 "
+          >
+            Are you new here?{" "}
+            <span className="text-primary">Create an Account</span>{" "}
+          </Link>
         </div>
         <div className="flex flex-col gap-5 justify-center">
           <span className="text-center font-[200] text-[10px]">
