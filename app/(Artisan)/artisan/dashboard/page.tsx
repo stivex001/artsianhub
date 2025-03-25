@@ -22,7 +22,7 @@ const ArtisanDashboard = (props: Props) => {
         <AppointmentReview />
         <div className="flex flex-col lg:flex-row gap-0.5">
           <DailyUpdates />
-          <RevenueDetails />
+          {/* <RevenueDetails /> */}
         </div>
       </div>
     </section>

@@ -10,6 +10,9 @@ import Link from "next/link";
 import React from "react";
 import logo from "@/components/assets/images/logo.png";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { useAuth } from "@/api/crud/auth";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -32,10 +35,36 @@ const ArtisanLogin = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
-    router.push("/artisan/auth/otp");
+  const { setAccessToken, accessToken } = useAuthStore();
+
+  const { isValid } = formState;
+
+  const { loginUser } = useAuth();
+
+  const { isPending, mutateAsync } = loginUser;
+
+
+  const onSubmit = async (data: any) => {
+    try {
+      await mutateAsync(data, {
+        onSuccess: (response: any) => {
+          const token = response?.token;
+          // const user = response?.data?.user;
+          if (token) {
+            setAccessToken(token);
+            // setCurrentUser(user);
+          }
+          toast.success(response?.message);
+          router.push("/artisan/dashboard");
+        },
+        onError: (error: any) => {
+          console.log(error, "wrror");
+          toast.error(error?.data?.error);
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+    }
   };
 
   return (
@@ -95,6 +124,8 @@ const ArtisanLogin = (props: Props) => {
               type="submit"
               label="Login"
               className="w-full rounded-[10px]"
+              disabled={!isValid}
+              isLoading={isPending}
             />
             <Link
               href={"/artisan/auth/signup"}

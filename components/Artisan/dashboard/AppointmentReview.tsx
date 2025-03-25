@@ -37,7 +37,7 @@ export const AppointmentReview = (props: Props) => {
           count="4000$"
         /> */}
       </div>
-      <div className="flex justify-center mt-4 lg:mt-12">
+      {/* <div className="flex justify-center mt-4 lg:mt-12">
         <div className="md:w-1/4">
           <Details
             className="bg-primary"
@@ -45,7 +45,7 @@ export const AppointmentReview = (props: Props) => {
             count="$400,000"
           />
         </div>
-      </div>
+      </div> */}
     </Wrapper>
   );
 };
