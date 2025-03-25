@@ -1,9 +1,15 @@
+"use client";
+
 import React from "react";
 import { NotificationIcon } from "../assets/icons/NavIcons";
+import { useUser } from "@/api/crud/user";
 
 type Props = {};
 
 export const AdminHeader = (props: Props) => {
+  const { getCurrentArtisanUser } = useUser();
+  const { data, isLoading } = getCurrentArtisanUser();
+
   return (
     <header className="bg-white rounded-t-[10px] w-full sticky top-0 left-0 z-50 flex items-center justify-end pt-14 pb-5 px-5">
       <div className="flex items-center gap-5">

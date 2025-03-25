@@ -64,12 +64,6 @@ export const useAuth = () => {
     method: "POST",
   });
 
-  const getCurrentUser = () =>
-    useApiQuery<CurrentUser>(["currentUser"], {
-      url: `/profile`,
-      method: "GET",
-    });
-
   return {
     loginUser,
     registerUser,
@@ -77,7 +71,6 @@ export const useAuth = () => {
     resendOTP,
     updatePassword,
     changePassword,
-    getCurrentUser,
     updateProfile,
   };
 };
