@@ -134,7 +134,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     <div className="space-y-1">
       <Label
         htmlFor={name}
-        className={`text-base font-semibold capitalize font-[family-name:var(--font-josefin-sans)]`}
+        className={`text-base font-semibold capitalize `}
       >
         {label}
       </Label>

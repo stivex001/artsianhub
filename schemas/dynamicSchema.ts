@@ -38,13 +38,23 @@ const createSchema = (fields: Field[]) => {
     switch (field.type) {
       case "text":
       case "color":
-      case "password":
       case "textarea":
       case "string":
         schemaField = z
           .string({ message: `${field?.name} is required` })
           .min(field.minLength || 1, field.errorMessage || "Invalid  length");
         break;
+      case "password":
+        schemaField = z
+          .string({ message: `${field?.name} is required` })
+          .min(6, "Password must be at least 6 characters long")
+          .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+          .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+          .regex(/[0-9]/, "Password must contain at least one number")
+          .regex(
+            /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+            "Password must contain at least one special character"
+          );
       case "email":
         schemaField = z
           .string({ message: `${field?.name} is required` })
