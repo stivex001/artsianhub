@@ -1,14 +1,20 @@
 "use client";
 
+import { useUser } from "@/api/crud/user";
 import { AppointmentReview } from "@/components/Artisan/dashboard/AppointmentReview";
 import DailyUpdates from "@/components/Artisan/dashboard/DailyUpdates";
-import RevenueDetails from "@/components/Artisan/dashboard/RevenueDetails";
 import { Descriptions } from "@/components/shared/Headings";
 import React from "react";
 
 type Props = {};
 
 const ArtisanDashboard = (props: Props) => {
+
+  const { getCurrentArtisanUser } = useUser();
+  const { data, isLoading } = getCurrentArtisanUser();
+
+  console.log(data, "user___");
+
   return (
     <section className="flex flex-col gap-[30px]">
       <div className="flex flex-col gap-6">

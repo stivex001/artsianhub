@@ -19,8 +19,8 @@ type Props = {};
 const fields: Field[] = [
   {
     name: "email",
-    type: "email",
-    errorMessage: "Email is required",
+    type: "text",
+    errorMessage: "Email or Phone number is required",
     isRequired: true,
   },
   {
@@ -96,8 +96,8 @@ const ArtisanLogin = (props: Props) => {
               name="email"
               control={control}
               placeholder=""
-              type="email"
-              label="Email"
+              type="text"
+              label="Email / Phone Number"
               variant="primary"
               rules={{ required: true }}
             />
