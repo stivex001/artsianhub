@@ -12,6 +12,7 @@ import Image from "next/image";
 import { useAuthStore } from "@/store/authStore";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -31,6 +32,7 @@ const fields: Field[] = [
 ];
 
 const Login = (props: Props) => {
+  const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
   const { setAccessToken, accessToken } = useAuthStore();
@@ -45,7 +47,6 @@ const Login = (props: Props) => {
     try {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
-          console.log(response, "res__");
           const token = response?.token;
           // const user = response?.data?.user;
           if (token) {
@@ -53,6 +54,7 @@ const Login = (props: Props) => {
             // setCurrentUser(user);
           }
           toast.success(response?.message);
+          router.push("/");
         },
         onError: (error: any) => {
           console.log(error, "wrror");
