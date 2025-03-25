@@ -12,9 +12,51 @@ type Props = {};
 
 const fields: Field[] = [
   {
+    name: "firstName",
+    type: "text",
+    errorMessage: "first Name is required",
+    isRequired: true,
+  },
+  {
+    name: "lastName",
+    type: "text",
+    errorMessage: "Last Name is required",
+    isRequired: true,
+  },
+  {
     name: "email",
     type: "email",
     errorMessage: "Email is required",
+    isRequired: true,
+  },
+  {
+    name: "phoneNumber",
+    type: "text",
+    errorMessage: "phone Number is required",
+    isRequired: true,
+  },
+  {
+    name: "dateOfBirth",
+    type: "date",
+    errorMessage: "DOB is required",
+    isRequired: true,
+  },
+  {
+    name: "specialization",
+    type: "text",
+    errorMessage: "specialization is required",
+    isRequired: true,
+  },
+  {
+    name: "residentialAddress",
+    type: "text",
+    errorMessage: "Address is required",
+    isRequired: true,
+  },
+  {
+    name: "gender",
+    type: "text",
+    errorMessage: "Gender is required",
     isRequired: true,
   },
   {
@@ -22,6 +64,11 @@ const fields: Field[] = [
     type: "text",
     errorMessage: "Password is required",
     isRequired: true,
+  },
+  {
+    name: "confirmPassword",
+    type: "text",
+    errorMessage: "Password is required",
   },
 ];
 

@@ -33,7 +33,7 @@ const fields: Field[] = [
 const Login = (props: Props) => {
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
+  const { setAccessToken, accessToken } = useAuthStore();
 
   const { isValid } = formState;
 

@@ -30,7 +30,7 @@ export interface Wallet {
 
 export const useAuth = () => {
   const registerUser = useApiMutation<AuthResponse, FormData>({
-    url: "/registering ",
+    url: "/user/register ",
     method: "POST",
   });
 
@@ -39,13 +39,13 @@ export const useAuth = () => {
     method: "POST",
   });
 
-  const forgotPassword = useApiMutation<AuthResponse, FormData>({
-    url: "/forgetpas",
+  const verifyOTP = useApiMutation<AuthResponse, FormData>({
+    url: "/user/verify-otp",
     method: "POST",
   });
 
-  const resetPassword = useApiMutation<AuthResponse, FormData>({
-    url: "/reset-password",
+  const resendOTP = useApiMutation<AuthResponse, FormData>({
+    url: "/user/resend-otp",
     method: "POST",
   });
 
@@ -73,8 +73,8 @@ export const useAuth = () => {
   return {
     loginUser,
     registerUser,
-    forgotPassword,
-    resetPassword,
+    verifyOTP,
+    resendOTP,
     updatePassword,
     changePassword,
     getCurrentUser,
