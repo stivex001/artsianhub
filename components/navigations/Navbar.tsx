@@ -14,6 +14,8 @@ import { ExploreContent } from "./ExploreContent";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserDesc from "../UserDesc";
 
 type Props = {};
 
@@ -92,12 +94,7 @@ export const Navbar = (props: Props) => {
         </div>
         {currentUser ? (
           <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
-            {/* <Link
-              href={`/user/${currentUser.uid}`}
-              className="text-primary font-[300] text-xs md:text-xl"
-            >
-              {currentUser.displayName} 
-            </Link> */}
+            <UserDesc />
             <CustomButton
               type="button"
               label="Logout"
