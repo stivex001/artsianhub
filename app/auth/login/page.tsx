@@ -6,7 +6,7 @@ import { AuthLayout } from "@/components/pages/auth/AuthLayout";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import google from "@/components/assets/images/google.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/store/authStore";
@@ -35,7 +35,13 @@ const Login = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const { setAccessToken, accessToken } = useAuthStore();
+  const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
+
+  useEffect(() => {
+    if (accessToken) {
+      router.replace("/");
+    }
+  }, [router, accessToken]);
 
   const { isValid } = formState;
 
@@ -48,10 +54,10 @@ const Login = (props: Props) => {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
           const token = response?.token;
-          // const user = response?.data?.user;
+          const user = response?.user;
           if (token) {
             setAccessToken(token);
-            // setCurrentUser(user);
+            setCurrentUser(user);
           }
           toast.success(response?.message);
           router.push("/");

@@ -63,7 +63,7 @@ export const CustomButton: FC<ButtonProps> = ({
       ) : (
         <>
           {children}
-          {Icon && <Icon className="ml-2" />}
+          {Icon && <Icon className="ml-2 -mt-1" />}
         </>
       )}
       {label}

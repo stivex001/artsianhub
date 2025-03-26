@@ -35,7 +35,7 @@ const ArtisanLogin = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const { setAccessToken, accessToken } = useAuthStore();
+  const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
 
   const { isValid } = formState;
 
@@ -49,10 +49,10 @@ const ArtisanLogin = (props: Props) => {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
           const token = response?.token;
-          // const user = response?.data?.user;
+          const user = response?.user;
           if (token) {
             setAccessToken(token);
-            // setCurrentUser(user);
+            setCurrentUser(user);
           }
           toast.success(response?.message);
           router.push("/artisan/dashboard");

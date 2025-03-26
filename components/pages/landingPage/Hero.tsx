@@ -33,7 +33,7 @@ export const Hero = (props: Props) => {
           find and Hire Skilled Artisans
         </h1>
 
-        <div className="relative w-8/12 lg:w-10/12 mx-auto bg-secondary z-[9999] rounded-[20px] px-6 py-4 text-white shadow-dropShadow mt-14 flex flex-col gap-5">
+        <div className="relative w-8/12 lg:w-10/12 mx-auto bg-secondary z-40 rounded-[20px] px-6 py-4 text-white shadow-dropShadow mt-14 flex flex-col gap-5">
           <h1 className="text-xs lg:text-base text-center font-bold z-50 ">
             Find Artisans Close to your Area
           </h1>

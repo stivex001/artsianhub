@@ -4,16 +4,31 @@ import logo from "@/components/assets/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { DownLargeArrowIcon, PolygonWhite } from "../assets/icons/NavIcons";
+import {
+  DownLargeArrowIcon,
+  LogoutIcon,
+  PolygonWhite,
+} from "../assets/icons/NavIcons";
 import { DropdownModal } from "../shared/DropdownModal";
 import { ExploreContent } from "./ExploreContent";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { toast } from "sonner";
 
 type Props = {};
 
 export const Navbar = (props: Props) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { currentUser, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+    router.push("/");
+  };
 
   // const isAuthPage = pathname.startsWith("/auth");
   const isArtisanPage = pathname.startsWith("/artisan");
@@ -62,21 +77,50 @@ export const Navbar = (props: Props) => {
 
       <div className="hidden lg:flex items-center gap-2 md:gap-16">
         <div className=" flex items-center gap-16">
-          <Link href="/contact-us" className="text-primary font-[300] text-xs md:text-xl">
+          <Link
+            href="/contact-us"
+            className="text-primary font-[300] text-xs md:text-xl"
+          >
             Contact Us
           </Link>
-          <Link href="/about" className="text-primary font-[300] text-xs md:text-xl">
+          <Link
+            href="/about"
+            className="text-primary font-[300] text-xs md:text-xl"
+          >
             About Us
           </Link>
         </div>
-        <div className="flex items-center gap-2 md:gap-6">
-          <Link href="/auth/login" className="text-primary font-[300] text-xs md:text-xl">
-            Login /Sign up
-          </Link>
-          <CustomButton>
-            <Link href="/artisan/auth/login" className="font-[300]">Join as an Artisan</Link>
-          </CustomButton>
-        </div>
+        {currentUser ? (
+          <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
+            {/* <Link
+              href={`/user/${currentUser.uid}`}
+              className="text-primary font-[300] text-xs md:text-xl"
+            >
+              {currentUser.displayName} 
+            </Link> */}
+            <CustomButton
+              type="button"
+              label="Logout"
+              className=" rounded-[10px] w-[106px] h-[44px] "
+              icon={LogoutIcon}
+              onClick={handleLogout}
+            />
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 md:gap-6">
+            <Link
+              href="/auth/login"
+              className="text-primary font-[300] text-xs md:text-xl"
+            >
+              Login /Sign up
+            </Link>
+            <CustomButton>
+              <Link href="/artisan/auth/login" className="font-[300]">
+                Sign up as an Artisan
+              </Link>
+            </CustomButton>
+          </div>
+        )}
       </div>
     </nav>
   );
