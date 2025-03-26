@@ -24,7 +24,7 @@ const data = [
 
 export const Arts = (props: Props) => {
   return (
-    <div className="hidden w-9/12 mx-auto lg:flex items-center gap-8 sticky z-40 -mt-8">
+    <div className="hidden w-9/12 mx-auto lg:flex items-center gap-8 sticky z-30 -mt-8">
       {data.map((item) => {
         return (
           <div
