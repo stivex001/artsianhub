@@ -6,13 +6,14 @@ export interface CurrentUserData {
   email: string;
   name: string;
   password: string;
+  artisanId: string;
 }
 
 export interface CurrentUser {
   access_token?: any;
   name: string;
   profile: string;
-  new: string;
+  isArtisan: boolean;
   confirmPassword: string;
   password: string;
   confirm_pass: string;
@@ -20,7 +21,8 @@ export interface CurrentUser {
   id: ID;
   isActive: boolean;
   data: CurrentUserData;
-  referer_bonus_paid: string;
+  artisanId: ID;
+
 }
 
 export interface Wallet {

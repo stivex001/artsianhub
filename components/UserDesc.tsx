@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
+import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
 import React from "react";
 
@@ -8,11 +9,10 @@ type Props = {};
 
 const UserDesc = (props: Props) => {
   const { currentUser } = useAuthStore();
-
-  const getInitials = () => {
-    if (!currentUser?.firstName || !currentUser?.lastName) return "CN";
-    return `${currentUser.firstName[0]}${currentUser.lastName[0]}`.toUpperCase();
-  };
+  const initials = getUserInitials(
+    currentUser?.firstName,
+    currentUser?.lastName
+  );
 
   return (
     <div className="flex items-center gap-5">
@@ -31,7 +31,7 @@ const UserDesc = (props: Props) => {
         </div>
       ) : (
         <div className="bg-primary text-white w-12 h-12 flex items-center justify-center rounded-full text-base font-semibold cursor-pointer">
-          {getInitials()}
+          {initials}
         </div>
       )}
     </div>
