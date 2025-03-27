@@ -18,7 +18,8 @@ export interface AuthResponse {
 export interface ApiOptions extends Omit<AxiosRequestConfig, "url" | "method"> {
   url: string;
   method: HttpMethod;
-}export interface AuthUser {
+}
+export interface AuthUser {
   id: ID;
   createdAt?: string;
   isActive: boolean;
@@ -28,7 +29,8 @@ export interface ApiOptions extends Omit<AxiosRequestConfig, "url" | "method"> {
   profile: string;
   password: string;
   confirmPassword: string;
-
+  isArtisan: boolean;
+  artisanId: ID;
 }
 
 export type GeoDataItem = {

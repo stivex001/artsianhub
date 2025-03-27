@@ -7,7 +7,7 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "@/components/assets/images/logo.png";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
@@ -36,6 +36,12 @@ const ArtisanLogin = (props: Props) => {
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
   const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
+
+   useEffect(() => {
+      if (accessToken) {
+        router.replace("/artisan/dashboard");
+      }
+    }, [router, accessToken]);
 
   const { isValid } = formState;
 

@@ -14,7 +14,6 @@ import { ExploreContent } from "./ExploreContent";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import UserDesc from "../UserDesc";
 
 type Props = {};
