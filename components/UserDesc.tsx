@@ -3,22 +3,31 @@
 import { useAuthStore } from "@/store/authStore";
 import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
+import { DropdownModal } from "./shared/DropdownModal";
+import { PolygonWhite } from "./assets/icons/NavIcons";
+import { UserDropdownContent } from "./shared/UserDropdownContent";
+import { useUser } from "@/api/crud/user";
 
 type Props = {};
 
 const UserDesc = (props: Props) => {
   const { currentUser } = useAuthStore();
+  const { getCurrentArtisanUser } = useUser();
+  const { data: user } = getCurrentArtisanUser();
+
   const initials = getUserInitials(
     currentUser?.firstName,
     currentUser?.lastName
   );
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="flex items-center gap-5">
-      <h2 className="text-primary font-[300] text-xs md:text-xl">
-        {currentUser?.firstName} {currentUser?.lastName}
-      </h2>
+    <div
+      onClick={() => setIsModalOpen(!isModalOpen)}
+      className="flex items-center gap-3 cursor-pointer relative"
+    >
       {currentUser?.profile ? (
         <div className="w-12 h-12 cursor-pointer">
           <Image
@@ -34,6 +43,25 @@ const UserDesc = (props: Props) => {
           {initials}
         </div>
       )}
+      <div className="flex flex-col">
+        <p className="text-primary font-[300] text-xs md:text-xl">
+          {currentUser?.firstName} {currentUser?.lastName}
+        </p>
+        {user?.artisanId && (
+          <span className="text-xs text-grayish">
+            Artisan ID:{user?.artisanId}
+          </span>
+        )}
+      </div>
+
+      <DropdownModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        icon={PolygonWhite}
+        className="!-left-36 !top-20 !w-[300px]"
+      >
+        <UserDropdownContent onClose={() => setIsModalOpen(false)} />
+      </DropdownModal>
     </div>
   );
 };

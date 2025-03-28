@@ -1,0 +1,62 @@
+"use client";
+import { useAuthStore } from "@/store/authStore";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { toast } from "sonner";
+import { CustomButton } from "../clickable/CustomButton";
+import { LogOutIcon } from "lucide-react";
+
+type Props = {
+  onClose: (value: boolean) => void;
+};
+
+export const UserDropdownContent = ({ onClose }: Props) => {
+  const router = useRouter();
+
+  const { currentUser, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+    router.push("/");
+    onClose(false);
+  };
+
+  const handleProceedToDashboard = () => {
+    router.push("/artisan/dashboard");
+    onClose(false);
+  };
+
+  const handleProceedToProfile = () => {
+    router.push("/artisan/dashboard/settings");
+    onClose(false);
+  };
+
+  return (
+    <div className="flex flex-col gap-3">
+      {currentUser?.isArtisan && (
+        <CustomButton
+          type="button"
+          label="My Profile"
+          className=" rounded-[10px] w-full h-[44px] bg-white text-black border "
+          onClick={handleProceedToProfile}
+        />
+      )}
+      {currentUser?.isArtisan && (
+        <CustomButton
+          type="button"
+          label="Proceed to Dashboard"
+          className=" rounded-[10px] w-full h-[44px] bg-white text-black border "
+          onClick={handleProceedToDashboard}
+        />
+      )}
+      <CustomButton
+        type="button"
+        label="Logout"
+        className=" rounded-[10px] w-full h-[44px] !bg-red-500 "
+        icon={LogOutIcon}
+        onClick={handleLogout}
+      />
+    </div>
+  );
+};

@@ -6,30 +6,23 @@ import Link from "next/link";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import {
   DownLargeArrowIcon,
-  LogoutIcon,
   PolygonWhite,
 } from "../assets/icons/NavIcons";
 import { DropdownModal } from "../shared/DropdownModal";
 import { ExploreContent } from "./ExploreContent";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
-import { toast } from "sonner";
 import UserDesc from "../UserDesc";
 
 type Props = {};
 
 export const Navbar = (props: Props) => {
   const pathname = usePathname();
-  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { currentUser, logout } = useAuthStore();
+  const { currentUser } = useAuthStore();
 
-  const handleLogout = () => {
-    logout();
-    toast.success("Logged out successfully");
-    router.push("/");
-  };
+
 
   // const isAuthPage = pathname.startsWith("/auth");
   const isArtisanPage = pathname.startsWith("/artisan");
@@ -94,13 +87,13 @@ export const Navbar = (props: Props) => {
         {currentUser ? (
           <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
             <UserDesc />
-            <CustomButton
+            {/* <CustomButton
               type="button"
               label="Logout"
               className=" rounded-[10px] w-[106px] h-[44px] "
               icon={LogoutIcon}
               onClick={handleLogout}
-            />
+            /> */}
           </div>
         ) : (
           <div className="flex items-center gap-2 md:gap-6">
