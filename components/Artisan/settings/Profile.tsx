@@ -7,6 +7,7 @@ import React from "react";
 import ProfilePics from "./ProfilePics";
 import EditProfile from "./EditProfile";
 import { Pencil } from "lucide-react";
+import { useUser } from "@/api/crud/user";
 
 type Props = {};
 
@@ -26,7 +27,13 @@ const fields: Field[] = [
 ];
 
 const Profile = (props: Props) => {
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+
+    const { getCurrentArtisanUser } = useUser();
+    const { data: user } = getCurrentArtisanUser();
+
+  const { control, handleSubmit, formState } = useDynamicForm(fields, {
+
+  });
 
   const onSubmit = (data: any) => {
     // Handle form submission

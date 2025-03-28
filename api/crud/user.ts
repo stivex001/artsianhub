@@ -6,9 +6,9 @@ export interface CurrentUserData {
   email: string;
   name: string;
   password: string;
-  profilePhoto:{
+  profilePhoto: {
     url: string;
-  }
+  };
 }
 
 export interface CurrentUser {
@@ -21,12 +21,13 @@ export interface CurrentUser {
   confirm_pass: string;
   createdAt: string;
   id: ID;
+  artisanId: ID;
   isActive: boolean;
   data: CurrentUserData;
   referer_bonus_paid: string;
-  profilePhoto:{
+  profilePhoto: {
     url: string;
-  }
+  };
   user: string;
 }
 
