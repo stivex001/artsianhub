@@ -76,7 +76,7 @@ const fields: Field[] = [
   },
 ];
 
-const gender = [
+export const gender = [
   {
     id: 1,
     label: "Male",

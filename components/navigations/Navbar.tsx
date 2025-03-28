@@ -87,13 +87,7 @@ export const Navbar = (props: Props) => {
         {currentUser ? (
           <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
             <UserDesc />
-            {/* <CustomButton
-              type="button"
-              label="Logout"
-              className=" rounded-[10px] w-[106px] h-[44px] "
-              icon={LogoutIcon}
-              onClick={handleLogout}
-            /> */}
+            
           </div>
         ) : (
           <div className="flex items-center gap-2 md:gap-6">
