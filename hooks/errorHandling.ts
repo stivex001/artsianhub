@@ -42,7 +42,7 @@ export const handleNetworkError = (error: any) => {
 
 export const handleAuthenticationError = (error: any) => {
   if (error.status === 401) {
-    toast.error("Authentication error", error?.message);
+    toast.error("Not Authenticated Kindly Login", error?.message);
   }
 };
 

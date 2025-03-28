@@ -4,7 +4,8 @@ import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface CurrentUserData {
   email: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   password: string;
   profilePhoto: {
     url: string;
@@ -13,7 +14,8 @@ export interface CurrentUserData {
 
 export interface CurrentUser {
   access_token?: any;
-  name: string;
+  firstName: string;
+  lastName: string;
   profile: string;
   new: string;
   confirmPassword: string;

@@ -16,6 +16,8 @@ const UserDesc = (props: Props) => {
   const { getCurrentArtisanUser } = useUser();
   const { data: user } = getCurrentArtisanUser();
 
+  const profilePhoto = user?.profilePhoto?.url;
+
   const initials = getUserInitials(
     currentUser?.firstName,
     currentUser?.lastName
@@ -28,11 +30,11 @@ const UserDesc = (props: Props) => {
       onClick={() => setIsModalOpen(!isModalOpen)}
       className="flex items-center gap-3 cursor-pointer relative"
     >
-      {currentUser?.profile ? (
+      {profilePhoto ? (
         <div className="w-12 h-12 cursor-pointer">
           <Image
-            src={currentUser?.profile}
-            alt={currentUser?.firstName}
+            src={profilePhoto}
+            alt={`${currentUser?.firstName}`}
             width={48}
             height={48}
             className="w-full h-full object-cover rounded-full"

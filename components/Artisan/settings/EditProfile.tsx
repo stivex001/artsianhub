@@ -1,4 +1,6 @@
+import { gender } from "@/app/auth/signup/page";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import React from "react";
 
 type Props = {
@@ -7,65 +9,68 @@ type Props = {
 
 const EditProfile = ({ control }: Props) => {
   return (
-    <div className=" w-[50%] mx-auto">
+    <div className="w-[50%] mx-auto">
       <h1 className="text-sm font-semibold mb-5">
         Personal Information Update
       </h1>
       <div className="flex flex-col gap-3 max-w-[322px]">
         <ControlledInput
-          name="name"
+          name="firstName"
           control={control}
-          placeholder=""
           type="text"
-          label="Name"
+          label="First Name"
+          variant="tertiary"
+        />
+        <ControlledInput
+          name="lastName"
+          control={control}
+          type="text"
+          label="Last Name"
           variant="tertiary"
         />
         <ControlledInput
           name="email"
           control={control}
-          placeholder=""
           type="email"
           label="Email"
           variant="tertiary"
         />
         <ControlledInput
-          name="phone"
+          name="phoneNumber"
           control={control}
-          placeholder=""
-          type="email"
+          type="text"
           label="Phone Number"
           variant="tertiary"
         />
         <ControlledInput
-          name="Specification"
+          name="specialization"
           control={control}
-          placeholder=""
           type="text"
-          label="Specification"
+          label="Specialization"
           variant="tertiary"
         />
         <div className="flex flex-col lg:flex-row gap-5">
           <ControlledInput
-            name="dob"
+            name="dateOfBirth"
             control={control}
-            placeholder=""
-            type="text"
+            type="date"
             label="Date of Birth"
             variant="tertiary"
           />
-          <ControlledInput
-            name="gender"
-            control={control}
-            placeholder=""
-            type="text"
-            label="Gender"
-            variant="tertiary"
-          />
+          <div className="w-full">
+            <ControlledSelect
+              name="gender"
+              label="Gender"
+              options={gender}
+              control={control}
+              variant="tertiary"
+              className="h-12"
+            />
+          </div>
         </div>
         <ControlledInput
-          name="address"
+          name="residentialAddress"
           control={control}
-          placeholder=""
           type="text"
           label="Residential Address"
           variant="tertiary"

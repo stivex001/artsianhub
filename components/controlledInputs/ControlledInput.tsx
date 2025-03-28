@@ -66,7 +66,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     secondary:
       "border-bordergray bg-white h-14 rounded-[10px] focus:ring-primary",
     tertiary:
-      "border border-black focus:border-black rounded-[10px] focus:ring-green-500",
+      "border border-black text-[#9694A4] focus:border-black rounded-[10px] focus:ring-green-500",
     invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",
   };
 

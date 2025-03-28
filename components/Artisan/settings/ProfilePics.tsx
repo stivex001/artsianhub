@@ -1,57 +1,98 @@
 "use client";
 
-import { UploadFileComponent } from "@/components/controlledInputs/UploadFileComponent";
+import { CustomButton } from "@/components/clickable/CustomButton";
+import { CustomFileUpload } from "@/components/controlledInputs/CustomFileUpload";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-type Props = {};
+type Props = {
+  user: any;
+};
 
-const ProfilePics = (props: Props) => {
+const ProfilePics = ({ user }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
 
-  console.log(selectedFile, "select");
-
-  const handleFileChange = (e: any) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleDelete = () => {
     setSelectedFile(null);
+    setPreview(null);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
   };
 
+  const profilePhoto = user?.profilePhoto?.url;
+
+  useEffect(() => {
+    if (profilePhoto) {
+      setPreview(profilePhoto);
+    }
+  }, [profilePhoto]);
+  console.log(profilePhoto, "profile__dggdvgdv");
+
   return (
-    <div className="w-[30%] flex flex-col gap-4 ">
+    <div className="w-[30%] flex flex-col gap-4">
       <div className="px-7">
         <h1 className="text-sm font-semibold">Profile Photo</h1>
         <p className="text-xs font-[300]">
           This image will be displayed on your profile
         </p>
       </div>
-      <div className="w-[130px] h-[130px] rounded-full bg-[#D9D9D9] mx-auto">
-        <Image src={selectedFile ?? ""} alt="" />
+
+      <div className="w-[130px] h-[130px] rounded-full bg-[#D9D9D9] mx-auto overflow-hidden flex items-center justify-center">
+        {preview ? (
+          <Image
+            src={preview}
+            alt="Profile Preview"
+            width={130}
+            height={130}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <span className="text-gray-500">No Image</span>
+        )}
       </div>
-      <button className="border border-primary rounded-[5px] text-primary text-sm font-semibold w-fit py-3 px-1.5 mx-auto">
-        Change Photo
-      </button>
-      {/* <UploadFileComponent
-        description="Upload a file"
-        format="JPG, PNG, JPEG"
-        maxSize={5}
-        inputRef={inputRef}
-        progress={0}
-        isLoading={false}
+
+      <CustomFileUpload
         files={selectedFile ? [selectedFile] : []}
-        fileName={selectedFile?.name}
-        accept="image/png, image/jpeg, image/jpg"
+        multiple={false}
+        accept="image/*"
         onChange={handleFileChange}
-        buttonClick={handleDelete}
-      /> */}
+        onRemove={handleDelete}
+        render={({ files, openFileDialog, removeFiles, isLoading }) => (
+          <div className="flex items-center justify-center">
+            <div className="flex gap-2 items-center">
+              {/* {files.length > 0 ? <Upload /> : <span>📁</span>} */}
+              {/* <p>{files.length > 0 ? `${files.length} file selected` : "No file selected"}</p> */}
+            </div>
+            <div className="flex gap-2">
+              {files.length > 0 ? (
+                <Trash2
+                  onClick={removeFiles}
+                  className="cursor-pointer text-red-500"
+                />
+              ) : (
+                <CustomButton
+                  label="Change Photo"
+                  onClick={openFileDialog}
+                  isLoading={isLoading}
+                  className="border border-primary rounded-[5px] bg-transparent text-primary w-fit"
+                />
+              )}
+            </div>
+          </div>
+        )}
+      />
     </div>
   );
 };
