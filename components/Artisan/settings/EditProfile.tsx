@@ -5,9 +5,10 @@ import React from "react";
 
 type Props = {
   control: any;
+  isEditing: boolean;
 };
 
-const EditProfile = ({ control }: Props) => {
+const EditProfile = ({ control, isEditing }: Props) => {
   return (
     <div className="w-[50%] mx-auto">
       <h1 className="text-sm font-semibold mb-5">
@@ -20,6 +21,7 @@ const EditProfile = ({ control }: Props) => {
           type="text"
           label="First Name"
           variant="tertiary"
+          readOnly={!isEditing}
         />
         <ControlledInput
           name="lastName"
@@ -27,6 +29,7 @@ const EditProfile = ({ control }: Props) => {
           type="text"
           label="Last Name"
           variant="tertiary"
+          readOnly={!isEditing}
         />
         <ControlledInput
           name="email"
@@ -34,6 +37,7 @@ const EditProfile = ({ control }: Props) => {
           type="email"
           label="Email"
           variant="tertiary"
+          readOnly={!isEditing}
         />
         <ControlledInput
           name="phoneNumber"
@@ -41,6 +45,7 @@ const EditProfile = ({ control }: Props) => {
           type="text"
           label="Phone Number"
           variant="tertiary"
+          readOnly={!isEditing}
         />
         <ControlledInput
           name="specialization"
@@ -48,6 +53,7 @@ const EditProfile = ({ control }: Props) => {
           type="text"
           label="Specialization"
           variant="tertiary"
+          readOnly={!isEditing}
         />
         <div className="flex flex-col lg:flex-row gap-5">
           <ControlledInput
@@ -56,6 +62,7 @@ const EditProfile = ({ control }: Props) => {
             type="date"
             label="Date of Birth"
             variant="tertiary"
+            readOnly={!isEditing}
           />
           <div className="w-full">
             <ControlledSelect
@@ -65,6 +72,7 @@ const EditProfile = ({ control }: Props) => {
               control={control}
               variant="tertiary"
               className="h-12"
+              
             />
           </div>
         </div>
@@ -74,6 +82,7 @@ const EditProfile = ({ control }: Props) => {
           type="text"
           label="Residential Address"
           variant="tertiary"
+          readOnly={!isEditing}
         />
       </div>
     </div>

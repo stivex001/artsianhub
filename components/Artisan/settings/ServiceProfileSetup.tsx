@@ -6,15 +6,18 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { CustomSelect } from "@/components/controlledInputs/CustomSelect";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
+import { useCategories } from "@/api/crud/categories";
+import { ControlledFileUpload } from "@/components/controlledInputs/ControlledFileUpload";
 
 type Props = {};
 
 const fields: Field[] = [
   {
-    name: "email",
-    type: "email",
-    errorMessage: "Email is required",
-    // isRequired: true,
+    name: "serviceCategory",
+    type: "text",
+    errorMessage: "Service Category is required",
+    isRequired: true,
   },
   {
     name: "password",
@@ -25,9 +28,19 @@ const fields: Field[] = [
 ];
 
 export const ServiceProfileSetup = (props: Props) => {
+  const { getAllCategories } = useCategories();
   const { currentStep, formData, nextStep, prevStep } = useKYCStore();
 
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+
+  const { data: category } = getAllCategories();
+
+  const categoryOptions = Array.isArray(category)
+    ? category?.map((cat) => ({
+        value: cat._id,
+        label: cat.name,
+      }))
+    : [];
 
   const onSubmit = (data: any) => {
     // Handle form submission
@@ -45,25 +58,19 @@ export const ServiceProfileSetup = (props: Props) => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <div className="grid lg:grid-cols-2 gap-8">
-          <CustomSelect
-            name="service"
+          <ControlledSelect
+            name="serviceCategory"
             control={control}
             label="Select Service Category"
-            variant="primary"
-            // rules={{ required: true }}
-            options={[
-              { value: "service1", label: "Service 1" },
-              { value: "service2", label: "Service 2" },
-              { value: "service3", label: "Service 3" },
-            ]}
+            variant="tertiary"
+            className="h-14 "
+            rules={{ required: true }}
+            options={categoryOptions}
           />
-          <ControlledInput
+          <ControlledFileUpload
             name="file"
             control={control}
-            placeholder="upload file"
-            type="text"
-            label="Upload"
-            variant="primary"
+            label="Upload a Portfolio or Work Samples"
             // rules={{ required: true }}
           />
         </div>
@@ -74,7 +81,7 @@ export const ServiceProfileSetup = (props: Props) => {
             placeholder="Enter Professional Title"
             type="text"
             label="Price "
-            variant="primary"
+            variant="secondary"
             // rules={{ required: true }}
           />
           {/* <ControlledInput

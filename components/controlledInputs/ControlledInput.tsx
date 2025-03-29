@@ -57,12 +57,12 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     rules,
   });
 
-  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray";
+  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray border";
   const styles = {
     normal:
       "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
     primary:
-      "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
+      "border border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
     secondary:
       "border-bordergray bg-white h-14 rounded-[10px] focus:ring-primary",
     tertiary:
