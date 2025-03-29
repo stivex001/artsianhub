@@ -1,14 +1,16 @@
 import { useKYCStore } from "@/store/kycStore";
-import React from "react";
+import React, { useEffect } from "react";
 import { steps } from "./KYC";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { CustomSelect } from "@/components/controlledInputs/CustomSelect";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import { useCategories } from "@/api/crud/categories";
-import { ControlledFileUpload } from "@/components/controlledInputs/ControlledFileUpload";
+import {
+  ControlledFileUpload,
+  FileWithPreview,
+} from "@/components/controlledInputs/ControlledFileUpload";
 
 type Props = {};
 
@@ -20,31 +22,80 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
-    name: "password",
+    name: "professionalTitle",
     type: "text",
-    errorMessage: "Password is required",
-    // isRequired: true,
+    errorMessage: "Title is required",
+    isRequired: true,
+  },
+  {
+    name: "servicePricing",
+    type: "number",
+    errorMessage: "Service Price is required",
+    isRequired: true,
+  },
+  {
+    name: "yearsOfExperience",
+    type: "number",
+    errorMessage: "Service Year is required",
+    isRequired: true,
+  },
+  {
+    name: "skillDescription",
+    type: "text",
+    errorMessage: "Description is required",
+    isRequired: true,
+  },
+  {
+    name: "portfolio",
+    type: "file",
+    errorMessage: "Portfolio is required",
+    isRequired: true,
   },
 ];
 
 export const ServiceProfileSetup = (props: Props) => {
   const { getAllCategories } = useCategories();
-  const { currentStep, formData, nextStep, prevStep } = useKYCStore();
+  const { currentStep, formData, setFormData, nextStep, prevStep } =
+    useKYCStore();
 
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  console.log(formData, "formdata");
+
+  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
+    serviceCategory: formData?.serviceCategory || "",
+    professionalTitle: formData?.professionalTitle || "",
+    servicePricing: formData?.servicePricing || "",
+    yearsOfExperience: formData?.yearsOfExperience || "",
+    skillDescription: formData?.skillDescription || "",
+    portfolio: formData?.portfolio?.[0] || "",
+  });
 
   const { data: category } = getAllCategories();
 
   const categoryOptions = Array.isArray(category)
     ? category?.map((cat) => ({
+        id: cat._id,
         value: cat._id,
         label: cat.name,
       }))
     : [];
 
+  useEffect(() => {
+    if (categoryOptions.length > 0) {
+      setValue("serviceCategory", categoryOptions[0].value);
+    }
+  }, [categoryOptions, setValue]);
+
   const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
+    const formattedData = {
+      ...data,
+      portfolio: data?.portfolio?.map((file: FileWithPreview) => file?.preview),
+    };
+
+    setFormData({
+      ...formData,
+      ...formattedData,
+    });
+    console.log("Formatted Data:", formattedData);
     nextStep();
   };
 
@@ -68,7 +119,7 @@ export const ServiceProfileSetup = (props: Props) => {
             options={categoryOptions}
           />
           <ControlledFileUpload
-            name="file"
+            name="portfolio"
             control={control}
             label="Upload a Portfolio or Work Samples"
             // rules={{ required: true }}
@@ -76,23 +127,44 @@ export const ServiceProfileSetup = (props: Props) => {
         </div>
         <div className="grid lg:grid-cols-2 gap-8">
           <ControlledInput
-            name="price"
+            name="professionalTitle"
             control={control}
             placeholder="Enter Professional Title"
             type="text"
-            label="Price "
-            variant="secondary"
-            // rules={{ required: true }}
-          />
-          {/* <ControlledInput
-            name="sdhdhdbh"
-            control={control}
-            placeholder="Enter"
-            type="text"
             label="Add a Professional Title "
-            variant="primary"
+            variant="secondary"
             rules={{ required: true }}
-          /> */}
+          />
+          <div className="flex items-center gap-10">
+            <ControlledInput
+              name="servicePricing"
+              control={control}
+              placeholder="100"
+              type="number"
+              label="Set Service Pricing  "
+              variant="secondary"
+              rules={{ required: true }}
+            />
+            <ControlledInput
+              name="yearsOfExperience"
+              control={control}
+              placeholder="10"
+              type="number"
+              label="Service Year "
+              variant="secondary"
+              rules={{ required: true }}
+            />
+          </div>
+          <ControlledInput
+            name="skillDescription"
+            control={control}
+            type="text"
+            label="Describe their Skills & Experience. "
+            variant="secondary"
+            rules={{ required: true }}
+            isTextArea
+            rows={7}
+          />
         </div>
         <div className="mt-8 flex items-center gap-5 justify-end">
           {currentStep > 0 && (
