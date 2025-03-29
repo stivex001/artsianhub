@@ -66,7 +66,7 @@ export const ServiceProfileSetup = (props: Props) => {
     servicePricing: formData?.servicePricing || "",
     yearsOfExperience: formData?.yearsOfExperience || "",
     skillDescription: formData?.skillDescription || "",
-    // portfolio: formData?.portfolio?.[0] || "",
+    portfolio: formData?.portfolio?.[0] || "",
   });
 
   const { data: category } = getAllCategories();
