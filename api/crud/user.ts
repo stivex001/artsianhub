@@ -45,7 +45,19 @@ export const useUser = () => {
       method: "GET",
     });
 
+  const createArtisanProfile = useApiMutation<AuthResponse, FormData>({
+    url: "/artisan/profile",
+    method: "POST",
+  });
+
+  const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({
+    url: "/artisan/profile",
+    method: "PUT",
+  });
+
   return {
     getCurrentArtisanUser,
+    updateArtisanProfile,
+    createArtisanProfile,
   };
 };

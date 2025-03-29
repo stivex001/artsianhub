@@ -3,11 +3,12 @@
 import Wrapper from "@/components/shared/Wrapper";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProfilePics from "./ProfilePics";
 import EditProfile from "./EditProfile";
 import { Pencil } from "lucide-react";
 import { useUser } from "@/api/crud/user";
+import { CustomButton } from "@/components/clickable/CustomButton";
 
 type Props = {};
 
@@ -63,7 +64,7 @@ const Profile = (props: Props) => {
   const userDetails: UserDetails | undefined =
     typeof user?.user === "object" ? (user?.user as UserDetails) : undefined;
 
-  console.log(userDetails, "userdetails__");
+  const [isEditing, setIsEditing] = useState(false);
 
   const { control, handleSubmit, formState, setValue } = useDynamicForm(
     fields,
@@ -93,6 +94,7 @@ const Profile = (props: Props) => {
   const onSubmit = (data: any) => {
     // Handle form submission
     console.log("Form submitted", data);
+    setIsEditing(false);
   };
 
   return (
@@ -102,16 +104,21 @@ const Profile = (props: Props) => {
           <h1 className="text-xl font-semibold pb-4">Profile</h1>
         </div>
         <div className="w-full flex justify-between pt-4 pb-24">
-          <ProfilePics user={user} />
-          <EditProfile control={control} />
+          <ProfilePics user={user} isEditing={isEditing} />
+          <EditProfile control={control} isEditing={isEditing} />
           <div className=" w-[20%] text-end px-8">
-            <button
-              type="submit"
-              className="text-primary flex text-end justify-end"
-            >
-              <Pencil className="size-4" />
-              Edit
-            </button>
+            {isEditing ? (
+              <CustomButton type="submit" label="Save Changes" className="" />
+            ) : (
+              <button
+                type="button"
+                className="text-primary flex text-end justify-end"
+                onClick={() => setIsEditing(true)}
+              >
+                <Pencil className="size-4" />
+                Edit
+              </button>
+            )}
           </div>
         </div>
       </form>

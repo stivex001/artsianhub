@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       // Access the logout function directly from the store
       useAuthStore.getState().logout();
-      window.location.href = "/auth/login";
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

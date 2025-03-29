@@ -11,7 +11,7 @@ type CustomSelectProps = {
   label?: string;
   control?: Control<any>;
   rules?: { required: boolean };
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary" | "normal";
   art?: boolean;
   labelClassName?: string;
 };
@@ -43,14 +43,14 @@ export const ControlledSelect = ({
     option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
-  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray";
+  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray border";
   const styles = {
     normal:
       "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
     primary:
-      "border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
+      "border border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
     secondary:
-      "border-bordergray bg-white h-14 rounded-[10px] focus:ring-primary",
+      "border border-bordergray  h-14 rounded-[10px] focus:ring-primary",
     tertiary:
       "border border-black text-[#9694A4] focus:border-black rounded-[10px] focus:ring-green-500",
     invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",

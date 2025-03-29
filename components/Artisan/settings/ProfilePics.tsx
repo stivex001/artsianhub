@@ -8,9 +8,10 @@ import React, { useEffect, useRef, useState } from "react";
 
 type Props = {
   user: any;
+  isEditing: boolean;
 };
 
-const ProfilePics = ({ user }: Props) => {
+const ProfilePics = ({ user, isEditing }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -63,36 +64,38 @@ const ProfilePics = ({ user }: Props) => {
         )}
       </div>
 
-      <CustomFileUpload
-        files={selectedFile ? [selectedFile] : []}
-        multiple={false}
-        accept="image/*"
-        onChange={handleFileChange}
-        onRemove={handleDelete}
-        render={({ files, openFileDialog, removeFiles, isLoading }) => (
-          <div className="flex items-center justify-center">
-            <div className="flex gap-2 items-center">
-              {/* {files.length > 0 ? <Upload /> : <span>📁</span>} */}
-              {/* <p>{files.length > 0 ? `${files.length} file selected` : "No file selected"}</p> */}
+      {isEditing && (
+        <CustomFileUpload
+          files={selectedFile ? [selectedFile] : []}
+          multiple={false}
+          accept="image/*"
+          onChange={handleFileChange}
+          onRemove={handleDelete}
+          render={({ files, openFileDialog, removeFiles, isLoading }) => (
+            <div className="flex items-center justify-center">
+              <div className="flex gap-2 items-center">
+                {/* {files.length > 0 ? <Upload /> : <span>📁</span>} */}
+                {/* <p>{files.length > 0 ? `${files.length} file selected` : "No file selected"}</p> */}
+              </div>
+              <div className="flex gap-2">
+                {files.length > 0 ? (
+                  <Trash2
+                    onClick={removeFiles}
+                    className="cursor-pointer text-red-500"
+                  />
+                ) : (
+                  <CustomButton
+                    label="Change Photo"
+                    onClick={openFileDialog}
+                    isLoading={isLoading}
+                    className="border border-primary rounded-[5px] bg-transparent text-primary w-fit"
+                  />
+                )}
+              </div>
             </div>
-            <div className="flex gap-2">
-              {files.length > 0 ? (
-                <Trash2
-                  onClick={removeFiles}
-                  className="cursor-pointer text-red-500"
-                />
-              ) : (
-                <CustomButton
-                  label="Change Photo"
-                  onClick={openFileDialog}
-                  isLoading={isLoading}
-                  className="border border-primary rounded-[5px] bg-transparent text-primary w-fit"
-                />
-              )}
-            </div>
-          </div>
-        )}
-      />
+          )}
+        />
+      )}
     </div>
   );
 };

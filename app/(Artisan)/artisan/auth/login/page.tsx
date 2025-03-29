@@ -76,7 +76,7 @@ const ArtisanLogin = (props: Props) => {
   return (
     <ArtisanAuthLayout>
       <div className="w-[600px] mx-auto px-8 py-8 flex flex-col items-center justify-center bg-white shadow-dropShadow rounded-[10px]">
-        <div className="w-[106px] mb-10">
+        <Link href="/" className="w-[106px] mb-10">
           <Image
             src={logo}
             alt="logo"
@@ -84,7 +84,7 @@ const ArtisanLogin = (props: Props) => {
             height={83}
             className="w-full h-full object-cover"
           />
-        </div>
+        </Link>
         <div>
           <h1 className="font-semibold text-2xl text-center mb-6">
             Welcome Back!

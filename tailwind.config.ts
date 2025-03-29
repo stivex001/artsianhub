@@ -31,6 +31,7 @@ const config = {
         accent: "#F0C422",
         black: "#1C1C1C",
         borderblack: "#1C1C1C1A",
+        bordergray: "#B5B5B5",
         textcolor: "#64748B",
         textdark: "#02050A",
         textbrown: "#33354D",
