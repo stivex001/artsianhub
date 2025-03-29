@@ -43,7 +43,8 @@ export const ControlledSelect = ({
     option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
-  const baseStyles = "w-full text-white py-3 px-4 placeholder:text-lightgray border";
+  const baseStyles =
+    "w-full text-white py-3 px-4 placeholder:text-lightgray border";
   const styles = {
     normal:
       "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
@@ -120,11 +121,11 @@ export const ControlledSelect = ({
           ref={ref}
           id={name}
           name={name}
-          value={value}
+          value={value || options[0]?.value}
           onChange={onChange}
           className={`${inputClassName} ${className}`}
         >
-          {placeholder && (
+          {/* {placeholder && (
             <option value="" disabled hidden>
               {placeholder}
             </option>
@@ -137,7 +138,17 @@ export const ControlledSelect = ({
             ))
           ) : (
             <option disabled>No options found</option>
+          )} */}
+          {placeholder && (
+            <option value="" disabled hidden>
+              {placeholder}
+            </option>
           )}
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
 

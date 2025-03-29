@@ -10,7 +10,7 @@ interface Accept {
   [key: string]: string[];
 }
 
-interface FileWithPreview extends File {
+export interface FileWithPreview extends File {
   preview: string;
 }
 
@@ -52,7 +52,7 @@ export const ControlledFileUpload = ({
 
     let newFiles: FileWithPreview[] = [];
 
-    for (const file of selectedFiles) {
+    for (const file of Array.from(selectedFiles)) {
       if (files.length + newFiles.length >= maxFiles) break;
 
       if (file.size / 1024 / 1024 > maxSizeInMB) {
@@ -60,18 +60,30 @@ export const ControlledFileUpload = ({
         continue;
       }
 
-      newFiles.push({ ...file, preview: URL.createObjectURL(file) });
+      const fileWithPreview: FileWithPreview = Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      });
+
+      newFiles.push(fileWithPreview);
     }
 
-    setFiles((prev) => [...prev, ...newFiles]);
-    onChange([...files, ...newFiles]);
-  };
+    const updatedFiles = [...files, ...newFiles];
 
-  const removeFile = (index: number) => {
-    const updatedFiles = [...files];
-    updatedFiles.splice(index, 1);
     setFiles(updatedFiles);
     onChange(updatedFiles);
+  };
+
+  // console.log(files.map(file => ({
+  //   name: file.name,
+  //   size: file.size,
+  //   type: file.type,
+  //   preview: file.preview,
+  // })), "files");
+
+  const removeFile = (index: number) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
+    onChange(updatedFiles); // Ensures form updates correctly
   };
 
   return (
@@ -102,17 +114,19 @@ export const ControlledFileUpload = ({
           onChange={handleFileChange}
         />
         {files.length > 0 && (
-          <div className=" grid grid-cols-3 gap-3 self-end">
+          <div className=" grid grid-cols-3 gap-5 self-end">
             {files.map((file, index) => (
               <div key={index} className="relative group">
                 {file?.type?.startsWith("image/") ? (
                   <Image
                     src={file.preview}
                     alt={file.name}
-                    className="w-9 h-9 object-cover rounded-md"
+                    width={36}
+                    height={36}
+                    className="w-10 h-10 object-cover rounded-md"
                   />
                 ) : (
-                  <div className="w-9 h-9 bg-gray-200 flex items-center justify-center rounded-md">
+                  <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md">
                     <p className="text-xs text-gray-600">{file.name}</p>
                   </div>
                 )}

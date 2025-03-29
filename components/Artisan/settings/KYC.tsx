@@ -2,10 +2,11 @@ import Wrapper from "@/components/shared/Wrapper";
 import { useKYCStore } from "@/store/kycStore";
 import React from "react";
 import { ServiceProfileSetup } from "./ServiceProfileSetup";
+import Verification from "./Verification";
 
 export const steps = [
   <ServiceProfileSetup />,
-  "Verification & Trust Building",
+  <Verification />,
   "Additional Information",
 ];
 

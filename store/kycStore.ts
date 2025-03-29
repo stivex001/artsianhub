@@ -2,10 +2,13 @@ import { create } from "zustand";
 
 // Define types for KYC Form Data
 interface KYCFormData {
-  serviceProfile: {
-    businessName: string;
-    businessType: string;
-  };
+  serviceCategory?: string;
+  professionalTitle: string;
+  servicePricing: string;
+  yearsOfExperience: string;
+  skillDescription: string;
+  portfolio: string;
+
   verification: {
     idType: string;
     idNumber: string;
@@ -25,30 +28,50 @@ interface KYCStore {
   goToStep: (step: number) => void;
 }
 
-// Initial form data
-const initialData: KYCFormData = {
-  serviceProfile: {
-    businessName: "",
-    businessType: "",
-  },
-  verification: {
-    idType: "",
-    idNumber: "",
-  },
-  additionalInfo: {
-    address: "",
-    contactNumber: "",
-  },
+// Function to load stored KYC data from localStorage
+const loadStoredData = (): KYCFormData => {
+  if (typeof window !== "undefined") {
+    const storedData = localStorage.getItem("kycFormData");
+    if (storedData) {
+      return JSON.parse(storedData);
+    }
+  }
+  return {
+    serviceCategory: "",
+    professionalTitle: "",
+    servicePricing: "",
+    yearsOfExperience: "",
+    skillDescription: "",
+    portfolio: "",
+
+    verification: {
+      idType: "",
+      idNumber: "",
+    },
+    additionalInfo: {
+      address: "",
+      contactNumber: "",
+    },
+  };
 };
 
 export const useKYCStore = create<KYCStore>((set) => ({
-  formData: initialData,
+  formData: loadStoredData(),
   currentStep: 0,
+
   setFormData: (data) =>
-    set((state) => ({
-      formData: { ...state.formData, ...data },
-    })),
+    set((state) => {
+      const updatedFormData = { ...state.formData, ...data };
+
+      // Save updated data to localStorage
+      localStorage.setItem("kycFormData", JSON.stringify(updatedFormData));
+
+      return { formData: updatedFormData };
+    }),
+
   nextStep: () => set((state) => ({ currentStep: state.currentStep + 1 })),
+
   prevStep: () => set((state) => ({ currentStep: state.currentStep - 1 })),
+
   goToStep: (step) => set({ currentStep: step }),
 }));
