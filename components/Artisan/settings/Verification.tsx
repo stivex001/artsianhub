@@ -27,7 +27,7 @@ const fields: Field[] = [
   },
   {
     name: "professionalCertifications",
-    type: "string",
+    type: "multiselect",
     errorMessage: "Professional Certifications is required",
     // isRequired: true,
   },

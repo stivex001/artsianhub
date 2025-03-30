@@ -3,11 +3,12 @@ import { useKYCStore } from "@/store/kycStore";
 import React from "react";
 import { ServiceProfileSetup } from "./ServiceProfileSetup";
 import Verification from "./Verification";
+import AdditionalInformation from "./AdditionalInformation";
 
 export const steps = [
   <ServiceProfileSetup />,
   <Verification />,
-  "Additional Information",
+  <AdditionalInformation />,
 ];
 
 const KYC = () => {
