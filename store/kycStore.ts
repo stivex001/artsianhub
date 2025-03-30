@@ -4,15 +4,13 @@ import { create } from "zustand";
 interface KYCFormData {
   serviceCategory?: string;
   professionalTitle: string;
-  servicePricing: string;
-  yearsOfExperience: string;
+  servicePricing: number;
+  yearsOfExperience: number;
   skillDescription: string;
   portfolio: string;
-
-  verification: {
-    idType: string;
-    idNumber: string;
-  };
+  proofOfAddress: string;
+  governmentIssuedID: string;
+  professionalCertifications:string[]
   additionalInfo: {
     address: string;
     contactNumber: string;
@@ -39,15 +37,13 @@ const loadStoredData = (): KYCFormData => {
   return {
     serviceCategory: "",
     professionalTitle: "",
-    servicePricing: "",
-    yearsOfExperience: "",
+    servicePricing: 0,
+    yearsOfExperience: 1,
     skillDescription: "",
     portfolio: "",
-
-    verification: {
-      idType: "",
-      idNumber: "",
-    },
+    proofOfAddress: "",
+    governmentIssuedID: "",
+    professionalCertifications: [],
     additionalInfo: {
       address: "",
       contactNumber: "",

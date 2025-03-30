@@ -31,13 +31,13 @@ const fields: Field[] = [
     name: "servicePricing",
     type: "number",
     errorMessage: "Service Price is required",
-    isRequired: true,
+    // isRequired: true,
   },
   {
     name: "yearsOfExperience",
     type: "number",
     errorMessage: "Service Year is required",
-    isRequired: true,
+    // isRequired: true,
   },
   {
     name: "skillDescription",
@@ -49,7 +49,7 @@ const fields: Field[] = [
     name: "portfolio",
     type: "file",
     errorMessage: "Portfolio is required",
-    isRequired: true,
+    // isRequired: true,
   },
 ];
 
@@ -58,16 +58,46 @@ export const ServiceProfileSetup = (props: Props) => {
   const { currentStep, formData, setFormData, nextStep, prevStep } =
     useKYCStore();
 
-  console.log(formData, "formdata");
-
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
     serviceCategory: formData?.serviceCategory || "",
     professionalTitle: formData?.professionalTitle || "",
-    servicePricing: formData?.servicePricing || "",
-    yearsOfExperience: formData?.yearsOfExperience || "",
+    servicePricing: formData?.servicePricing
+      ? Number(formData?.servicePricing)
+      : "",
+    yearsOfExperience: formData?.yearsOfExperience
+      ? Number(formData?.yearsOfExperience)
+      : "",
     skillDescription: formData?.skillDescription || "",
-    portfolio: formData?.portfolio?.[0] || "",
+    portfolio: Array.isArray(formData?.portfolio)
+      ? formData?.portfolio.map((file) =>
+          typeof file === "string" ? { preview: file } : file
+        )
+      : [],
   });
+
+  useEffect(() => {
+    if (formData) {
+      setValue("serviceCategory", formData?.serviceCategory || "");
+      setValue("professionalTitle", formData?.professionalTitle || "");
+      setValue(
+        "servicePricing",
+        formData?.servicePricing ? Number(formData?.servicePricing) : ""
+      );
+      setValue(
+        "yearsOfExperience",
+        formData?.yearsOfExperience ? Number(formData?.yearsOfExperience) : ""
+      );
+      setValue("skillDescription", formData?.skillDescription || "");
+      setValue(
+        "portfolio",
+        Array.isArray(formData?.portfolio)
+          ? formData?.portfolio.map((file) =>
+              typeof file === "string" ? { preview: file } : file
+            )
+          : []
+      );
+    }
+  }, [formData, setValue]);
 
   const { data: category } = getAllCategories();
 
@@ -88,7 +118,9 @@ export const ServiceProfileSetup = (props: Props) => {
   const onSubmit = (data: any) => {
     const formattedData = {
       ...data,
-      portfolio: data?.portfolio?.map((file: FileWithPreview) => file?.preview),
+      portfolio: Array.isArray(data?.portfolio)
+        ? data.portfolio.map((file: FileWithPreview) => file?.preview)
+        : [],
     };
 
     setFormData({
@@ -143,7 +175,7 @@ export const ServiceProfileSetup = (props: Props) => {
               type="number"
               label="Set Service Pricing  "
               variant="secondary"
-              rules={{ required: true }}
+              // rules={{ required: true }}
             />
             <ControlledInput
               name="yearsOfExperience"
@@ -152,7 +184,7 @@ export const ServiceProfileSetup = (props: Props) => {
               type="number"
               label="Service Year "
               variant="secondary"
-              rules={{ required: true }}
+              // rules={{ required: true }}
             />
           </div>
           <ControlledInput

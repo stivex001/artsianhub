@@ -7,8 +7,9 @@ import {
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
-import React from "react";
+import React, { useEffect } from "react";
 import { steps } from "./KYC";
+import CreatableSelect from "@/components/controlledInputs/CreatableSelect";
 
 type Props = {};
 const fields: Field[] = [
@@ -16,31 +17,19 @@ const fields: Field[] = [
     name: "governmentIssuedID",
     type: "file",
     errorMessage: "Government Issued ID is required",
-    isRequired: true,
+    // isRequired: true,
   },
   {
     name: "proofOfAddress",
     type: "file",
     errorMessage: "Proof Of Address is required",
-    isRequired: true,
+    // isRequired: true,
   },
   {
     name: "professionalCertifications",
-    type: "file",
+    type: "multiselect",
     errorMessage: "Professional Certifications is required",
-    isRequired: true,
-  },
-  {
-    name: "yearsOfExperience",
-    type: "number",
-    errorMessage: "Service Year is required",
-    isRequired: true,
-  },
-  {
-    name: "skillDescription",
-    type: "text",
-    errorMessage: "Description is required",
-    isRequired: true,
+    // isRequired: true,
   },
 ];
 
@@ -50,18 +39,54 @@ const Verification = (props: Props) => {
 
   console.log(formData, "formdata");
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    serviceCategory: formData?.serviceCategory || "",
-    professionalTitle: formData?.professionalTitle || "",
-    servicePricing: formData?.servicePricing || "",
-    yearsOfExperience: formData?.yearsOfExperience || "",
-    skillDescription: formData?.skillDescription || "",
-    portfolio: formData?.portfolio?.[0] || "",
+    professionalCertifications: formData?.professionalCertifications || [],
+    governmentIssuedID: Array.isArray(formData?.governmentIssuedID)
+      ? formData?.governmentIssuedID.map((file) =>
+          typeof file === "string" ? { preview: file } : file
+        )
+      : [],
+    proofOfAddress: Array.isArray(formData?.proofOfAddress)
+      ? formData?.proofOfAddress.map((file) =>
+          typeof file === "string" ? { preview: file } : file
+        )
+      : [],
   });
+
+  useEffect(() => {
+    if (formData) {
+      setValue(
+        "professionalCertifications",
+        formData?.professionalCertifications || []
+      );
+
+      setValue(
+        "governmentIssuedID",
+        Array.isArray(formData?.governmentIssuedID)
+          ? formData?.governmentIssuedID.map((file) =>
+              typeof file === "string" ? { preview: file } : file
+            )
+          : []
+      );
+      setValue(
+        "proofOfAddress",
+        Array.isArray(formData?.proofOfAddress)
+          ? formData?.proofOfAddress.map((file) =>
+              typeof file === "string" ? { preview: file } : file
+            )
+          : []
+      );
+    }
+  }, [formData, setValue]);
 
   const onSubmit = (data: any) => {
     const formattedData = {
       ...data,
-      portfolio: data?.portfolio?.map((file: FileWithPreview) => file?.preview),
+      proofOfAddress: data?.proofOfAddress?.map(
+        (file: FileWithPreview) => file?.preview
+      ),
+      governmentIssuedID: data?.governmentIssuedID?.map(
+        (file: FileWithPreview) => file?.preview
+      ),
     };
 
     setFormData({
@@ -101,20 +126,19 @@ const Verification = (props: Props) => {
           />
         </div>
         <div className="w-1/2">
-          <ControlledFileUpload
+          <CreatableSelect
             name="professionalCertifications"
             control={control}
             label="Provide any Professional Certifications (if available)*"
-            // rules={{ required: true }}
           />
         </div>
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
           <ControlledFileUpload
             name="portfolio"
             control={control}
             label="Add Customer References or Testimonials (if applicable)*."
           />
-        </div>
+        </div> */}
 
         <div className="mt-8 flex items-center gap-5 justify-end">
           {currentStep > 0 && (
