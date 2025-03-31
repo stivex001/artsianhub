@@ -13,6 +13,8 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import { steps } from "./KYC";
 import CustomLocation from "@/components/controlledInputs/CustomLocation";
 import CreatableSelectComponent from "@/components/controlledInputs/CreatableSelect";
+import { useUser } from "@/api/crud/user";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -37,11 +39,17 @@ const fields: Field[] = [
     // isRequired: true,
   },
   {
-    name: "serviceArea",
+    name: "workAvailability",
     type: "text",
-    errorMessage: "Service Area Time is required",
+    errorMessage: "Available Time is required",
     // isRequired: true,
   },
+  // {
+  //   name: "serviceArea",
+  //   type: "text",
+  //   errorMessage: "Service Area Time is required",
+  //   // isRequired: true,
+  // },
   {
     name: "languagesSpoken",
     type: "multiselect",
@@ -54,39 +62,84 @@ const AdditionalInformation = (props: Props) => {
   const { currentStep, formData, setFormData, nextStep, prevStep } =
     useKYCStore();
 
-  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
+  const { control, handleSubmit, setValue, formState } = useDynamicForm(fields, {
     availableHours: formData?.availableHours || "9:00 AM-5:00 PM",
     days: formData?.days || "",
     languagesSpoken: formData?.languagesSpoken || [],
   });
 
+  const {errors} = formState
+
+  console.log(errors, "formerror")
+
   useEffect(() => {
     if (formData) {
       setValue("availableHours", formData?.availableHours || "");
       setValue("days", formData?.days || "");
-      setValue(
-        "languagesSpoken",
-        formData?.languagesSpoken || []
-      );
+      setValue("languagesSpoken", formData?.languagesSpoken || []);
     }
   }, [formData, setValue]);
 
+  const { createArtisanProfile } = useUser();
+  const { mutate: createProfile, isPending } = createArtisanProfile;
+
   const onSubmit = (data: any) => {
+    console.log(data, "data__");
     const formattedData = {
       ...data,
       workAvailability: {
         days: data.days || [],
         availableHours: data.availableHours || "",
       },
+      serviceArea: { type: "Point", coordinates: [-0.1278, 51.5074] },
     };
-
+  
+    const formData = new FormData();
+    
+    formData.append("workAvailability", JSON.stringify({
+      days: Array.isArray(data.days) ? data.days : data.days.split(",").map(d => d.trim()),
+      availableHours: data.availableHours || "",
+    }));
+  
+    formData.append("serviceArea", JSON.stringify({
+      type: "Point",
+      coordinates: [-0.1278, 51.5074], // You may need to update dynamically
+    }));
+  
+    formData.append("serviceCategory", data?.serviceCategory);
+    formData.append("professionalTitle", data?.professionalTitle);
+    formData.append("servicePricing", data?.servicePricing?.toString());
+    formData.append("skillDescription", data?.skillDescription);
+    formData.append("yearsOfExperience", data?.yearsOfExperience?.toString());
+    formData.append("professionalCertifications", data?.professionalCertifications);
+    data.governmentIssuedID?.forEach((file: string) => formData.append("governmentIssuedID", file));
+    data.portfolio?.forEach((file: string) => formData.append("portfolio", file));
+    data.proofOfAddress?.forEach((file: string) => formData.append("proofOfAddress", file));
+  
+    try {
+      createProfile(formData , {
+        onSuccess: (response:any) => {
+          console.log(response)
+          toast.success(response)
+        },
+        onError: (error: any) => {
+          console.error("Errorcreatingprofile:", error);
+          toast.error(error?.message)
+        },
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  
     setFormData({
       ...formData,
       ...formattedData,
     });
-    console.log("Formatted Data:", formattedData);
-    nextStep();
+    
+    // console.log("Formatted Data:", formattedData);
+    // nextStep();
   };
+  
 
   return (
     <div className="flex flex-col gap-6">
@@ -118,7 +171,7 @@ const AdditionalInformation = (props: Props) => {
             />
           </div>
         </div>
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
           <h1 className="text-2xl font-semibold mb-5">
             Service Area:{" "}
             <span className="text-sm">
@@ -126,7 +179,7 @@ const AdditionalInformation = (props: Props) => {
             </span>{" "}
           </h1>
           <CustomLocation />
-        </div>
+        </div> */}
         <div className="w-1/2">
           <h1 className="text-2xl font-semibold mb-5">
             Select your language:
@@ -150,13 +203,12 @@ const AdditionalInformation = (props: Props) => {
             />
           )}
 
-          {/* {currentStep < steps.length - 1 && ( */}
           <CustomButton
             type="submit"
             label="Submit"
             className="bg-secondary text-white w-[100px]"
+            isLoading={isPending}
           />
-          {/* //   )} */}
         </div>
       </form>
     </div>

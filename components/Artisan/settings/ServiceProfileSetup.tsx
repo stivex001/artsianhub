@@ -1,5 +1,5 @@
 import { useKYCStore } from "@/store/kycStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { steps } from "./KYC";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import useDynamicForm from "@/hooks/useDynamicForm";
@@ -11,11 +11,7 @@ import {
   ControlledFileUpload,
   FileWithPreview,
 } from "@/components/controlledInputs/ControlledFileUpload";
-import CustomControlledMultiSelect from "@/components/controlledInputs/CustomControlledMultiSelect";
-import { daysOptions } from "./data";
-import TimeRangeInput from "@/components/controlledInputs/CustomeTimePicker";
-import TimeRangePicker from "@/components/controlledInputs/CustomeTimePicker";
-import CustomLocation from "@/components/controlledInputs/CustomLocation";
+import GooglePlacesInput from "@/components/controlledInputs/GooglePlaceInput";
 
 type Props = {};
 
@@ -79,6 +75,27 @@ export const ServiceProfileSetup = (props: Props) => {
         )
       : [],
   });
+
+  // const [companyAddress, setCompanyAddress] = useState(
+  //   formData?.locationId?.geometry?.address || ""
+  // );
+
+  // const [coordinates, setCoordinates] = useState<{
+  //   lat: number;
+  //   lng: number;
+  // } | null>(
+  //   formData?.locationId
+  //     ? {
+  //         lat: Number(formData?.locationId?.geometry?.lat),
+  //         lng: Number(formData?.locationId?.geometry?.long),
+  //       }
+  //     : null
+  // );
+
+  // const handleAddressSelect = (address: string, lat: number, lng: number) => {
+  //   setCompanyAddress(address);
+  //   setCoordinates({ lat, lng });
+  // };
 
   useEffect(() => {
     if (formData) {
@@ -202,6 +219,11 @@ export const ServiceProfileSetup = (props: Props) => {
             isTextArea
             rows={7}
           />
+          {/* <GooglePlacesInput
+            defaultValue={formData?.locationId?.geometry?.address}
+            apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
+            onSelect={handleAddressSelect}
+          /> */}
         </div>
         <div className="mt-8 flex items-center gap-5 justify-end">
           {currentStep > 0 && (
