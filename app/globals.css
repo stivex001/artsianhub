@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 * {
   padding: 0;
   box-sizing: border-box;
@@ -58,7 +56,6 @@ body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
 
-
 .tabling {
   border-collapse: separate;
   border-spacing: 0px 10px;
@@ -86,3 +83,16 @@ input[type="number"] {
 /* .tabling tr {
   box-shadow: 0px 2px 2px 0px rgba(34, 34, 34, 0.1);
 } */
+
+.react-time-picker__button svg {
+  display: none !important;
+}
+
+.react-time-picker__wrapper {
+  border: none !important;
+}
+
+.react-time-picker__inputGroup {
+  outline: none !important;
+  border: none !important;
+}

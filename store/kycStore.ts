@@ -10,7 +10,9 @@ interface KYCFormData {
   portfolio: string;
   proofOfAddress: string;
   governmentIssuedID: string;
+  availableHours: string;
   professionalCertifications:string[]
+  days:string[]
   additionalInfo: {
     address: string;
     contactNumber: string;
@@ -43,6 +45,8 @@ const loadStoredData = (): KYCFormData => {
     portfolio: "",
     proofOfAddress: "",
     governmentIssuedID: "",
+    availableHours: "",
+    days: [],
     professionalCertifications: [],
     additionalInfo: {
       address: "",

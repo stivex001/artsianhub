@@ -32,7 +32,7 @@ export const CustomButton: FC<ButtonProps> = ({
     danger:
       "bg-red-600 border-red-600 text-white hover:bg-red-500 active:bg-red-700 disabled:bg-red-700/30",
     transparent:
-      "bg-transparent text-black/90 border hover:text-primary active:text-primary/90 disabled:bg-primary/30",
+      "bg-transparent text-black/90 border hover:text-primary hover:bg-transparent active:text-primary/90 disabled:bg-primary/30",
     white:
       " bg-white text-secondary border hover:text-primary active:text-primary/90 disabled:bg-primary/30",
   };
