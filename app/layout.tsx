@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navigations/Navbar";
 import ScrollToTop from "@/utils/ScrollToTop";
 import Footer from "@/components/navigations/Footer";
+import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 
 const josefin = Josefin_Sans({
   subsets: ["latin"],
@@ -63,18 +64,20 @@ export default function RootLayout({
         />
       </head>
       <QueryProviders>
-        <body
-          className={` ${josefin.className} ${geistMono.variable} antialiased`}
-        >
-          <Toaster position="top-center" />
-          {/* <ScrollToTop /> */}
-          <Navbar />
-          <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
-            {" "}
-            {children}
-            <Footer />
-          </div>
-        </body>
+        <ModalCloseProvider>
+          <body
+            className={` ${josefin.className} ${geistMono.variable} antialiased`}
+          >
+            <Toaster position="top-center" />
+            {/* <ScrollToTop /> */}
+            <Navbar />
+            <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
+              {" "}
+              {children}
+              <Footer />
+            </div>
+          </body>
+        </ModalCloseProvider>
       </QueryProviders>
     </html>
   );

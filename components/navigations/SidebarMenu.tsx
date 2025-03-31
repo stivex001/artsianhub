@@ -1,3 +1,5 @@
+"use client";
+import { useModalClose } from "@/contexts/SheetCloseModal";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -26,7 +28,7 @@ const isRouteActive = (currentPath: string, linkPath: string) => {
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ links, mobile }) => {
   const pathname = usePathname();
-  // const { closeModal } = useModalClose();
+  const { closeModal } = useModalClose();
 
   return (
     <aside className={`pb-6 ${!mobile && "animated-appearance"}`}>
@@ -39,6 +41,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ links, mobile }) => {
               <Link
                 href={path}
                 className={`w-full gap-6 flex items-center font-semibold rounded transition-all `}
+                onClick={closeModal}
               >
                 <div
                   className={`${
