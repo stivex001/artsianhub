@@ -48,6 +48,9 @@ export const useUser = () => {
   const createArtisanProfile = useApiMutation<AuthResponse, FormData>({
     url: "/artisan/profile",
     method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({

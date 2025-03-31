@@ -11,12 +11,10 @@ interface KYCFormData {
   proofOfAddress: string;
   governmentIssuedID: string;
   availableHours: string;
-  professionalCertifications:string[]
-  days:string[]
-  additionalInfo: {
-    address: string;
-    contactNumber: string;
-  };
+  workAvailability: string;
+  professionalCertifications: string[];
+  days: string[];
+  languagesSpoken: string[];
 }
 
 interface KYCStore {
@@ -46,12 +44,10 @@ const loadStoredData = (): KYCFormData => {
     proofOfAddress: "",
     governmentIssuedID: "",
     availableHours: "",
+    workAvailability: "",
     days: [],
     professionalCertifications: [],
-    additionalInfo: {
-      address: "",
-      contactNumber: "",
-    },
+    languagesSpoken:[],
   };
 };
 

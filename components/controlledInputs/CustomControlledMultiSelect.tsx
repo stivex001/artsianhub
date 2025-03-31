@@ -52,8 +52,8 @@ const CustomControlledMultiSelect = ({
   }, []);
 
   const handleOptionClick = (optionValue: string) => {
-    const newSelectedOptions = value.includes(optionValue)
-      ? value.filter((option: string) => option !== optionValue)
+    const newSelectedOptions = value?.includes(optionValue)
+      ? value?.filter((option: string) => option !== optionValue)
       : [...value, optionValue];
 
     onChange(newSelectedOptions);
