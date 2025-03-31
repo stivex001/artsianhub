@@ -87,7 +87,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
           className={`border border-[#B5B5B5]  rounded-[10px] relative mb-4 ${className}`}
         >
           <Label
-            className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
+            className={`text-primary text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
           >
             {label}
           </Label>

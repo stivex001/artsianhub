@@ -1,48 +1,37 @@
 "use client";
 
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
+import CustomControlledMultiSelect from "@/components/controlledInputs/CustomControlledMultiSelect";
+import TimeRangePicker from "@/components/controlledInputs/CustomeTimePicker";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
 import React, { useEffect } from "react";
+import { daysOptions } from "./data";
+import { CustomButton } from "@/components/clickable/CustomButton";
+import { steps } from "./KYC";
 
 type Props = {};
 
 const fields: Field[] = [
   {
-    name: "serviceCategory",
+    name: "workAvailability",
     type: "text",
-    errorMessage: "Service Category is required",
+    errorMessage: "workAvailability is required",
     isRequired: true,
   },
+
   {
-    name: "professionalTitle",
-    type: "text",
-    errorMessage: "Title is required",
-    isRequired: true,
-  },
-  {
-    name: "servicePricing",
-    type: "number",
-    errorMessage: "Service Price is required",
+    name: "days",
+    type: "multiselect",
+    errorMessage: "Work Days is required",
     // isRequired: true,
   },
   {
-    name: "yearsOfExperience",
-    type: "number",
-    errorMessage: "Service Year is required",
-    // isRequired: true,
-  },
-  {
-    name: "skillDescription",
+    name: "availableHours",
     type: "text",
-    errorMessage: "Description is required",
-    isRequired: true,
-  },
-  {
-    name: "portfolio",
-    type: "file",
-    errorMessage: "Portfolio is required",
+    errorMessage: "Available Time is required",
     // isRequired: true,
   },
 ];
@@ -52,26 +41,33 @@ const AdditionalInformation = (props: Props) => {
     useKYCStore();
 
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    serviceCategory: formData?.serviceCategory || "",
-    professionalTitle: formData?.professionalTitle || "",
-    servicePricing: formData?.servicePricing
-      ? Number(formData?.servicePricing)
-      : "",
-    yearsOfExperience: formData?.yearsOfExperience
-      ? Number(formData?.yearsOfExperience)
-      : "",
+    availableHours: formData?.availableHours || "9:00 AM-5:00 PM",
+    days: formData?.days || "",
   });
 
   useEffect(() => {
     if (formData) {
-      setValue("serviceCategory", formData?.serviceCategory || "");
-      setValue("professionalTitle", formData?.professionalTitle || "");
-      setValue(
-        "servicePricing",
-        formData?.servicePricing ? Number(formData?.servicePricing) : ""
-      );
+      setValue("availableHours", formData?.availableHours || "");
+      setValue("days", formData?.days || "");
     }
   }, [formData, setValue]);
+
+  const onSubmit = (data: any) => {
+    const formattedData = {
+      ...data,
+      workAvailability: {
+        days: data.days || [],
+        availableHours: data.availableHours || "",
+      },
+    };
+
+    setFormData({
+      ...formData,
+      ...formattedData,
+    });
+    console.log("Formatted Data:", formattedData);
+    nextStep();
+  };
 
   return (
     <div className="flex flex-col gap-6">
@@ -81,26 +77,45 @@ const AdditionalInformation = (props: Props) => {
           Get a job and grow your business
         </p>
       </div>
-      <form className="mt-8 flex flex-col gap-7">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-8 flex flex-col gap-7"
+      >
         <div>
           <h1 className="text-2xl font-semibold mb-5">Work Availability </h1>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <p className="font-semibold text-base">Days</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <p className="font-semibold text-base">Hours</p>
-              <ControlledInput
-                name="hour"
-                control={control}
-                placeholder="1"
-                type="number"
-                label=" "
-                variant="secondary"
-                // rules={{ required: true }}
-              />
-            </div>
+          <div className="grid lg:grid-cols-2 gap-8">
+            <CustomControlledMultiSelect
+              name="days"
+              label="Days"
+              // rules={{ required: true }}
+              placeholder=""
+              control={control}
+              options={daysOptions}
+            />
+            <TimeRangePicker
+              name="availableHours"
+              label="Available Hours"
+              control={control}
+            />
           </div>
+        </div>
+        <div className="mt-8 flex items-center gap-5 justify-end">
+          {currentStep > 0 && (
+            <CustomButton
+              type="button"
+              onClick={prevStep}
+              label="Next"
+              className="bg-gray-300 text-white w-[100px]"
+            />
+          )}
+
+          {currentStep < steps.length - 1 && (
+            <CustomButton
+              type="submit"
+              label="Next"
+              className="bg-secondary text-white w-[100px]"
+            />
+          )}
         </div>
       </form>
     </div>
