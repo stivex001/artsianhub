@@ -11,6 +11,8 @@ import React, { useEffect } from "react";
 import { daysOptions } from "./data";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { steps } from "./KYC";
+import CustomLocation from "@/components/controlledInputs/CustomLocation";
+import CreatableSelectComponent from "@/components/controlledInputs/CreatableSelect";
 
 type Props = {};
 
@@ -34,6 +36,18 @@ const fields: Field[] = [
     errorMessage: "Available Time is required",
     // isRequired: true,
   },
+  {
+    name: "serviceArea",
+    type: "text",
+    errorMessage: "Service Area Time is required",
+    // isRequired: true,
+  },
+  {
+    name: "languagesSpoken",
+    type: "multiselect",
+    errorMessage: "Languages Spoken Time is required",
+    // isRequired: true,
+  },
 ];
 
 const AdditionalInformation = (props: Props) => {
@@ -43,12 +57,17 @@ const AdditionalInformation = (props: Props) => {
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
     availableHours: formData?.availableHours || "9:00 AM-5:00 PM",
     days: formData?.days || "",
+    languagesSpoken: formData?.languagesSpoken || [],
   });
 
   useEffect(() => {
     if (formData) {
       setValue("availableHours", formData?.availableHours || "");
       setValue("days", formData?.days || "");
+      setValue(
+        "languagesSpoken",
+        formData?.languagesSpoken || []
+      );
     }
   }, [formData, setValue]);
 
@@ -99,23 +118,45 @@ const AdditionalInformation = (props: Props) => {
             />
           </div>
         </div>
+        <div className="w-1/2">
+          <h1 className="text-2xl font-semibold mb-5">
+            Service Area:{" "}
+            <span className="text-sm">
+              (Geographical region or distance willing to cover)
+            </span>{" "}
+          </h1>
+          <CustomLocation />
+        </div>
+        <div className="w-1/2">
+          <h1 className="text-2xl font-semibold mb-5">
+            Select your language:
+            <span className="text-sm">
+              (To match clients with preferred language needs)
+            </span>{" "}
+          </h1>
+          <CreatableSelectComponent
+            name="languagesSpoken"
+            control={control}
+            label=""
+          />
+        </div>
         <div className="mt-8 flex items-center gap-5 justify-end">
           {currentStep > 0 && (
             <CustomButton
               type="button"
               onClick={prevStep}
-              label="Next"
+              label="Back"
               className="bg-gray-300 text-white w-[100px]"
             />
           )}
 
-          {currentStep < steps.length - 1 && (
-            <CustomButton
-              type="submit"
-              label="Next"
-              className="bg-secondary text-white w-[100px]"
-            />
-          )}
+          {/* {currentStep < steps.length - 1 && ( */}
+          <CustomButton
+            type="submit"
+            label="Submit"
+            className="bg-secondary text-white w-[100px]"
+          />
+          {/* //   )} */}
         </div>
       </form>
     </div>

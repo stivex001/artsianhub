@@ -15,6 +15,7 @@ import CustomControlledMultiSelect from "@/components/controlledInputs/CustomCon
 import { daysOptions } from "./data";
 import TimeRangeInput from "@/components/controlledInputs/CustomeTimePicker";
 import TimeRangePicker from "@/components/controlledInputs/CustomeTimePicker";
+import CustomLocation from "@/components/controlledInputs/CustomLocation";
 
 type Props = {};
 
@@ -207,7 +208,7 @@ export const ServiceProfileSetup = (props: Props) => {
             <CustomButton
               type="button"
               onClick={prevStep}
-              label="Next"
+              label="Back"
               className="bg-gray-300 text-white w-[100px]"
             />
           )}
