@@ -34,49 +34,49 @@ const fields: Field[] = [
 ];
 
 const Verification = (props: Props) => {
-  const { currentStep, formData, setFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
     useKYCStore();
 
-  console.log(formData, "formdata");
+  console.log(kycFormData, "kycFormData");
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    professionalCertifications: formData?.professionalCertifications || [],
-    governmentIssuedID: Array.isArray(formData?.governmentIssuedID)
-      ? formData?.governmentIssuedID.map((file) =>
+    professionalCertifications: kycFormData?.professionalCertifications || [],
+    governmentIssuedID: Array.isArray(kycFormData?.governmentIssuedID)
+      ? kycFormData?.governmentIssuedID.map((file) =>
           typeof file === "string" ? { preview: file } : file
         )
       : [],
-    proofOfAddress: Array.isArray(formData?.proofOfAddress)
-      ? formData?.proofOfAddress.map((file) =>
+    proofOfAddress: Array.isArray(kycFormData?.proofOfAddress)
+      ? kycFormData?.proofOfAddress.map((file) =>
           typeof file === "string" ? { preview: file } : file
         )
       : [],
   });
 
   useEffect(() => {
-    if (formData) {
+    if (kycFormData) {
       setValue(
         "professionalCertifications",
-        formData?.professionalCertifications || []
+        kycFormData?.professionalCertifications || []
       );
 
       setValue(
         "governmentIssuedID",
-        Array.isArray(formData?.governmentIssuedID)
-          ? formData?.governmentIssuedID.map((file) =>
+        Array.isArray(kycFormData?.governmentIssuedID)
+          ? kycFormData?.governmentIssuedID.map((file) =>
               typeof file === "string" ? { preview: file } : file
             )
           : []
       );
       setValue(
         "proofOfAddress",
-        Array.isArray(formData?.proofOfAddress)
-          ? formData?.proofOfAddress.map((file) =>
+        Array.isArray(kycFormData?.proofOfAddress)
+          ? kycFormData?.proofOfAddress.map((file) =>
               typeof file === "string" ? { preview: file } : file
             )
           : []
       );
     }
-  }, [formData, setValue]);
+  }, [kycFormData, setValue]);
 
   const onSubmit = (data: any) => {
     const formattedData = {
@@ -89,8 +89,8 @@ const Verification = (props: Props) => {
       ),
     };
 
-    setFormData({
-      ...formData,
+    setkycFormData({
+      ...kycFormData,
       ...formattedData,
     });
     console.log("Formatted Data:", formattedData);

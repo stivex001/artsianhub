@@ -4,11 +4,13 @@ import React from "react";
 import { ServiceProfileSetup } from "./ServiceProfileSetup";
 import Verification from "./Verification";
 import AdditionalInformation from "./AdditionalInformation";
+import TermsAndCondidtion from "./TermsAndCondidtion";
 
 export const steps = [
   <ServiceProfileSetup />,
   <Verification />,
   <AdditionalInformation />,
+  <TermsAndCondidtion />
 ];
 
 const KYC = () => {
