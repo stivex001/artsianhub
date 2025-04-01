@@ -4,7 +4,7 @@ import { FileX, MoreHorizontal } from "lucide-react";
 import { Spinner } from "./Spinner";
 import { CustomButton } from "../clickable/CustomButton";
 import { renderData } from "@/utils/renderData";
-import CustomCheckBox from "../controlledInputs/CustomCheckBox";
+import CustomCheckBox from "../controlledInputs/CustomBox";
 
 type TablesComponentProp = {
   data: any[];

@@ -1,7 +1,5 @@
 "use client";
 
-import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import CustomControlledMultiSelect from "@/components/controlledInputs/CustomControlledMultiSelect";
 import TimeRangePicker from "@/components/controlledInputs/CustomeTimePicker";
 import useDynamicForm from "@/hooks/useDynamicForm";
@@ -11,10 +9,8 @@ import React, { useEffect } from "react";
 import { daysOptions } from "./data";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { steps } from "./KYC";
-import CustomLocation from "@/components/controlledInputs/CustomLocation";
 import CreatableSelectComponent from "@/components/controlledInputs/CreatableSelect";
-import { useUser } from "@/api/crud/user";
-import { toast } from "sonner";
+
 
 type Props = {};
 
@@ -59,32 +55,24 @@ const fields: Field[] = [
 ];
 
 const AdditionalInformation = (props: Props) => {
-  const { currentStep, formData, setFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
     useKYCStore();
 
-  const { control, handleSubmit, setValue, formState } = useDynamicForm(fields, {
-    availableHours: formData?.availableHours || "9:00 AM-5:00 PM",
-    days: formData?.days || "",
-    languagesSpoken: formData?.languagesSpoken || [],
+  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
+    availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
+    days: kycFormData?.days || "",
+    languagesSpoken: kycFormData?.languagesSpoken || [],
   });
 
-  const {errors} = formState
-
-  console.log(errors, "formerror")
-
   useEffect(() => {
-    if (formData) {
-      setValue("availableHours", formData?.availableHours || "");
-      setValue("days", formData?.days || "");
-      setValue("languagesSpoken", formData?.languagesSpoken || []);
+    if (kycFormData) {
+      setValue("availableHours", kycFormData?.availableHours || "");
+      setValue("days", kycFormData?.days || "");
+      setValue("languagesSpoken", kycFormData?.languagesSpoken || []);
     }
-  }, [formData, setValue]);
-
-  const { createArtisanProfile } = useUser();
-  const { mutate: createProfile, isPending } = createArtisanProfile;
+  }, [kycFormData, setValue]);
 
   const onSubmit = (data: any) => {
-    console.log(data, "data__");
     const formattedData = {
       ...data,
       workAvailability: {
@@ -93,53 +81,14 @@ const AdditionalInformation = (props: Props) => {
       },
       serviceArea: { type: "Point", coordinates: [-0.1278, 51.5074] },
     };
-  
-    const formData = new FormData();
-    
-    formData.append("workAvailability", JSON.stringify({
-      days: Array.isArray(data.days) ? data.days : data.days.split(",").map(d => d.trim()),
-      availableHours: data.availableHours || "",
-    }));
-  
-    formData.append("serviceArea", JSON.stringify({
-      type: "Point",
-      coordinates: [-0.1278, 51.5074], // You may need to update dynamically
-    }));
-  
-    formData.append("serviceCategory", data?.serviceCategory);
-    formData.append("professionalTitle", data?.professionalTitle);
-    formData.append("servicePricing", data?.servicePricing?.toString());
-    formData.append("skillDescription", data?.skillDescription);
-    formData.append("yearsOfExperience", data?.yearsOfExperience?.toString());
-    formData.append("professionalCertifications", data?.professionalCertifications);
-    data.governmentIssuedID?.forEach((file: string) => formData.append("governmentIssuedID", file));
-    data.portfolio?.forEach((file: string) => formData.append("portfolio", file));
-    data.proofOfAddress?.forEach((file: string) => formData.append("proofOfAddress", file));
-  
-    try {
-      createProfile(formData , {
-        onSuccess: (response:any) => {
-          console.log(response)
-          toast.success(response)
-        },
-        onError: (error: any) => {
-          console.error("Errorcreatingprofile:", error);
-          toast.error(error?.message)
-        },
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  
-    setFormData({
-      ...formData,
+
+    setkycFormData({
+      ...kycFormData,
       ...formattedData,
     });
-    
-    // console.log("Formatted Data:", formattedData);
-    // nextStep();
+
+    nextStep();
   };
-  
 
   return (
     <div className="flex flex-col gap-6">
@@ -203,12 +152,13 @@ const AdditionalInformation = (props: Props) => {
             />
           )}
 
-          <CustomButton
-            type="submit"
-            label="Submit"
-            className="bg-secondary text-white w-[100px]"
-            isLoading={isPending}
-          />
+          {currentStep < steps.length - 1 && (
+            <CustomButton
+              type="submit"
+              label="Next"
+              className="bg-secondary text-white w-[100px]"
+            />
+          )}
         </div>
       </form>
     </div>

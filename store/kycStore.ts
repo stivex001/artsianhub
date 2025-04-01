@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 // Define types for KYC Form Data
-interface KYCFormData {
+interface KYCkycFormData {
   serviceCategory?: string;
   professionalTitle: string;
   servicePricing: number;
@@ -18,18 +18,18 @@ interface KYCFormData {
 }
 
 interface KYCStore {
-  formData: KYCFormData;
+  kycFormData: KYCkycFormData;
   currentStep: number;
-  setFormData: (data: Partial<KYCFormData>) => void;
+  setkycFormData: (data: Partial<KYCkycFormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: number) => void;
 }
 
 // Function to load stored KYC data from localStorage
-const loadStoredData = (): KYCFormData => {
+const loadStoredData = (): KYCkycFormData => {
   if (typeof window !== "undefined") {
-    const storedData = localStorage.getItem("kycFormData");
+    const storedData = localStorage.getItem("kyckycFormData");
     if (storedData) {
       return JSON.parse(storedData);
     }
@@ -52,17 +52,17 @@ const loadStoredData = (): KYCFormData => {
 };
 
 export const useKYCStore = create<KYCStore>((set) => ({
-  formData: loadStoredData(),
+  kycFormData: loadStoredData(),
   currentStep: 0,
 
-  setFormData: (data) =>
+  setkycFormData: (data) =>
     set((state) => {
-      const updatedFormData = { ...state.formData, ...data };
+      const updatedkycFormData = { ...state.kycFormData, ...data };
 
       // Save updated data to localStorage
-      localStorage.setItem("kycFormData", JSON.stringify(updatedFormData));
+      localStorage.setItem("kyckycFormData", JSON.stringify(updatedkycFormData));
 
-      return { formData: updatedFormData };
+      return { kycFormData: updatedkycFormData };
     }),
 
   nextStep: () => set((state) => ({ currentStep: state.currentStep + 1 })),

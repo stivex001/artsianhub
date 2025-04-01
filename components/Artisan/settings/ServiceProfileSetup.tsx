@@ -56,38 +56,38 @@ const fields: Field[] = [
 
 export const ServiceProfileSetup = (props: Props) => {
   const { getAllCategories } = useCategories();
-  const { currentStep, formData, setFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
     useKYCStore();
 
   const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    serviceCategory: formData?.serviceCategory || "",
-    professionalTitle: formData?.professionalTitle || "",
-    servicePricing: formData?.servicePricing
-      ? Number(formData?.servicePricing)
+    serviceCategory: kycFormData?.serviceCategory || "",
+    professionalTitle: kycFormData?.professionalTitle || "",
+    servicePricing: kycFormData?.servicePricing
+      ? Number(kycFormData?.servicePricing)
       : "",
-    yearsOfExperience: formData?.yearsOfExperience
-      ? Number(formData?.yearsOfExperience)
+    yearsOfExperience: kycFormData?.yearsOfExperience
+      ? Number(kycFormData?.yearsOfExperience)
       : "",
-    skillDescription: formData?.skillDescription || "",
-    portfolio: Array.isArray(formData?.portfolio)
-      ? formData?.portfolio.map((file) =>
+    skillDescription: kycFormData?.skillDescription || "",
+    portfolio: Array.isArray(kycFormData?.portfolio)
+      ? kycFormData?.portfolio.map((file) =>
           typeof file === "string" ? { preview: file } : file
         )
       : [],
   });
 
   // const [companyAddress, setCompanyAddress] = useState(
-  //   formData?.locationId?.geometry?.address || ""
+  //   kycFormData?.locationId?.geometry?.address || ""
   // );
 
   // const [coordinates, setCoordinates] = useState<{
   //   lat: number;
   //   lng: number;
   // } | null>(
-  //   formData?.locationId
+  //   kycFormData?.locationId
   //     ? {
-  //         lat: Number(formData?.locationId?.geometry?.lat),
-  //         lng: Number(formData?.locationId?.geometry?.long),
+  //         lat: Number(kycFormData?.locationId?.geometry?.lat),
+  //         lng: Number(kycFormData?.locationId?.geometry?.long),
   //       }
   //     : null
   // );
@@ -98,28 +98,28 @@ export const ServiceProfileSetup = (props: Props) => {
   // };
 
   useEffect(() => {
-    if (formData) {
-      setValue("serviceCategory", formData?.serviceCategory || "");
-      setValue("professionalTitle", formData?.professionalTitle || "");
+    if (kycFormData) {
+      setValue("serviceCategory", kycFormData?.serviceCategory || "");
+      setValue("professionalTitle", kycFormData?.professionalTitle || "");
       setValue(
         "servicePricing",
-        formData?.servicePricing ? Number(formData?.servicePricing) : ""
+        kycFormData?.servicePricing ? Number(kycFormData?.servicePricing) : ""
       );
       setValue(
         "yearsOfExperience",
-        formData?.yearsOfExperience ? Number(formData?.yearsOfExperience) : ""
+        kycFormData?.yearsOfExperience ? Number(kycFormData?.yearsOfExperience) : ""
       );
-      setValue("skillDescription", formData?.skillDescription || "");
+      setValue("skillDescription", kycFormData?.skillDescription || "");
       setValue(
         "portfolio",
-        Array.isArray(formData?.portfolio)
-          ? formData?.portfolio.map((file) =>
+        Array.isArray(kycFormData?.portfolio)
+          ? kycFormData?.portfolio.map((file) =>
               typeof file === "string" ? { preview: file } : file
             )
           : []
       );
     }
-  }, [formData, setValue]);
+  }, [kycFormData, setValue]);
 
   const { data: category } = getAllCategories();
 
@@ -145,8 +145,8 @@ export const ServiceProfileSetup = (props: Props) => {
         : [],
     };
 
-    setFormData({
-      ...formData,
+    setkycFormData({
+      ...kycFormData,
       ...formattedData,
     });
     console.log("Formatted Data:", formattedData);
@@ -220,7 +220,7 @@ export const ServiceProfileSetup = (props: Props) => {
             rows={7}
           />
           {/* <GooglePlacesInput
-            defaultValue={formData?.locationId?.geometry?.address}
+            defaultValue={kycFormData?.locationId?.geometry?.address}
             apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
             onSelect={handleAddressSelect}
           /> */}
