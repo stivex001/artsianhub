@@ -57,7 +57,7 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <section className="w-10/12 mx-auto">
+    <section className=" w-10/12 mx-auto">
       <div className="flex items-center justify-end">
         <CustomButton
           type="button"
@@ -66,14 +66,14 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
         />
       </div>
       <div className="flex flex-col gap-10 mt-2">
-        <h1 className="font-medium text-5xl text-white text-center">
+        <h1 className="font-medium lg:text-5xl text-white text-center">
           Artisan Around You
         </h1>
-        <p className="text-5xl font-light text-white text-center">
+        <p className="lg:text-5xl font-light text-white text-center">
           Plumber in Chesterfield
         </p>
 
-        <div className="grid grid-cols-3 gap-x-20 gap-y-3">
+        <div className="grid lg:grid-cols-3 gap-x-20 gap-y-3">
           {artisanData.map((artisan) => (
             <div key={artisan?.id}>
               <div onClick={() => router.push(`/available-artisan/${artisan?.id}`)} className="relative rounded-[10px] overflow-hidden cursor-pointer">

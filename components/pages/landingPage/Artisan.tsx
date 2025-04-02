@@ -1,7 +1,9 @@
+"use client"
 import { Headings } from "@/components/shared/Headings";
 import image3 from "@/components/assets/images/port.png";
 import Image, { StaticImageData } from "next/image";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -20,9 +22,14 @@ const serviceData: PopularService[] = [
 ];
 
 export const Artisan = (props: Props) => {
+  const router = useRouter();
+
   return (
     <div className="py-14 flex flex-col gap-8 lg:gap-10 ">
-      <Headings title="Join Our Artisans" className="text-center text-4xl lg:text-5xl" />
+      <Headings
+        title="Join Our Artisans"
+        className="text-center text-4xl lg:text-5xl"
+      />
       <div className="w-full lg:w-9/12 px-5 mx-auto flex flex-col gap-8">
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-10 lg:gap-y-20 lg:gap-x-20">
           {serviceData.map((item) => (
@@ -38,7 +45,12 @@ export const Artisan = (props: Props) => {
           ))}
         </div>
         <div className="self-end">
-          <CustomButton className="rounded-[10px] h-[52px]">Join as an Artisan</CustomButton>
+          <CustomButton
+            onClick={() => router.push("/artisan/auth/signup")}
+            className="rounded-[10px] h-[52px]"
+          >
+            Join as an Artisan
+          </CustomButton>
         </div>
       </div>
     </div>

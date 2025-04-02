@@ -22,7 +22,7 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
   variant = "primary",
 }) => {
   const {
-    field: { onChange, onBlur, value, ref },
+    field: { onChange, onBlur, value = false, ref },
     fieldState: { error },
   } = useController({
     name,
@@ -44,15 +44,15 @@ export const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
     <Field className="mb-2">
       <div className="flex items-center">
         <Checkbox
-          checked={value}
-          onChange={onChange}
+          checked={!!value}
+          onCheckedChange={(checked) => onChange(checked)} 
           onBlur={onBlur}
           ref={ref}
           className={checkboxClassName}
         >
           <FaCheckCircle className="hidden size-4 fill-white group-data-[checked]:block" />
         </Checkbox>
-        <Label className="ml-2 text-sm font-semibold capitalize text-[#7E7C7B]">
+        <Label className="ml-3 text-sm font-semibold capitalize">
           {label}
         </Label>
       </div>
