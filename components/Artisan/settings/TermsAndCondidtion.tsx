@@ -1,10 +1,11 @@
 "use client";
 import { useUser } from "@/api/crud/user";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { CustomCheckbox } from "@/components/controlledInputs/CustomCheckBox";
+import { CustomCheckbox } from "@/components/controlledInputs/CustomCheckbox";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
@@ -14,48 +15,53 @@ const fields: Field[] = [
   {
     name: "termsAccepted",
     type: "checkbox",
-    errorMessage: "You have to Agree to Terms",
-    // isRequired: true,
+    errorMessage: "You must agree to the terms before proceeding",
+    isRequired: true,
   },
 ];
 
 const TermsAndCondidtion = (props: Props) => {
-  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
-    useKYCStore();
+  const router = useRouter();
+  const { kycFormData } = useKYCStore();
+  const { getCurrentArtisanUser } = useUser();
+  const { refetch } = getCurrentArtisanUser();
 
-  const { control, handleSubmit, setValue, formState } = useDynamicForm(
-    fields,
-    {
-      availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
-      days: kycFormData?.days || "",
-      languagesSpoken: kycFormData?.languagesSpoken || [],
-    }
-  );
+  const { control, handleSubmit } = useDynamicForm(fields, {
+    availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
+    days: kycFormData?.days || "",
+    languagesSpoken: kycFormData?.languagesSpoken || [],
+  });
 
   const { createArtisanProfile } = useUser();
   const { mutate: createProfile, isPending } = createArtisanProfile;
 
   const onSubmit = (data: any) => {
-    console.log(data, "data__");
-    const formattedData = {
-      ...data,
-      workAvailability: {
-        days: data.days || [],
-        availableHours: data.availableHours || "",
-      },
-      serviceArea: { type: "Point", coordinates: [-0.1278, 51.5074] },
-    };
-
     const formData = new FormData();
 
+    const formattedLanguagesSpoken = kycFormData?.languagesSpoken
+  ? kycFormData.languagesSpoken.split(",").map((lang:any) => lang.trim())
+  : [];
+
+
+      const formattedWorkAvailability = {
+        days: Array.isArray(kycFormData?.days)
+          ? kycFormData.days
+          : kycFormData?.days && typeof kycFormData.days === "string"
+          ? (kycFormData?.days as string)?.split(",").map((d: any) => d.trim())
+          : [],
+      
+        availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
+      };
+      
+      
+
+    formData.append(
+      "languagesSpoken",
+      JSON.stringify(formattedLanguagesSpoken)
+    );
     formData.append(
       "workAvailability",
-      JSON.stringify({
-        days: Array.isArray(data.days)
-          ? data.days
-          : data.days?.split(",")?.map((d: any) => d.trim()),
-        availableHours: data.availableHours || "",
-      })
+      JSON.stringify(formattedWorkAvailability)
     );
 
     formData.append(
@@ -81,12 +87,15 @@ const TermsAndCondidtion = (props: Props) => {
     formData.append("governmentIssuedID", kycFormData?.governmentIssuedID);
     formData.append("portfolio", kycFormData?.portfolio);
     formData.append("proofOfAddress", kycFormData?.proofOfAddress);
+    formData.append("termsAccepted", "true");
 
     try {
       createProfile(formData, {
         onSuccess: (response: any) => {
           console.log(response);
-          toast.success(response);
+          toast.success(response?.message);
+          refetch();
+          router.push("/artisan/dashboard");
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);
@@ -96,11 +105,6 @@ const TermsAndCondidtion = (props: Props) => {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-
-    setkycFormData({
-      ...kycFormData,
-      ...formattedData,
-    });
   };
 
   return (
@@ -109,29 +113,34 @@ const TermsAndCondidtion = (props: Props) => {
         <h1 className="text-4xl font-semibold text-primary text-center mb-5">
           Term and Condition
         </h1>
-        <p className="text-base font-light mb-3 max-w-2xl mx-auto ">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
-          reiciendis atque earum molestiae natus qui dolores eveniet ut, iure,
-          voluptate quod porro laboriosam fugiat eos, deserunt saepe facilis
-          quis ad inventore. Dicta fugiat vero corporis obcaecati iure cumque
-          quae repellat. Dolorem expedita, incidunt dolor recusandae, ex minima
-          excepturi culpa accusantium a ipsum eius tempore, adipisci ratione
-          voluptate ad hic. Dolor laudantium nihil blanditiis aliquid quidem
-          odio, iure, magni modi minus corporis vitae, eius vel veritatis. Alias
-          doloribus repellendus dicta ab atque numquam veritatis, earum fuga
-          perferendis sed sapiente id veniam eaque libero iste harum distinctio
-          accusamus in tenetur temporibus deleniti?
-        </p>
-        {/* <CustomCheckbox
-          name="termsAccepted"
-          control={control}
-          label="Agreed with Term"
-        /> */}
+        <div className="w-10/12 mx-auto ">
+          <p className="text-base font-light mb-3 ">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
+            reiciendis atque earum molestiae natus qui dolores eveniet ut, iure,
+            voluptate quod porro laboriosam fugiat eos, deserunt saepe facilis
+            quis ad inventore. Dicta fugiat vero corporis obcaecati iure cumque
+            quae repellat. Dolorem expedita, incidunt dolor recusandae, ex
+            minima excepturi culpa accusantium a ipsum eius tempore, adipisci
+            ratione voluptate ad hic. Dolor laudantium nihil blanditiis aliquid
+            quidem odio, iure, magni modi minus corporis vitae, eius vel
+            veritatis. Alias doloribus repellendus dicta ab atque numquam
+            veritatis, earum fuga perferendis sed sapiente id veniam eaque
+            libero iste harum distinctio accusamus in tenetur temporibus
+            deleniti?
+          </p>
+          <CustomCheckbox
+            name="termsAccepted"
+            control={control}
+            label="Agreed with Term"
+          />
+        </div>
         <div className="mt-8 flex items-center justify-center">
           <CustomButton
             type="submit"
             label="Submit"
             className="bg-secondary text-white w-[100px]"
+            isLoading={isPending}
+            variant="primary"
           />
         </div>
       </form>
