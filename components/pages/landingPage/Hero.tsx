@@ -7,15 +7,27 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import SearchedArtisan from "@/components/Artisan/SearchedArtisan";
 import { PolygonBlue } from "@/components/assets/icons/NavIcons";
+import { useCategories } from "@/api/crud/categories";
 
 type Props = {};
 
 export const Hero = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const categoryOption = category?.map((cat: any) => ({
-    value: cat?.value,
-    label: cat?.label,
-  }));
+  const { getAllCategories } = useCategories();
+  const { data: category } = getAllCategories();
+
+  // const categoryOption = category?.map((cat: any) => ({
+  //   value: cat?.value,
+  //   label: cat?.label,
+  // }));
+
+  const categoryOptions = Array.isArray(category)
+    ? category?.map((cat) => ({
+        id: cat._id,
+        value: cat._id,
+        label: cat.name,
+      }))
+    : [];
 
   const handleFiterChange = () => {
     // Handle filter change
@@ -42,7 +54,7 @@ export const Hero = (props: Props) => {
               <p className="font-semibold text-[10px] text-white">Category</p>
               <FilterComponent
                 onFilterChange={handleFiterChange}
-                options={category}
+                options={categoryOptions}
                 className="rounded-[20px] text-sm lg:text-xl "
                 showIcon
                 iconStyle="!text-black"
