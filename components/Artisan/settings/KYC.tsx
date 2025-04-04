@@ -1,3 +1,5 @@
+"use client";
+
 import Wrapper from "@/components/shared/Wrapper";
 import { useKYCStore } from "@/store/kycStore";
 import React from "react";
@@ -10,7 +12,7 @@ export const steps = [
   <ServiceProfileSetup />,
   <Verification />,
   <AdditionalInformation />,
-  <TermsAndCondidtion />
+  <TermsAndCondidtion />,
 ];
 
 const KYC = () => {

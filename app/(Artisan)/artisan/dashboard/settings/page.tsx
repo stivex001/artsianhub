@@ -1,5 +1,3 @@
-"use client";
-
 import { Descriptions } from "@/components/shared/Headings";
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

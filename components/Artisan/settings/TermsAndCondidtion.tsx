@@ -1,7 +1,7 @@
 "use client";
 import { useUser } from "@/api/crud/user";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { CustomCheckbox } from "@/components/controlledInputs/CustomCheckbox";
+import CustomBox from "@/components/controlledInputs/CustomBox";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
@@ -129,7 +129,7 @@ const TermsAndCondidtion = (props: Props) => {
             libero iste harum distinctio accusamus in tenetur temporibus
             deleniti?
           </p>
-          <CustomCheckbox
+          <CustomBox
             name="termsAccepted"
             control={control}
             label="Agreed with Term"
