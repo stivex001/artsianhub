@@ -1,15 +1,22 @@
 "use client";
 
+import { useContactUs } from "@/api/crud/contact";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { AuthLayout } from "@/components/pages/auth/AuthLayout";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
+import { useRouter } from "next/navigation";
 import React from "react";
-
-type Props = {};
+import { toast } from "sonner";
 
 const fields: Field[] = [
+  {
+    name: "name",
+    type: "text",
+    errorMessage: "Name is required",
+    isRequired: true,
+  },
   {
     name: "email",
     type: "email",
@@ -17,24 +24,51 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
-    name: "password",
+    name: "phone",
     type: "text",
-    errorMessage: "Password is required",
+    errorMessage: "Phone Number is required",
+    isRequired: true,
+  },
+  {
+    name: "message",
+    type: "text",
+    errorMessage: "Message is required",
     isRequired: true,
   },
 ];
 
-const ContactUs = (props: Props) => {
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+const ContactUs = () => {
+  const router = useRouter();
+  const { control, handleSubmit } = useDynamicForm(fields, {});
 
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
+  const { createContactUs } = useContactUs();
+
+  const { isPending, mutateAsync } = createContactUs;
+
+  const onSubmit = async (data: any) => {
+    const payload = {
+      ...data,
+      mode: "email",
+    };
+
+    try {
+      await mutateAsync(payload, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message);
+          router.push("/");
+        },
+        onError: (error: any) => {
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+    }
   };
 
   return (
     <div className="">
-      <h1 className="text-8xl text-primary font-semibold flex items-center justify-center py-8 mt-24">
+      <h1 className="text-3xl lg:text-8xl text-primary font-semibold flex items-center justify-center py-8 mt-24">
         Contact Us
       </h1>
       <AuthLayout
@@ -42,9 +76,9 @@ const ContactUs = (props: Props) => {
         title="Get in Touch"
         desc="We welcome your questions and look forward  to providing a swift response."
       >
-        <form 
+        <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-8/12 mx-auto pt-16"
+          className="w-10/12 lg:w-8/12 mx-auto pt-16"
         >
           <div className="flex flex-col  gap-3 mb-14">
             <h1 className="font-semibold text-primary text-2xl text-center ">
@@ -111,6 +145,7 @@ const ContactUs = (props: Props) => {
               type="submit"
               label="Submit"
               className="w-full rounded-[10px] h-10 font-[300]"
+              isLoading={isPending}
             />
           </div>
         </form>
