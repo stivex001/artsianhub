@@ -4,7 +4,7 @@ import { FileX, MoreHorizontal } from "lucide-react";
 import { Spinner } from "./Spinner";
 import { CustomButton } from "../clickable/CustomButton";
 import { renderData } from "@/utils/renderData";
-import CustomCheckBox from "../controlledInputs/CustomBox";
+import InputCustomBox from "../controlledInputs/InputCheckBox";
 
 type TablesComponentProp = {
   data: any[];
@@ -107,7 +107,7 @@ const TablesComponent = ({
                   <th key={i} className={headerClassName}>
                     <div className="flex gap-3 items-center whitespace-nowrap">
                       {i === 0 && showCheckBox && (
-                        <CustomCheckBox
+                        <InputCustomBox
                           checked={
                             data.length > 0 &&
                             selectedRows.length === data.length
@@ -145,7 +145,7 @@ const TablesComponent = ({
                       <td key={i} className="px-4 py-7 text-sm text-black mb-5">
                         <div className="flex items-center gap-3 whitespace-nowrap">
                           {i === 0 && showCheckBox && (
-                            <CustomCheckBox
+                            <InputCustomBox
                               onChange={() => toggleRow(index, eachRow)}
                               checked={selectedRows.includes(index)}
                             />
@@ -194,7 +194,7 @@ const TablesComponent = ({
         >
           {showCheckBox && (
             <>
-              <CustomCheckBox
+              <InputCustomBox
                 checked={data.length > 0 && selectedRows.length === data.length}
                 onChange={toggleSelectAll}
                 // indeterminate={
@@ -220,7 +220,7 @@ const TablesComponent = ({
                     <div className="flex items-start gap-3">
                       {showCheckBox && (
                         <div className="pt-1">
-                          <CustomCheckBox
+                          <InputCustomBox
                             onChange={() => toggleRow(index, eachRow)}
                             checked={selectedRows.includes(index)}
                           />
