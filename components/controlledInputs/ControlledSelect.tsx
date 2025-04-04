@@ -75,7 +75,7 @@ export const ControlledSelect = ({
             ref={ref}
             id={name}
             name={name}
-            value={value || options[0]?.value}
+            value={value ?? ""}
             onChange={onChange}
             className={`w-full bg-transparent outline-none py-4 px-3`}
           >
@@ -121,7 +121,7 @@ export const ControlledSelect = ({
           ref={ref}
           id={name}
           name={name}
-          value={value || options[0]?.value}
+          value={value ?? ""}
           onChange={onChange}
           className={`${inputClassName} ${className}`}
         >

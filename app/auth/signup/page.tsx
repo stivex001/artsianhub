@@ -12,6 +12,7 @@ import { AuthUser } from "@/components/api/type";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { gender } from "@/components/Artisan/settings/data";
 
 type Props = {};
 
@@ -76,18 +77,6 @@ const fields: Field[] = [
   },
 ];
 
-export const gender = [
-  {
-    id: 1,
-    label: "Male",
-    value: "male",
-  },
-  {
-    id: 2,
-    label: "Female",
-    value: "female",
-  },
-];
 
 const ArtisanRegister = (props: Props) => {
   const router = useRouter();

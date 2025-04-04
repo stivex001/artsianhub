@@ -1,7 +1,7 @@
-import { gender } from "@/app/auth/signup/page";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import React from "react";
+import { gender } from "./data";
 
 type Props = {
   control: any;
@@ -72,7 +72,6 @@ const EditProfile = ({ control, isEditing }: Props) => {
               control={control}
               variant="tertiary"
               className="h-12"
-              
             />
           </div>
         </div>

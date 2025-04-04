@@ -38,9 +38,10 @@ const TermsAndCondidtion = (props: Props) => {
   const onSubmit = (data: any) => {
     const formData = new FormData();
 
-    const formattedLanguagesSpoken = kycFormData?.languagesSpoken
-  ? kycFormData.languagesSpoken.split(",").map((lang:any) => lang.trim())
-  : [];
+    const formattedLanguagesSpoken = Array.isArray(kycFormData?.languagesSpoken)
+    ? kycFormData?.languagesSpoken?.map((lang: string) => lang.trim())
+    : [];
+  
 
 
       const formattedWorkAvailability = {
