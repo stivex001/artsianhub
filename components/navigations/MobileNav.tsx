@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import SidebarMenu from "./SidebarMenu";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import Image from "next/image";
@@ -11,10 +11,9 @@ import { useModalClose } from "@/contexts/SheetCloseModal";
 import { HamburgerIcon } from "../assets/icons/NavigationIcons";
 
 export const MobileNav = () => {
-  const pathname  = usePathname();
+  const pathname = usePathname();
 
-  const { isOpen, openModal } = useModalClose();
-
+  const { isOpen, openModal, closeModal } = useModalClose();
 
   return (
     <Sheet open={isOpen} onOpenChange={openModal}>
@@ -23,7 +22,10 @@ export const MobileNav = () => {
           <HamburgerIcon />
         </button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0 flex flex-col w-64 !bg-white pt-14 pb-8 h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden">
+      <SheetContent
+        side="left"
+        className="p-0 flex flex-col w-64 !bg-white pt-14 pb-8 h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden"
+      >
         <div className="w-[106px] h-20 mx-auto">
           <Image
             src={logo}
@@ -39,6 +41,7 @@ export const MobileNav = () => {
         <Link
           href="/artisan/dashboard/settings"
           className="bg-secondary w-[172px] mx-auto rounded-[10px] flex items-center justify-center  py-4 gap-5 text-sm text-white"
+          onClick={closeModal}
         >
           <Image
             src={settings}
