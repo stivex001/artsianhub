@@ -4,7 +4,6 @@ import { useController, Control } from "react-hook-form";
 import clsx from "clsx";
 import { FaCheckCircle } from "react-icons/fa";
 import { Checkbox } from "../ui/checkbox";
-import { Label } from "@headlessui/react";
 
 type CustomCheckboxProps = {
   name: string;
@@ -52,7 +51,7 @@ const CustomBox = ({
         >
           <FaCheckCircle className="hidden size-4 fill-white group-data-[checked]:block" />
         </Checkbox>
-        <Label className="ml-3 text-sm font-semibold capitalize">{label}</Label>
+        <p className="ml-3 text-sm font-semibold capitalize">{label}</p>
       </div>
       {error && (
         <p className="mt-1 text-red-500 text-sm/6 line-clamp-1">
