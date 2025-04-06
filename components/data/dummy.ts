@@ -260,11 +260,4 @@ export const location = [
     label: "Chesterfield",
     value: "chesterfield",
   },
-  {
-    id: 2,
-    label: "Sunderland",
-    value: "Sunderland",
-  },
-
- 
 ];

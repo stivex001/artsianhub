@@ -4,15 +4,13 @@ import logo from "@/components/assets/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import {
-  DownLargeArrowIcon,
-  PolygonWhite,
-} from "../assets/icons/NavIcons";
+import { DownLargeArrowIcon, PolygonWhite } from "../assets/icons/NavIcons";
 import { DropdownModal } from "../shared/DropdownModal";
 import { ExploreContent } from "./ExploreContent";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import UserDesc from "../UserDesc";
+import { MobileHeader } from "./MobileHeader";
 
 type Props = {};
 
@@ -21,8 +19,6 @@ export const Navbar = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { currentUser } = useAuthStore();
-
-
 
   // const isAuthPage = pathname.startsWith("/auth");
   const isArtisanPage = pathname.startsWith("/artisan");
@@ -35,7 +31,8 @@ export const Navbar = (props: Props) => {
         hideNav && "hidden"
       } w-full bg-white fixed top-0 z-50 h-[96px] flex items-center justify-between px-3 sm:px-5 lg:px-10 shadow-dropShadow`}
     >
-      <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
+      <MobileHeader />
+      <div className="hidden lg:flex items-center gap-2.5 sm:gap-8 lg:gap-14">
         <Link href="/" className="w-[65px] h-12">
           <Image
             src={logo}
@@ -87,7 +84,6 @@ export const Navbar = (props: Props) => {
         {currentUser ? (
           <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
             <UserDesc />
-            
           </div>
         ) : (
           <div className="flex items-center gap-2 md:gap-6">

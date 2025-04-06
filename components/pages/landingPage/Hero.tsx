@@ -1,6 +1,6 @@
 "use client";
 
-import { category, location } from "@/components/data/dummy";
+import { location } from "@/components/data/dummy";
 import { DropdownModal } from "@/components/shared/DropdownModal";
 import React, { useState } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";

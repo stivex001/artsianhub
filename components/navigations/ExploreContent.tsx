@@ -62,7 +62,7 @@ export const ExploreContent = ({onClose}: Props) => {
           );
         })}
       </div>
-      <div className="flex flex-col gap-3">
+      {/* <div className="flex flex-col gap-3">
         <Headings
           title="Products"
           className="font-semibold text-xl !text-black"
@@ -76,7 +76,7 @@ export const ExploreContent = ({onClose}: Props) => {
             {product?.title}
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
