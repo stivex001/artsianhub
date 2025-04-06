@@ -1,7 +1,6 @@
 "use client"
 import SidebarMenu from "./SidebarMenu";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { HamburgerIcon } from "../assets/icons/NavIcons";
 import Image from "next/image";
 import Link from "next/link";
 import settings from "@/components/assets/images/Settings.png";
@@ -9,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { artisanLinks } from "./data";
 import logo from "@/components/assets/images/logo.png";
 import { useModalClose } from "@/contexts/SheetCloseModal";
+import { HamburgerIcon } from "../assets/icons/NavigationIcons";
 
 export const MobileNav = () => {
   const pathname  = usePathname();
