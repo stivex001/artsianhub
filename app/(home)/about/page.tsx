@@ -43,12 +43,15 @@ const AboutUs = (props: Props) => {
             MENSAYHUB
           </h1>
           <p className="max-w-[838px] mx-auto text-center text-2xl font-semibold text-primary">
-            MensayHub connects customers with reliable, skilled artisans,
+            {/* MensayHub connects customers with reliable, skilled artisans,
             promoting local craftsmanship and supporting small businesses. We
             vet artisans for quality and excellence, providing a seamless
             experience for customers. Our goal is to build lasting relationships
             based on trust, transparency, and quality, helping bring
-            your vision to life.
+            your vision to life. */}
+            We are committed to simplifying the way people connect with trusted
+            artisans and professionals across diverse fields—including fashion,
+            beauty, culinary arts, home services, and more
           </p>
         </Wrapper>
         <Wrapper className="rounded-[40px] flex flex-col justify-center gap-5 pt-20 pb-14 ">
