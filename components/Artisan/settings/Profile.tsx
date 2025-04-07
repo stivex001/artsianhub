@@ -9,6 +9,7 @@ import EditProfile from "./EditProfile";
 import { Pencil } from "lucide-react";
 import { useUser } from "@/api/crud/user";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -59,12 +60,16 @@ type UserDetails = {
 };
 
 const Profile = (props: Props) => {
-  const { getCurrentArtisanUser } = useUser();
-  const { data: user } = getCurrentArtisanUser();
+  const { getCurrentArtisanUser, updateArtisanProfile } = useUser();
+  const { data: user, refetch } = getCurrentArtisanUser();
   const userDetails: UserDetails | undefined =
     typeof user?.user === "object" ? (user?.user as UserDetails) : undefined;
 
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const { mutate: updateProfile, isPending } = updateArtisanProfile;
 
   const { control, handleSubmit, formState, setValue } = useDynamicForm(
     fields,
@@ -92,9 +97,28 @@ const Profile = (props: Props) => {
   }, [userDetails, setValue]);
 
   const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
-    setIsEditing(false);
+    const formData = new FormData();
+
+    if (preview) {
+      formData.append("profilePhoto", preview);
+    }
+
+    try {
+      updateProfile(formData, {
+        onSuccess: (response: any) => {
+          console.log(response);
+          toast.success(response?.message);
+          refetch();
+          setIsEditing(false);
+        },
+        onError: (error: any) => {
+          console.error("Errorcreatingprofile:", error);
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
   };
 
   return (
@@ -104,11 +128,23 @@ const Profile = (props: Props) => {
           <h1 className="text-xl font-semibold pb-4">Profile</h1>
         </div>
         <div className="w-full flex justify-between pt-4 pb-24">
-          <ProfilePics user={user} isEditing={isEditing} />
+          <ProfilePics
+            user={user}
+            isEditing={isEditing}
+            setSelectedFile={setSelectedFile}
+            selectedFile={selectedFile}
+            setPreview={setPreview}
+            preview={preview}
+          />
           <EditProfile control={control} isEditing={isEditing} />
           <div className=" w-[20%] text-end px-8">
             {isEditing ? (
-              <CustomButton type="submit" label="Save Changes" className="" />
+              <CustomButton
+                type="submit"
+                label="Save Changes"
+                className=""
+                isLoading={isPending}
+              />
             ) : (
               <button
                 type="button"

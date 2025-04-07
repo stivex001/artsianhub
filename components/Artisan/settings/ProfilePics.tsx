@@ -2,19 +2,29 @@
 
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { CustomFileUpload } from "@/components/controlledInputs/CustomFileUpload";
+import { getUserInitials } from "@/utils/getUserInitials";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 type Props = {
   user: any;
   isEditing: boolean;
+  setSelectedFile: any;
+  setPreview:any
+  selectedFile: File | null;
+  preview: string | null;
 };
 
-const ProfilePics = ({ user, isEditing }: Props) => {
+const ProfilePics = ({
+  user,
+  isEditing,
+  setSelectedFile,
+  selectedFile,
+  setPreview,
+  preview
+}: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -39,13 +49,16 @@ const ProfilePics = ({ user, isEditing }: Props) => {
       setPreview(profilePhoto);
     }
   }, [profilePhoto]);
-  console.log(profilePhoto, "profile__dggdvgdv");
+
+  const initials = getUserInitials(user?.firstName, user?.lastName);
+
+  console.log(preview, "profile__dggdvgdv");
 
   return (
     <div className="w-[30%] flex flex-col gap-4">
       <div className="px-7">
         <h1 className="text-sm font-semibold">Profile Photo</h1>
-        <p className="text-xs font-[300]">
+        <p className="text-xs font-light">
           This image will be displayed on your profile
         </p>
       </div>
@@ -60,7 +73,7 @@ const ProfilePics = ({ user, isEditing }: Props) => {
             className="object-cover w-full h-full"
           />
         ) : (
-          <span className="text-gray-500">No Image</span>
+          <span className="text-gray-500">{initials}</span>
         )}
       </div>
 
