@@ -27,3 +27,23 @@ export const artisanLinks = [
     icon: SubcriptionIcon,
   },
 ];
+
+export const adminLinks = [
+  {
+    path: "/admin/dashboard",
+    label: "Dashboard",
+    icon: DashboardIcon,
+  },
+  {
+    path: "/artisan/dashboard/manage-artisans",
+    label: "Manage Artisans",
+    icon: TimerIcon,
+  },
+  {
+    path: "/artisan/dashboard/manage-contacts",
+    label: "Manage Contacts",
+    icon: TimerIcon,
+  },
+
+ 
+];
