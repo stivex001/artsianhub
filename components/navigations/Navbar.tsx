@@ -22,8 +22,9 @@ export const Navbar = (props: Props) => {
 
   // const isAuthPage = pathname.startsWith("/auth");
   const isArtisanPage = pathname.startsWith("/artisan");
+  const isAdminPage = pathname.startsWith("/admin");
 
-  const hideNav = isArtisanPage;
+  const hideNav = isArtisanPage || isAdminPage;
 
   return (
     <nav

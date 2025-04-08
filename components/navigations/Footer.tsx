@@ -18,8 +18,9 @@ const Footer = (props: Props) => {
   const isAboutPage = pathname.startsWith("/about");
   const isContactPage = pathname.startsWith("/contact-us");
   const artisanDetails = pathname.startsWith("/available-artisan");
+  const isAdminPage = pathname.startsWith("/admin");
 
-  const hideFooter = isAuthPage || isArisanPage;
+  const hideFooter = isAuthPage || isArisanPage || isAdminPage;
   const changeFooterBg = isAboutPage || isContactPage || artisanDetails;
 
   return (

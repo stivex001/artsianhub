@@ -5,7 +5,7 @@ import React from "react";
 import logo from "@/components/assets/images/logo.png";
 import SidebarMenu from "./SidebarMenu";
 import { usePathname } from "next/navigation";
-import { artisanLinks } from "./data";
+import { adminLinks, artisanLinks } from "./data";
 import settings from "@/components/assets/images/Settings.png";
 import Link from "next/link";
 
@@ -13,6 +13,9 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   const pathname = usePathname();
+
+  const isArtisanPage = pathname.startsWith("/artisan");
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
     <aside className="hidden lg:flex flex-col lg:w-[18%] bg-white h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden py-14 sticky top-0">
@@ -25,7 +28,12 @@ const Sidebar = (props: Props) => {
       </div>
       <div className="flex-grow overflow-y-auto no-scrollbar  pt-20">
         <div>
-          <SidebarMenu links={artisanLinks} pathname={pathname} />
+          {isArtisanPage && (
+            <SidebarMenu links={artisanLinks} pathname={pathname} />
+          )}
+          {isAdminPage && (
+            <SidebarMenu links={adminLinks} pathname={pathname} />
+          )}
         </div>
       </div>
       <Link
