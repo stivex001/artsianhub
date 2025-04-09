@@ -55,22 +55,40 @@ const Login = (props: Props) => {
         onSuccess: (response: any) => {
           const token = response?.token;
           const user = response?.user;
-          if (token) {
+  
+          if (token && user) {
             setAccessToken(token);
             setCurrentUser(user);
+  
+            toast.success(response?.message);
+  
+            // Redirect based on role
+            if (user?.isAdmin) {
+              router.push("/admin/dashboard");
+            } else if (user?.isArtisan) {
+              router.push("/artisan/dashboard");
+            } else if (user?.isClient) {
+              router.push("/");
+              
+            } else {
+              toast.error("Role not recognized. Please contact support.");
+              router.push("/auth/login");
+            }
+          } else {
+            toast.error("Invalid login response.");
           }
-          toast.success(response?.message);
-          router.push("/");
         },
         onError: (error: any) => {
-          console.log(error, "wrror");
-          toast.error(error?.data?.error);
+          console.log(error, "error");
+          toast.error(error?.data?.error || "Login failed");
         },
       });
     } catch (error) {
       console.log("An error occurred: ", error);
+      toast.error("An unexpected error occurred.");
     }
   };
+  
 
   return (
     <AuthLayout>

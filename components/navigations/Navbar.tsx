@@ -92,10 +92,10 @@ export const Navbar = (props: Props) => {
               href="/auth/login"
               className="text-primary font-[300] text-xs md:text-xl"
             >
-              Login /Sign up
+              Login
             </Link>
             <CustomButton>
-              <Link href="/artisan/auth/login" className="font-[300]">
+              <Link href="/auth/signup?artisan=true" className="font-light">
                 Sign up as an Artisan
               </Link>
             </CustomButton>

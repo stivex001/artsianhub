@@ -9,7 +9,7 @@ type Props = {
 
 const ArtisanDashboardLayout = ({ children }: Props) => {
   return (
-    <ProtectedRoutes>
+    <ProtectedRoutes allowedRoles={["artisan"]}>
       <div className="flex bg-primary min-h-screen w-full h-full overflow-x-clip">
         <Sidebar />
         <div className="w-full lg:w-[82%] rounded-[10px] px-5 py-5">

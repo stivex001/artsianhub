@@ -1,6 +1,5 @@
 import { AuthResponse, ID } from "@/components/api/type";
 import { useApiMutation } from "@/hooks/useApiMutation";
-import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface CurrentUserData {
   email: string;
@@ -14,6 +13,7 @@ export interface CurrentUser {
   name: string;
   profile: string;
   isArtisan: boolean;
+  isAdmin: boolean;
   confirmPassword: string;
   password: string;
   confirm_pass: string;

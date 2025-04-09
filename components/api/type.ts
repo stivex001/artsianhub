@@ -30,6 +30,8 @@ export interface AuthUser {
   password: string;
   confirmPassword: string;
   isArtisan: boolean;
+  isAdmin: boolean;
+  isClient: boolean;
   artisanId: ID;
 }
 
