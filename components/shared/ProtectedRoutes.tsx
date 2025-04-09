@@ -39,7 +39,7 @@ const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
     } else if (userRole === "admin") {
       router.replace("/admin/dashboard");
     } else if (userRole === "client") {
-      router.replace("/client/dashboard");
+      router.replace("/");
     }
   }, [userRole, currentUser, accessToken, allowedRoles, router]);
 
