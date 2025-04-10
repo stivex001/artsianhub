@@ -4,12 +4,27 @@ import { useUser } from "@/api/crud/user";
 import { ArtisanActivities } from "@/components/admin/dashboard/ArtisanActivities";
 import { SubscriptionPlans } from "@/components/admin/dashboard/SubscriptionPlans";
 import { UserReview } from "@/components/admin/dashboard/UsersReview";
-import DailyUpdates from "@/components/Artisan/dashboard/DailyUpdates";
+import CustomBarChart from "@/components/shared/CustomBarChart";
 import { Descriptions } from "@/components/shared/Headings";
 import { useAuthStore } from "@/store/authStore";
 import React from "react";
 
 type Props = {};
+
+const revenueData = [
+  {
+    name: "Artisan Revenue",
+    value: 60,
+    color: "#D3DE31",
+    labelColor: "#5691D1",
+  },
+  {
+    name: "Subscription Revenue",
+    value: 30,
+    color: "#013975",
+    labelColor: "#1F873B",
+  },
+];
 
 const AdminDashboard = (props: Props) => {
   const { getCurrentArtisanUser } = useUser();
@@ -17,13 +32,11 @@ const AdminDashboard = (props: Props) => {
 
   const { currentUser } = useAuthStore();
 
-  console.log(data, "user___");
-
   return (
     <section className="flex flex-col gap-[30px]">
       <div className="flex flex-col gap-6">
         <Descriptions
-          title={`Welcome ${currentUser?.firstName} ${currentUser?.lastName}`}
+          title={`Welcome Admin`}
           className="!text-primary !font-normal"
         />
         <div className="border-2 border-primary w-full" />
@@ -34,9 +47,8 @@ const AdminDashboard = (props: Props) => {
         <ArtisanActivities />
         <div className="border-2 border-primary w-full" />
         <SubscriptionPlans />
-        <div className="flex flex-col lg:flex-row gap-0.5">
-          <DailyUpdates />
-          {/* <RevenueDetails /> */}
+        <div className="">
+          <CustomBarChart data={revenueData} />
         </div>
       </div>
     </section>

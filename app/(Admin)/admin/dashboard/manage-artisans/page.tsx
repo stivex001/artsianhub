@@ -1,4 +1,5 @@
 "use client";
+import { CustomButton } from "@/components/clickable/CustomButton";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import CustomPagination from "@/components/shared/CustomPagination";
@@ -16,24 +17,16 @@ type DateProps = {
 };
 
 const headers = [
+  "Artisan ID ",
+  "Date Created",
+  "Artisan Name ",
+  "Phone Number ",
+  "Email Address",
   "Status",
-  "Name",
-  "Email",
-  "Phone number",
-  "Description",
-  "Date",
-  "Pricing",
-  "Action",
+  "KYC Status",
 ];
 
-const filterOptions = [
-  { id: 1, label: "All" },
-  { id: 2, label: "Pending" },
-  { id: 3, label: "Accept" },
-  { id: 4, label: "Successful Payment" },
-  { id: 5, label: "Decline" },
-  { id: 6, label: "Expire" },
-];
+
 
 const DateTimeDisplay = ({ date, time }: DateProps) => {
   return (
@@ -46,7 +39,7 @@ const DateTimeDisplay = ({ date, time }: DateProps) => {
 
 type Props = {};
 
-const ManageAppointment = (props: Props) => {
+const ManageArtisans = (props: Props) => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(3);
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -66,42 +59,45 @@ const ManageAppointment = (props: Props) => {
   };
 
   const tableData = Array.from({ length: 11 }).map(() => ({
-    status: "pending",
+    artisanId: "Art 123444",
     accountName: "Smith Jane",
     email: "jane@gmail.com",
     phoneNumber: "+1234567890",
-    description: "Sports running shoes",
-    price: "$40",
+    status: "Active",
+    kycStatus: "Completed",
     dateCreated: "2/05/2025",
   }));
 
   const getFormattedValue = (row: any, i: number) => [
-    <StatusButton status={row.status} />,
-    row.accountName, // Name
-    row.email, // Email
-    row.phoneNumber, // Phone number
-    row.description, // Description
+   
+    row.artisanId, // Name
     <DateTimeDisplay date={row.dateCreated} />,
-    row.price, // Pricing
-    <button
-      className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold"
-      onClick={() => console.log(row)}
-    >
-      Action
-    </button>,
+    row.accountName, // Name
+    row.phoneNumber, // Phone number
+    row.email, // Email
+   <StatusButton status={row.status} className="w-20 !py-2 rounded-[5px]" />,
+   <StatusButton status={row.kycStatus} className="w-20 !py-2 rounded-[5px]" />,
+    // <button
+    //   className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold"
+    //   onClick={() => console.log(row)}
+    // >
+    //   Action
+    // </button>,
   ];
 
   return (
     <section className="flex flex-col gap-5">
-      <Descriptions title="Manage Appointment" />
+      <Descriptions title="Manage Artisans" className="font-normal" />
       <div className="flex items-center justify-between">
         <div className="">
-          <CustomDatePicker range date={date} setDate={setDate} />
+          <CustomDatePicker
+            range
+            date={date}
+            setDate={setDate}
+            className="h-10"
+          />
         </div>
-        <FilterComponent
-          onFilterChange={handleFiterChange}
-          options={filterOptions}
-        />
+        <CustomButton label="Add Artisan" className="rounded-[10px]" />
       </div>
       <Wrapper className="overflow-hidden no-scrollbar scrollbar-hidden">
         <div className="w-full h-[68vh] overflow-y-auto no-scrollbar scrollbar-hidden pb-5">
@@ -120,7 +116,7 @@ const ManageAppointment = (props: Props) => {
             }}
             showCheckBox={false}
             headerClassName="py-5 px-4 text-left text-white text-base font-bold"
-            headerBackgroundColor="#5691D1"
+            headerBackgroundColor="#E1E7EE"
             options={["Accept", "Decline"]}
             hideActionButton
           />
@@ -140,4 +136,4 @@ const ManageAppointment = (props: Props) => {
   );
 };
 
-export default ManageAppointment;
+export default ManageArtisans;

@@ -18,9 +18,10 @@ type Props = {
   range?: boolean;
   date: any;
   setDate: any;
+  className?: string;
 };
 
-const CustomDatePicker = ({ range = false, date, setDate }: Props) => {
+const CustomDatePicker = ({ range = false, date, setDate, className }: Props) => {
 
   return (
     <Popover>
@@ -29,7 +30,8 @@ const CustomDatePicker = ({ range = false, date, setDate }: Props) => {
           <button
             className={cn(
               "w-[300px] h-14 px-2.5 border border-black rounded-[10px] text-black text-xl flex items-center justify-between font-[300]",
-              !date && "text-muted-foreground"
+              !date && "text-muted-foreground",
+              className
             )}
           >
             {date?.from ? (
