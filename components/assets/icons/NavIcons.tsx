@@ -24,6 +24,18 @@ export const PolygonWhite = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const PolygonGrey = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={27}
+    height={15}
+    fill="none"
+    {...props}
+  >
+    <path fill="#DEE8FF" d="m13.5 0 13.423 15H.077L13.5 0Z" />
+  </svg>
+);
+
 export const PolygonBlue = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

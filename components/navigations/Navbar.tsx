@@ -7,7 +7,7 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import { DownLargeArrowIcon, PolygonWhite } from "../assets/icons/NavIcons";
 import { DropdownModal } from "../shared/DropdownModal";
 import { ExploreContent } from "./ExploreContent";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import UserDesc from "../UserDesc";
 import { MobileHeader } from "./MobileHeader";

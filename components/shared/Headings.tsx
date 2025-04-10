@@ -16,10 +16,10 @@ export const Headings = ({ title, className }: Props) => {
   );
 };
 
-export const Descriptions = ({ title, desc }: Props) => {
+export const Descriptions = ({ title, desc, className }: Props) => {
   return (
     <div>
-      <h1 className="text-4xl font-bold">{title}</h1>
+      <h1 className={`text-4xl font-bold ${className} `}>{title}</h1>
       {desc && <p className="text-xl text-grayish">{desc}</p>}
     </div>
   );
