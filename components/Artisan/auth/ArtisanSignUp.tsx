@@ -113,7 +113,7 @@ const ArtisanSignUp = (props: Props) => {
 
     const payload = {
       ...data,
-      isArtisan: true,
+      isAdmin: true,
     };
 
     try {
@@ -123,7 +123,7 @@ const ArtisanSignUp = (props: Props) => {
           router.push(`/auth/otp?email=${data.email}&&isArtisan=true`);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error);
         },
       });
     } catch (error) {

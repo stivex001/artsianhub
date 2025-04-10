@@ -87,6 +87,8 @@ const OTPPage = (props: Props) => {
       router.push("/");
     } else if (isArtisan) {
       router.push("/artisan/dashboard");
+    } else if (isAdmin) {
+      router.push("/admin/dashboard");
     }
     setShowSuccessModal(false);
   };

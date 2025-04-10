@@ -35,13 +35,20 @@ const Login = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const { setAccessToken, accessToken, setCurrentUser } = useAuthStore();
+  const { setAccessToken, accessToken, setCurrentUser, currentUser } =
+    useAuthStore();
 
   useEffect(() => {
-    if (accessToken) {
-      router.replace("/");
+    if (accessToken && currentUser) {
+      if (currentUser?.isAdmin) {
+        router.replace("/admin/dashboard");
+      } else if (currentUser?.isArtisan) {
+        router.replace("/artisan/dashboard");
+      } else if (currentUser?.isClient) {
+        router.replace("/");
+      }
     }
-  }, [router, accessToken]);
+  }, [accessToken, currentUser, router]);
 
   const { isValid } = formState;
 
@@ -55,21 +62,22 @@ const Login = (props: Props) => {
         onSuccess: (response: any) => {
           const token = response?.token;
           const user = response?.user;
-  
+
+          console.log(user, "user");
+
           if (token && user) {
             setAccessToken(token);
             setCurrentUser(user);
-  
+
             toast.success(response?.message);
-  
+
             // Redirect based on role
-            if (user?.isAdmin) {
+            if (user?.isAdmin === true) {
               router.push("/admin/dashboard");
-            } else if (user?.isArtisan) {
+            } else if (user?.isArtisan === true) {
               router.push("/artisan/dashboard");
-            } else if (user?.isClient) {
+            } else if (user?.isClient === true) {
               router.push("/");
-              
             } else {
               toast.error("Role not recognized. Please contact support.");
               router.push("/auth/login");
@@ -88,7 +96,6 @@ const Login = (props: Props) => {
       toast.error("An unexpected error occurred.");
     }
   };
-  
 
   return (
     <AuthLayout>

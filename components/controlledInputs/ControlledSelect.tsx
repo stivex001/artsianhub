@@ -84,9 +84,9 @@ export const ControlledSelect = ({
                 {placeholder}
               </option>
             )}
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {options?.map((option) => (
+              <option key={option.value} value={option?.value}>
+                {option?.label}
               </option>
             ))}
           </select>
@@ -145,8 +145,8 @@ export const ControlledSelect = ({
             </option>
           )}
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+            <option key={option?.value} value={option?.value}>
+              {option?.label}
             </option>
           ))}
         </select>

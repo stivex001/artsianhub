@@ -5,7 +5,7 @@ import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
 import React, { useState } from "react";
 import { DropdownModal } from "./shared/DropdownModal";
-import { PolygonWhite } from "./assets/icons/NavIcons";
+import { PolygonGrey, PolygonWhite } from "./assets/icons/NavIcons";
 import { UserDropdownContent } from "./shared/UserDropdownContent";
 import { useUser } from "@/api/crud/user";
 
@@ -59,8 +59,8 @@ const UserDesc = (props: Props) => {
       <DropdownModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        icon={PolygonWhite}
-        className="!-left-36 !top-20 !w-[300px]"
+        icon={PolygonGrey}
+        className="!-left-36 !top-20 !w-[230px] !bg-[#DEE8FF]"
       >
         <UserDropdownContent onClose={() => setIsModalOpen(false)} />
       </DropdownModal>

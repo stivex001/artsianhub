@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { CustomButton } from "../clickable/CustomButton";
-import { LogOutIcon } from "lucide-react";
 
 type Props = {
   onClose: (value: boolean) => void;
@@ -38,7 +37,7 @@ export const UserDropdownContent = ({ onClose }: Props) => {
         <CustomButton
           type="button"
           label="My Profile"
-          className=" rounded-[10px] w-full h-[44px] bg-white text-black border "
+          className=" rounded-[10px] w-[179px] h-[50px] bg-white text-black border border-black "
           onClick={handleProceedToProfile}
         />
       )}
@@ -46,15 +45,14 @@ export const UserDropdownContent = ({ onClose }: Props) => {
         <CustomButton
           type="button"
           label="Proceed to Dashboard"
-          className=" rounded-[10px] w-full h-[44px] bg-white text-black border "
+          className=" rounded-[10px] w-[179px] h-[50px] bg-white text-black border border-black "
           onClick={handleProceedToDashboard}
         />
       )}
       <CustomButton
         type="button"
         label="Logout"
-        className=" rounded-[10px] w-full h-[44px] !bg-red-500 "
-        icon={LogOutIcon}
+        className=" rounded-[10px] w-[179px] h-[50px] !bg-[#AE2525] "
         onClick={handleLogout}
       />
     </div>
