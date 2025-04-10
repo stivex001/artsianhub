@@ -35,12 +35,12 @@ export const adminLinks = [
     icon: DashboardIcon,
   },
   {
-    path: "/artisan/dashboard/manage-artisans",
+    path: "/admin/dashboard/manage-artisans",
     label: "Manage Artisans",
     icon: TimerIcon,
   },
   {
-    path: "/artisan/dashboard/manage-contacts",
+    path: "/admin/dashboard/manage-contacts",
     label: "Manage Contacts",
     icon: TimerIcon,
   },

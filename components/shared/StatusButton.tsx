@@ -3,6 +3,7 @@ import React from "react";
 
 type StatusButtonProps = {
   status: string;
+  className?: string;
 };
 
 type Styles = {
@@ -60,7 +61,7 @@ const statusStyles: Record<string, Styles> = {
   },
 };
 
-const StatusButton = ({ status }: StatusButtonProps) => {
+const StatusButton = ({ status, className }: StatusButtonProps) => {
   const lowerCaseStatus = status.toLowerCase();
   const styles = statusStyles[lowerCaseStatus] ?? {
     backgroundColor: "#E2E3E5",
@@ -70,7 +71,7 @@ const StatusButton = ({ status }: StatusButtonProps) => {
 
   return (
     <button
-      className="py-4 px-2 rounded-[10px]"
+      className={`py-4 px-2 rounded-[10px] ${className}`}
       style={{ backgroundColor: styles.backgroundColor, color: styles.color }}
     >
       {styles.text}
