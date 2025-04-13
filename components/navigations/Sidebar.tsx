@@ -19,13 +19,13 @@ const Sidebar = (props: Props) => {
 
   return (
     <aside className="hidden lg:flex flex-col lg:w-[18%] bg-white h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden py-14 sticky top-0">
-      <div className="w-[106px] h-20 mx-auto">
+      <Link href='/' className="w-[106px] h-20 mx-auto">
         <Image
           src={logo}
           alt="logo"
           className="w-full h-full object-cover rounded-[5px]"
         />
-      </div>
+      </Link>
       <div className="flex-grow overflow-y-auto no-scrollbar  pt-20">
         <div>
           {isArtisanPage && (
