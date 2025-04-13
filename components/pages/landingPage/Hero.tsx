@@ -14,12 +14,8 @@ type Props = {};
 export const Hero = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { getAllCategories } = useCategories();
-  const { data: category } = getAllCategories();
 
-  // const categoryOption = category?.map((cat: any) => ({
-  //   value: cat?.value,
-  //   label: cat?.label,
-  // }));
+  const { data: category } = getAllCategories();
 
   const categoryOptions = Array.isArray(category)
     ? category?.map((cat) => ({

@@ -6,8 +6,11 @@ import { Field } from "@/schemas/dynamicSchema";
 import Image from "next/image";
 import React from "react";
 import cutting from "@/components/assets/images/cutting.png";
+import { ArtisanDetails } from "@/api/crud/artisans";
 
-type Props = {};
+type Props = {
+   selectedArtisan: ArtisanDetails;
+};
 
 const fields: Field[] = [
   {
@@ -24,7 +27,7 @@ const fields: Field[] = [
   },
 ];
 
-const Booking = (props: Props) => {
+const Booking = ({selectedArtisan}: Props) => {
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
   const onSubmit = (data: any) => {
@@ -122,7 +125,7 @@ const Booking = (props: Props) => {
       <div className="hidden lg:block flex-1">
         <div className="relative w-full h-full ml-24">
           <Image
-            src={cutting}
+            src={selectedArtisan?.portfolio?.[0]?.media?.url}
             alt="img"
             layout="fill"
             objectFit="cover"

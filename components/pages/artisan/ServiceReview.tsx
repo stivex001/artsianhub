@@ -5,13 +5,16 @@ import Image from "next/image";
 import cutting from "@/components/assets/images/cutting.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { ArtisanDetails } from "@/api/crud/artisans";
 // import "swiper/css";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
 
-type Props = {};
+type Props = {
+  selectedArtisan: ArtisanDetails
+};
 
-export const ServiceReview = (props: Props) => {
+export const ServiceReview = ({selectedArtisan}: Props) => {
 
   // Sample data for carousel items - replace with your actual data
   const reviewItems = [
@@ -44,12 +47,12 @@ export const ServiceReview = (props: Props) => {
           pagination={{ clickable: true, dynamicBullets: true }}
           className="service-review-swiper "
         >
-          {reviewItems.map((item) => (
-            <SwiperSlide key={item.id}>
+          {selectedArtisan?.portfolio?.map((item, index) => (
+            <SwiperSlide key={index}>
               <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
                 <div className="relative w-full h-full">
                   <Image
-                    src={item.image}
+                    src={item?.media?.url}
                     alt="Service professional"
                     layout="fill"
                     objectFit="cover"

@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import image1 from "@/components/assets/images/port.png";
 import { FaComments } from "react-icons/fa";
+import { ArtisanDetails } from "@/api/crud/artisans";
 
-type Props = {};
+type Props = {
+  selectedArtisan: ArtisanDetails;
+};
 
-export const ArtisanProfile = (props: Props) => {
+export const ArtisanProfile = ({ selectedArtisan }: Props) => {
   const artisanInfo = {
     name: "Kate Adam",
     profession: "Tailor",
@@ -30,7 +32,7 @@ export const ArtisanProfile = (props: Props) => {
           <div className="w-full md:w-1/3 flex justify-center">
             <div className="relative w-64 h-72 rounded-lg overflow-hidden bg-gray-200">
               <Image
-                src={image1}
+                src={selectedArtisan?.profilePhoto?.url}
                 alt={artisanInfo.name}
                 layout="fill"
                 objectFit="cover"
@@ -42,7 +44,8 @@ export const ArtisanProfile = (props: Props) => {
           {/* Artisan Details */}
           <div className="w-full md:w-2/3">
             <h2 className="text-primary text-3xl md:text-4xl font-medium mb-6">
-              {artisanInfo.name}
+              {selectedArtisan?.user?.firstName}{" "}
+              {selectedArtisan?.user?.lastName}
             </h2>
 
             <div className=" gap-y-4">
@@ -51,7 +54,7 @@ export const ArtisanProfile = (props: Props) => {
                   Profession:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.profession}
+                  {selectedArtisan?.specialization}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -59,7 +62,7 @@ export const ArtisanProfile = (props: Props) => {
                   Years of Experience:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.yearsOfExperience}
+                  {selectedArtisan?.yearsOfExperience}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -67,7 +70,7 @@ export const ArtisanProfile = (props: Props) => {
                   Service Area:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.serviceArea}
+                  {selectedArtisan?.user?.residentialAddress}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -75,7 +78,7 @@ export const ArtisanProfile = (props: Props) => {
                   Work Day:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.workDay}
+                  {selectedArtisan?.workAvailability?.days?.join(", ")}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -83,7 +86,7 @@ export const ArtisanProfile = (props: Props) => {
                   Work Time:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.workTime}
+                  {selectedArtisan?.workAvailability?.availableHours}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -91,7 +94,7 @@ export const ArtisanProfile = (props: Props) => {
                   Charges:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.charges}
+                  ${selectedArtisan?.servicePricing}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -99,7 +102,7 @@ export const ArtisanProfile = (props: Props) => {
                   Language:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.languages}
+                {selectedArtisan?.languagesSpoken?.join(",")}
                 </span>
               </div>
               <div className="flex gap-12">
@@ -107,7 +110,7 @@ export const ArtisanProfile = (props: Props) => {
                   Brief about the Artisans:
                 </span>
                 <span className="font-light text-black text-2xl">
-                  {artisanInfo.bio}
+                  {selectedArtisan?.skillDescription}
                 </span>
               </div>
             </div>

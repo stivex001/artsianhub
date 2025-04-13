@@ -10,7 +10,7 @@ interface Filter {
 }
 
 type filterProps = {
-  onFilterChange: (filterId: string) => void;
+  onFilterChange: (filterId: any) => void;
   options: Filter[];
   className?: string;
   showIcon?: boolean;
@@ -27,21 +27,16 @@ const FilterComponent = ({
   filterStyle,
 }: filterProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(null);
-
+  const [selectedFilter, setSelectedFilter] = useState<number | null>(null);
   // Sample filter options - replace with your actual options
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleFilterSelect = (filter: any) => {
+  const handleFilterSelect = (filter: Filter) => {
     setSelectedFilter(filter.id);
-    if (onFilterChange) {
-      onFilterChange(filter.id);
-    }
-
-    // Close dropdown after selection
+    onFilterChange(filter?.id); // assuming number now
     setIsOpen(false);
   };
 
