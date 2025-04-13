@@ -8,12 +8,15 @@ import { FaQuoteRight, FaStar } from "react-icons/fa";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { ArtisanDetails } from "@/api/crud/artisans";
 // Import Swiper styles
 // import "swiper/css";
 // import "swiper/css/navigation";
 // import "swiper/css/pagination";
 
-type Props = {};
+type Props = {
+    selectedArtisan: ArtisanDetails;
+};
 
 type TestimonialType = {
   id: number;
@@ -23,7 +26,7 @@ type TestimonialType = {
   rating: number;
 };
 
-export const Testimonial = (props: Props) => {
+export const Testimonial = ({selectedArtisan}: Props) => {
   const [activeIndex, setActiveIndex] = useState(1);
 
   // Sample testimonial data
@@ -99,8 +102,8 @@ export const Testimonial = (props: Props) => {
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             className="testimonial-swiper"
           >
-            {testimonials.map((testimonial, index) => (
-              <SwiperSlide key={testimonial.id}>
+            {selectedArtisan?.testimonials?.map((testimonial, index) => (
+              <SwiperSlide key={index}>
                 {({ isActive }) => (
                   <div
                     className={`relative h-[316px] flex flex-col justify-between rounded-[10px] px-20 pt-3 pb-6 mb-14 transition-all duration-300 ${
@@ -123,15 +126,15 @@ export const Testimonial = (props: Props) => {
                     <p
                       className={`text-center text-2xl max-w-xl mx-auto font-semibold mb-8 text-primary`}
                     >
-                      {testimonial.text}
+                      {testimonial?.testimonial}
                     </p>
 
                     {/* Author info */}
                     <div className="flex items-center justify-center gap-3">
                       <div className="w-10 h-10 rounded-full overflow-hidden relative">
                         <Image
-                          src={testimonial.image}
-                          alt={testimonial.name}
+                          src={image1}
+                          alt={testimonial?.customerName}
                           layout="fill"
                           objectFit="cover"
                         />
@@ -141,16 +144,16 @@ export const Testimonial = (props: Props) => {
                           isActive ? "text-primary" : "text-white"
                         }`}
                       >
-                        {testimonial.name}
+                        {testimonial?.customerName}
                       </span>
                     </div>
                     {/* Star rating */}
                     <div className="flex justify-end -mt-10">
-                      {[...Array(5)].map((_, i) => (
+                      {[...Array(5)]?.map((_, i) => (
                         <FaStar
                           key={i}
                           className={`text-lg ${
-                            i < testimonial.rating
+                            i < testimonial?.rating
                               ? "text-blue-900"
                               : "text-gray-300"
                           }`}

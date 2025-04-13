@@ -33,12 +33,12 @@ const ArtisanDetails = (props: Props) => {
 
   return (
     <main className="mt-24 pt-4">
-      <ArtisanHero />
-      <ServiceReview />
-      <ArtisanProfile />
-      <Testimonial />
+      <ArtisanHero selectedArtisan={selectedArtisan} />
+      <ServiceReview selectedArtisan={selectedArtisan} />
+      <ArtisanProfile selectedArtisan={selectedArtisan} />
+      <Testimonial selectedArtisan={selectedArtisan} />
       <CTA />
-      <Booking />
+      <Booking selectedArtisan={selectedArtisan} />
     </main>
   );
 };

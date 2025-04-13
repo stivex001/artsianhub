@@ -2,11 +2,13 @@ import { RatingIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Image from "next/image";
 import React from "react";
-import image1 from "@/components/assets/images/port.png";
+import { ArtisanDetails } from "@/api/crud/artisans";
 
-type Props = {};
+type Props = {
+  selectedArtisan: ArtisanDetails
+};
 
-export const ArtisanHero = (props: Props) => {
+export const ArtisanHero = ({selectedArtisan}: Props) => {
   return (
     <div className="w-11/12 mx-auto py-8 pb-[160px]">
       {/* Top section with button and rating */}
@@ -48,8 +50,8 @@ export const ArtisanHero = (props: Props) => {
             {/* First circular image */}
             <div className="absolute -left-10 z-10 w-4/5 h-full rounded-full overflow-hidden shadow-dropShadow">
               <Image
-                src={image1}
-                alt="Construction worker"
+                src={selectedArtisan?.profilePhoto?.url}
+                alt={selectedArtisan?.user?.firstName}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-full"
@@ -59,8 +61,8 @@ export const ArtisanHero = (props: Props) => {
             {/* Second circular image (overlapping) */}
             <div className="absolute w-4/5 h-full left-2/4 rounded-full overflow-hidden shadow-dropShadow">
               <Image
-                src={image1}
-                alt="Construction worker"
+                src={selectedArtisan?.profilePhoto?.url}
+                alt={selectedArtisan?.user?.firstName}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-full"
