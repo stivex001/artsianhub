@@ -1,40 +1,82 @@
 import { ID } from "@/components/api/type";
 import { useApiQuery } from "@/hooks/useApiQuery";
 
-export interface ArtisanData {
-  email: string;
+export interface Testimonial {
+  customerName: string;
+  testimonial: string;
+  rating: number;
+  date: string;
+}
+
+export interface Media {
+  url: string;
+  public_id: string;
+  filename: string;
+}
+
+export interface WorkAvailability {
+  days: string[];
+  availableHours: string;
+}
+
+export interface ServiceArea {
+  type: string;
+  coordinates: [number, number]; // [longitude, latitude]
+}
+
+export interface UserInfo {
+  googleId: string | null;
   firstName: string;
   lastName: string;
-  password: string;
-  profilePhoto: {
-    url: string;
-  };
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  specialization: string;
+  residentialAddress: string;
+  gender: string;
+  isArtisan: boolean;
+  isVerifiedArtisan: boolean;
+  isAdmin: boolean;
+  isVerified: boolean;
+  isClient: boolean;
+  isProfileComplete: boolean;
+  createdAt: string;
+  updatedAt: string;
+  oneSignalPlayerId: string;
+  isApproved: boolean;
 }
 
 export interface ArtisanDetails {
-  access_token?: any;
-  firstName: string;
-  lastName: string;
-  profile: string;
-  new: string;
-  confirmPassword: string;
-  password: string;
-  confirm_pass: string;
+  artisanId: string;
+  profilePhoto: Media;
+  serviceCategory: string;
+  specialization: string;
+  skillDescription: string;
+  portfolio: {
+    description: string;
+    media: Media;
+  }[];
+  servicePricing: number;
+  yearsOfExperience: number;
+  governmentIssuedID: Media;
+  proofOfAddress: Media;
+  professionalCertification: Media;
+  testimonials: Testimonial[];
+  workAvailability: WorkAvailability;
+  serviceArea: ServiceArea;
+  languagesSpoken: string[];
+  termsAccepted: boolean;
+  isProfileComplete: boolean;
+  isApproved: boolean;
   createdAt: string;
-  id: ID;
-  artisanId: ID;
-  isActive: boolean;
-  data: ArtisanData;
-  referer_bonus_paid: string;
-  profilePhoto: {
-    url: string;
-  };
-  user: string;
+  updatedAt: string;
+  user: UserInfo;
+  professionalCertifications: any[];
 }
 
 export const useArtisans = () => {
   const getAllArtisan = () =>
-    useApiQuery<ArtisanDetails>(["all_artisans"], {
+    useApiQuery<ArtisanDetails[]>(["all_artisans"], {
       url: `/artisan`,
       method: "GET",
     });

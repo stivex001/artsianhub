@@ -1,11 +1,7 @@
 "use client";
 import { Headings } from "@/components/shared/Headings";
 import React from "react";
-import image1 from "@/components/assets/images/port.png";
-import image2 from "@/components/assets/images/male.png";
-import image3 from "@/components/assets/images/front.png";
-import image4 from "@/components/assets/images/people.png";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -20,7 +16,6 @@ export const PopularService = (props: Props) => {
   const { data: services, isLoading } = getTopRatedService();
   const topServices = services?.topServices;
 
-  console.log(topServices, "services");
 
   return (
     <div className="py-14 flex flex-col gap-16 relative">

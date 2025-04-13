@@ -6,6 +6,8 @@ import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";
 import { useRouter } from "next/navigation";
+import { useArtisans } from "@/api/crud/artisans";
+import SkeletonLoader from "@/components/shared/SkeletonModal";
 
 // Types
 interface Artisan {
@@ -18,6 +20,7 @@ interface Artisan {
 
 interface Props {
   onClose: (value: boolean) => void;
+  // artisans: ArtisanDetails | any;
 }
 
 // Mock Data
@@ -46,15 +49,23 @@ const renderStars = (rating: number) => {
 };
 
 const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
-  const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(3);
+  const { getAllArtisan } = useArtisans();
+  const { data: artisans = [], isLoading } = getAllArtisan();
 
-  const totalPages = 6;
+
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const artisansPerPage = 6;
+  const totalPages = Math.ceil(artisans?.length / artisansPerPage);
 
   const handlePageChange = (page: number) => {
-    console.log(`Changing to page ${page}`);
     setCurrentPage(page);
   };
+
+  const paginatedArtisans = artisans.slice(
+    (currentPage - 1) * artisansPerPage,
+    currentPage * artisansPerPage
+  );
 
   return (
     <section className=" w-10/12 mx-auto">
@@ -74,41 +85,57 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
         </p>
 
         <div className="grid lg:grid-cols-3 gap-x-20 gap-y-3">
-          {artisanData.map((artisan) => (
-            <div key={artisan?.id}>
-              <div onClick={() => router.push(`/available-artisan/${artisan?.id}`)} className="relative rounded-[10px] overflow-hidden cursor-pointer">
-                <Image
-                  src={artisan.photo}
-                  alt={artisan.accountName}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-0 left-0 p-4 w-full h-full flex flex-col justify-between">
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-sm text-black">
-                      {artisan.accountName}
-                    </span>
-                    <span
-                      className={`text-sm px-2 py-1 rounded-[20px] text-white font-semibold ${getStatusColor(
-                        artisan.status
-                      )}`}
-                    >
-                      {artisan.status}
-                    </span>
+          {isLoading ? (
+            <div className=" rounded-[10px] overflow-hidden w-[300] h-[350px]">
+              <SkeletonLoader type="image" />
+            </div>
+          ) : (
+            paginatedArtisans?.map((artisan) => (
+              <div key={artisan?.artisanId}>
+                <div
+                  onClick={() => {
+                    router.push(`/available-artisan/${artisan?.artisanId}`);
+                    onClose;
+                  }}
+                  className="relative rounded-[10px] overflow-hidden cursor-pointer"
+                >
+                  <Image
+                    src={artisan?.profilePhoto?.url}
+                    alt={artisan?.user?.firstName}
+                    className="w-full h-full object-cover"
+                    width={300}
+                    height={350}
+                  />
+                  <div className="absolute top-0 left-0 p-4 w-full h-full flex flex-col justify-between">
+                    <div className="flex justify-between">
+                      <span className="font-semibold text-sm text-black">
+                        {artisan?.user?.firstName} {artisan?.user?.lastName}
+                      </span>
+                      <span
+                        className={`text-sm px-2 py-1 rounded-[20px] text-white font-semibold ${getStatusColor(
+                          "Available"
+                        )}`}
+                      >
+                        Available
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-center mt-auto mb-4">
+                  {/* <div className="flex justify-center mt-auto mb-4">
                   {renderStars(artisan.rating)}
+                </div> */}
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
-        <CustomPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {totalPages > 1 && (
+          <CustomPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </section>
   );
