@@ -9,7 +9,7 @@ type Props = {
 
 const AdminDashboardLayout = ({ children }: Props) => {
   return (
-    // <ProtectedRoutes allowedRoles={["admin"]}>
+    <ProtectedRoutes allowedRoles={["admin"]}>
       <div className="flex bg-primary min-h-screen w-full h-full overflow-x-clip">
         <Sidebar />
         <div className="w-full lg:w-[82%] rounded-[10px] px-5 py-5">
@@ -19,7 +19,7 @@ const AdminDashboardLayout = ({ children }: Props) => {
           </div>
         </div>
       </div>
-    // </ProtectedRoutes>
+    </ProtectedRoutes>
   );
 };
 

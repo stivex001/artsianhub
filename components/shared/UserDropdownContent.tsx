@@ -22,7 +22,11 @@ export const UserDropdownContent = ({ onClose }: Props) => {
   };
 
   const handleProceedToDashboard = () => {
-    router.push("/artisan/dashboard");
+    if (currentUser?.isArtisan) {
+      router.push("/artisan/dashboard");
+    } else if (currentUser?.isAdmin) {
+      router.push("/admin/dashboard");
+    }
     onClose(false);
   };
 
@@ -42,6 +46,14 @@ export const UserDropdownContent = ({ onClose }: Props) => {
         />
       )}
       {currentUser?.isArtisan && (
+        <CustomButton
+          type="button"
+          label="Proceed to Dashboard"
+          className=" rounded-[10px] w-[179px] h-[50px] bg-white text-black border border-black "
+          onClick={handleProceedToDashboard}
+        />
+      )}
+      {currentUser?.isAdmin && (
         <CustomButton
           type="button"
           label="Proceed to Dashboard"
