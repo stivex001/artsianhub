@@ -29,7 +29,7 @@ export const ArtisanHero = ({selectedArtisan}: Props) => {
       </div>
 
       {/* Main hero section */}
-      <section className="flex flex-col lg:flex-row items-center">
+      <section className="flex flex-col gap-10 lg:gap-0 lg:flex-row items-center">
         {/* Left text content */}
         <div className="w-full lg:w-[45%]">
           <p className="text-primary text-base font-semibold">
@@ -45,7 +45,7 @@ export const ArtisanHero = ({selectedArtisan}: Props) => {
         </div>
 
         {/* Right image circles */}
-        <div className="w-full lg:w-[55%] flex">
+        <div className="w-[55%] flex">
           <div className="relative w-full max-w-sm lg:max-w-lg 2xl:max-w-[1000px] aspect-square">
             {/* First circular image */}
             <div className="absolute -left-10 z-10 w-4/5 h-full rounded-full overflow-hidden shadow-dropShadow">

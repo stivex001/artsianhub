@@ -36,15 +36,15 @@ const Booking = ({selectedArtisan}: Props) => {
   };
 
   return (
-    <section className="bg-white pt-20 pb-7 flex flex-col lg:flex-row justify-betweenx">
-      <div className="flex-1 flex flex-col gap-6 px-32">
-        <h1 className="text-5xl font-semibold">Book An Appointment</h1>
+    <section className="bg-white pt-20 pb-7 flex flex-col lg:flex-row justify-between">
+      <div className="flex-1 flex flex-col gap-6 px-3 lg:px-32">
+        <h1 className="text-3xl text-center lg:text-start lg:text-5xl font-semibold">Book An Appointment</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-[#E5EFF9] py-10 px-14 rounded-[10px]"
+          className="bg-[#E5EFF9] py-10 px-5 lg:px-14 rounded-[10px]"
         >
           <div className="flex flex-col gap-6">
-            <div className="flex flex-col lg:flex-row gap-10">
+            <div className=" flex flex-col lg:flex-row gap-10">
               <div className="w-full">
                 <ControlledInput
                   name="firstname"

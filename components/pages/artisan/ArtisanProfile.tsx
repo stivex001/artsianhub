@@ -8,18 +8,6 @@ type Props = {
 };
 
 export const ArtisanProfile = ({ selectedArtisan }: Props) => {
-  const artisanInfo = {
-    name: "Kate Adam",
-    profession: "Tailor",
-    yearsOfExperience: "10 Years",
-    serviceArea: "Chesterfield",
-    workDay: "Monday - Friday",
-    workTime: "8am - 4pm",
-    charges: "$15/hr",
-    languages: "American English, Spanish, Indian",
-    bio: "Always at your service",
-  };
-
   return (
     <section className="bg-white py-14 px-4">
       <h1 className="text-primary text-4xl md:text-5xl lg:text-6xl font-semibold text-center mb-10 md:mb-[70px]">
@@ -33,7 +21,7 @@ export const ArtisanProfile = ({ selectedArtisan }: Props) => {
             <div className="relative w-64 h-72 rounded-lg overflow-hidden bg-gray-200">
               <Image
                 src={selectedArtisan?.profilePhoto?.url}
-                alt={artisanInfo.name}
+                alt={selectedArtisan?.user?.firstName}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
@@ -49,67 +37,67 @@ export const ArtisanProfile = ({ selectedArtisan }: Props) => {
             </h2>
 
             <div className=" gap-y-4">
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="w-1/2 text-primary font-semibold">
                   Profession:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w- 1/2 font-light text-black text-xl">
                   {selectedArtisan?.specialization}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="w-1/2 text-primary font-semibold">
                   Years of Experience:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   {selectedArtisan?.yearsOfExperience}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="text-primary font-semibold w-1/2">
                   Service Area:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   {selectedArtisan?.user?.residentialAddress}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className=" text-primary font-semibold w-1/2">
                   Work Day:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   {selectedArtisan?.workAvailability?.days?.join(", ")}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="text-primary font-semibold w-1/2">
                   Work Time:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   {selectedArtisan?.workAvailability?.availableHours}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="text-primary font-semibold w-1/2">
                   Charges:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   ${selectedArtisan?.servicePricing}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="text-primary font-semibold w-1/2">
                   Language:
                 </span>
-                <span className="font-light text-black text-2xl">
-                {selectedArtisan?.languagesSpoken?.join(",")}
+                <span className="w-1/2 font-light text-black text-xl">
+                  {selectedArtisan?.languagesSpoken?.join(",")}
                 </span>
               </div>
-              <div className="flex gap-12">
-                <span className="text-primary font-semibold w-48">
+              <div className="flex">
+                <span className="text-primary font-semibold w-1/2">
                   Brief about the Artisans:
                 </span>
-                <span className="font-light text-black text-2xl">
+                <span className="w-1/2 font-light text-black text-xl">
                   {selectedArtisan?.skillDescription}
                 </span>
               </div>
