@@ -75,6 +75,12 @@ export interface ArtisanDetails {
   professionalCertifications: any[];
 }
 
+export interface ReviewData  {
+  customerName: string
+  rating:number
+  testimonial:string
+}
+
 export const useArtisans = () => {
   const getAllArtisan = () =>
     useApiQuery<ArtisanDetails[]>(["all_artisans"], {
@@ -88,8 +94,15 @@ export const useArtisans = () => {
       method: "POST",
     });
 
+    const leaveReview = (id: string) =>
+      useApiMutation<AuthResponse, FormData>({
+        url: `/rating/artisans/${id}/testimonials`,
+        method: "POST",
+      });
+
   return {
     getAllArtisan,
     bookAppointment,
+    leaveReview
   };
 };

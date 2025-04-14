@@ -50,18 +50,18 @@ const Booking = ({ selectedArtisan }: Props) => {
   if (!selectedArtisan) return null;
 
   const router = useRouter();
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  const { control, handleSubmit } = useDynamicForm(fields, {});
 
   const { bookAppointment } = useArtisans();
 
   const { isPending, mutateAsync } = bookAppointment(
-    `${selectedArtisan?.artisanId}`
+    `67e2010a3812b3f38b416b00`
   );
 
   const onSubmit = async (data: any) => {
     const payload = {
       ...data,
-      artisanId: selectedArtisan?.artisanId,
+      artisanId: "67e2010a3812b3f38b416b00",
       price: selectedArtisan?.servicePricing,
     };
 
