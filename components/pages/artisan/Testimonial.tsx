@@ -69,8 +69,8 @@ export const Testimonial = ({selectedArtisan}: Props) => {
   ];
 
   return (
-    <section className="bg-secondary pt-24 pb-10 relative">
-      <div className="w-full absolute -top-28 left-0 z-40">
+    <section className="bg-secondary pt-5 lg:pt-24 pb-10 relative">
+      <div className="hidden lg:block w-full absolute -top-28 left-0 z-40">
         <Benefits />
       </div>
       <div className="mt-14 ">

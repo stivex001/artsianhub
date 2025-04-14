@@ -2,33 +2,18 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import cutting from "@/components/assets/images/cutting.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { ArtisanDetails } from "@/api/crud/artisans";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
 
 type Props = {
-  selectedArtisan: ArtisanDetails
+  selectedArtisan: ArtisanDetails;
 };
 
-export const ServiceReview = ({selectedArtisan}: Props) => {
-
-  // Sample data for carousel items - replace with your actual data
-  const reviewItems = [
-    { id: 1, image: cutting },
-    { id: 2, image: cutting },
-    { id: 3, image: cutting },
-    { id: 4, image: cutting },
-    { id: 5, image: cutting },
-    { id: 6, image: cutting },
-  ];
-
+export const ServiceReview = ({ selectedArtisan }: Props) => {
   return (
     <section className="bg-secondary py-16 px-4">
-      <h1 className="font-semibold text-3xl md:text-4xl lg:text-5xl text-white text-center max-w-2xl mx-auto mb-6">
+      <h1 className="font-semibold text-2xl md:text-4xl lg:text-5xl text-white text-center max-w-2xl mx-auto mb-6">
         Discover our wide range of professional services reviews
       </h1>
 
@@ -66,7 +51,10 @@ export const ServiceReview = ({selectedArtisan}: Props) => {
 
         {/* Rating and review counter */}
         <div className="flex justify-end items-center mt-6 px-2">
-          <a href="#" className="text-white hover:underline text-sm font-semibold">
+          <a
+            href="#"
+            className="text-white hover:underline text-sm font-semibold"
+          >
             View more...
           </a>
         </div>
