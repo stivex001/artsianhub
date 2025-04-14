@@ -1,4 +1,5 @@
 "use client";
+import { useArtisans } from "@/api/crud/artisans";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import CustomPagination from "@/components/shared/CustomPagination";
@@ -47,16 +48,24 @@ const DateTimeDisplay = ({ date, time }: DateProps) => {
 type Props = {};
 
 const ManageAppointment = (props: Props) => {
+  const { getAllBookings } = useArtisans();
+
+  const { data: viewBookings, isLoading } = getAllBookings();
+  const bookings = viewBookings?.bookings
+  const pagination = viewBookings?.pagination
+
+  console.log(bookings, "view_bookings");
+
   const [selectedRows, setSelectedRows] = useState([]);
-  const [currentPage, setCurrentPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(pagination?.currentPage);
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
-  const totalPages = 5;
+
+  const totalPages = pagination?.totalPages || 1;
 
   const handlePageChange = (page: number) => {
-    console.log(`Changing to page ${page}`);
     setCurrentPage(page);
   };
 
@@ -65,15 +74,16 @@ const ManageAppointment = (props: Props) => {
     console.log("Filter changed");
   };
 
-  const tableData = Array.from({ length: 11 }).map(() => ({
-    status: "pending",
-    accountName: "Smith Jane",
-    email: "jane@gmail.com",
-    phoneNumber: "+1234567890",
-    description: "Sports running shoes",
-    price: "$40",
-    dateCreated: "2/05/2025",
-  }));
+  const tableData = bookings?.map((booking: any) => ({
+    status: booking?.status,
+    accountName: booking?.clientName,
+    email: booking?.clientEmail,
+    phoneNumber: booking?.clientPhoneNumber,
+    description: booking?.description,
+    price: `$${booking?.price}`,
+    dateCreated: new Date(booking.date).toLocaleDateString("en-GB"),
+  })) || [];
+  
 
   const getFormattedValue = (row: any, i: number) => [
     <StatusButton status={row.status} />,
@@ -133,6 +143,7 @@ const ManageAppointment = (props: Props) => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            // visiblePages={currentPage}
           />
         </div>
       </Wrapper>
