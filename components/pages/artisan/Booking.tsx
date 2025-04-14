@@ -5,40 +5,87 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Image from "next/image";
 import React from "react";
-import cutting from "@/components/assets/images/cutting.png";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type Props = {
-   selectedArtisan: ArtisanDetails;
+  selectedArtisan: ArtisanDetails;
 };
 
 const fields: Field[] = [
   {
-    name: "email",
+    name: "clientName",
+    type: "text",
+    errorMessage: "Name is required",
+    isRequired: true,
+  },
+  {
+    name: "clientEmail",
     type: "email",
     errorMessage: "Email is required",
     isRequired: true,
   },
   {
-    name: "password",
+    name: "clientPhoneNumber",
     type: "text",
-    errorMessage: "Password is required",
+    errorMessage: "Phone Number is required",
+    isRequired: true,
+  },
+  {
+    name: "description",
+    type: "text",
+    errorMessage: "Message is required",
+    isRequired: true,
+  },
+  {
+    name: "date",
+    type: "date",
+    errorMessage: "Message is required",
     isRequired: true,
   },
 ];
 
-const Booking = ({selectedArtisan}: Props) => {
+const Booking = ({ selectedArtisan }: Props) => {
+  if (!selectedArtisan) return null;
+
+  const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const onSubmit = (data: any) => {
-    // Handle form submission
-    console.log("Form submitted", data);
+  const { bookAppointment } = useArtisans();
+
+  const { isPending, mutateAsync } = bookAppointment(
+    `${selectedArtisan?.artisanId}`
+  );
+
+  const onSubmit = async (data: any) => {
+    const payload = {
+      ...data,
+      artisanId: selectedArtisan?.artisanId,
+      price: selectedArtisan?.servicePricing,
+    };
+
+    try {
+      await mutateAsync(payload, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message);
+          router.push("/");
+        },
+        onError: (error: any) => {
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+    }
   };
 
   return (
     <section className="bg-white pt-20 pb-7 flex flex-col lg:flex-row justify-between">
       <div className="flex-1 flex flex-col gap-6 px-3 lg:px-32">
-        <h1 className="text-3xl text-center lg:text-start lg:text-5xl font-semibold">Book An Appointment</h1>
+        <h1 className="text-3xl text-center lg:text-start lg:text-5xl font-semibold">
+          Book An Appointment
+        </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="bg-[#E5EFF9] py-10 px-5 lg:px-14 rounded-[10px]"
@@ -47,16 +94,16 @@ const Booking = ({selectedArtisan}: Props) => {
             <div className=" flex flex-col lg:flex-row gap-10">
               <div className="w-full">
                 <ControlledInput
-                  name="firstname"
+                  name="clientName"
                   control={control}
                   placeholder=""
                   type="text"
-                  label="First Name"
+                  label="Your Name"
                   variant="normal"
                   rules={{ required: true }}
                 />
               </div>
-              <div className="w-full">
+              {/* <div className="w-full">
                 <ControlledInput
                   name="lastname"
                   control={control}
@@ -66,10 +113,10 @@ const Booking = ({selectedArtisan}: Props) => {
                   variant="normal"
                   rules={{ required: true }}
                 />
-              </div>
+              </div> */}
             </div>
             <ControlledInput
-              name="email"
+              name="clientEmail"
               control={control}
               placeholder=""
               type="email"
@@ -80,7 +127,7 @@ const Booking = ({selectedArtisan}: Props) => {
             <div className="w-full flex flex-col lg:flex-row gap-10">
               <div className="w-full">
                 <ControlledInput
-                  name="phone"
+                  name="clientPhoneNumber"
                   control={control}
                   placeholder=""
                   type="text"
@@ -91,7 +138,7 @@ const Booking = ({selectedArtisan}: Props) => {
               </div>
               <div className="w-full">
                 <ControlledInput
-                  name="appointment"
+                  name="date"
                   control={control}
                   placeholder=""
                   type="date"
@@ -117,6 +164,7 @@ const Booking = ({selectedArtisan}: Props) => {
                 type="submit"
                 label="Book Appointment"
                 className=" rounded-[10px] !h-14"
+                isLoading={isPending}
               />
             </div>
           </div>

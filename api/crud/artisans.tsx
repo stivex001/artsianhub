@@ -1,4 +1,5 @@
-import { ID } from "@/components/api/type";
+import { AuthResponse, ID } from "@/components/api/type";
+import { useApiMutation } from "@/hooks/useApiMutation";
 import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface Testimonial {
@@ -81,7 +82,14 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+  const bookAppointment = (id: string) =>
+    useApiMutation<AuthResponse, FormData>({
+      url: `/booking/artisan/${id}`,
+      method: "POST",
+    });
+
   return {
     getAllArtisan,
+    bookAppointment,
   };
 };

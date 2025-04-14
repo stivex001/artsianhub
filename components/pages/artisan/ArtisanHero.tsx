@@ -1,21 +1,28 @@
+"use client";
 import { RatingIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { ArtisanDetails } from "@/api/crud/artisans";
+import { ReviewModal } from "./ReviewModal";
 
 type Props = {
-  selectedArtisan: ArtisanDetails
+  selectedArtisan: ArtisanDetails;
 };
 
-export const ArtisanHero = ({selectedArtisan}: Props) => {
+export const ArtisanHero = ({ selectedArtisan }: Props) => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="w-11/12 mx-auto py-8 pb-[160px]">
+      {showModal && <ReviewModal onClose={() => setShowModal(false)} />}
       {/* Top section with button and rating */}
+
       <div className="flex justify-between mb-6">
         <CustomButton
           label="Leave a review"
           className="!bg-secondary mb-4 sm:mb-0"
+          onClick={() => setShowModal(true)}
         />
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-light text-primary">Rate</h1>
