@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   className?: string;
   title: string;
-  count: string;
+  count: any;
 };
 
 export const Details = ({ className, title, count }: Props) => {

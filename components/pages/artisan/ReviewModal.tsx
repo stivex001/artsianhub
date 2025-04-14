@@ -3,13 +3,14 @@ import React from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ReviewData, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, ReviewData, useArtisans } from "@/api/crud/artisans";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { toast } from "sonner";
 
 type Props = {
   onClose: () => void;
+  selectedArtisan: ArtisanDetails;
 };
 
 const fields: Field[] = [
@@ -30,7 +31,7 @@ const fields: Field[] = [
   },
 ];
 
-export const ReviewModal = ({ onClose }: Props) => {
+export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
   const {
     register,
     setValue,
@@ -45,10 +46,10 @@ export const ReviewModal = ({ onClose }: Props) => {
 
   const rating = watch("rating");
 
-  console.log(errors, "errr")
+  console.log(errors, "errr");
 
   const { leaveReview } = useArtisans();
-  const { isPending, mutateAsync } = leaveReview(`67e2010a3812b3f38b416b00`);
+  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?.user?._id}`);
 
   const onSubmit = async (data: any) => {
     try {

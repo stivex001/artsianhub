@@ -55,13 +55,13 @@ const Booking = ({ selectedArtisan }: Props) => {
   const { bookAppointment } = useArtisans();
 
   const { isPending, mutateAsync } = bookAppointment(
-    `67e2010a3812b3f38b416b00`
+    `${selectedArtisan?.user?._id}`
   );
 
   const onSubmit = async (data: any) => {
     const payload = {
       ...data,
-      artisanId: "67e2010a3812b3f38b416b00",
+      artisanId: selectedArtisan?.user?._id,
       price: selectedArtisan?.servicePricing,
     };
 
