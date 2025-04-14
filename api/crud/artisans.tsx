@@ -89,7 +89,29 @@ export interface Appointemnts {
     declined: number;
     pending: number;
     total: number;
-    completed:number
+    completed: number;
+  };
+}
+
+export interface AppointmentsInfo {
+  status: string;
+  artisanId: string;
+  client: string;
+  clientEmail: string;
+  clientName: string;
+  clientPhoneNumber: string;
+  date: Date;
+  description: string;
+  price: number;
+  _id: string;
+}
+
+export interface AllBookings {
+  bookings: AppointmentsInfo[];
+  pagination: {
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
   };
 }
 
@@ -103,6 +125,12 @@ export const useArtisans = () => {
   const getBookingCount = () =>
     useApiQuery<Appointemnts>(["total_appointments"], {
       url: `/booking/counts`,
+      method: "GET",
+    });
+
+  const getAllBookings = () =>
+    useApiQuery<AllBookings>(["all_appointments"], {
+      url: `/booking/view`,
       method: "GET",
     });
 
@@ -123,5 +151,6 @@ export const useArtisans = () => {
     bookAppointment,
     leaveReview,
     getBookingCount,
+    getAllBookings,
   };
 };

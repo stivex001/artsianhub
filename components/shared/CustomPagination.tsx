@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChevronLeft, ChevronRight, ChevronsDown } from "lucide-react";
 
 type CustomPaginationProps = {
-  currentPage: number;
+  currentPage: any;
   totalPages: number;
   onPageChange: (pageNumber: number) => void;
   visiblePages?: number;
@@ -10,8 +10,8 @@ type CustomPaginationProps = {
 };
 
 const CustomPagination = ({
-  currentPage = 3,
-  totalPages = 30,
+  currentPage ,
+  totalPages,
   onPageChange,
   visiblePages = 3,
   showGoToPage = true,

@@ -151,7 +151,7 @@ const TablesComponent = ({
                             />
                           )}
 
-                          <p className="text-black text-sm">{item} </p>
+                          <span className="text-black text-sm">{item} </span>
                         </div>
                       </td>
                     ))}
