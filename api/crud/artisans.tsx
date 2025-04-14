@@ -45,10 +45,12 @@ export interface UserInfo {
   updatedAt: string;
   oneSignalPlayerId: string;
   isApproved: boolean;
+  _id: string;
 }
 
 export interface ArtisanDetails {
   artisanId: string;
+  _id: string;
   profilePhoto: Media;
   serviceCategory: string;
   specialization: string;
@@ -75,10 +77,20 @@ export interface ArtisanDetails {
   professionalCertifications: any[];
 }
 
-export interface ReviewData  {
-  customerName: string
-  rating:number
-  testimonial:string
+export interface ReviewData {
+  customerName: string;
+  rating: number;
+  testimonial: string;
+}
+
+export interface Appointemnts {
+  counts: {
+    accepted: number;
+    declined: number;
+    pending: number;
+    total: number;
+    completed:number
+  };
 }
 
 export const useArtisans = () => {
@@ -88,21 +100,28 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+  const getBookingCount = () =>
+    useApiQuery<Appointemnts>(["total_appointments"], {
+      url: `/booking/counts`,
+      method: "GET",
+    });
+
   const bookAppointment = (id: string) =>
     useApiMutation<AuthResponse, FormData>({
       url: `/booking/artisan/${id}`,
       method: "POST",
     });
 
-    const leaveReview = (id: string) =>
-      useApiMutation<AuthResponse, FormData>({
-        url: `/rating/artisans/${id}/testimonials`,
-        method: "POST",
-      });
+  const leaveReview = (id: string) =>
+    useApiMutation<AuthResponse, FormData>({
+      url: `/rating/artisans/${id}/testimonials`,
+      method: "POST",
+    });
 
   return {
     getAllArtisan,
     bookAppointment,
-    leaveReview
+    leaveReview,
+    getBookingCount,
   };
 };
