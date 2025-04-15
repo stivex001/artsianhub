@@ -146,11 +146,18 @@ export const useArtisans = () => {
       method: "POST",
     });
 
+    const bookingResponse = (id: string) =>
+      useApiMutation<AuthResponse, FormData>({
+        url: `/booking/response/${id}`,
+        method: "POST",
+      });
+
   return {
     getAllArtisan,
     bookAppointment,
     leaveReview,
     getBookingCount,
     getAllBookings,
+    bookingResponse
   };
 };
