@@ -22,6 +22,7 @@ type TablesComponentProp = {
   selectedRows?: number[];
   headerClassName?: string;
   headerBackgroundColor?: string;
+  onRowClick?: any;
 };
 
 const TablesComponent = ({
@@ -40,6 +41,7 @@ const TablesComponent = ({
   selectedRows = [],
   headerClassName = "py-3.5 px-4 text-left font-medium text-gray-500 text-sm rounded-lg",
   headerBackgroundColor = "#F0F2F5",
+  onRowClick,
 }: TablesComponentProp) => {
   const [selected, setSelected] = useState(null);
   const [showOptions, setShowOptions] = useState(false);
@@ -127,21 +129,22 @@ const TablesComponent = ({
               </tr>
               <tr className="h-2" aria-hidden="true"></tr>
             </thead>
-            <tbody style={{ backgroundColor: "red" }} className="">
-              {data.map((eachRow, index) => {
+            <tbody className="">
+              {data?.map((eachRow, index) => {
                 const formatedValue = getFormattedValue(eachRow, index);
 
-                console.log(formatedValue, "row");
+                console.log(eachRow, "row_value");
 
                 return (
                   <tr
                     key={index}
                     className={`${
                       index % 2 ? "bg-white" : "bg-[#D9D9D9]"
-                    } border-b last:border-b-0`}
+                    } border-b last:border-b-0 cursor-pointer`}
+                    onClick={() => onRowClick(eachRow)}
                     // className={`bg-white border-b last:border-b-0`}
                   >
-                    {formatedValue.map((item: any, i: number) => (
+                    {formatedValue?.map((item: any, i: number) => (
                       <td key={i} className="px-4 py-7 text-sm text-black mb-5">
                         <div className="flex items-center gap-3 whitespace-nowrap">
                           {i === 0 && showCheckBox && (
