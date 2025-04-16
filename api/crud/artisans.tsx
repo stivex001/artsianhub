@@ -100,7 +100,7 @@ export interface AppointmentsInfo {
   clientEmail: string;
   clientName: string;
   clientPhoneNumber: string;
-  date: Date;
+  date: any;
   description: string;
   price: number;
   _id: string;
