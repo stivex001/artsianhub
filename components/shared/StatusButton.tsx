@@ -46,8 +46,8 @@ const statusStyles: Record<string, Styles> = {
     color: "#721C24",
     text: "Cancelled",
   },
-  accept: { backgroundColor: "#1F873B", color: "#fff", text: "Accepted" },
-  decline: { backgroundColor: "#DD1919", color: "#fff", text: "Declined" },
+  accepted: { backgroundColor: "#1F873B", color: "#fff", text: "Accepted" },
+  declined: { backgroundColor: "#DD1919", color: "#fff", text: "Declined" },
   inactive: { backgroundColor: "#F8D7DA", color: "#721C24", text: "Inactive" },
   "awaiting inspection": {
     backgroundColor: "#FFF3CD",

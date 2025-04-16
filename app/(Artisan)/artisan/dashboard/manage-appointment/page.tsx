@@ -1,5 +1,5 @@
 "use client";
-import { useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import ActionModal from "@/components/shared/ActionModal";
@@ -12,6 +12,7 @@ import Wrapper from "@/components/shared/Wrapper";
 import { addDays } from "date-fns";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { toast } from "sonner";
 
 type DateProps = {
   date: string;
@@ -51,8 +52,11 @@ type Props = {};
 
 const ManageAppointment = (props: Props) => {
   const { getAllBookings, bookingResponse } = useArtisans();
+  const [selectedRow, setSelectedRow] = useState<any | null>(null);
 
-  const { data: viewBookings, isLoading } = getAllBookings();
+  const { mutate, isPending } = bookingResponse(`${selectedRow?._id}`);
+
+  const { data: viewBookings, isLoading, refetch } = getAllBookings();
   const bookings = viewBookings?.bookings;
   const pagination = viewBookings?.pagination;
 
@@ -77,6 +81,31 @@ const ManageAppointment = (props: Props) => {
     console.log("Filter changed");
   };
 
+  const handleAcceptOrDeclineAppointment = async (
+    row: any,
+    status: "accepted" | "declined"
+  ) => {
+    const formData = new FormData();
+    formData.append("status", status);
+
+    setSelectedRow(row);
+
+    try {
+      await mutate(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || `Successfully ${status}`);
+          setShowModal(null);
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || `Failed to ${status}`);
+        },
+      });
+    } catch (error) {
+      toast.error("Something went wrong.");
+    }
+  };
+
   const tableData =
     bookings?.map((booking: any) => ({
       status: booking?.status,
@@ -88,34 +117,40 @@ const ManageAppointment = (props: Props) => {
       dateCreated: new Date(booking.date).toLocaleDateString("en-GB"),
     })) || [];
 
-  const getFormattedValue = (row: any, i: number) => [
-    <StatusButton status={row.status} />,
-    row.accountName, // Name
-    row.email, // Email
-    row.phoneNumber, // Phone number
-    row.description, // Description
-    <DateTimeDisplay date={row.dateCreated} />,
-    row.price, // Pricing
-    <button
-      className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold relative"
-      onClick={() => setShowModal(i)}
-    >
-      Action
-      {showModal === i && (
-        <ActionModal
-          onAccept={() => {
-            console.log("Accepted", row);
-            setShowModal(null);
-          }}
-          onDecline={() => {
-            console.log("Declined", row);
-            setShowModal(null);
-          }}
-          onClose={() => setShowModal(null)}
-        />
-      )}
-    </button>,
-  ];
+  const getFormattedValue = (row: any, i: number) => {
+    const actualRow = bookings?.[i]; // grab the real booking data with _id
+
+    return [
+      <StatusButton status={row.status} />,
+      row.accountName,
+      row.email,
+      row.phoneNumber,
+      row.description,
+      <DateTimeDisplay date={row?.dateCreated} />,
+      row.price,
+      <button
+        className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold relative"
+        onClick={() => {
+          setSelectedRow(actualRow); // set current row
+          setShowModal(i);
+        }}
+      >
+        Action
+        {showModal === i && (
+          <ActionModal
+            onAccept={() =>
+              handleAcceptOrDeclineAppointment(actualRow, "accepted")
+            }
+            onDecline={() =>
+              handleAcceptOrDeclineAppointment(actualRow, "declined")
+            }
+            onClose={() => setShowModal(null)}
+            isLoading={isPending}
+          />
+        )}
+      </button>,
+    ];
+  };
 
   return (
     <section className="flex flex-col gap-5">
