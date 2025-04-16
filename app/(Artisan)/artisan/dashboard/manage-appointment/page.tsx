@@ -10,6 +10,7 @@ import StatusButton from "@/components/shared/StatusButton";
 import TablesComponent from "@/components/shared/TablesComponent";
 import Wrapper from "@/components/shared/Wrapper";
 import { addDays } from "date-fns";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { toast } from "sonner";
@@ -51,6 +52,7 @@ const DateTimeDisplay = ({ date, time }: DateProps) => {
 type Props = {};
 
 const ManageAppointment = (props: Props) => {
+  const router = useRouter();
   const { getAllBookings, bookingResponse } = useArtisans();
   const [selectedRow, setSelectedRow] = useState<any | null>(null);
 
@@ -81,6 +83,10 @@ const ManageAppointment = (props: Props) => {
     console.log("Filter changed");
   };
 
+  const handleRowClick = (row: any) => {
+    router.push(`/artisan/dashboard/manage-appointment/${row?._id}`);
+  };
+
   const handleAcceptOrDeclineAppointment = async (
     row: any,
     status: "accepted" | "declined"
@@ -108,6 +114,7 @@ const ManageAppointment = (props: Props) => {
 
   const tableData =
     bookings?.map((booking: any) => ({
+      _id: booking?._id,
       status: booking?.status,
       accountName: booking?.clientName,
       email: booking?.clientEmail,
@@ -118,7 +125,7 @@ const ManageAppointment = (props: Props) => {
     })) || [];
 
   const getFormattedValue = (row: any, i: number) => {
-    const actualRow = bookings?.[i]; // grab the real booking data with _id
+    const actualRow = bookings?.[i];
 
     return [
       <StatusButton status={row.status} />,
@@ -130,7 +137,8 @@ const ManageAppointment = (props: Props) => {
       row.price,
       <button
         className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold relative"
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           setSelectedRow(actualRow); // set current row
           setShowModal(i);
         }}
@@ -188,19 +196,22 @@ const ManageAppointment = (props: Props) => {
                 headerBackgroundColor="#5691D1"
                 options={["Accept", "Decline"]}
                 hideActionButton
+                onRowClick={handleRowClick}
               />
             </div>
-            <div className="flex justify-between items-center px-4 ">
-              <div className="text-sm text-gray-600">
-                Page {currentPage} of {totalPages}
+            {(bookings?.length ?? 0) > 0 && (
+              <div className="flex justify-between items-center px-4 ">
+                <div className="text-sm text-gray-600">
+                  Page {currentPage} of {totalPages}
+                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                  // visiblePages={currentPage}
+                />
               </div>
-              <CustomPagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-                // visiblePages={currentPage}
-              />
-            </div>
+            )}
           </>
         )}
       </Wrapper>
