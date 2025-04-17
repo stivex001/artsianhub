@@ -23,7 +23,7 @@ const AppointmentDetails = (props: Props) => {
   const details = bookings?.find((appointment) => appointment?._id === id);
 
   const handleAcceptOrDeclineAppointment = async (
-    status: "accepted" | "declined"
+    status: "accepted" | "declined" | "completed"
   ) => {
     const formData = new FormData();
     formData.append("status", status);
@@ -98,8 +98,10 @@ const AppointmentDetails = (props: Props) => {
             <ActionModal
               onAccept={() => handleAcceptOrDeclineAppointment("accepted")}
               onDecline={() => handleAcceptOrDeclineAppointment("declined")}
+              onCompleted={() => handleAcceptOrDeclineAppointment("completed")}
               onClose={() => setShowModal(false)}
               isLoading={isPending}
+              showCompleted
             />
           )}
         </button>

@@ -8,14 +8,18 @@ type ActionModalProps = {
   onAccept: () => void;
   onDecline: () => void;
   onClose: () => void;
+  onCompleted?: () => void;
   isLoading?: boolean;
+  showCompleted?: boolean;
 };
 
 const ActionModal: React.FC<ActionModalProps> = ({
   onAccept,
   onDecline,
   onClose,
+  onCompleted,
   isLoading,
+  showCompleted,
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -62,8 +66,15 @@ const ActionModal: React.FC<ActionModalProps> = ({
               </div>
 
               {/* Decline bubble */}
-              <div className="bg-white text-red-600 px-6 py-2 rounded-[20px] font-bold text-center mt-2 relative">
-                <button onClick={onDecline}>Decline</button>
+              <div className="bg-white px-6 py-2 space-y-3 rounded-[20px] font-semibold text-start mt-2 relative">
+                <button onClick={onDecline} className="text-red-600">
+                  Decline
+                </button>
+                {showCompleted && (
+                  <button onClick={onCompleted} className=" text-black">
+                    Completed
+                  </button>
+                )}
                 <div className="absolute top-[-6px] left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-white" />
               </div>
             </div>
