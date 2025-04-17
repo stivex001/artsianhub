@@ -1,5 +1,5 @@
 "use client";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/api/crud/artisans";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import ActionModal from "@/components/shared/ActionModal";
@@ -128,13 +128,13 @@ const ManageAppointment = (props: Props) => {
     const actualRow = bookings?.[i];
 
     return [
-      <StatusButton status={row.status} />,
-      row.accountName,
-      row.email,
-      row.phoneNumber,
-      row.description,
+      <StatusButton status={row?.status} />,
+      row?.accountName,
+      row?.email,
+      row?.phoneNumber,
+      row?.description,
       <DateTimeDisplay date={row?.dateCreated} />,
-      row.price,
+      row?.price,
       <button
         className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold relative"
         onClick={(e) => {
@@ -163,7 +163,7 @@ const ManageAppointment = (props: Props) => {
   return (
     <section className="flex flex-col gap-5">
       <Descriptions title="Manage Appointment" />
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-5">
         <div className="">
           <CustomDatePicker range date={date} setDate={setDate} />
         </div>
@@ -201,7 +201,7 @@ const ManageAppointment = (props: Props) => {
             </div>
             {(bookings?.length ?? 0) > 0 && (
               <div className="flex justify-between items-center px-4 ">
-                <div className="text-sm text-gray-600">
+                <div className="hidden lg:block text-sm text-gray-600">
                   Page {currentPage} of {totalPages}
                 </div>
                 <CustomPagination
