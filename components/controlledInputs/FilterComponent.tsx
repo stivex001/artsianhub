@@ -52,8 +52,8 @@ const FilterComponent = ({
       <button
         onClick={toggleDropdown}
         className={`${
-          filterStyle ? "min-w-[180px]" : "min-w-[120px]"
-        }  flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors ${className}`}
+          filterStyle ? "lg:min-w-[180px]" : "lg:min-w-[120px]"
+        } min-w-[300px] flex items-center justify-between gap-2 px-4 py-1.5 bg-white rounded-[20px] h-[50px] border border-black hover:bg-gray-50 transition-colors ${className}`}
         // style={{ minWidth: "120px" }}
       >
         <div className="flex items-center gap-2">

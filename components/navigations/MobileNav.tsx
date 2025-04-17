@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import settings from "@/components/assets/images/Settings.png";
 import { usePathname } from "next/navigation";
-import { artisanLinks } from "./data";
+import { adminLinks, artisanLinks } from "./data";
 import logo from "@/components/assets/images/logo.png";
 import { useModalClose } from "@/contexts/SheetCloseModal";
 import { HamburgerIcon } from "../assets/icons/NavigationIcons";
@@ -14,6 +14,9 @@ export const MobileNav = () => {
   const pathname = usePathname();
 
   const { isOpen, openModal, closeModal } = useModalClose();
+
+  const isArtisanPage = pathname.startsWith("/artisan");
+  const isAdminPage = pathname.startsWith("/admin");
 
   return (
     <Sheet open={isOpen} onOpenChange={openModal}>
@@ -34,9 +37,14 @@ export const MobileNav = () => {
           />
         </div>
         <div className="flex-grow overflow-y-auto no-scrollbar  pt-20">
-          <div>
+        <div>
+          {isArtisanPage && (
             <SidebarMenu links={artisanLinks} pathname={pathname} />
-          </div>
+          )}
+          {isAdminPage && (
+            <SidebarMenu links={adminLinks} pathname={pathname} />
+          )}
+        </div>
         </div>
         <Link
           href="/artisan/dashboard/settings"

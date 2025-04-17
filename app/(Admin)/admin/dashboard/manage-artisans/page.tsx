@@ -1,4 +1,5 @@
 "use client";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
@@ -8,6 +9,7 @@ import StatusButton from "@/components/shared/StatusButton";
 import TablesComponent from "@/components/shared/TablesComponent";
 import Wrapper from "@/components/shared/Wrapper";
 import { addDays } from "date-fns";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -26,8 +28,6 @@ const headers = [
   "KYC Status",
 ];
 
-
-
 const DateTimeDisplay = ({ date, time }: DateProps) => {
   return (
     <div>
@@ -40,6 +40,13 @@ const DateTimeDisplay = ({ date, time }: DateProps) => {
 type Props = {};
 
 const ManageArtisans = (props: Props) => {
+  const router = useRouter();
+
+  const { getAllArtisan } = useArtisans();
+  const { data: artisans = [], isLoading } = getAllArtisan();
+
+  console.log(artisans, "artsyududu");
+
   const [selectedRows, setSelectedRows] = useState([]);
   const [currentPage, setCurrentPage] = useState(3);
   const [date, setDate] = React.useState<DateRange | undefined>({
@@ -58,37 +65,43 @@ const ManageArtisans = (props: Props) => {
     console.log("Filter changed");
   };
 
-  const tableData = Array.from({ length: 11 }).map(() => ({
-    artisanId: "Art 123444",
-    accountName: "Smith Jane",
-    email: "jane@gmail.com",
-    phoneNumber: "+1234567890",
-    status: "Active",
-    kycStatus: "Completed",
-    dateCreated: "2/05/2025",
+  const handleRowClick = (row: any) => {
+    router.push(`/artisan/dashboard/manage-appointment/${row?._id}`);
+  };
+
+  const tableData = artisans?.map((art: any) => ({
+    _id: art?._id,
+    artisanId: art?.artisanId,
+    accountName: `${art?.user?.firstName} ${art?.user?.firstName}`,
+    email: art?.user?.email,
+    phoneNumber: art?.user?.phoneNumber,
+    status: art?.isApproved,
+    kycStatus: art?.user?.isVerifiedArtisan,
+    dateCreated: new Date(art?.createdAt).toLocaleDateString("en-GB"),
   }));
 
-  const getFormattedValue = (row: any, i: number) => [
-   
-    row.artisanId, // Name
-    <DateTimeDisplay date={row.dateCreated} />,
-    row.accountName, // Name
-    row.phoneNumber, // Phone number
-    row.email, // Email
-   <StatusButton status={row.status} className="w-20 !py-2 rounded-[5px]" />,
-   <StatusButton status={row.kycStatus} className="w-20 !py-2 rounded-[5px]" />,
-    // <button
-    //   className="bg-primary rounded-[10px] h-9 px-2 flex items-center justify-center text-white font-bold"
-    //   onClick={() => console.log(row)}
-    // >
-    //   Action
-    // </button>,
-  ];
+  const getFormattedValue = (row: any, i: number) => {
+    return [
+      row?.artisanId,
+      row?.accountName, // Name
+      row?.email, // Email
+      row?.phoneNumber, // Phone number
+      <StatusButton
+        status={row?.status}
+        className="w-20 !py-2 rounded-[5px]"
+      />,
+      <StatusButton
+        status={row?.kycStatus}
+        className="w-20 !py-2 rounded-[5px]"
+      />,
+      <DateTimeDisplay date={row?.dateCreated} />,
+    ];
+  };
 
   return (
     <section className="flex flex-col gap-5">
       <Descriptions title="Manage Artisans" className="font-normal" />
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col lg:flex-row items-center justify-between">
         <div className="">
           <CustomDatePicker
             range
@@ -119,9 +132,10 @@ const ManageArtisans = (props: Props) => {
             headerBackgroundColor="#E1E7EE"
             options={["Accept", "Decline"]}
             hideActionButton
+            onRowClick={handleRowClick}
           />
         </div>
-        <div className="flex justify-between items-center px-4 ">
+        {/* <div className="flex justify-between items-center px-4 ">
           <div className="text-sm text-gray-600">
             Page {currentPage} of {totalPages}
           </div>
@@ -130,7 +144,7 @@ const ManageArtisans = (props: Props) => {
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />
-        </div>
+        </div> */}
       </Wrapper>
     </section>
   );

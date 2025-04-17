@@ -88,7 +88,7 @@ const TablesComponent = ({
   return (
     <div className="w-full flex flex-col h-full no-scrollbar scrollbar-hidden">
       {/* Desktop View */}
-      <div className="hidden lg:flex flex-col h-full no-scrollbar scrollbar-hidden">
+      <div className="flex flex-col h-full no-scrollbar scrollbar-hidden">
         {/* Container with relative positioning and overflow */}
         <div className="relative flex flex-col h-full overflow-auto">
           <table className="w-full no-scrollbar scrollbar-hidden">
@@ -183,7 +183,7 @@ const TablesComponent = ({
       </div>
 
       {/* Mobile View */}
-      <div className="lg:hidden flex-1 flex flex-col h-full">
+      <div className="hidden flex-1  flex-col h-full">
         {/* Mobile header with sticky positioning */}
         <div
           style={{
@@ -212,7 +212,7 @@ const TablesComponent = ({
         {/* Scrollable content area */}
         <div className="flex-1 overflow-auto">
           <div className="divide-y">
-            {data.map((eachRow, index) => {
+            {data?.map((eachRow, index) => {
               const formatedValue = getFormattedValue(eachRow, index);
               return (
                 <div
@@ -231,7 +231,7 @@ const TablesComponent = ({
                       )}
                       <div className="flex flex-1 flex-col gap-3">
                         <div className="flex flex-wrap gap-4">
-                          {formatedValue.map((item: any, i: number) => (
+                          {formatedValue?.map((item: any, i: number) => (
                             <div key={i} className="text-sm text-gray-900">
                               {renderData(item)}
                             </div>
