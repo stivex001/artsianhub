@@ -1,12 +1,13 @@
 "use client";
 
+import { useArtisans } from "@/api/crud/artisans";
 import { useUser } from "@/api/crud/user";
 import { ArtisanActivities } from "@/components/admin/dashboard/ArtisanActivities";
 import { SubscriptionPlans } from "@/components/admin/dashboard/SubscriptionPlans";
 import { UserReview } from "@/components/admin/dashboard/UsersReview";
 import CustomBarChart from "@/components/shared/CustomBarChart";
 import { Descriptions } from "@/components/shared/Headings";
-import { useAuthStore } from "@/store/authStore";
+import { Spinner } from "@/components/shared/Spinner";
 import React from "react";
 
 type Props = {};
@@ -28,9 +29,16 @@ const revenueData = [
 
 const AdminDashboard = (props: Props) => {
   const { getCurrentArtisanUser } = useUser();
+  const { getAllArtisanCount } = useArtisans();
   const { data, isLoading } = getCurrentArtisanUser();
+  const { data: counts, isLoading: ispending } = getAllArtisanCount();
 
-  const { currentUser } = useAuthStore();
+  const appointmentsCount = counts?.appointments;
+  const usersCount = counts?.users;
+
+  if (ispending) {
+    return <Spinner />;
+  }
 
   return (
     <section className="flex flex-col gap-[30px]">
@@ -42,11 +50,11 @@ const AdminDashboard = (props: Props) => {
         <div className="border-2 border-primary w-full" />
       </div>
       <div className="flex flex-col gap-5">
-        <UserReview />
+        <UserReview usersCount={usersCount} />
         <div className="border-2 border-primary w-full " />
-        <ArtisanActivities />
-        <div className="border-2 border-primary w-full" />
-        <SubscriptionPlans />
+        <ArtisanActivities appointmentsCount={appointmentsCount} />
+        {/* <div className="border-2 border-primary w-full" />
+        <SubscriptionPlans /> */}
         <div className="">
           <CustomBarChart data={revenueData} />
         </div>
