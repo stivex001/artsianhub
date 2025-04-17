@@ -115,6 +115,21 @@ export interface AllBookings {
   };
 }
 
+export interface AllBookingsCounts {
+  appointments: {
+    acceptedAppointments: number;
+    completedAppointments: number;
+    declinedAppointments: number;
+    totalAppointments: number;
+  };
+  users: {
+    activeArtisans: number;
+    deactivatedArtisans: number;
+    inactiveArtisans: number;
+    totalArtisans: number;
+  };
+}
+
 export const useArtisans = () => {
   const getAllArtisan = () =>
     useApiQuery<ArtisanDetails[]>(["all_artisans"], {
@@ -134,6 +149,12 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+  const getAllArtisanCount = () =>
+    useApiQuery<AllBookingsCounts>(["all_artisan_count"], {
+      url: `/admin/view-artisans-services-counts`,
+      method: "GET",
+    });
+
   const bookAppointment = (id: string) =>
     useApiMutation<AuthResponse, FormData>({
       url: `/booking/artisan/${id}`,
@@ -146,11 +167,11 @@ export const useArtisans = () => {
       method: "POST",
     });
 
-    const bookingResponse = (id: string) =>
-      useApiMutation<AuthResponse, FormData>({
-        url: `/booking/response/${id}`,
-        method: "POST",
-      });
+  const bookingResponse = (id: string) =>
+    useApiMutation<AuthResponse, FormData>({
+      url: `/booking/response/${id}`,
+      method: "POST",
+    });
 
   return {
     getAllArtisan,
@@ -158,6 +179,7 @@ export const useArtisans = () => {
     leaveReview,
     getBookingCount,
     getAllBookings,
-    bookingResponse
+    bookingResponse,
+    getAllArtisanCount,
   };
 };

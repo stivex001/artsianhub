@@ -22,6 +22,8 @@ interface SidebarMenuProps {
 const isRouteActive = (currentPath: string, linkPath: string) => {
   if (linkPath === "/artisan/dashboard") {
     return currentPath === "/artisan/dashboard";
+  } else if (linkPath === "/admin/dashboard") {
+    return currentPath === "/admin/dashboard";
   }
   return currentPath === linkPath || currentPath.startsWith(`${linkPath}/`);
 };

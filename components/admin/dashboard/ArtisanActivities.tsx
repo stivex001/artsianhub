@@ -2,9 +2,11 @@ import { Details } from "@/components/shared/Details";
 import Wrapper from "@/components/shared/Wrapper";
 import React from "react";
 
-type Props = {};
+type Props = {
+  appointmentsCount: any;
+};
 
-export const ArtisanActivities = (props: Props) => {
+export const ArtisanActivities = ({ appointmentsCount }: Props) => {
   return (
     <div className="mb-8">
       <h1 className="text-2xl text-primary pb-2">Artisan Activities</h1>
@@ -13,22 +15,22 @@ export const ArtisanActivities = (props: Props) => {
           <Details
             className="bg-[#B1C7D2] text-primary"
             title="Appointments"
-            count="1000"
+            count={appointmentsCount?.totalAppointments}
           />
           <Details
             className="bg-[#B1C7D2] text-primary"
             title="Accepted Appointment"
-            count="900"
+            count={appointmentsCount?.acceptedAppointments}
           />{" "}
           <Details
             className="bg-[#B1D2CC] text-primary"
             title="Decline Artisans"
-            count="50"
+            count={appointmentsCount?.declinedAppointments}
           />{" "}
           <Details
             className="bg-[#C7D2B1] text-primary"
             title="Completed Appointment"
-            count="500"
+            count={appointmentsCount?.completedAppointments}
           />{" "}
         </div>
       </Wrapper>
