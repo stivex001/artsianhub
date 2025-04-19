@@ -12,8 +12,6 @@ export interface ContactUsData {
   createdAt: Date;
 }
 
-
-
 export const useContactUs = () => {
   const getAllContact = () =>
     useApiQuery<ContactUsData[]>(["contact"], {
@@ -26,12 +24,13 @@ export const useContactUs = () => {
     method: "POST",
   });
 
-  const getContactById = (id: string) => {
-    useApiMutation<AuthResponse, FormData>({
-      url: `/contact-us/${id}`,
+   const getContactById = (id: string) =>
+    useApiQuery<ContactUsData>(["contact-details", id], {
+      url: `/admin/contact-us/${id}`,
       method: "GET",
-    });
-  };
+    });;
+
+ 
 
   const deleteContact = (id: string) => {
     useApiMutation<AuthResponse, FormData>({

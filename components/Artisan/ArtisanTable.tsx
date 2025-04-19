@@ -27,7 +27,7 @@ const ArtisanTable = ({ artisans }: Props) => {
 
   const renderRow = (item: ArtisanDetails) => {
     const handleRowClick = (id: string) => {
-      router.push(`/admin/dashboard/manage-appointment/${id}`);
+      router.push(`/admin/dashboard/manage-artisans/${id}`);
     };
 
     return (
