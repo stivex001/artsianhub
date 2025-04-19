@@ -48,7 +48,7 @@ const statusStyles: Record<string, Styles> = {
   },
   accepted: { backgroundColor: "#1F873B", color: "#fff", text: "Accepted" },
   declined: { backgroundColor: "#DD1919", color: "#fff", text: "Declined" },
-  inactive: { backgroundColor: "#F8D7DA", color: "#721C24", text: "Inactive" },
+  inactive: { backgroundColor: "#FFD0D0", color: "#fff", text: "Inactive" },
   "awaiting inspection": {
     backgroundColor: "#FFF3CD",
     color: "#856404",
@@ -62,7 +62,7 @@ const statusStyles: Record<string, Styles> = {
 };
 
 const StatusButton = ({ status, className }: StatusButtonProps) => {
-  const lowerCaseStatus = status.toLowerCase();
+  const lowerCaseStatus = status?.toLowerCase();
   const styles = statusStyles[lowerCaseStatus] ?? {
     backgroundColor: "#E2E3E5",
     color: "#383D41",
