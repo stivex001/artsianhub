@@ -25,7 +25,6 @@ const ManageArtisans = (props: Props) => {
   const { getAllArtisan } = useArtisans();
   const { data: artisans = [], isPending } = getAllArtisan();
 
-  console.log(artisans, "artsyududu");
 
   const [currentPage, setCurrentPage] = useState(3);
   const [date, setDate] = React.useState<DateRange | undefined>({
