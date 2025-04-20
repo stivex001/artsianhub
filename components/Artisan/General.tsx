@@ -1,6 +1,7 @@
 "use client";
 import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import React from "react";
+import SkeletonLoader from "../shared/SkeletonModal";
 
 type Props = {
   selectedArtisan: ArtisanDetails;
@@ -49,10 +50,21 @@ export const General = ({ selectedArtisan }: Props) => {
         </div>
         <div className="bg-[#E1E7EE] rounded-[10px] py-5">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <Count title="Service Count" count={counts?.total} />
-            <Count title="Service Accepted" count={counts?.accepted} />
-            <Count title="Service Declined" count={counts?.declined} />
-            <Count title="Total Completed Service" count={counts?.completed} />
+            {isLoading ? (
+              <div className=" rounded-[10px] overflow-hidden w-[300] h-[200px]">
+                <SkeletonLoader type="image" />
+              </div>
+            ) : (
+              <>
+                <Count title="Service Count" count={counts?.total} />
+                <Count title="Service Accepted" count={counts?.accepted} />
+                <Count title="Service Declined" count={counts?.declined} />
+                <Count
+                  title="Total Completed Service"
+                  count={counts?.completed}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -70,10 +82,7 @@ export const General = ({ selectedArtisan }: Props) => {
               title="First Name"
               desc={selectedArtisan?.user?.firstName}
             />
-            <Details
-              title="Gender"
-              desc={selectedArtisan?.user?.gender}
-            />
+            <Details title="Gender" desc={selectedArtisan?.user?.gender} />
             <Details
               title="Email Address"
               desc={selectedArtisan?.user?.email}
@@ -90,19 +99,19 @@ export const General = ({ selectedArtisan }: Props) => {
               title="Region of Operation"
               desc={selectedArtisan?.user?.residentialAddress}
             />
-             <Details
+            <Details
               title="Residential Address"
               desc={selectedArtisan?.user?.residentialAddress}
             />
-             <Details
+            <Details
               title="Specification"
               desc={selectedArtisan?.user?.specialization}
             />
-             <Details
+            <Details
               title="Language"
               desc={selectedArtisan?.languagesSpoken?.join(",")}
             />
-             <Details
+            <Details
               title="Work Day/hours"
               desc={selectedArtisan?.workAvailability?.days?.join(", ")}
             />

@@ -7,6 +7,7 @@ import Wrapper from "@/components/shared/Wrapper";
 import { useParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { General } from "@/components/Artisan/General";
+import ProfessionalDetails from "@/components/Artisan/ProfessionalDetails";
 
 type Props = {};
 
@@ -96,7 +97,7 @@ const ArtisanDetails = (props: Props) => {
               <General selectedArtisan={selectedArtisan} />
             </TabsContent>
             <TabsContent value="kyc">
-              <h1>KYC</h1>
+              <ProfessionalDetails selectedArtisan={selectedArtisan} />
             </TabsContent>
             <TabsContent value="track">
               <h1>Track</h1>
