@@ -36,9 +36,7 @@ const AdminDashboard = (props: Props) => {
   const appointmentsCount = counts?.appointments;
   const usersCount = counts?.users;
 
-  if (ispending) {
-    return <Spinner />;
-  }
+  
 
   return (
     <section className="flex flex-col gap-[30px]">
@@ -50,9 +48,9 @@ const AdminDashboard = (props: Props) => {
         <div className="border-2 border-primary w-full" />
       </div>
       <div className="flex flex-col gap-5">
-        <UserReview usersCount={usersCount} />
+        <UserReview usersCount={usersCount} isLoading={ispending}  />
         <div className="border-2 border-primary w-full " />
-        <ArtisanActivities appointmentsCount={appointmentsCount} />
+        <ArtisanActivities appointmentsCount={appointmentsCount} isLoading={isLoading} />
         {/* <div className="border-2 border-primary w-full" />
         <SubscriptionPlans /> */}
         <div className="">
