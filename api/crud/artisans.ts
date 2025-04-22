@@ -137,6 +137,13 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+  const getFilteredByArtisan = (params?: Record<string, any>) =>
+    useApiQuery<ArtisanDetails[]>(["all_filtered_artisans", params], {
+      url: `/admin/admin-search-artisans`,
+      method: "GET",
+      params,
+    });
+
   const getBookingCount = () =>
     useApiQuery<Appointemnts>(["total_appointments"], {
       url: `/booking/counts`,
@@ -175,6 +182,7 @@ export const useArtisans = () => {
 
   return {
     getAllArtisan,
+    getFilteredByArtisan,
     bookAppointment,
     leaveReview,
     getBookingCount,
