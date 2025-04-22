@@ -1,7 +1,6 @@
 "use client";
 
 import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -9,7 +8,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useState } from "react";
 import ScheduleIcon from "../assets/images/Schedule.png";
 import Image from "next/image";
 import { formatDate } from "@/utils/formatDate";

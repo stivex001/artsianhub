@@ -13,7 +13,7 @@ import Wrapper from "@/components/shared/Wrapper";
 import { mapFilterTabToQuery } from "@/hooks/useMapFilterTabQuery";
 import { useFilterState } from "@/store/filterStore";
 import { PageTypes } from "@/utils";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
 
@@ -31,14 +31,21 @@ const filterTabs = [
 ];
 
 const ManageArtisans = (props: Props) => {
-  const { search, startDate, endDate, filterTab, setFilterTab } =
-    useFilterState();
+  const {
+    search,
+    startDate,
+    endDate,
+    filterTab,
+    setFilterTab,
+    setStartDate,
+    setEndDate,
+  } = useFilterState();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
+  const date = {
+    from: startDate || undefined,
+    to: endDate || undefined,
+  };
   const totalPages = 5;
   const entriesPerPage = 10;
 
@@ -47,8 +54,8 @@ const ManageArtisans = (props: Props) => {
   };
 
   if (search) params.searchTerm = search;
-  if (startDate) params.startDate = startDate.toISOString();
-  if (endDate) params.endDate = endDate.toISOString();
+  if (startDate) params.startDate = format(startDate, "yyyy-MM-dd");
+  if (endDate) params.endDate = format(endDate, "yyyy-MM-dd");
 
   const shouldFilter =
     !!search || !!startDate || !!endDate || (filterTab && filterTab !== "all");
@@ -65,6 +72,14 @@ const ManageArtisans = (props: Props) => {
     setCurrentPage(page);
   };
 
+  const handleDateChange = (range: DateRange | undefined) => {
+    if (range?.from) setStartDate(range.from);
+    else setStartDate(null);
+
+    if (range?.to) setEndDate(range.to);
+    else setEndDate(null);
+  };
+
   return (
     <section className="flex flex-col gap-5">
       <Descriptions title="Manage Artisans" className="font-normal" />
@@ -73,7 +88,7 @@ const ManageArtisans = (props: Props) => {
           <CustomDatePicker
             range
             date={date}
-            setDate={setDate}
+            setDate={handleDateChange}
             className="h-10"
           />
         </div>
@@ -94,7 +109,7 @@ const ManageArtisans = (props: Props) => {
       </div>
 
       <Wrapper className="overflow-hidden no-scrollbar scrollbar-hidden shadow-dropShadow border-none">
-        {isPending  ? (
+        {isPending ? (
           <SkeletonTableLoader />
         ) : shouldFilter ? (
           filteredArtisans && filteredArtisans.length > 0 ? (
@@ -108,7 +123,9 @@ const ManageArtisans = (props: Props) => {
               />
             </div>
           ) : (
-            <div className="flex justify-center items-center text-center my-3 h-[70vh]">No filtered results found</div>
+            <div className="flex justify-center items-center text-center my-3 h-[70vh]">
+              No filtered results found
+            </div>
           )
         ) : artisans && artisans.length > 0 ? (
           <div>
@@ -121,7 +138,9 @@ const ManageArtisans = (props: Props) => {
             />
           </div>
         ) : (
-          <div className="flex justify-center items-center text-center my-3 h-[70vh]">No artisans available</div>
+          <div className="flex justify-center items-center text-center my-3 h-[70vh]">
+            No artisans available
+          </div>
         )}
       </Wrapper>
     </section>
