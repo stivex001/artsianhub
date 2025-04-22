@@ -51,9 +51,7 @@ export const General = ({ selectedArtisan }: Props) => {
         <div className="bg-[#E1E7EE] rounded-[10px] py-5">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {isLoading ? (
-              <div className=" rounded-[10px] overflow-hidden w-[300] h-[200px]">
-                <SkeletonLoader type="image" />
-              </div>
+              <SkeletonLoader type="card" count={4} bgColor="bg-secondary" />
             ) : (
               <>
                 <Count title="Service Count" count={counts?.total} />
