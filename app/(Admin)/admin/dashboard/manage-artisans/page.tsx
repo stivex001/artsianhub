@@ -12,7 +12,6 @@ import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import Wrapper from "@/components/shared/Wrapper";
 import { mapFilterTabToQuery } from "@/hooks/useMapFilterTabQuery";
 import { useFilterState } from "@/store/filterStore";
-import { PageTypes } from "@/utils";
 import { addDays, format } from "date-fns";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -24,7 +23,7 @@ const filterTabs = [
   { label: "Pending", value: "pending" },
   { label: "Active", value: "active" },
   { label: "Inactive", value: "inactive" },
-  { label: "Deactivated", value: "deactivated" },
+  // { label: "Deactivated", value: "deactivated" },
   { label: "Suspended", value: "suspended" },
   { label: "KYC Uploaded (YES)", value: "kyc_yes" },
   { label: "KYC Uploaded (NO)", value: "kyc_no" },
@@ -40,6 +39,16 @@ const ManageArtisans = (props: Props) => {
     setStartDate,
     setEndDate,
   } = useFilterState();
+
+  const useFilteredByArtisan = ["pending", "kyc_yes", "kyc_no"].includes(
+    filterTab
+  );
+  const useSearchByArtisan = [
+    "suspended",
+    "active",
+    "inactive",
+    "deactivated",
+  ].includes(filterTab);
 
   const [currentPage, setCurrentPage] = useState(1);
   const date = {
@@ -57,15 +66,24 @@ const ManageArtisans = (props: Props) => {
   if (startDate) params.startDate = format(startDate, "yyyy-MM-dd");
   if (endDate) params.endDate = format(endDate, "yyyy-MM-dd");
 
-  const shouldFilter =
-    !!search || !!startDate || !!endDate || (filterTab && filterTab !== "all");
+  const shouldUseFilter = [
+    "pending",
+    "kyc_yes",
+    "kyc_no",,
+  ].includes(filterTab);
+  const hasSearchInputOrDate = !!search || !!startDate || !!endDate;
+  const shouldUseSearch = hasSearchInputOrDate && !shouldUseFilter;
 
-  const { getAllArtisan, getFilteredByArtisan } = useArtisans();
-  const { data: artisans = [], isPending } = getAllArtisan();
-  const { data: filteredArtisans = [], isPending: filterPending } =
-    getFilteredByArtisan(shouldFilter ? params : undefined);
+  const { getAllArtisan, getSearchByArtisan, getFilteredByArtisan } =
+    useArtisans();
 
-  console.log(filteredArtisans, "filtred_art");
+  const { data: artisans = [], isPending: isAllPending } = getAllArtisan();
+  const { data: searchedArtisans = [], isPending: isSearchPending } =
+    getSearchByArtisan(shouldUseSearch ? params : undefined);
+  const { data: filteredArtisans = [], isPending: isFilterPending } =
+    getFilteredByArtisan(shouldUseFilter ? params : undefined);
+
+  console.log(searchedArtisans, "search_art");
 
   const handlePageChange = (page: number) => {
     console.log(`Changing to page ${page}`);
@@ -109,10 +127,10 @@ const ManageArtisans = (props: Props) => {
       </div>
 
       <Wrapper className="overflow-hidden no-scrollbar scrollbar-hidden shadow-dropShadow border-none">
-        {isPending ? (
+        {isAllPending  ? (
           <SkeletonTableLoader />
-        ) : shouldFilter ? (
-          filteredArtisans && filteredArtisans.length > 0 ? (
+        ) : shouldUseFilter ? (
+          filteredArtisans?.length > 0 ? (
             <div>
               <ArtisanTable artisans={filteredArtisans} />
               <Pagination
@@ -127,7 +145,23 @@ const ManageArtisans = (props: Props) => {
               No filtered results found
             </div>
           )
-        ) : artisans && artisans.length > 0 ? (
+        ) : shouldUseSearch ? (
+          searchedArtisans?.length > 0 ? (
+            <div>
+              <ArtisanTable artisans={searchedArtisans} />
+              <Pagination
+                currentPage={currentPage}
+                totalEntries={totalPages}
+                entriesPerPage={entriesPerPage}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          ) : (
+            <div className="flex justify-center items-center text-center my-3 h-[70vh]">
+              No results found
+            </div>
+          )
+        ) : artisans?.length > 0 ? (
           <div>
             <ArtisanTable artisans={artisans} />
             <Pagination
