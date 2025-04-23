@@ -1,12 +1,14 @@
 "use client";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import React, { useState } from "react";
 import DocumentCard from "./DocumentCard";
 import Image from "next/image";
 import { CustomButton } from "../clickable/CustomButton";
+import { toast } from "sonner";
 
 type Props = {
   selectedArtisan: ArtisanDetails;
+  refetch: () => void;
 };
 
 const documents = [
@@ -17,14 +19,47 @@ const documents = [
   { label: "Add Customer Reference", key: "customerReference" },
 ];
 
-const ProfessionalDetails = ({ selectedArtisan }: Props) => {
+const ProfessionalDetails = ({ selectedArtisan, refetch }: Props) => {
   const [activeDocUrl, setActiveDocUrl] = useState<string | null>(null);
   const [activeDocType, setActiveDocType] = useState<string | null>(null);
+  const [activeDocKey, setActiveDocKey] = useState<string | null>(null);
 
-  const handleViewDocument = (url: string) => {
+  const { approveAndDisapproveDocuments } = useArtisans();
+
+  const { mutate, isPending } = approveAndDisapproveDocuments(
+    `${selectedArtisan?._id}`
+  );
+
+  const handleViewDocument = (url: string, key: string) => {
     const extension = url.split(".").pop()?.toLowerCase();
     setActiveDocUrl(url);
     setActiveDocType(extension || null);
+    setActiveDocKey(key);
+  };
+
+  const handleApproveAndDisApprove = async (
+    status: "approve" | "reject"
+  ) => {
+    if (!activeDocKey) return toast.error("No document selected");
+
+    const formData = new FormData();
+    formData.append("credentialType", activeDocKey);
+    formData.append("action", status);
+
+    await mutate(formData, {
+      onSuccess: (response: any) => {
+        console.log("Document", response);
+        toast.success(response?.message);
+        setActiveDocUrl(null);
+        setActiveDocType(null);
+        setActiveDocKey(null);
+        refetch();
+      },
+      onError: (error: any) => {
+        toast.error(error?.message);
+        console.error("Error", error);
+      },
+    });
   };
 
   return (
@@ -76,7 +111,9 @@ const ProfessionalDetails = ({ selectedArtisan }: Props) => {
               key={index}
               label={doc.label}
               fileUrl={fileUrl}
-              onView={() => fileUrl && handleViewDocument(fileUrl)}
+              onView={() => fileUrl && handleViewDocument(fileUrl, doc.key)}
+              onApprove={() => handleApproveAndDisApprove("approve")}
+              onReject={() => handleApproveAndDisApprove("reject")}
             />
           );
         })}
@@ -127,10 +164,14 @@ const ProfessionalDetails = ({ selectedArtisan }: Props) => {
               <CustomButton
                 label="Approve"
                 className="w-24 rounded-[10px] h-6"
+                onClick={() => handleApproveAndDisApprove("approve")}
+                isLoading={isPending}
               />
               <CustomButton
                 label="Reject"
                 className="w-24 rounded-[10px] h-6 bg-[#AE2525]"
+                onClick={() => handleApproveAndDisApprove("reject")}
+                isLoading={isPending}
               />
             </div>
           </div>

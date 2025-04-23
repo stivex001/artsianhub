@@ -144,12 +144,12 @@ export const useArtisans = () => {
       params,
     });
 
-    const getSearchByArtisan = (params?: Record<string, any>) =>
-      useApiQuery<ArtisanDetails[]>(["all_filtered_artisans", params], {
-        url: `/admin/admin-search-artisans`,
-        method: "GET",
-        params,
-      });
+  const getSearchByArtisan = (params?: Record<string, any>) =>
+    useApiQuery<ArtisanDetails[]>(["all_filtered_artisans", params], {
+      url: `/admin/admin-search-artisans`,
+      method: "GET",
+      params,
+    });
 
   const getBookingCount = () =>
     useApiQuery<Appointemnts>(["total_appointments"], {
@@ -187,6 +187,12 @@ export const useArtisans = () => {
       method: "POST",
     });
 
+  const approveAndDisapproveDocuments = (id: string) =>
+    useApiMutation<AuthResponse, FormData>({
+      url: `/admin/artisan-profile/${id}/credential-status`,
+      method: "PATCH",
+    });
+
   return {
     getAllArtisan,
     getFilteredByArtisan,
@@ -197,5 +203,6 @@ export const useArtisans = () => {
     getAllBookings,
     bookingResponse,
     getAllArtisanCount,
+    approveAndDisapproveDocuments
   };
 };

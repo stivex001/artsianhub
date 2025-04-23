@@ -16,7 +16,7 @@ const ArtisanDetails = (props: Props) => {
   const artisanId = params?.id as string;
 
   const { getAllArtisan } = useArtisans();
-  const { data: artisans = [], isLoading } = getAllArtisan();
+  const { data: artisans = [], isLoading, refetch } = getAllArtisan();
 
   const selectedArtisan = artisans?.find(
     (artisan) => artisan?._id === artisanId
@@ -97,7 +97,7 @@ const ArtisanDetails = (props: Props) => {
               <General selectedArtisan={selectedArtisan} />
             </TabsContent>
             <TabsContent value="kyc">
-              <ProfessionalDetails selectedArtisan={selectedArtisan} />
+              <ProfessionalDetails selectedArtisan={selectedArtisan} refetch={refetch} />
             </TabsContent>
             <TabsContent value="track">
               <h1>Track</h1>
