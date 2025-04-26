@@ -87,7 +87,7 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
         <div className="grid lg:grid-cols-3 gap-x-20 gap-y-3">
           {isLoading ? (
             <div className=" rounded-[10px] overflow-hidden w-[300] h-[350px]">
-              <SkeletonLoader type="image" />
+              <SkeletonLoader type="image" count={3} bgColor="white" />
             </div>
           ) : (
             paginatedArtisans?.map((artisan) => (

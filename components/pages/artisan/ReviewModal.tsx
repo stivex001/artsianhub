@@ -115,7 +115,7 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
                 <Star
                   key={i}
                   className={`w-6 h-6 cursor-pointer ${
-                    i <= Number(rating) ? "text-yellow-400" : "text-gray-400"
+                    i <= Number(rating) ? "text-primary" : "text-white"
                   }`}
                   onClick={() => setValue("rating", i)}
                   fill={i <= Number(rating) ? "currentColor" : "none"}

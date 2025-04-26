@@ -16,7 +16,6 @@ export const PopularService = (props: Props) => {
   const { data: services, isLoading } = getTopRatedService();
   const topServices = services?.topServices;
 
-
   return (
     <div className="py-14 flex flex-col gap-16 relative">
       <Headings
@@ -37,29 +36,27 @@ export const PopularService = (props: Props) => {
           pagination={{ clickable: true, dynamicBullets: true }}
           className="service-review-swiper "
         >
-          {isLoading
-            ? Array.from({ length: 4 }).map((_, index) => (
-                <SwiperSlide key={index}>
-                  <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
-                    <SkeletonLoader type="image" />
+          {isLoading ? (
+            <div className="flex justify-center w-full h-full">
+              <SkeletonLoader type="image" count={4} />
+            </div>
+          ) : (
+            topServices?.map((item) => (
+              <SwiperSlide key={item?._id}>
+                <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={item?.media?.[0]?.url}
+                      alt="Service professional"
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-[10px]"
+                    />
                   </div>
-                </SwiperSlide>
-              ))
-            : topServices?.map((item) => (
-                <SwiperSlide key={item?._id}>
-                  <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={item?.media?.[0]?.url}
-                        alt="Service professional"
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-[10px]"
-                      />
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                </div>
+              </SwiperSlide>
+            ))
+          )}
         </Swiper>
       </div>
       {/* <div>
