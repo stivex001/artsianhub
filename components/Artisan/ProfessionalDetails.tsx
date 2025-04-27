@@ -15,7 +15,7 @@ const documents = [
   { label: "Certifications/License", key: "professionalCertification" },
   { label: "Government-Issued ID", key: "governmentIssuedID" },
   { label: "Proof of Address", key: "proofOfAddress" },
-  { label: "Portfolio", key: "portfolio" },
+  { label: "Work Samples", key: "portfolio" },
   { label: "Add Customer Reference", key: "customerReference" },
 ];
 
