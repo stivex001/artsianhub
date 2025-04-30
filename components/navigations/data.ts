@@ -17,7 +17,7 @@ export const artisanLinks = [
 
   {
     path: "/artisan/dashboard/portfolio",
-    label: "Portfolio",
+    label: "Service List",
     icon: GalleryIcon,
   },
 

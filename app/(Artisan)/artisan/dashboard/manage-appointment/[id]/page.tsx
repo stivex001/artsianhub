@@ -22,12 +22,12 @@ const AppintmentDetails = (props: Props) => {
             >
               Appointment Details
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               value="Transaction"
               className="data-[state=active]:bg-white data-[state=active]:text-black text-white text-sm py-4 px-12"
             >
               Transaction Details
-            </TabsTrigger>
+            </TabsTrigger> */}
           </div>
         </TabsList>
         <TabsContent value="Appointment">
