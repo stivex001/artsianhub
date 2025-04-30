@@ -17,15 +17,15 @@ export const artisanLinks = [
 
   {
     path: "/artisan/dashboard/portfolio",
-    label: "Portfolio",
+    label: "Service List",
     icon: GalleryIcon,
   },
 
-  {
-    path: "/artisan/dashboard/subscription",
-    label: "Subscription",
-    icon: SubcriptionIcon,
-  },
+  // {
+  //   path: "/artisan/dashboard/subscription",
+  //   label: "Subscription",
+  //   icon: SubcriptionIcon,
+  // },
 ];
 
 export const adminLinks = [
