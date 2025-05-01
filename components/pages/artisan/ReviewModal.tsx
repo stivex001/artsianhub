@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,12 +17,6 @@ const fields: Field[] = [
   {
     name: "customerName",
     type: "text",
-    errorMessage: "Name is required",
-  },
-  {
-    name: "rating",
-    type: "number",
-    errorMessage: "Rating is required",
   },
   {
     name: "testimonial",
@@ -34,26 +28,32 @@ const fields: Field[] = [
 export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
   const {
     register,
-    setValue,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useDynamicForm<ReviewData>(fields, {
     customerName: "",
     testimonial: "",
-    rating: 0,
   });
 
-  const rating = watch("rating");
-
-  console.log(errors, "errr");
+  const [rating, setRating] = useState<number>(0);
+  const [ratingError, setRatingError] = useState<string | null>(null);
 
   const { leaveReview } = useArtisans();
-  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?.user?._id}`);
+  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?._id}`);
 
   const onSubmit = async (data: any) => {
+    if (!rating) {
+      setRatingError("Rating is required");
+      return;
+    }
+
+    const payload = {
+      ...data,
+      rating,
+    };
+
     try {
-      await mutateAsync(data, {
+      await mutateAsync(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
           onClose();
@@ -115,17 +115,20 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
                 <Star
                   key={i}
                   className={`w-6 h-6 cursor-pointer ${
-                    i <= Number(rating) ? "text-primary" : "text-white"
+                    i <= rating ? "text-primary" : "text-white"
                   }`}
-                  onClick={() => setValue("rating", i)}
-                  fill={i <= Number(rating) ? "currentColor" : "none"}
+                  onClick={() => {
+                    setRating(i);
+                    setRatingError(null);
+                  }}
+                  fill={i <= rating ? "currentColor" : "none"}
                 />
               ))}
             </div>
-            <CustomButton label="Submit" isLoading={isPending} />
+            <CustomButton type="submit" label="Submit" isLoading={isPending} />
           </div>
-          {errors.rating && (
-            <p className="text-red-500 text-sm mt-2">{errors.rating.message}</p>
+          {ratingError && (
+            <p className="text-red-500 text-sm mt-2">{ratingError}</p>
           )}
         </motion.form>
       </motion.div>
