@@ -7,10 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import { useServices } from "@/api/crud/services";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 export const PopularService = (props: Props) => {
+  const router = useRouter();
   const { getTopRatedService } = useServices();
 
   const { data: services, isLoading } = getTopRatedService();
@@ -43,7 +45,10 @@ export const PopularService = (props: Props) => {
           ) : (
             topServices?.map((item) => (
               <SwiperSlide key={item?._id}>
-                <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
+                <div
+                  onClick={() => router.push(`/services`)}
+                  className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px] cursor-pointer"
+                >
                   <div className="relative w-full h-full">
                     <Image
                       src={item?.media?.[0]?.url}
