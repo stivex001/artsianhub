@@ -29,7 +29,6 @@ const ArtisanDetails = (props: Props) => {
   if (!selectedArtisan)
     return <p className="text-white text-center mt-20">Artisan not found</p>;
 
-  console.log(selectedArtisan, "selected");
 
   return (
     <section className="flex flex-col gap-5">
