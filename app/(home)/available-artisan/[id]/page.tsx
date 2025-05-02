@@ -16,7 +16,7 @@ const ArtisanDetails = (props: Props) => {
   const params = useParams();
   const artisanId = params?.id as string;
 
-  const { getAllArtisan } = useArtisans();
+  const { getAllArtisan, getArtisanRating } = useArtisans();
   const { data: artisans = [], isLoading } = getAllArtisan();
 
   const selectedArtisan = artisans?.find(
@@ -24,12 +24,15 @@ const ArtisanDetails = (props: Props) => {
   );
 
   if (isLoading)
-    return <p className="text-white text-center mt-20 ">Loading...</p>;
+    return (
+      <p className="text-white text-center mt-20 h-screen justify-center ">
+        Loading...
+      </p>
+    );
   if (!selectedArtisan)
     return <p className="text-white text-center mt-20">Artisan not found</p>;
 
   console.log(selectedArtisan, "selected");
-  
 
   return (
     <main className="mt-24 pt-4">

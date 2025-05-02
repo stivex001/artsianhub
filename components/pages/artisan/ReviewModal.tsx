@@ -38,8 +38,10 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
   const [rating, setRating] = useState<number>(0);
   const [ratingError, setRatingError] = useState<string | null>(null);
 
-  const { leaveReview } = useArtisans();
+  const { leaveReview, getAllArtisan } = useArtisans();
   const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?._id}`);
+
+  const { refetch } = getAllArtisan();
 
   const onSubmit = async (data: any) => {
     if (!rating) {
@@ -56,6 +58,7 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
       await mutateAsync(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
+          refetch();
           onClose();
         },
         onError: (error: any) => {

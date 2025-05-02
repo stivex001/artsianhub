@@ -5,8 +5,15 @@ import { useApiQuery } from "@/hooks/useApiQuery";
 export interface Testimonial {
   customerName: string;
   testimonial: string;
+  profilePhoto: string;
   rating: number;
   date: string;
+}
+
+export interface Rating {
+  totalRating:number;
+  count: number;
+  averageRating: number;
 }
 
 export interface Media {
@@ -163,6 +170,12 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+    const getArtisanRating = (id:string) =>
+      useApiQuery<Rating>(["artisan_rating"], {
+        url: `/artisan-rating/${id}/ratings`,
+        method: "GET",
+      });
+
   const getAllArtisanCount = () =>
     useApiQuery<AllBookingsCounts>(["all_artisan_count"], {
       url: `/admin/view-artisans-services-counts`,
@@ -197,6 +210,7 @@ export const useArtisans = () => {
     getAllArtisan,
     getFilteredByArtisan,
     getSearchByArtisan,
+    getArtisanRating,
     bookAppointment,
     leaveReview,
     getBookingCount,
