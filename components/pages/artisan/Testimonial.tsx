@@ -15,58 +15,13 @@ import { ArtisanDetails } from "@/api/crud/artisans";
 // import "swiper/css/pagination";
 
 type Props = {
-    selectedArtisan: ArtisanDetails;
+  selectedArtisan: ArtisanDetails;
 };
 
-type TestimonialType = {
-  id: number;
-  text: string;
-  name: string;
-  image: any;
-  rating: number;
-};
-
-export const Testimonial = ({selectedArtisan}: Props) => {
+export const Testimonial = ({ selectedArtisan }: Props) => {
   const [activeIndex, setActiveIndex] = useState(1);
 
-  // Sample testimonial data
-  const testimonials: TestimonialType[] = [
-    {
-      id: 1,
-      text: "Hear what they have to say about our professional services.",
-      name: "John Smith",
-      image: image1,
-      rating: 3,
-    },
-    {
-      id: 2,
-      text: "Exceptional quality and attention to detail. I would highly recommend their services to anyone.",
-      name: "Emma Johnson",
-      image: image1,
-      rating: 5,
-    },
-    {
-      id: 3,
-      text: "Very responsive and professional. Got the job done quickly and efficiently.",
-      name: "Michael Brown",
-      image: image1,
-      rating: 4,
-    },
-    {
-      id: 4,
-      text: "Very responsive and professional. Got the job done quickly and efficiently.",
-      name: "Michael Brown",
-      image: image1,
-      rating: 4,
-    },
-    {
-      id: 5,
-      text: "Very responsive and professional. Got the job done quickly and efficiently.",
-      name: "Michael Brown",
-      image: image1,
-      rating: 4,
-    },
-  ];
+  console.log(selectedArtisan?.testimonials, "testimonials");
 
   return (
     <section className="bg-secondary pt-5 lg:pt-24 pb-10 relative">
@@ -131,14 +86,25 @@ export const Testimonial = ({selectedArtisan}: Props) => {
 
                     {/* Author info */}
                     <div className="flex items-center justify-center gap-3">
-                      <div className="w-10 h-10 rounded-full overflow-hidden relative">
-                        <Image
-                          src={image1}
-                          alt={testimonial?.customerName}
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                      </div>
+                      {testimonial?.profilePhoto ? (
+                        <div className="w-10 h-10 rounded-full overflow-hidden relative">
+                          <Image
+                            src={image1}
+                            alt={testimonial?.customerName}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                        </div>
+                      ) : (
+                        <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-full text-base font-semibold cursor-pointer">
+                          {testimonial?.customerName
+                            ?.split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .toUpperCase()}
+                        </div>
+                      )}
+
                       <span
                         className={`font-semibold  text-base ${
                           isActive ? "text-primary" : "text-white"

@@ -3,7 +3,7 @@ import { RatingIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Image from "next/image";
 import React, { useState } from "react";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import { ReviewModal } from "./ReviewModal";
 
 type Props = {
@@ -12,6 +12,9 @@ type Props = {
 
 export const ArtisanHero = ({ selectedArtisan }: Props) => {
   const [showModal, setShowModal] = useState(false);
+  const { getArtisanRating } = useArtisans();
+
+  const { data: ratings } = getArtisanRating(selectedArtisan?._id as string);
 
   return (
     <div className="w-11/12 mx-auto py-8 pb-[160px]">
@@ -33,8 +36,8 @@ export const ArtisanHero = ({ selectedArtisan }: Props) => {
           <h1 className="text-xl font-light text-primary">Rate</h1>
           <div className="relative">
             <RatingIcon />
-            <span className="absolute top-5 left-[18px] text-base text-white font-semibold">
-              25
+            <span className="absolute top-5 left-[20px] text-base text-white font-semibold">
+              {ratings?.totalRating}
             </span>
           </div>
         </div>
