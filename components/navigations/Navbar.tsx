@@ -44,7 +44,7 @@ export const Navbar = (props: Props) => {
           />
         </Link>
         {/* <MenuCard /> */}
-        {/* <div className="relative">
+        <div className="relative">
           <button
             onClick={() => setIsModalOpen(!isModalOpen)}
             className="flex items-center gap-3 cursor-pointer"
@@ -64,7 +64,7 @@ export const Navbar = (props: Props) => {
           >
             <ExploreContent onClose={() => setIsModalOpen(false)} />
           </DropdownModal>
-        </div> */}
+        </div>
       </div>
 
       <div className="hidden lg:flex items-center gap-2 md:gap-16">
