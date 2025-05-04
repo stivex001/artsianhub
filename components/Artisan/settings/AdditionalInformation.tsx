@@ -10,7 +10,24 @@ import { daysOptions } from "./data";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { steps } from "./KYC";
 import CreatableSelectComponent from "@/components/controlledInputs/CreatableSelect";
+import CustomLocation from "@/components/controlledInputs/CustomLocation";
+import Location from "@/components/controlledInputs/Location";
 
+export interface GeometryType {
+  _id?: string;
+  address: string;
+  lat: string;
+  long: string;
+}
+export interface LocationType {
+  _id: string;
+  name?: string;
+  type?: string;
+  geometry?: GeometryType;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
+}
 
 type Props = {};
 
@@ -63,6 +80,16 @@ const AdditionalInformation = (props: Props) => {
     days: kycFormData?.days || "",
     languagesSpoken: kycFormData?.languagesSpoken || [],
   });
+
+  const initialLocationDefaults: LocationType = {
+    _id: "",
+    name: "",
+    geometry: {
+      address: "",
+      lat: "",
+      long: "",
+    },
+  };
 
   useEffect(() => {
     if (kycFormData) {
@@ -120,15 +147,15 @@ const AdditionalInformation = (props: Props) => {
             />
           </div>
         </div>
-        {/* <div className="w-1/2">
+        <div className="w-1/2">
           <h1 className="text-2xl font-semibold mb-5">
             Service Area:{" "}
             <span className="text-sm">
               (Geographical region or distance willing to cover)
             </span>{" "}
           </h1>
-          <CustomLocation />
-        </div> */}
+          <Location defaultValues={initialLocationDefaults} />
+        </div>
         <div className="w-1/2">
           <h1 className="text-2xl font-semibold mb-5">
             Select your language:
