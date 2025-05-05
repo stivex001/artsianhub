@@ -56,6 +56,9 @@ export const useUser = () => {
   const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({
     url: "/artisan/profile",
     method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   return {

@@ -25,6 +25,11 @@ export interface AuthUser {
   isActive: boolean;
   firstName: string;
   lastName: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  specialization: string;
+  residentialAddress: string;
+  gender: string;
   email: string;
   profile: string;
   password: string;
