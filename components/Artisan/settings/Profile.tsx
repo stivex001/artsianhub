@@ -10,6 +10,7 @@ import { Pencil } from "lucide-react";
 import { useUser } from "@/api/crud/user";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {};
 
@@ -60,6 +61,7 @@ type UserDetails = {
 };
 
 const Profile = (props: Props) => {
+  const { currentUser } = useAuthStore();
   const { getCurrentArtisanUser, updateArtisanProfile } = useUser();
   const { data: user, refetch } = getCurrentArtisanUser();
   const userDetails: UserDetails | undefined =
@@ -74,14 +76,14 @@ const Profile = (props: Props) => {
   const { control, handleSubmit, formState, setValue } = useDynamicForm(
     fields,
     {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      dateOfBirth: "",
-      specialization: "",
-      residentialAddress: "",
-      gender: "",
+      firstName: currentUser?.firstName || "",
+      lastName: currentUser?.lastName || "",
+      email: currentUser?.email || "",
+      phoneNumber: currentUser?.phoneNumber || "",
+      dateOfBirth: currentUser?.dateOfBirth || "",
+      specialization: currentUser?.specialization || "",
+      residentialAddress: currentUser?.residentialAddress || "",
+      gender: currentUser?.gender || "",
     }
   );
 
