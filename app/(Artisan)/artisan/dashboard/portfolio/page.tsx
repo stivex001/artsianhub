@@ -16,7 +16,7 @@ const Portfolio = (props: Props) => {
       <Wrapper className="w-full py-5 px-8 flex gap-20 ">
         <div className="w-full flex flex-col gap-12">
           <ArtisanPictures />
-          <ArtisanPictures />
+          {/* <ArtisanPictures /> */}
         </div>
         {/* <div className="">
           <CustomButton

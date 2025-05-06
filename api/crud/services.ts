@@ -31,25 +31,31 @@ export const useServices = () => {
 
   const getServicesById = (id: string) =>
     useApiQuery<Services>(["services"], {
-      url: `/category/get-category/${id}`,
+      url: `/artisan-services/${id}`,
       method: "GET",
     });
 
   const createServices = useApiMutation<AuthResponse, FormData>({
-    url: "/category/create-category",
+    url: "/artisan-services",
     method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   const updateServices = (id: string) => {
     useApiMutation<AuthResponse, FormData>({
-      url: `/category/update-category/${id}`,
+      url: `/artisan-services/${id}`,
       method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   };
 
   const deleteCategory = (id: string) => {
     useApiMutation<AuthResponse, FormData>({
-      url: `/category/delete-category/${id}`,
+      url: `/artisan-services/${id}`,
       method: "DELETE",
     });
   };

@@ -6,12 +6,25 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import { Field } from "@/schemas/dynamicSchema";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import pics from "@/components/assets/images/artisan.png";
+import { useServices } from "@/api/crud/services";
+import { toast } from "sonner";
 
 const fields: Field[] = [
-  { name: "name", type: "text", errorMessage: "Name is required", isRequired: true },
-  { name: "email", type: "email", errorMessage: "Email is required", isRequired: true },
-  { name: "phone", type: "text", errorMessage: "Phone Number is required", isRequired: true },
-  { name: "message", type: "text", errorMessage: "Message is required", isRequired: true },
+  {
+    name: "serviceImages",
+    type: "text",
+  },
+  {
+    name: "description",
+    type: "text",
+
+  },
+  {
+    name: "categoryId",
+    type: "text",
+
+  },
+ 
 ];
 
 type Card = {
@@ -21,7 +34,13 @@ type Card = {
 };
 
 const ArtisanPictures = () => {
-  const { control, handleSubmit } = useDynamicForm(fields, {});
+  const { control, handleSubmit, setValue } = useDynamicForm(fields, {});
+
+  const { createServices, getAllServices } = useServices();
+
+  const { mutate: create_service } = createServices;
+  const {refetch} = getAllServices()
+
   const [cards, setCards] = useState<Card[]>([
     { imageFile: null, imagePreview: "", description: "" },
   ]);
@@ -37,7 +56,7 @@ const ArtisanPictures = () => {
 
   const handleDeleteCard = (index: number) => {
     setCards(cards.filter((_, i) => i !== index));
-    fileInputRefs.current.splice(index, 1); // keep refs in sync
+    fileInputRefs.current.splice(index, 1);
   };
 
   const handleDescriptionChange = (index: number, value: string) => {
@@ -58,8 +77,29 @@ const ArtisanPictures = () => {
     fileInputRefs.current[index]?.click();
   };
 
+  const onSubmit = async () => {
+    const formData = new FormData();
+    formData.append("serviceImages", cards?.[0]?.imagePreview)
+    formData.append("description", cards?.[0].description)
+    formData.append("categoryId", "67d9254c3dfdf853e83ba655")
+
+    try {
+      await create_service(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message);
+          refetch()
+        },
+        onError: (error: any) => {
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+    }
+  };
+
   return (
-    <form className="flex flex-col">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <div className="flex flex-col w-full gap-6">
         <div className="grid lg:grid-cols-2 gap-6">
           {cards.map((card, index) => (

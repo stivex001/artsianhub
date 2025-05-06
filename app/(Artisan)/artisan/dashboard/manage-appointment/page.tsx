@@ -35,9 +35,8 @@ const filterOptions = [
   { id: 1, label: "All" },
   { id: 2, label: "Pending" },
   { id: 3, label: "Accept" },
-  { id: 4, label: "Successful Payment" },
   { id: 5, label: "Decline" },
-  { id: 6, label: "Expire" },
+  // { id: 6, label: "Expire" },
 ];
 
 const DateTimeDisplay = ({ date, time }: DateProps) => {
