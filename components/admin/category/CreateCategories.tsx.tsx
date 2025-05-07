@@ -12,7 +12,6 @@ import { toast } from "sonner";
 type Props = {};
 type UploadedImage = File & { preview: string };
 
-
 const fields: Field[] = [
   {
     name: "name",
@@ -22,7 +21,7 @@ const fields: Field[] = [
   },
 
   {
-    name: "image",
+    name: "categoryImages",
     type: "file",
     errorMessage: "Category Image is required",
     isRequired: true,
@@ -30,19 +29,27 @@ const fields: Field[] = [
 ];
 
 const CreateCategories = (props: Props) => {
-  const router = useRouter()
+  const router = useRouter();
   const { getAllCategories, createCategory } = useCategories();
   const { refetch } = getAllCategories();
-  const { control, handleSubmit, setValue } = useDynamicForm(fields, {});
+  const { control, handleSubmit } = useDynamicForm(fields, {});
 
   const { mutate: createCat, isPending } = createCategory;
 
   const onSubmit = async (data: any) => {
-    const imagePreview = data?.image?.[0]?.preview;
     const formData = new FormData();
 
+    const files = data?.categoryImages;
+    if (!files?.length) {
+      toast.error("Please upload at least one image");
+      return;
+    }
+
     formData.append("name", data?.name);
-    formData.append("image", imagePreview);
+
+    files?.forEach((file: File) => {
+      formData.append("categoryImages", file);
+    });
 
     try {
       await createCat(formData, {
@@ -50,7 +57,7 @@ const CreateCategories = (props: Props) => {
           console.log(response, "resp");
           toast.success(response?.message);
           refetch();
-          router.push("/admin/dashboard/manage-categories?tab=categories")
+          router.push("/admin/dashboard/manage-categories?tab=categories");
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);
@@ -81,7 +88,7 @@ const CreateCategories = (props: Props) => {
           </div>
           <div className="w-1/2">
             <ControlledFileUpload
-              name="image"
+              name="categoryImages"
               control={control}
               label="Upload Category Images"
               labelClassName="!text-primary"

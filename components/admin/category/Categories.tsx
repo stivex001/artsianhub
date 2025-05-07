@@ -9,15 +9,14 @@ const Categories = () => {
   const { getAllCategories } = useCategories();
   const { data, isLoading } = getAllCategories();
 
-
   return (
     <>
       {isLoading ? (
         <SkeletonTableLoader />
       ) : (
-        <div className="rounded-md  border-gray-200 shadow-sm overflow-hidden">
+        <div className="rounded-md  border-gray-200 shadow-sm overflow-hidden min-h-[50vh] max-h-[70vh] overflow-y-auto scrollbar-hidden">
           {/* Header Row */}
-          <div className="grid grid-cols-[2fr_1fr_1fr] bg-secondary text-white px-6 py-3 text-base">
+          <div className="grid grid-cols-[2fr_1fr_1fr] bg-secondary text-white px-6 py-3 text-base sticky top-0 z-10">
             <div>Category Name</div>
             <div>Category Images</div>
             <div></div>
@@ -31,19 +30,23 @@ const Categories = () => {
               <div className="text-primary text-sm">{cat?.name}</div>
 
               {/* Images */}
-              <div className="flex flex-wrap gap-2">
-                {/* {cat?.images?.slice(0, 4)?.map((img, i) => (
-              
-            ))} */}
-                {/* <div className="w-14 h-14 border rounded-[10px] overflow-hidden">
-              <Image
-                src={cat?.image}
-                alt="Category"
-                width={56}
-                height={56}
-                className="object-cover  w-full h-full"
-              />
-            </div> */}
+              <div className="flex gap-x-5">
+                {cat?.images?.slice(0, 4)?.map((img, i) => (
+                  <div
+                    key={i}
+                    className="w-20 h-20 border rounded-[10px] overflow-hidden"
+                  >
+                    <div className="relative w-full h-full ">
+                      <Image
+                        src={img?.url}
+                        alt="Category"
+                        layout="fill"
+                        objectFit="cover"
+                        className=""
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
 
               {/* Actions */}

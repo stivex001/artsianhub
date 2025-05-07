@@ -4,13 +4,16 @@ import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface CategoryData {
   name: string;
-  image: string;
+  images: string[];
   _id: string;
 }
 
 export interface Category {
   name: string;
-  image: string;
+  images: {
+    url:string
+    filename:string
+  }[];
   _id: string;
 }
 

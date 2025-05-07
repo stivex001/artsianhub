@@ -10,12 +10,13 @@ type Props = {};
 
 const ViewCategories = (props: Props) => {
   const router = useRouter();
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+    null
+  );
 
   const { getAllCategories, getCategoryById } = useCategories();
   const { data: category, isLoading } = getAllCategories();
 
-  // ✅ Set default selected category when data is loaded
   useEffect(() => {
     if (!isLoading && category?.length && !selectedCategoryId) {
       setSelectedCategoryId(category[0]._id);
@@ -58,18 +59,27 @@ const ViewCategories = (props: Props) => {
       <div className="flex flex-col gap-8">
         <h1 className="text-base text-primary">Category Images</h1>
         {isLoading || catByIdLoading ? (
-          <SkeletonLoader type="image" count={1} />
+          <SkeletonLoader type="image" count={categoryById?.images?.length} />
         ) : (
           <div>
-            {categoryById?.image ? (
-              <div className="w-[200px] h-[200px] rounded-[10px] border border-black">
-                <Image
-                  src={categoryById.image}
-                  alt="Category"
-                  className="object-cover"
-                  width={200}
-                  height={200}
-                />
+            {categoryById?.images && categoryById?.images?.length > 0 ? (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-20">
+                {categoryById?.images?.map((img, i) => (
+                  <div
+                    key={i}
+                    className="w-[160px] h-[180px]  border border-black rounded-[10px]"
+                  >
+                    <div className="relative w-full h-full ">
+                      <Image
+                        src={img?.url}
+                        alt="Category"
+                        className="object-cover "
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <p>No image available</p>
