@@ -21,11 +21,13 @@ export const useCategories = () => {
       method: "GET",
     });
 
-  const getCategoryById = (id: string) =>
-    useApiQuery<Category>(["categories"], {
-      url: `/category/get-category/${id}`,
-      method: "GET",
-    });
+    const getCategoryById = (id: string, options?: object) =>
+      useApiQuery<Category>(["category", id], {
+        url: `/category/get-category/${id}`,
+        method: "GET",
+        ...options,
+      });
+    
 
   const createCategory = useApiMutation<AuthResponse, FormData>({
     url: "/category/create-category",
