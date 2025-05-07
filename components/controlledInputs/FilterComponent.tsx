@@ -11,7 +11,7 @@ interface Filter {
 
 type filterProps = {
   onFilterChange: (filterId: any) => void;
-  options: Filter[];
+  options: any[];
   className?: string;
   showIcon?: boolean;
   iconStyle?: string;

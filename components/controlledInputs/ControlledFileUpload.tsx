@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useController, Control } from "react-hook-form";
 import { Label } from "../ui/label";
 import Image from "next/image";
@@ -21,6 +21,7 @@ type FileUploadInputProps = {
   maxFiles?: number;
   maxSizeInMB?: number;
   control: Control<any>;
+  labelClassName?:string
 };
 
 export const ControlledFileUpload = ({
@@ -34,6 +35,7 @@ export const ControlledFileUpload = ({
   maxFiles = 3,
   maxSizeInMB = 10,
   control,
+  labelClassName
 }: FileUploadInputProps) => {
   const {
     field: { onChange },
@@ -73,12 +75,7 @@ export const ControlledFileUpload = ({
     onChange(updatedFiles);
   };
 
-  // console.log(files.map(file => ({
-  //   name: file.name,
-  //   size: file.size,
-  //   type: file.type,
-  //   preview: file.preview,
-  // })), "files");
+
 
   const removeFile = (index: number) => {
     const updatedFiles = files.filter((_, i) => i !== index);
@@ -86,12 +83,18 @@ export const ControlledFileUpload = ({
     onChange(updatedFiles); // Ensures form updates correctly
   };
 
+  useEffect(() => {
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview));
+    };
+  }, [files]);
+
   return (
     <div className="space-y-2">
       {label && (
         <Label
           htmlFor={name}
-          className="text-base text-center font-semibold capitalize"
+          className={`text-base text-center font-semibold capitalize ${labelClassName}`}
         >
           {label}
         </Label>

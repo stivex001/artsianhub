@@ -44,6 +44,10 @@ export const adminLinks = [
     label: "Manage Contacts",
     icon: TimerIcon,
   },
-
+  {
+    path: "/admin/dashboard/manage-categories",
+    label: "Manage Categories",
+    icon: TimerIcon,
+  },
  
 ];
