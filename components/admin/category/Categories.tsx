@@ -1,13 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { useCategories } from "@/api/crud/categories";
+import { Category, useCategories } from "@/api/crud/categories";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
+import DeleteCategoryModal from "./DeleteCategoryModal";
+import ReusableDialog from "@/components/shared/ReuseableDialog";
 
 const Categories = () => {
   const { getAllCategories } = useCategories();
   const { data, isLoading } = getAllCategories();
+
+  const [deleteCategory, setDeleteCategory] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+  console.log(selectedCategory, "dgygdyud");
+
+  const handleDelete = (category: Category) => {
+    setSelectedCategory(category);
+    setDeleteCategory(true);
+  };
 
   return (
     <>
@@ -52,7 +64,10 @@ const Categories = () => {
               {/* Actions */}
               <div className="flex items-center justify-end gap-3">
                 <button className="text-primary hover:underline">Edit</button>
-                <button className="text-white bg-red-600 hover:bg-red-700 rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <button
+                  onClick={() => handleDelete(cat)}
+                  className="text-white bg-red-600 hover:bg-red-700 rounded-full w-6 h-6 flex items-center justify-center text-sm"
+                >
                   x
                 </button>
               </div>
@@ -70,6 +85,20 @@ const Categories = () => {
           </button>
         ))}
       </div> */}
+
+          {
+            <ReusableDialog
+              title={"Delete Category"}
+              open={deleteCategory}
+              onOpenChange={setDeleteCategory}
+              className="max-w-xl"
+            >
+              <DeleteCategoryModal
+                setDeleteCategory={setDeleteCategory}
+                selectedCategory={selectedCategory}
+              />
+            </ReusableDialog>
+          }
         </div>
       )}
     </>
