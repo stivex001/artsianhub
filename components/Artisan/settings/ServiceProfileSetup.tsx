@@ -7,11 +7,9 @@ import { Field } from "@/schemas/dynamicSchema";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import { useCategories } from "@/api/crud/categories";
-import {
-  ControlledFileUpload,
-  FileWithPreview,
-} from "@/components/controlledInputs/ControlledFileUpload";
-import GooglePlacesInput from "@/components/controlledInputs/GooglePlaceInput";
+import { ControlledFileUpload } from "@/components/controlledInputs/ControlledFileUpload";
+import { toast } from "sonner";
+// import GooglePlacesInput from "@/components/controlledInputs/GooglePlaceInput";
 
 type Props = {};
 
@@ -56,70 +54,10 @@ const fields: Field[] = [
 
 export const ServiceProfileSetup = (props: Props) => {
   const { getAllCategories } = useCategories();
-  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setKYCFormData, nextStep, prevStep } =
     useKYCStore();
 
-  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    serviceCategory: kycFormData?.serviceCategory || "",
-    professionalTitle: kycFormData?.professionalTitle || "",
-    servicePricing: kycFormData?.servicePricing
-      ? Number(kycFormData?.servicePricing)
-      : "",
-    yearsOfExperience: kycFormData?.yearsOfExperience
-      ? Number(kycFormData?.yearsOfExperience)
-      : "",
-    skillDescription: kycFormData?.skillDescription || "",
-    portfolio: Array.isArray(kycFormData?.portfolio)
-      ? kycFormData?.portfolio.map((file) =>
-          typeof file === "string" ? { preview: file } : file
-        )
-      : [],
-  });
-
-  // const [companyAddress, setCompanyAddress] = useState(
-  //   kycFormData?.locationId?.geometry?.address || ""
-  // );
-
-  // const [coordinates, setCoordinates] = useState<{
-  //   lat: number;
-  //   lng: number;
-  // } | null>(
-  //   kycFormData?.locationId
-  //     ? {
-  //         lat: Number(kycFormData?.locationId?.geometry?.lat),
-  //         lng: Number(kycFormData?.locationId?.geometry?.long),
-  //       }
-  //     : null
-  // );
-
-  // const handleAddressSelect = (address: string, lat: number, lng: number) => {
-  //   setCompanyAddress(address);
-  //   setCoordinates({ lat, lng });
-  // };
-
-  useEffect(() => {
-    if (kycFormData) {
-      setValue("serviceCategory", kycFormData?.serviceCategory || "");
-      setValue("professionalTitle", kycFormData?.professionalTitle || "");
-      setValue(
-        "servicePricing",
-        kycFormData?.servicePricing ? Number(kycFormData?.servicePricing) : ""
-      );
-      setValue(
-        "yearsOfExperience",
-        kycFormData?.yearsOfExperience ? Number(kycFormData?.yearsOfExperience) : ""
-      );
-      setValue("skillDescription", kycFormData?.skillDescription || "");
-      setValue(
-        "portfolio",
-        Array.isArray(kycFormData?.portfolio)
-          ? kycFormData?.portfolio.map((file) =>
-              typeof file === "string" ? { preview: file } : file
-            )
-          : []
-      );
-    }
-  }, [kycFormData, setValue]);
+  const { control, handleSubmit } = useDynamicForm(fields, {});
 
   const { data: category } = getAllCategories();
 
@@ -131,25 +69,24 @@ export const ServiceProfileSetup = (props: Props) => {
       }))
     : [];
 
-  useEffect(() => {
-    if (categoryOptions.length > 0) {
-      setValue("serviceCategory", categoryOptions[0].value);
-    }
-  }, [categoryOptions, setValue]);
-
   const onSubmit = (data: any) => {
+    const files = data?.portfolio;
+
+    if (!files?.length) {
+      toast.error("Please upload at least one image");
+      return;
+    }
+
     const formattedData = {
       ...data,
-      portfolio: Array.isArray(data?.portfolio)
-        ? data.portfolio.map((file: FileWithPreview) => file?.preview)
-        : [],
+      portfolio: files,
     };
 
-    setkycFormData({
+    setKYCFormData({
       ...kycFormData,
       ...formattedData,
     });
-    console.log("Formatted Data:", formattedData);
+    console.log("FormattedData:", formattedData);
     nextStep();
   };
 
@@ -176,7 +113,7 @@ export const ServiceProfileSetup = (props: Props) => {
             name="portfolio"
             control={control}
             label="Upload a Portfolio or Work Samples"
-            // rules={{ required: true }}
+            multiple
           />
         </div>
         <div className="grid lg:grid-cols-2 gap-8">
@@ -219,11 +156,6 @@ export const ServiceProfileSetup = (props: Props) => {
             isTextArea
             rows={7}
           />
-          {/* <GooglePlacesInput
-            defaultValue={kycFormData?.locationId?.geometry?.address}
-            apiKey={`${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
-            onSelect={handleAddressSelect}
-          /> */}
         </div>
         <div className="mt-8 flex items-center gap-5 justify-end">
           {currentStep > 0 && (

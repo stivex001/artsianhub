@@ -10,10 +10,6 @@ interface Accept {
   [key: string]: string[];
 }
 
-export interface FileWithPreview extends File {
-  preview: string;
-}
-
 type FileUploadInputProps = {
   name: string;
   label?: string;
@@ -21,7 +17,8 @@ type FileUploadInputProps = {
   maxFiles?: number;
   maxSizeInMB?: number;
   control: Control<any>;
-  labelClassName?:string
+  labelClassName?: string;
+  multiple?: boolean;
 };
 
 export const ControlledFileUpload = ({
@@ -35,7 +32,8 @@ export const ControlledFileUpload = ({
   maxFiles = 3,
   maxSizeInMB = 10,
   control,
-  labelClassName
+  labelClassName,
+  multiple = true,
 }: FileUploadInputProps) => {
   const {
     field: { onChange },
@@ -45,16 +43,19 @@ export const ControlledFileUpload = ({
     control,
   });
 
-  const [files, setFiles] = useState<FileWithPreview[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
-    if (!selectedFiles) return;
+    if (!selectedFiles || selectedFiles.length === 0) return;
 
-    let newFiles: FileWithPreview[] = [];
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
 
     for (const file of Array.from(selectedFiles)) {
+      if (!multiple && files.length > 0) break;
       if (files.length + newFiles.length >= maxFiles) break;
 
       if (file.size / 1024 / 1024 > maxSizeInMB) {
@@ -62,32 +63,31 @@ export const ControlledFileUpload = ({
         continue;
       }
 
-      const fileWithPreview: FileWithPreview = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
-
-      newFiles.push(fileWithPreview);
+      newFiles.push(file);
+      newPreviews.push(URL.createObjectURL(file));
     }
 
-    const updatedFiles = [...files, ...newFiles];
+    const updatedFiles = multiple ? [...files, ...newFiles] : newFiles;
+    const updatedPreviews = multiple ? [...previews, ...newPreviews] : newPreviews;
 
     setFiles(updatedFiles);
-    onChange(updatedFiles);
+    setPreviews(updatedPreviews);
+    onChange(updatedFiles); // send only raw files to react-hook-form
   };
-
-
 
   const removeFile = (index: number) => {
     const updatedFiles = files.filter((_, i) => i !== index);
+    const updatedPreviews = previews.filter((_, i) => i !== index);
     setFiles(updatedFiles);
-    onChange(updatedFiles); // Ensures form updates correctly
+    setPreviews(updatedPreviews);
+    onChange(updatedFiles);
   };
 
   useEffect(() => {
     return () => {
-      files.forEach(file => URL.revokeObjectURL(file.preview));
+      previews.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [files]);
+  }, [previews]);
 
   return (
     <div className="space-y-2">
@@ -99,43 +99,45 @@ export const ControlledFileUpload = ({
           {label}
         </Label>
       )}
-      <div className="w-full border-b border-gray-300 rounded-[10px] p-4 flex flex-col items-center justify-center cursor-pointer">
-        <Image
-          src={upload}
-          alt="Upload"
-          width={40}
-          height={40}
-          onClick={() => fileInputRef.current?.click()}
-        />
+
+      <div
+        className="w-full border-b border-gray-300 rounded-[10px] p-4 flex flex-col items-center justify-center cursor-pointer"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        <Image src={upload} alt="Upload" width={40} height={40} />
         <input
           type="file"
           id={name}
-          multiple
+          multiple={multiple}
           accept={Object.keys(acceptTypes).join(",")}
           className="hidden"
           ref={fileInputRef}
           onChange={handleFileChange}
         />
+
         {files.length > 0 && (
-          <div className=" grid grid-cols-3 gap-5 self-end">
+          <div className="grid grid-cols-3 gap-5 self-end mt-3">
             {files.map((file, index) => (
               <div key={index} className="relative group">
-                {file?.type?.startsWith("image/") ? (
+                {file?.type?.startsWith("image/") && previews[index] ? (
                   <Image
-                    src={file.preview}
+                    src={previews[index]}
                     alt={file.name}
                     width={36}
                     height={36}
                     className="w-10 h-10 object-cover rounded-md"
                   />
                 ) : (
-                  <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md">
-                    <p className="text-xs text-gray-600">{file.name}</p>
+                  <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md text-[10px] text-gray-600 p-1 text-center">
+                    {file.name}
                   </div>
                 )}
                 <button
                   type="button"
-                  onClick={() => removeFile(index)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFile(index);
+                  }}
                   className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full p-1 opacity-80 hover:opacity-100"
                 >
                   <X size={8} />

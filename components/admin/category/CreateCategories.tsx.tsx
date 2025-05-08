@@ -45,6 +45,9 @@ const CreateCategories = (props: Props) => {
       return;
     }
 
+    console.log(files, "catFiles");
+    
+
     formData.append("name", data?.name);
 
     files?.forEach((file: File) => {
