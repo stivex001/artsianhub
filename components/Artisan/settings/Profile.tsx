@@ -47,6 +47,10 @@ const fields: Field[] = [
     name: "gender",
     type: "text",
   },
+  {
+    name: "profilePhoto",
+    type: "file",
+  },
 ];
 
 type UserDetails = {
@@ -101,8 +105,8 @@ const Profile = (props: Props) => {
   const onSubmit = (data: any) => {
     const formData = new FormData();
 
-    if (preview) {
-      formData.append("profilePhoto", preview);
+    if (selectedFile) {
+      formData.append("profilePhoto", selectedFile);
     }
 
     try {

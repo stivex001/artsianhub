@@ -11,8 +11,8 @@ export interface CategoryData {
 export interface Category {
   name: string;
   images: {
-    url:string
-    filename:string
+    url: string;
+    filename: string;
   }[];
   _id: string;
 }
@@ -24,20 +24,19 @@ export const useCategories = () => {
       method: "GET",
     });
 
-    const getCategoryById = (id: string, options?: object) =>
-      useApiQuery<Category>(["category", id], {
-        url: `/category/get-category/${id}`,
-        method: "GET",
-        ...options,
-      });
-    
+  const getCategoryById = (id: string, options?: object) =>
+    useApiQuery<Category>(["category", id], {
+      url: `/category/get-category/${id}`,
+      method: "GET",
+      ...options,
+    });
 
   const createCategory = useApiMutation<AuthResponse, FormData>({
     url: "/category/create-category",
     method: "POST",
-    headers:{
-     "Content-Type": "multipart/form-data",
-    }
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 
   const updateCategory = (id: string) => {
@@ -47,12 +46,11 @@ export const useCategories = () => {
     });
   };
 
-  const deleteCategory = (id: string) => {
-    useApiMutation<AuthResponse, FormData>({
+  const deleteCategory = (id: string) =>
+    useApiMutation({
       url: `/category/delete-category/${id}`,
       method: "DELETE",
     });
-  };
 
   return {
     getAllCategories,

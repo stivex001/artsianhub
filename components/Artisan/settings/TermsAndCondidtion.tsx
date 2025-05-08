@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 
-type Props = {};
-
 const fields: Field[] = [
   {
     name: "termsAccepted",
@@ -20,41 +18,41 @@ const fields: Field[] = [
   },
 ];
 
-const TermsAndCondidtion = (props: Props) => {
+const TermsAndCondition = () => {
   const router = useRouter();
-  const { kycFormData } = useKYCStore();
-  const { getCurrentArtisanUser } = useUser();
+  const { kycFormData }: { kycFormData: { languagesSpoken?: string | string[]; [key: string]: any } } = useKYCStore();
+  const { getCurrentArtisanUser, createArtisanProfile } = useUser();
   const { refetch } = getCurrentArtisanUser();
-
-  const { control, handleSubmit } = useDynamicForm(fields, {
-    availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
-    days: kycFormData?.days || "",
-    languagesSpoken: kycFormData?.languagesSpoken || [],
-  });
-
-  const { createArtisanProfile } = useUser();
+  const { control, handleSubmit } = useDynamicForm(fields, {});
   const { mutate: createProfile, isPending } = createArtisanProfile;
 
-  const onSubmit = (data: any) => {
+  console.log(kycFormData, "completeedKyc");
+
+  const onSubmit = () => {
     const formData = new FormData();
 
-    const formattedLanguagesSpoken = Array.isArray(kycFormData?.languagesSpoken)
-    ? kycFormData?.languagesSpoken?.map((lang: string) => lang.trim())
-    : [];
-  
+    // Format arrays properly
+    const formattedLanguagesSpoken =
+      typeof kycFormData.languagesSpoken === "string"
+        ? String(kycFormData.languagesSpoken)
+            .split(",")
+            .map((lang: string) => lang.trim())
+        : Array.isArray(kycFormData.languagesSpoken)
+        ? kycFormData.languagesSpoken
+        : [];
 
-
-      const formattedWorkAvailability = {
-        days: Array.isArray(kycFormData?.days)
-          ? kycFormData.days
-          : kycFormData?.days && typeof kycFormData.days === "string"
-          ? (kycFormData?.days as string)?.split(",").map((d: any) => d.trim())
+    const formattedWorkAvailability = {
+      days:
+        typeof kycFormData?.workAvailability?.days === "string"
+          ? kycFormData.workAvailability?.days
+              .split(",")
+              .map((d: string) => d.trim())
+          : Array.isArray(kycFormData?.workAvailability?.days)
+          ? kycFormData.workAvailability.days
           : [],
-      
-        availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
-      };
-      
-      
+      availableHours:
+        kycFormData?.workAvailability?.availableHours || "09:00 AM-17:00",
+    };
 
     formData.append(
       "languagesSpoken",
@@ -64,77 +62,92 @@ const TermsAndCondidtion = (props: Props) => {
       "workAvailability",
       JSON.stringify(formattedWorkAvailability)
     );
-
     formData.append(
       "serviceArea",
-      JSON.stringify({
-        type: "Point",
-        coordinates: [-0.1278, 51.5074], // You may need to update dynamically
-      })
+      JSON.stringify(
+        kycFormData?.serviceArea || {
+          type: "Point",
+          coordinates: [-0.1278, 51.5074],
+        }
+      )
     );
 
     formData.append("serviceCategory", kycFormData?.serviceCategory || "");
-    formData.append("professionalTitle", kycFormData?.professionalTitle);
-    formData.append("servicePricing", kycFormData?.servicePricing?.toString());
-    formData.append("skillDescription", kycFormData?.skillDescription);
+    formData.append("professionalTitle", kycFormData?.professionalTitle || "");
+    formData.append("servicePricing", String(kycFormData?.servicePricing || 0));
+    formData.append("skillDescription", kycFormData?.skillDescription || "");
     formData.append(
       "yearsOfExperience",
-      kycFormData?.yearsOfExperience?.toString()
+      String(kycFormData?.yearsOfExperience || 0)
     );
-    formData.append(
-      "professionalCertifications",
-      JSON.stringify(kycFormData?.professionalCertifications || [])
-    );
-    formData.append("governmentIssuedID", kycFormData?.governmentIssuedID);
-    formData.append("portfolio", kycFormData?.portfolio);
-    formData.append("proofOfAddress", kycFormData?.proofOfAddress);
-    formData.append("termsAccepted", "true");
 
-    try {
-      createProfile(formData, {
-        onSuccess: (response: any) => {
-          console.log(response);
-          toast.success(response?.message);
-          refetch();
-          router.push("/artisan/dashboard");
-        },
-        onError: (error: any) => {
-          console.error("Errorcreatingprofile:", error);
-          toast.error(error?.message);
-        },
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
+
+    const professionalIDFile = Array.isArray(kycFormData?.professionalCertification)
+      ? kycFormData?.professionalCertification[0]
+      : kycFormData?.professionalCertification;
+
+    if (professionalIDFile instanceof File) {
+      formData.append("professionalCertification", professionalIDFile);
     }
+
+
+    const govIDFile = Array.isArray(kycFormData?.governmentIssuedID)
+      ? kycFormData.governmentIssuedID[0]
+      : kycFormData.governmentIssuedID;
+
+    if (govIDFile instanceof File) {
+      formData.append("governmentIssuedID", govIDFile);
+    }
+
+    const proofOfAddressFile = Array.isArray(kycFormData?.proofOfAddress)
+      ? kycFormData.proofOfAddress[0]
+      : kycFormData.proofOfAddress;
+
+    if (proofOfAddressFile instanceof File) {
+      formData.append("proofOfAddress", proofOfAddressFile);
+    }
+
+    const portfolioFiles = kycFormData?.portfolio;
+    if (Array.isArray(kycFormData?.portfolio)) {
+      portfolioFiles?.forEach((file: any) => {
+        formData.append("portfolio", file);
+      });
+    }
+
+    formData.append("termsAccepted", "true");
+    formData.append("specialization", "Artisan");
+
+    createProfile(formData, {
+      onSuccess: (response: any) => {
+        toast.success(response?.message || "Profile created successfully");
+        refetch();
+        router.push("/artisan/dashboard");
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "Something went wrong");
+        console.error("Create Profile Error:", error);
+      },
+    });
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-4xl font-semibold text-primary text-center mb-5">
-          Term and Condition
+          Terms and Conditions
         </h1>
-        <div className="w-10/12 mx-auto ">
-          <p className="text-base font-light mb-3 ">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat
-            reiciendis atque earum molestiae natus qui dolores eveniet ut, iure,
-            voluptate quod porro laboriosam fugiat eos, deserunt saepe facilis
-            quis ad inventore. Dicta fugiat vero corporis obcaecati iure cumque
-            quae repellat. Dolorem expedita, incidunt dolor recusandae, ex
-            minima excepturi culpa accusantium a ipsum eius tempore, adipisci
-            ratione voluptate ad hic. Dolor laudantium nihil blanditiis aliquid
-            quidem odio, iure, magni modi minus corporis vitae, eius vel
-            veritatis. Alias doloribus repellendus dicta ab atque numquam
-            veritatis, earum fuga perferendis sed sapiente id veniam eaque
-            libero iste harum distinctio accusamus in tenetur temporibus
-            deleniti?
+
+        <div className="w-10/12 mx-auto">
+          <p className="text-base font-light mb-3">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit...
           </p>
           <CustomBox
             name="termsAccepted"
             control={control}
-            label="Agreed with Term"
+            label="Agreed with Terms"
           />
         </div>
+
         <div className="mt-8 flex items-center justify-center">
           <CustomButton
             type="submit"
@@ -149,4 +162,4 @@ const TermsAndCondidtion = (props: Props) => {
   );
 };
 
-export default TermsAndCondidtion;
+export default TermsAndCondition;

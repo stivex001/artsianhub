@@ -96,7 +96,7 @@ export const Navbar = (props: Props) => {
             </Link>
             <CustomButton>
               <Link href="/auth/signup?artisan=true" className="font-light">
-                Sign up as an Artisan
+                Sign Up
               </Link>
             </CustomButton>
           </div>

@@ -72,14 +72,10 @@ const fields: Field[] = [
 ];
 
 const AdditionalInformation = (props: Props) => {
-  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setKYCFormData, nextStep, prevStep } =
     useKYCStore();
 
-  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    availableHours: kycFormData?.availableHours || "9:00 AM-5:00 PM",
-    days: kycFormData?.days || "",
-    languagesSpoken: kycFormData?.languagesSpoken || [],
-  });
+  const { control, handleSubmit } = useDynamicForm(fields, {});
 
   const initialLocationDefaults: LocationType = {
     _id: "",
@@ -91,13 +87,7 @@ const AdditionalInformation = (props: Props) => {
     },
   };
 
-  useEffect(() => {
-    if (kycFormData) {
-      setValue("availableHours", kycFormData?.availableHours || "");
-      setValue("days", kycFormData?.days || "");
-      setValue("languagesSpoken", kycFormData?.languagesSpoken || []);
-    }
-  }, [kycFormData, setValue]);
+  console.log(kycFormData, "kycFormDataadditi___");
 
   const onSubmit = (data: any) => {
     const formattedData = {
@@ -109,7 +99,7 @@ const AdditionalInformation = (props: Props) => {
       serviceArea: { type: "Point", coordinates: [-0.1278, 51.5074] },
     };
 
-    setkycFormData({
+    setKYCFormData({
       ...kycFormData,
       ...formattedData,
     });

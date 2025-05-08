@@ -1,73 +1,67 @@
 import { create } from "zustand";
 
-// Define types for KYC Form Data
-interface KYCkycFormData {
+type Media = {
+  url: string;
+  Blob?: string;
+  name?: string;
+  size?: number;
+  type?: string;
+};
+
+type PortfolioItem = Media;
+
+type WorkAvailability = {
+  availableHours: string;
+  days: string[];
+};
+
+export interface KYCFormData {
+  profilePhoto?: Media;
   serviceCategory?: string;
-  professionalTitle: string;
+  specialization?: string;
+  professionalTitle?: string;
+  skillDescription: string;
+  portfolio: PortfolioItem[];
   servicePricing: number;
   yearsOfExperience: number;
-  skillDescription: string;
-  portfolio: string;
-  proofOfAddress: string;
-  governmentIssuedID: string;
-  availableHours: string;
-  workAvailability: string;
-  professionalCertifications: string[];
-  days: string[];
+  governmentIssuedID?: Media;
+  proofOfAddress?: Media;
+  professionalCertification?: Media;
+  workAvailability?: WorkAvailability;
+  serviceArea?: any;
   languagesSpoken: string[];
+  termsAccepted: boolean;
 }
 
 interface KYCStore {
-  kycFormData: KYCkycFormData;
+  kycFormData: KYCFormData;
   currentStep: number;
-  setkycFormData: (data: Partial<KYCkycFormData>) => void;
+  setKYCFormData: (data: Partial<KYCFormData>) => void;
   nextStep: () => void;
   prevStep: () => void;
   goToStep: (step: number) => void;
 }
 
-// Function to load stored KYC data from localStorage
-const loadStoredData = (): KYCkycFormData => {
-  if (typeof window !== "undefined") {
-    const storedData = localStorage.getItem("kyckycFormData");
-    if (storedData) {
-      return JSON.parse(storedData);
-    }
-  }
-  return {
-    serviceCategory: "",
-    professionalTitle: "",
-    servicePricing: 0,
-    yearsOfExperience: 1,
-    skillDescription: "",
-    portfolio: "",
-    proofOfAddress: "",
-    governmentIssuedID: "",
-    availableHours: "",
-    workAvailability: "",
-    days: [],
-    professionalCertifications: [],
-    languagesSpoken:[],
-  };
-};
-
 export const useKYCStore = create<KYCStore>((set) => ({
-  kycFormData: loadStoredData(),
+  kycFormData: {
+    serviceCategory: "",
+    specialization: "",
+    professionalTitle: "",
+    skillDescription: "",
+    portfolio: [],
+    servicePricing: 0,
+    yearsOfExperience: 0,
+    languagesSpoken: [],
+    termsAccepted: false,
+  },
   currentStep: 0,
 
-  setkycFormData: (data) =>
-    set((state) => {
-      const updatedkycFormData = { ...state.kycFormData, ...data };
-
-      // Save updated data to localStorage
-      localStorage.setItem("kyckycFormData", JSON.stringify(updatedkycFormData));
-
-      return { kycFormData: updatedkycFormData };
-    }),
+  setKYCFormData: (data) =>
+    set((state) => ({
+      kycFormData: { ...state.kycFormData, ...data },
+    })),
 
   nextStep: () => set((state) => ({ currentStep: state.currentStep + 1 })),
-
   prevStep: () => set((state) => ({ currentStep: state.currentStep - 1 })),
-
   goToStep: (step) => set({ currentStep: step }),
 }));

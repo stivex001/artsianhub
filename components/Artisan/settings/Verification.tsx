@@ -1,9 +1,6 @@
 "use client";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import {
-  ControlledFileUpload,
-  FileWithPreview,
-} from "@/components/controlledInputs/ControlledFileUpload";
+import { ControlledFileUpload } from "@/components/controlledInputs/ControlledFileUpload";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
@@ -26,74 +23,36 @@ const fields: Field[] = [
     // isRequired: true,
   },
   {
-    name: "professionalCertifications",
-    type: "multiselect",
+    name: "professionalCertification",
+    type: "file",
     errorMessage: "Professional Certifications is required",
     // isRequired: true,
   },
 ];
 
 const Verification = (props: Props) => {
-  const { currentStep, kycFormData, setkycFormData, nextStep, prevStep } =
+  const { currentStep, kycFormData, setKYCFormData, nextStep, prevStep } =
     useKYCStore();
 
-  console.log(kycFormData, "kycFormData");
-  const { control, handleSubmit, setValue } = useDynamicForm(fields, {
-    professionalCertifications: kycFormData?.professionalCertifications || [],
-    governmentIssuedID: Array.isArray(kycFormData?.governmentIssuedID)
-      ? kycFormData?.governmentIssuedID.map((file) =>
-          typeof file === "string" ? { preview: file } : file
-        )
-      : [],
-    proofOfAddress: Array.isArray(kycFormData?.proofOfAddress)
-      ? kycFormData?.proofOfAddress.map((file) =>
-          typeof file === "string" ? { preview: file } : file
-        )
-      : [],
-  });
-
-  useEffect(() => {
-    if (kycFormData) {
-      setValue(
-        "professionalCertifications",
-        kycFormData?.professionalCertifications || []
-      );
-
-      setValue(
-        "governmentIssuedID",
-        Array.isArray(kycFormData?.governmentIssuedID)
-          ? kycFormData?.governmentIssuedID.map((file) =>
-              typeof file === "string" ? { preview: file } : file
-            )
-          : []
-      );
-      setValue(
-        "proofOfAddress",
-        Array.isArray(kycFormData?.proofOfAddress)
-          ? kycFormData?.proofOfAddress.map((file) =>
-              typeof file === "string" ? { preview: file } : file
-            )
-          : []
-      );
-    }
-  }, [kycFormData, setValue]);
+  console.log(kycFormData, "kycFormData___");
+  const { control, handleSubmit, } = useDynamicForm(fields, {});
 
   const onSubmit = (data: any) => {
+    const proofOfAddressFiles = data?.proofOfAddress;
+    const governmentIssuedIDFiles = data?.proofOfAddress;
+    const professionalCertificationFiles = data?.professionalCertification;
+
     const formattedData = {
       ...data,
-      proofOfAddress: data?.proofOfAddress?.map(
-        (file: FileWithPreview) => file?.preview
-      ),
-      governmentIssuedID: data?.governmentIssuedID?.map(
-        (file: FileWithPreview) => file?.preview
-      ),
+      proofOfAddress:proofOfAddressFiles,
+      governmentIssuedID: governmentIssuedIDFiles,
+      professionalCertification: professionalCertificationFiles
     };
 
-    setkycFormData({
+    setKYCFormData({
       ...kycFormData,
       ...formattedData,
     });
-    console.log("Formatted Data:", formattedData);
     nextStep();
   };
 
@@ -117,21 +76,30 @@ const Verification = (props: Props) => {
             control={control}
             label="Upload Government-Issued ID (for identity verification)"
             // rules={{ required: true }}
+            multiple={false}
           />
           <ControlledFileUpload
             name="proofOfAddress"
             control={control}
             label="Proof of Address(Recent utility bill of official correspondence)."
             // rules={{ required: true }}
+            multiple={false}
+          />
+          <ControlledFileUpload
+            name="professionalCertification"
+            control={control}
+            label="Provide any Professional Certifications (if available)*"
+            // rules={{ required: true }}
+            multiple={false}
           />
         </div>
-        <div className="w-1/2">
+        {/* <div className="w-1/2">
           <CreatableSelect
-            name="professionalCertifications"
+            name="professionalCertification"
             control={control}
             label="Provide any Professional Certifications (if available)*"
           />
-        </div>
+        </div> */}
         {/* <div className="w-1/2">
           <ControlledFileUpload
             name="portfolio"
