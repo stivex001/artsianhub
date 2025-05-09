@@ -4,15 +4,18 @@ import { Headings } from "../shared/Headings";
 import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import { Product, services } from "../data/dummy";
-import Link from "next/link";
 import { SubNavContents } from "./SubNavContents";
+import { useCategories } from "@/api/crud/categories";
 
 type Props = {
-  onClose:(value: boolean) => void
+  onClose: (value: boolean) => void;
 };
 
-export const ExploreContent = ({onClose}: Props) => {
+export const ExploreContent = ({ onClose }: Props) => {
   const [openService, setOpenService] = useState<number | null>(null);
+
+  const { getAllCategories } = useCategories();
+  const { data, isLoading } = getAllCategories();
 
   const toggleService = (index: number) => {
     setOpenService(openService === index ? null : index);
@@ -25,39 +28,41 @@ export const ExploreContent = ({onClose}: Props) => {
           title="Services"
           className="font-semibold text-xl !text-black"
         />
-        {services?.map((service, index) => {
+        {data?.map((service, index) => {
           return (
             <div
-              onClick={() => toggleService(index)}
-              key={index}
+              // onClick={() => toggleService(index)}
+              key={service?._id}
               className="relative flex items-center justify-between cursor-pointer"
             >
               <div className="flex items-center gap-3">
                 <div className="w-5 h-5">
                   <Image
-                    src={service?.icon}
+                    src={service?.images?.[0]?.url}
                     alt="icon"
                     className="w-full h-full object-cover"
+                    width={20}
+                    height={20}
                   />
                 </div>
                 <span className="text-sm text-black font-[family-name:var(--font-josefin-sans)] ">
-                  {service?.title}
+                  {service?.name}
                 </span>
               </div>
-              {openService === index ? (
+              {/* {openService === index ? (
                 <ChevronDownIcon className="text-[#8A8692]" />
               ) : (
                 <ChevronRightIcon className="text-[#8A8692]" />
-              )}
+              )} */}
 
-              {openService === index && (
+              {/* {openService === index && (
                 <SubNavContents
                   sub={service?.subNav}
                   title={service?.title}
                   icon={service?.icon}
                   onClose={onClose}
                 />
-              )}
+              )} */}
             </div>
           );
         })}
