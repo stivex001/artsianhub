@@ -113,7 +113,7 @@ const ArtisanSignUp = (props: Props) => {
 
     const payload = {
       ...data,
-      isAdmin: true,
+      isArtisan: true,
     };
 
     try {

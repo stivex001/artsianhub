@@ -86,9 +86,9 @@ const OTPPage = (props: Props) => {
     if (isClient) {
       router.push("/");
     } else if (isArtisan) {
-      router.push("/artisan/dashboard");
+      router.push("/auth/login");
     } else if (isAdmin) {
-      router.push("/admin/dashboard");
+      router.push("/auth/login");
     }
     setShowSuccessModal(false);
   };
@@ -122,7 +122,7 @@ const OTPPage = (props: Props) => {
                 label={
                   isClient
                     ? "Proceed"
-                    : "Complete registration on the Artisan App"
+                    : "Complete registration by Siginin in"
                 }
                 onClick={handleSuccessModalAction}
                 className="w-full rounded-[10px]"
