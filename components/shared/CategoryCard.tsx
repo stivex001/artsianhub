@@ -22,7 +22,7 @@ export const CategoryCard = ({ item }: CategoryProps) => {
           />
         </div>
       </div>
-      {/* <p className="text-[10px] lg:text-sm text-black font-light ">{item?.desc}</p> */}
+      <p className="text-[10px] lg:text-sm text-black font-light ">{item?.desc}</p>
     </div>
   );
 };

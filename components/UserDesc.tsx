@@ -16,7 +16,6 @@ const UserDesc = (props: Props) => {
   const { getCurrentArtisanUser } = useUser();
   const { data: user } = getCurrentArtisanUser();
 
-  console.log(user, "currwuwejuhi");
   
 
   const profilePhoto = user?.profilePhoto?.url;

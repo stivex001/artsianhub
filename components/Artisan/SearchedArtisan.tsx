@@ -52,7 +52,6 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
   const { getAllArtisan } = useArtisans();
   const { data: artisans = [], isLoading } = getAllArtisan();
 
-
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const artisansPerPage = 6;
@@ -69,13 +68,13 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
 
   return (
     <section className=" w-10/12 mx-auto">
-      <div className="flex items-center justify-end">
+      {/* <div className="flex items-center justify-end">
         <CustomButton
           type="button"
           label="Filter"
           className="bg-white text-black"
         />
-      </div>
+      </div> */}
       <div className="flex flex-col gap-10 mt-2">
         <h1 className="font-medium lg:text-5xl text-white text-center">
           Artisan Around You
@@ -97,14 +96,14 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
                     router.push(`/available-artisan/${artisan?.artisanId}`);
                     onClose;
                   }}
-                  className="relative rounded-[10px] overflow-hidden cursor-pointer"
+                  className="relative rounded-[10px] h-[350px] overflow-hidden cursor-pointer"
                 >
                   <Image
                     src={artisan?.profilePhoto?.url}
                     alt={artisan?.user?.firstName}
                     className="w-full h-full object-cover"
-                    width={300}
-                    height={350}
+                    layout="fill"
+                    objectFit="cover"
                   />
                   <div className="absolute top-0 left-0 p-4 w-full h-full flex flex-col justify-between">
                     <div className="flex justify-between">
@@ -120,10 +119,10 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
                       </span>
                     </div>
                   </div>
-                  {/* <div className="flex justify-center mt-auto mb-4">
+                </div>
+                {/* <div className="flex justify-center mt-auto mb-4">
                   {renderStars(artisan.rating)}
                 </div> */}
-                </div>
               </div>
             ))
           )}
@@ -134,6 +133,7 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
+            showGoToPage={false}
           />
         )}
       </div>

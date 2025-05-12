@@ -7,6 +7,7 @@ import { ArtisanDetails, ReviewData, useArtisans } from "@/api/crud/artisans";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {
   onClose: () => void;
@@ -26,22 +27,27 @@ const fields: Field[] = [
 ];
 
 export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
+  const { currentUser } = useAuthStore();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useDynamicForm<ReviewData>(fields, {
-    customerName: "",
+    customerName: `${currentUser?.firstName} ${currentUser?.lastName}`,
     testimonial: "",
   });
 
   const [rating, setRating] = useState<number>(0);
   const [ratingError, setRatingError] = useState<string | null>(null);
 
-  const { leaveReview, getAllArtisan } = useArtisans();
+  const { leaveReview, getAllArtisan, getArtisanRating } = useArtisans();
   const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?._id}`);
 
   const { refetch } = getAllArtisan();
+  const { refetch: ratingFetch } = getArtisanRating(
+    selectedArtisan?._id as string
+  );
 
   const onSubmit = async (data: any) => {
     if (!rating) {
@@ -59,6 +65,7 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
         onSuccess: (response: any) => {
           toast.success(response?.message);
           refetch();
+          ratingFetch();
           onClose();
         },
         onError: (error: any) => {
@@ -118,7 +125,7 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
                 <Star
                   key={i}
                   className={`w-6 h-6 cursor-pointer ${
-                    i <= rating ? "text-primary" : "text-white"
+                    i <= rating ? "text-[#FFD700]" : "text-white"
                   }`}
                   onClick={() => {
                     setRating(i);
