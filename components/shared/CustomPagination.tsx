@@ -123,7 +123,7 @@ const CustomPagination = ({
       {showGoToPage && (
         <div className="hidden lg:block ml-8 relative">
           <div className="flex items-center">
-            <span className="text-black text-sm mr-2">Gooo to page</span>
+            <span className="text-black text-sm mr-2">Go to page</span>
             <div className="relative inline-block">
               <button
                 className="flex items-center border rounded px-2 py-1 w-20 justify-between"

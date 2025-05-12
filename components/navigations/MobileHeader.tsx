@@ -66,7 +66,7 @@ export const MobileHeader = () => {
           </Link>
           <CustomButton onClick={closeModal}>
             <Link href="/artisan/auth/login" className="font-[300]">
-              Sign up as an Artisan
+              Sign up
             </Link>
           </CustomButton>
         </div>

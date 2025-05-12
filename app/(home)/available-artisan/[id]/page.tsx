@@ -7,6 +7,7 @@ import Booking from "@/components/pages/artisan/Booking";
 import { CTA } from "@/components/pages/artisan/CTA";
 import { ServiceReview } from "@/components/pages/artisan/ServiceReview";
 import { Testimonial } from "@/components/pages/artisan/Testimonial";
+import LoadingScreen from "@/components/shared/LoadingScreen";
 import { useParams } from "next/navigation";
 import React from "react";
 
@@ -23,16 +24,9 @@ const ArtisanDetails = (props: Props) => {
     (artisan) => artisan?.artisanId === artisanId
   );
 
-  if (isLoading)
-    return (
-      <p className="text-white text-center mt-20 h-screen justify-center ">
-        Loading...
-      </p>
-    );
+  if (isLoading) return <LoadingScreen />;
   if (!selectedArtisan)
     return <p className="text-white text-center mt-20">Artisan not found</p>;
-
-  console.log(selectedArtisan, "selected");
 
   return (
     <main className="mt-24 pt-4">

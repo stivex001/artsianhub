@@ -8,6 +8,7 @@ import React from "react";
 import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {
   selectedArtisan: ArtisanDetails;
@@ -49,8 +50,14 @@ const fields: Field[] = [
 const Booking = ({ selectedArtisan }: Props) => {
   if (!selectedArtisan) return null;
 
+  const { currentUser } = useAuthStore();
+
   const router = useRouter();
-  const { control, handleSubmit } = useDynamicForm(fields, {});
+  const { control, handleSubmit } = useDynamicForm(fields, {
+    clientName: `${currentUser?.firstName} ${currentUser?.lastName}`,
+    clientEmail: currentUser?.email,
+    clientPhoneNumber: currentUser?.phoneNumber,
+  });
 
   const { bookAppointment } = useArtisans();
 

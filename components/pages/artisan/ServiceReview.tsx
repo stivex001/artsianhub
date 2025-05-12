@@ -11,6 +11,9 @@ type Props = {
 };
 
 export const ServiceReview = ({ selectedArtisan }: Props) => {
+
+  
+
   return (
     <section className="bg-secondary py-16 px-4">
       <h1 className="font-semibold text-2xl md:text-4xl lg:text-5xl text-white text-center max-w-2xl mx-auto mb-6">
