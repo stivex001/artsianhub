@@ -1,15 +1,42 @@
 "use client";
 
+import CreateArtisanService from "@/components/Artisan/servicelist/CreateArtisanService";
 import ServiceList from "@/components/Artisan/servicelist/ServiceList";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
+type TabKey = "services" | "view" | "create";
 const Portfolio = () => {
-  const pathname = usePathname();
-  const portfolioPage = pathname == "artisan/dashboard/portfolio";
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<TabKey>("services");
+
+  useEffect(() => {
+    const tab = searchParams.get("tab") as TabKey;
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (tab: TabKey) => {
+    setActiveTab(tab);
+    const current = new URLSearchParams(Array.from(searchParams.entries()));
+    current.set("tab", tab);
+    router.push(`/artisan/dashboard/portfolio?${current.toString()}`);
+  };
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "services":
+        return <ServiceList />;
+      case "create":
+        return <CreateArtisanService />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <section className="flex flex-col">
@@ -21,21 +48,24 @@ const Portfolio = () => {
         <div className="flex items-center gap-4">
           <button
             className={`pb-2 text-base text-secondary ${
-              portfolioPage ? "border-b border-blue-600" : ""
+              activeTab === "services" ? "border-b border-blue-600" : ""
             }`}
+            onClick={() => handleTabChange("services")}
           >
-            Service list
+            Service List
           </button>
         </div>
-        <Link
-          href="/artisan/dashboard/portfolio/create_service"
-          className={`pb-2 text-base text-secondary `}
+        <button
+          className={`pb-2 text-base text-secondary ${
+            activeTab === "create" ? "border-b-2 border-blue-600 " : ""
+          }`}
+          onClick={() => handleTabChange("create")}
         >
-          Create Services
-        </Link>
+          Create Service
+        </button>
       </div>
       <Wrapper className="shadow-cardShadow px-3 py-8 border-white">
-        <ServiceList />
+        <div>{renderTabContent()}</div>
       </Wrapper>
     </section>
   );

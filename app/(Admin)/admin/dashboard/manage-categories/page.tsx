@@ -3,9 +3,9 @@ import { Descriptions } from "@/components/shared/Headings";
 import React, { useEffect, useState } from "react";
 import Categories from "@/components/admin/category/Categories";
 import ViewCategories from "@/components/admin/category/ViewCategories";
-import CreateCategories from "@/components/admin/category/CreateCategories.tsx";
 import Wrapper from "@/components/shared/Wrapper";
 import { useRouter, useSearchParams } from "next/navigation";
+import CreateCategories from "@/components/admin/category/CreateCategories";
 
 type TabKey = "categories" | "view" | "create";
 
