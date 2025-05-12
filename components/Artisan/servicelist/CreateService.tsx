@@ -42,22 +42,22 @@ const fields: Field[] = [
 
 const CreateServices = (props: Props) => {
   const router = useRouter();
-  // const { getAllCategories } = useCategories();
+  const { getAllCategories } = useCategories();
   const { createServices, getAllServices } = useServices();
   const { refetch: refetchService } = getAllServices();
   const { control, handleSubmit } = useDynamicForm(fields, {});
 
-  // const { data: category, isLoading,refetch } = getAllCategories();
+  const { data: category, isLoading,refetch } = getAllCategories();
 
   const { mutate: createSer, isPending } = createServices;
 
-  // const categoryOptions = Array.isArray(category)
-  //   ? category.map((cat) => ({
-  //       id: cat._id,
-  //       value: cat._id,
-  //       label: cat.name,
-  //     }))
-  //   : [];
+  const categoryOptions = Array.isArray(category)
+    ? category.map((cat) => ({
+        id: cat._id,
+        value: cat._id,
+        label: cat.name,
+      }))
+    : [];
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -100,13 +100,13 @@ const CreateServices = (props: Props) => {
       >
         <div className="flex flex-col gap-10">
           <div className="w-1/2">
-            {/* <ControlledSelect
+            <ControlledSelect
               name="categoryId"
               label="Select Category"
               options={categoryOptions}
               control={control}
               variant="secondary"
-            /> */}
+            />
           </div>
           <div className="w-1/2">
             <ControlledInput
