@@ -16,6 +16,30 @@ export interface Services {
   topServices: ServicesData[];
 }
 
+export interface GetServicesData {}
+
+export interface GetArtianServices {
+  artisanId: {
+    _id: string;
+  };
+  categoryId: {
+    _id: string;
+    name: string;
+    images: {
+      url: string;
+      filename: string;
+    }[];
+  };
+  media: {
+    url: string;
+    filename: string;
+  }[];
+  name: string;
+  ratings: number[];
+  description: string;
+  _id: string;
+}
+
 export const useServices = () => {
   const getTopRatedService = () =>
     useApiQuery<Services>(["services"], {
@@ -24,7 +48,7 @@ export const useServices = () => {
     });
 
   const getAllServices = () =>
-    useApiQuery<Services>(["services"], {
+    useApiQuery<GetArtianServices[]>(["artisan_services"], {
       url: `/artisan-services`,
       method: "GET",
     });

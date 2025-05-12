@@ -30,7 +30,11 @@ export interface CurrentUser {
   profilePhoto: {
     url: string;
   };
-  user: string;
+  user: {
+    isAdmin:boolean
+    isArtisan:boolean
+    isClient:boolean
+  };
 }
 
 export interface Wallet {
