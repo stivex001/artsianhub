@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@/api/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo } from "react";
@@ -12,7 +13,10 @@ type Props = {
 
 const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
   const router = useRouter();
-  const { currentUser, accessToken } = useAuthStore();
+  const {  accessToken } = useAuthStore();
+  const { getCurrentArtisanUser } = useUser();
+  const { data: user } = getCurrentArtisanUser();
+  const currentUser = user?.user
 
   const userRole = useMemo(() => {
     if (currentUser?.isAdmin) return "admin";
@@ -44,7 +48,8 @@ const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
   }, [userRole, currentUser, accessToken, allowedRoles, router]);
 
   // Optional: Show nothing or loading state while verifying
-  if (!currentUser || !userRole || !allowedRoles.includes(userRole)) return null;
+  if (!currentUser || !userRole || !allowedRoles.includes(userRole))
+    return null;
 
   return <>{children}</>;
 };
