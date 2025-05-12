@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import ReusableDialog from "@/components/shared/ReuseableDialog";
-import DeleteCategoryModal from "@/components/admin/category/DeleteCategoryModal";
 import { GetArtianServices, useServices } from "@/api/crud/services";
 import { useUser } from "@/api/crud/user";
+import DeleteServiceModal from "./DeleteServiceModal";
 
 const ServiceList = () => {
   const { getCurrentArtisanUser } = useUser();
@@ -16,12 +16,17 @@ const ServiceList = () => {
     return;
   }
 
-  const { getArtisanServices } = useServices();
-  const { data, isLoading } = getArtisanServices(`${currentUser?.user?._id}`);
+  const { getArtisanServices, getAllServices } = useServices();
+  // const { data, isLoading } = getArtisanServices(`${currentUser?.user?._id}`);
+  const { data, isLoading } = getAllServices();
 
   const [deleteCategory, setDeleteCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<GetArtianServices | null>(null);
+
+  const artisanServices = data?.filter(
+    (service) => service?.artisanId?._id === currentUser?.user?._id
+  );
 
   const handleDelete = (service: GetArtianServices) => {
     setSelectedCategory(service);
@@ -42,7 +47,7 @@ const ServiceList = () => {
             <div></div>
           </div>
 
-          {data?.map((cat) => (
+          {artisanServices?.map((cat) => (
             <div
               key={cat?._id}
               className="grid grid-cols-[1fr_1fr_1fr_1fr] border-b border-primary items-center px-6 py-2 bg-gray-50 hover:bg-gray-100 transition-colors my-1"
@@ -104,7 +109,7 @@ const ServiceList = () => {
               onOpenChange={setDeleteCategory}
               className="max-w-xl"
             >
-              <DeleteCategoryModal
+              <DeleteServiceModal
                 setDeleteCategory={setDeleteCategory}
                 selectedCategory={selectedCategory}
               />

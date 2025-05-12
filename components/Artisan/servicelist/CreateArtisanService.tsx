@@ -38,10 +38,11 @@ const CreateArtisanService = () => {
   const { getCurrentArtisanUser } = useUser();
   const { data: currentUser } = getCurrentArtisanUser();
   const { getAllCategories } = useCategories();
-  const { createServices, getArtisanServices } = useServices();
+  const { createServices, getArtisanServices, getAllServices } = useServices();
 
   const { control, handleSubmit } = useDynamicForm(fields, {});
 
+  const { refetch } = getAllServices();
   const { refetch: refetchService } = getArtisanServices(
     `${currentUser?.user?._id}`
   );
@@ -79,7 +80,8 @@ const CreateArtisanService = () => {
           console.log(response, "resp");
           toast.success("Service Created Successfully");
           refetchService;
-          router.push("/admin/dashboard/portfolio");
+          refetch();
+          router.push("/artisan/dashboard/portfolio?tab=services");
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);

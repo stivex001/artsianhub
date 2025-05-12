@@ -83,19 +83,18 @@ export const useServices = () => {
     });
   };
 
-  const deleteCategory = (id: string) => {
-    useApiMutation<AuthResponse, FormData>({
+  const deleteService = (id: string) =>
+    useApiMutation({
       url: `/artisan-services/${id}`,
       method: "DELETE",
     });
-  };
 
   return {
     getTopRatedService,
     updateServices,
     createServices,
     getServicesById,
-    deleteCategory,
+    deleteService,
     getAllServices,
     getArtisanServices,
   };
