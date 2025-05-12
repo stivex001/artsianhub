@@ -6,10 +6,18 @@ import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import ReusableDialog from "@/components/shared/ReuseableDialog";
 import DeleteCategoryModal from "@/components/admin/category/DeleteCategoryModal";
 import { GetArtianServices, useServices } from "@/api/crud/services";
+import { useUser } from "@/api/crud/user";
 
 const ServiceList = () => {
-  const { getAllServices } = useServices();
-  const { data, isLoading } = getAllServices();
+  const { getCurrentArtisanUser } = useUser();
+  const { data: currentUser } = getCurrentArtisanUser();
+
+  if (!currentUser) {
+    return;
+  }
+
+  const { getArtisanServices } = useServices();
+  const { data, isLoading } = getArtisanServices(`${currentUser?.user?._id}`);
 
   const [deleteCategory, setDeleteCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] =

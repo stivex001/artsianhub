@@ -34,6 +34,7 @@ export interface CurrentUser {
     isAdmin:boolean
     isArtisan:boolean
     isClient:boolean
+    _id:string
   };
 }
 

@@ -53,6 +53,12 @@ export const useServices = () => {
       method: "GET",
     });
 
+  const getArtisanServices = (id: string) =>
+    useApiQuery<GetArtianServices[]>(["artisan_services"], {
+      url: `/artisan-services/artisan-get-services/${id}`,
+      method: "GET",
+    });
+
   const getServicesById = (id: string) =>
     useApiQuery<Services>(["services"], {
       url: `/artisan-services/${id}`,
@@ -91,5 +97,6 @@ export const useServices = () => {
     getServicesById,
     deleteCategory,
     getAllServices,
+    getArtisanServices,
   };
 };
