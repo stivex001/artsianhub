@@ -8,14 +8,24 @@ import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import SearchedArtisan from "@/components/Artisan/SearchedArtisan";
 import { PolygonBlue } from "@/components/assets/icons/NavIcons";
 import { useCategories } from "@/api/crud/categories";
+import { useArtisans } from "@/api/crud/artisans";
 
 type Props = {};
 
 export const Hero = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useState<{ categoryId?: string }>({});
+
   const { getAllCategories } = useCategories();
+  const { getArtisanByCatgeory } = useArtisans();
 
   const { data: category } = getAllCategories();
+  const {
+    data: catArtisan = [],
+    isPending,
+    isFetched,
+  } = getArtisanByCatgeory(searchParams);
 
   const categoryOptions = Array.isArray(category)
     ? category?.map((cat) => ({
@@ -25,14 +35,22 @@ export const Hero = (props: Props) => {
       }))
     : [];
 
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+  };
+
   const handleFiterChange = () => {
     // Handle filter change
     console.log("Filter changed");
   };
 
   const handleSearch = () => {
+    if (!selectedCategory) return;
+    setSearchParams({ categoryId: selectedCategory });
     setIsModalOpen(true);
   };
+
+  console.log(catArtisan, "category_artisan");
 
   return (
     <div className="relative bg-hero bg-cover bg-center bg-no-repeat aspect-[3/2] flex flex-col items-center justify-center ">
@@ -49,7 +67,7 @@ export const Hero = (props: Props) => {
             <div className="">
               <p className="font-semibold text-[10px] text-white">Category</p>
               <FilterComponent
-                onFilterChange={handleFiterChange}
+                onFilterChange={handleCategoryChange}
                 options={categoryOptions}
                 className="rounded-[20px] text-sm lg:text-xl "
                 showIcon
@@ -71,19 +89,25 @@ export const Hero = (props: Props) => {
             <CustomButton
               onClick={handleSearch}
               className="bg-[#5691D1] !w-[110px] mt-2"
-            >
-              Search
-            </CustomButton>
+              isLoading={isPending}
+              label=" Search"
+            />
           </div>
-          <DropdownModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            icon={PolygonBlue}
-            className="min-w-[1240px] mx-auto !z-30 !top-48 !-left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
-            iconStyle="right-96 !-top-[44px]"
-          >
-            <SearchedArtisan onClose={() => setIsModalOpen(false)} />
-          </DropdownModal>
+          {isFetched && (
+            <DropdownModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              icon={PolygonBlue}
+              className="min-w-[1240px] mx-auto !z-30 !top-48 !-left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
+              iconStyle="right-96 !-top-[44px]"
+            >
+              <SearchedArtisan
+                onClose={() => setIsModalOpen(false)}
+                artisans={catArtisan}
+                // isLoading={isPending}
+              />
+            </DropdownModal>
+          )}
         </div>
         <h1 className="pt-20 text-5xl text-white text-center">Uncover</h1>
       </div>

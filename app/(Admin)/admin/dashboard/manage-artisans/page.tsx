@@ -83,7 +83,6 @@ const ManageArtisans = (props: Props) => {
   const { data: filteredArtisans = [], isPending: isFilterPending } =
     getFilteredByArtisan(shouldUseFilter ? params : undefined);
 
-  console.log(searchedArtisans, "search_art");
 
   const handlePageChange = (page: number) => {
     console.log(`Changing to page ${page}`);

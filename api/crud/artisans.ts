@@ -158,6 +158,13 @@ export const useArtisans = () => {
       params,
     });
 
+     const getArtisanByCatgeory = (params?: Record<string, any>) =>
+    useApiQuery<ArtisanDetails[]>(["all_filtered_artisans", params], {
+      url: `/artisan-services/filter-artisan-service-by-category`,
+      method: "GET",
+      params,
+    });
+
   const getBookingCount = () =>
     useApiQuery<Appointemnts>(["total_appointments"], {
       url: `/booking/counts`,
@@ -217,6 +224,7 @@ export const useArtisans = () => {
     getAllBookings,
     bookingResponse,
     getAllArtisanCount,
-    approveAndDisapproveDocuments
+    approveAndDisapproveDocuments,
+    getArtisanByCatgeory
   };
 };
