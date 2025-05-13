@@ -21,6 +21,8 @@ export interface GetServicesData {}
 export interface GetArtianServices {
   artisanId: {
     _id: string;
+    firstName: string;
+    lastName: string;
   };
   categoryId: {
     _id: string;
@@ -60,7 +62,7 @@ export const useServices = () => {
     });
 
   const getServicesById = (id: string) =>
-    useApiQuery<Services>(["services"], {
+    useApiQuery<GetArtianServices>(["services"], {
       url: `/artisan-services/${id}`,
       method: "GET",
     });
