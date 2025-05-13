@@ -4,6 +4,7 @@ import { useServices } from "@/api/crud/services";
 import { CategoryCard } from "@/components/shared/CategoryCard";
 import { Headings } from "@/components/shared/Headings";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
+import Link from "next/link";
 import React from "react";
 
 const groupByCategoryName = (services: any[]) => {
@@ -62,14 +63,16 @@ const CategorySection = () => {
                 <>
                   {service?.categoryId?.images?.map(
                     (img: any, index: number) => (
-                      <CategoryCard
-                        key={index}
-                        item={{
-                          id: service._id,
-                          desc: service?.description,
-                          image: img.url,
-                        }}
-                      />
+                      <Link href={`/services/${service?._id}`}>
+                        <CategoryCard
+                          key={index}
+                          item={{
+                            id: service._id,
+                            desc: service?.description,
+                            image: img.url,
+                          }}
+                        />
+                      </Link>
                     )
                   )}
                 </>

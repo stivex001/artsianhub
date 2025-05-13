@@ -37,16 +37,7 @@ const getStatusColor = (status: Artisan["status"]): string =>
   status === "Available" ? "bg-primary" : "bg-[#B5B5B5]";
 
 // Helper: Render star ratings
-const renderStars = (rating: number) => {
-  return Array.from({ length: 5 }).map((_, index) => (
-    <span
-      key={index}
-      className={index < rating ? "text-primary" : "text-white"}
-    >
-      ★
-    </span>
-  ));
-};
+
 
 const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
   const { getAllArtisan } = useArtisans();

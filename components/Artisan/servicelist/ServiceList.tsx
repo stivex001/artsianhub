@@ -16,17 +16,12 @@ const ServiceList = () => {
     return;
   }
 
-  const { getArtisanServices, getAllServices } = useServices();
-  // const { data, isLoading } = getArtisanServices(`${currentUser?.user?._id}`);
-  const { data, isLoading } = getAllServices();
+  const { getArtisanServices } = useServices();
+  const { data, isLoading } = getArtisanServices(`${currentUser?.user?._id}`);
 
   const [deleteCategory, setDeleteCategory] = useState(false);
   const [selectedCategory, setSelectedCategory] =
     useState<GetArtianServices | null>(null);
-
-  const artisanServices = data?.filter(
-    (service) => service?.artisanId?._id === currentUser?.user?._id
-  );
 
   const handleDelete = (service: GetArtianServices) => {
     setSelectedCategory(service);
@@ -47,7 +42,7 @@ const ServiceList = () => {
             <div></div>
           </div>
 
-          {artisanServices?.map((cat) => (
+          {data?.map((cat) => (
             <div
               key={cat?._id}
               className="grid grid-cols-[1fr_1fr_1fr_1fr] border-b border-primary items-center px-6 py-2 bg-gray-50 hover:bg-gray-100 transition-colors my-1"
