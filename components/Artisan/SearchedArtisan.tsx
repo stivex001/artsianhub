@@ -6,7 +6,7 @@ import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";
 import { useRouter } from "next/navigation";
-import { useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
 
 // Types
@@ -20,7 +20,8 @@ interface Artisan {
 
 interface Props {
   onClose: (value: boolean) => void;
-  // artisans: ArtisanDetails | any;
+  artisans?: ArtisanDetails | any;
+  isLoading?: boolean;
 }
 
 // Mock Data
@@ -37,7 +38,6 @@ const getStatusColor = (status: Artisan["status"]): string =>
   status === "Available" ? "bg-primary" : "bg-[#B5B5B5]";
 
 // Helper: Render star ratings
-
 
 const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
   const { getAllArtisan } = useArtisans();
@@ -80,7 +80,7 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
               <SkeletonLoader type="image" count={3} bgColor="white" />
             </div>
           ) : (
-            paginatedArtisans?.map((artisan) => (
+            paginatedArtisans?.map((artisan: ArtisanDetails) => (
               <div key={artisan?.artisanId}>
                 <div
                   onClick={() => {
