@@ -81,7 +81,7 @@ const FilterComponent = ({
         <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg z-[99] rounded-[10px] border border-black">
           <ul className="py-1">
             {options?.map((filter) => (
-              <li key={filter.id} className="px-1">
+              <li key={filter?.id} className="px-1">
                 <button
                   onClick={() => handleFilterSelect(filter)}
                   className={`w-full text-left px-3 py-2 text-sm font-[300] rounded-md ${
@@ -90,7 +90,7 @@ const FilterComponent = ({
                       : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
-                  {filter.label}
+                  {filter?.label}
                 </button>
               </li>
             ))}

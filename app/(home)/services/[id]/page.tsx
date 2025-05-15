@@ -13,33 +13,7 @@ import { RenderRatings } from "@/utils/RenderRatings";
 
 type Props = {};
 
-const fashionData: Category[] = [
-  {
-    id: 1,
-    desc: "Graphic Designers & Illustrators – Branding, logos, and digital art.",
-    image: Design,
-  },
-  {
-    id: 2,
-    desc: "Web Designers & Developers – Custom websites and eCommerce stores.",
-    image: Design,
-  },
-  {
-    id: 3,
-    desc: "UI/UX Designers – User experience and app interface design",
-    image: Design,
-  },
-  {
-    id: 4,
-    desc: "Content Creators & Social Media Managers – Digital marketing, branding, and online engagement",
-    image: Design,
-  },
-  {
-    id: 5,
-    desc: "Content Creators & Social Media Managers – Digital marketing, branding, and online engagement",
-    image: Design,
-  },
-];
+
 
 const ServiceDetails = (props: Props) => {
   const router = useRouter();
