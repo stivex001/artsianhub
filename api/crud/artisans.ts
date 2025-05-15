@@ -84,6 +84,18 @@ export interface ArtisanDetails {
   professionalCertifications: any[];
 }
 
+export interface ArtisanByCategory {
+  artisanId: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    _id: string;
+  };
+  profilePhoto: Media;
+  ratings:number[]
+}
+
 export interface ReviewData {
   customerName: string;
   rating: number;
@@ -160,7 +172,7 @@ export const useArtisans = () => {
 
   const getArtisanByCatgeory = (params?: Record<string, any>) => {
     const enabled = Boolean(params?.categoryId);
-    return useApiQuery<ArtisanDetails[]>(
+    return useApiQuery<ArtisanByCategory[]>(
       ["all_filtered_artisans", params],
       {
         url: `/artisan-services/filter-artisan-service-by-category`,

@@ -9,7 +9,7 @@ export const RenderRatings = ({ rating }: ratingProps) => {
     <Star
       key={i}
       className={`w-6 h-6  ${
-        i <= rating ? "text-[#FFD700]" : "text-white"
+        i <= rating ? "text-primary" : "text-white"
       }`}
       fill={i <= rating ? "currentColor" : "none"}
     />

@@ -21,7 +21,7 @@ const ArtisanDetails = (props: Props) => {
   const { data: artisans = [], isLoading } = getAllArtisan();
 
   const selectedArtisan = artisans?.find(
-    (artisan) => artisan?.artisanId === artisanId
+    (artisan) => artisan?.user?._id === artisanId
   );
 
   if (isLoading) return <LoadingScreen />;

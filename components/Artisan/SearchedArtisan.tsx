@@ -6,8 +6,9 @@ import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";
 import { useRouter } from "next/navigation";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { ArtisanByCategory, ArtisanDetails } from "@/api/crud/artisans";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
+import { RenderRatings } from "@/utils/RenderRatings";
 
 // Types
 interface Artisan {
@@ -39,23 +40,19 @@ const getStatusColor = (status: Artisan["status"]): string =>
 
 // Helper: Render star ratings
 
-const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
-  const { getAllArtisan } = useArtisans();
-  const { data: artisans = [], isLoading } = getAllArtisan();
+const SearchedArtisan: React.FC<Props> = ({ onClose, artisans, isLoading }) => {
+  const artisansData = artisans?.services;
+  const pagination = artisans?.pagination;
 
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
-  const artisansPerPage = 6;
-  const totalPages = Math.ceil(artisans?.length / artisansPerPage);
+  const [currentPage, setCurrentPage] = useState(pagination?.currentPage);
+  const totalPages = pagination?.totalPages;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const paginatedArtisans = artisans.slice(
-    (currentPage - 1) * artisansPerPage,
-    currentPage * artisansPerPage
-  );
+  console.log(artisansData?.[0]?.categoryId?.name, "dtatattatat");
 
   return (
     <section className=" w-10/12 mx-auto">
@@ -71,7 +68,7 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
           Artisan Around You
         </h1>
         <p className="lg:text-5xl font-light text-white text-center">
-          Plumber in Chesterfield
+          {artisansData?.[0]?.categoryId?.name} in Chesterfield
         </p>
 
         <div className="grid lg:grid-cols-3 gap-x-20 gap-y-3">
@@ -80,18 +77,20 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
               <SkeletonLoader type="image" count={3} bgColor="white" />
             </div>
           ) : (
-            paginatedArtisans?.map((artisan: ArtisanDetails) => (
-              <div key={artisan?.artisanId}>
+            artisansData?.map((artisan: ArtisanByCategory) => (
+              <div key={artisan?.artisanId?._id}>
                 <div
                   onClick={() => {
-                    router.push(`/available-artisan/${artisan?.artisanId}`);
+                    router.push(
+                      `/available-artisan/${artisan?.artisanId?._id}`
+                    );
                     onClose;
                   }}
-                  className="relative rounded-[10px] h-[350px] overflow-hidden cursor-pointer"
+                  className="relative rounded-[10px] h-[350px] border overflow-hidden cursor-pointer"
                 >
                   <Image
                     src={artisan?.profilePhoto?.url}
-                    alt={artisan?.user?.firstName}
+                    alt={artisan?.artisanId?.firstName}
                     className="w-full h-full object-cover"
                     layout="fill"
                     objectFit="cover"
@@ -99,7 +98,8 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
                   <div className="absolute top-0 left-0 p-4 w-full h-full flex flex-col justify-between">
                     <div className="flex justify-between">
                       <span className="font-semibold text-sm text-black">
-                        {artisan?.user?.firstName} {artisan?.user?.lastName}
+                        {artisan?.artisanId?.firstName}{" "}
+                        {artisan?.artisanId?.lastName}
                       </span>
                       <span
                         className={`text-sm px-2 py-1 rounded-[20px] text-white font-semibold ${getStatusColor(
@@ -111,9 +111,9 @@ const SearchedArtisan: React.FC<Props> = ({ onClose }) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="flex justify-center mt-auto mb-4">
-                  {renderStars(artisan.rating)}
-                </div> */}
+                <div className="flex justify-center mt-auto mb-4">
+                  <RenderRatings rating={artisan?.ratings} />
+                </div>
               </div>
             ))
           )}
