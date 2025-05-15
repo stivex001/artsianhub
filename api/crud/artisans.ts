@@ -11,7 +11,7 @@ export interface Testimonial {
 }
 
 export interface Rating {
-  totalRating:number;
+  totalRating: number;
   count: number;
   averageRating: number;
 }
@@ -158,12 +158,20 @@ export const useArtisans = () => {
       params,
     });
 
-     const getArtisanByCatgeory = (params?: Record<string, any>) =>
-    useApiQuery<ArtisanDetails[]>(["all_filtered_artisans", params], {
-      url: `/artisan-services/filter-artisan-service-by-category`,
-      method: "GET",
-      params,
-    });
+  const getArtisanByCatgeory = (params?: Record<string, any>) => {
+    const enabled = Boolean(params?.categoryId);
+    return useApiQuery<ArtisanDetails[]>(
+      ["all_filtered_artisans", params],
+      {
+        url: `/artisan-services/filter-artisan-service-by-category`,
+        method: "GET",
+        params,
+      },
+      {
+        enabled,
+      }
+    );
+  };
 
   const getBookingCount = () =>
     useApiQuery<Appointemnts>(["total_appointments"], {
@@ -177,11 +185,11 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-    const getArtisanRating = (id:string) =>
-      useApiQuery<Rating>(["artisan_rating"], {
-        url: `/artisan-rating/${id}/ratings`,
-        method: "GET",
-      });
+  const getArtisanRating = (id: string) =>
+    useApiQuery<Rating>(["artisan_rating"], {
+      url: `/artisan-rating/${id}/ratings`,
+      method: "GET",
+    });
 
   const getAllArtisanCount = () =>
     useApiQuery<AllBookingsCounts>(["all_artisan_count"], {
@@ -225,6 +233,6 @@ export const useArtisans = () => {
     bookingResponse,
     getAllArtisanCount,
     approveAndDisapproveDocuments,
-    getArtisanByCatgeory
+    getArtisanByCatgeory,
   };
 };

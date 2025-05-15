@@ -23,7 +23,7 @@ export const Hero = (props: Props) => {
   const { data: category } = getAllCategories();
   const {
     data: catArtisan = [],
-    isPending,
+    isLoading,
     isFetched,
   } = getArtisanByCatgeory(searchParams);
 
@@ -89,7 +89,7 @@ export const Hero = (props: Props) => {
             <CustomButton
               onClick={handleSearch}
               className="bg-[#5691D1] !w-[110px] mt-2"
-              isLoading={isPending}
+              isLoading={isLoading}
               label=" Search"
             />
           </div>
