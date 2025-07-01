@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import logo from "@/components/assets/images/logo.png";
+import logo from "@/components/assets/images/artilogo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { CustomButton } from "@/components/clickable/CustomButton";
@@ -35,7 +35,7 @@ export const Navbar = (props: Props) => {
     >
       <MobileHeader />
       <div className="hidden lg:flex items-center gap-2.5 sm:gap-8 lg:gap-14">
-        <Link href="/" className="w-[65px] h-12">
+        <Link href="/" className="">
           <Image
             src={logo}
             alt="logo"

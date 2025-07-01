@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono, Josefin_Sans } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
@@ -10,13 +10,13 @@ import ScrollToTop from "@/utils/ScrollToTop";
 import Footer from "@/components/navigations/Footer";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 
-const josefin = Josefin_Sans({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
-// const josefin = Josefin_Sans({
-//   variable: "--font-josefin-sans",
+// const inter = Inter({
+//   variable: "--font-inter-sans",
 //   subsets: ["latin"],
 // });
 
@@ -66,16 +66,15 @@ export default function RootLayout({
       <QueryProviders>
         <ModalCloseProvider>
           <body
-            className={` ${josefin.className} ${geistMono.variable} antialiased`}
+            className={` ${inter.className} ${geistMono.variable} antialiased`}
           >
             <Toaster position="top-center" />
-            {/* <ScrollToTop /> */}
-            <Navbar />
+            {children}
+            {/* <Navbar />
             <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
               {" "}
-              {children}
               <Footer />
-            </div>
+            </div> */}
           </body>
         </ModalCloseProvider>
       </QueryProviders>
