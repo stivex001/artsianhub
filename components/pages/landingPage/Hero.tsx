@@ -1,115 +1,65 @@
 "use client";
 
-import { location } from "@/components/data/dummy";
-import { DropdownModal } from "@/components/shared/DropdownModal";
 import React, { useState } from "react";
-import { CustomButton } from "@/components/clickable/CustomButton";
-import FilterComponent from "@/components/controlledInputs/FilterComponent";
-import SearchedArtisan from "@/components/Artisan/SearchedArtisan";
-import { PolygonBlue } from "@/components/assets/icons/NavIcons";
-import { useCategories } from "@/api/crud/categories";
-import { useArtisans } from "@/api/crud/artisans";
+import { Trusted } from "./Trusted";
+import { SearchIcon } from "@/components/assets/icons/SvgIcons";
+import { PopularService } from "./PopularService";
+import { TrustedBy } from "./TrustedBy";
 
 type Props = {};
 
 export const Hero = (props: Props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchParams, setSearchParams] = useState<{ categoryId?: string }>({});
-
-  const { getAllCategories } = useCategories();
-  const { getArtisanByCatgeory } = useArtisans();
-
-  const { data: category } = getAllCategories();
-  const {
-    data: catArtisan = [],
-    isLoading,
-    isFetched,
-  } = getArtisanByCatgeory(searchParams);
-
-  const categoryOptions = Array.isArray(category)
-    ? category?.map((cat) => ({
-        id: cat._id,
-        value: cat._id,
-        label: cat.name,
-      }))
-    : [];
-
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-  };
-
-  const handleFiterChange = () => {
-    // Handle filter change
-    console.log("Filter changed");
-  };
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
     if (!selectedCategory) return;
     setSearchParams({ categoryId: selectedCategory });
-    setIsModalOpen(true);
   };
 
-  console.log(catArtisan, "category_artisan");
-
   return (
-    <div className="relative bg-hero bg-cover bg-center bg-no-repeat aspect-[3/2] flex flex-col items-center justify-center ">
-      <div className="flex flex-col justify-between">
-        <h1 className="text-4xl lg:text-6xl text-center text-white font-[300] ">
-          find and Hire Skilled Artisans
-        </h1>
+    <div className="relative bg-hero bg-cover bg-center bg-no-repeat min-h-screen ">
+      <div className="absolute inset-0 bg-custom-gradient opacity-95 z-0" />
+      <div className="max-w-[1152px] mx-auto flex flex-col items-start justify-center py-24 px-4 relative z-10">
+        <Trusted />
 
-        <div className="relative w-8/12 lg:w-10/12 mx-auto bg-secondary z-40 rounded-[20px] px-6 py-4 text-white shadow-dropShadow mt-14 flex flex-col gap-5">
-          <h1 className="text-xs lg:text-base text-center font-bold z-50 ">
-            Find Artisans Close to your Area
+        <div className="mb-6 max-w-2xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            Find the perfect{" "}
+            <span className="text-lightblue">skilled artisan</span> for your
+            project
           </h1>
-          <div className="flex flex-wrap items-center justify-between z-50">
-            <div className="">
-              <p className="font-semibold text-[10px] text-white">Category</p>
-              <FilterComponent
-                onFilterChange={handleCategoryChange}
-                options={categoryOptions}
-                className="rounded-[20px] text-sm lg:text-xl "
-                showIcon
-                iconStyle="!text-black"
-                filterStyle
-              />
-            </div>
-            <div className="flex items-center gap-4 mt-2">
-              <p className="font-bold text-xs lg:text-sm text-white">From</p>
-              <FilterComponent
-                onFilterChange={handleFiterChange}
-                options={location}
-                className="rounded-[20px] text-sm lg:text-xl "
-                showIcon
-                iconStyle="!text-black"
-                filterStyle
-              />
-            </div>
-            <CustomButton
-              onClick={handleSearch}
-              className="bg-[#5691D1] !w-[110px] mt-2"
-              isLoading={isLoading}
-              label=" Search"
-            />
-          </div>
-          {isFetched && (
-            <DropdownModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              icon={PolygonBlue}
-              className="min-w-[1240px] mx-auto !z-30 !top-48 !-left-72 !bg-gradient-to-b from-primary to-white rounded-[30px]"
-              iconStyle="right-96 !-top-[44px]"
-            >
-              <SearchedArtisan
-                onClose={() => setIsModalOpen(false)}
-                artisans={catArtisan}
-                // isLoading={isPending}
-              />
-            </DropdownModal>
-          )}
+          <p className="text-bordergrey text-lg  max-w-2xl mx-auto leading-relaxed">
+            Connect with talented artisans who deliver quality craftsmanship.
+            From custom clothing to home repairs, find the right professional
+            for any project.
+          </p>
         </div>
-        <h1 className="pt-20 text-5xl text-white text-center">Uncover</h1>
+
+        {/* Search Section */}
+        <div className="w-full max-w-2xl mb-8">
+          <div className="flex gap-0 bg-white rounded-full shadow-dropShadow">
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Search for any service..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-6 py-4 text-textgray bg-transparent border-none outline-none  placeholder-gray-500 text-lg"
+              />
+            </div>
+            <button
+              onClick={handleSearch}
+              className="bg-darkBlue hover:bg-blue-700 px-8 py-4 rounded-tr-full rounded-br-full  transition-colors duration-200 flex items-center justify-center min-w-[88px]"
+            >
+              <SearchIcon />
+            </button>
+          </div>
+        </div>
+
+        <PopularService setSearchTerm={setSearchTerm} />
+        <TrustedBy />
       </div>
     </div>
   );

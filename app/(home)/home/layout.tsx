@@ -7,9 +7,9 @@ type Props = {
 
 const BaseLayout = ({ children }: Props) => {
   return (
-    <div className="container">
+    <div className="">
       <Header />
-      <div className="">{children}</div>
+      <div className="h-[calc(100vh-96px)] overflow-y-auto scrollbar-hidden">{children}</div>
     </div>
   );
 };

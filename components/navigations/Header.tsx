@@ -6,6 +6,7 @@ import logo from "@/components/assets/images/artilogo.svg";
 import { useAuthStore } from "@/store/authStore";
 import UserDesc from "../UserDesc";
 import { CustomButton } from "../clickable/CustomButton";
+import { BarMenuIcon } from "../assets/icons/SvgIcons";
 
 type Props = {};
 
@@ -14,11 +15,11 @@ export const Header = (props: Props) => {
 
   return (
     <header className="bg-white h-24 w-full">
-      <div className="max-w-[1152px] mx-auto flex items-center justify-between py-8">
+      <div className="max-w-[1152px] mx-auto flex items-center justify-between py-5 px-4">
         <Link href="/home" className="">
           <Image src={logo} alt="logo" className="w-full h-full object-cover" />
         </Link>
-        <div className="flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-8">
           <div className="flex items-center gap-8">
             <Link
               href="/contact-us"
@@ -50,6 +51,10 @@ export const Header = (props: Props) => {
             </div>
           )}
         </div>
+
+        <button className="md:hidden">
+          <BarMenuIcon />
+        </button>
       </div>
     </header>
   );

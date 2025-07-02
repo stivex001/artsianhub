@@ -1,11 +1,14 @@
-import React from 'react'
+import { Hero } from "@/components/pages/landingPage/Hero";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const Home = (props: Props) => {
   return (
-    <div className='container'>Home</div>
-  )
-}
+    <div className="">
+      <Hero />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

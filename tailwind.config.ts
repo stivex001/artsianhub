@@ -12,7 +12,7 @@ const config = {
   theme: {
     container: {
       center: true,
-      // padding: "2rem",
+      padding: "2rem",
       screens: {
         "2xl": "1440px",
       },
@@ -25,9 +25,10 @@ const config = {
         white: "#FFFFFF",
         lightgray: "#D9D9D9",
         primary: "#02198B",
+        lightblue: '#516CF4',
         lightp: "#374151",
         btnprimary: "#0357EE",
-        darkBlue: "#020E23",
+        darkBlue: "#071D8A",
         secondary: "#0064BE",
         accountBg: "#E7EEFA",
         accent: "#F0C422",
@@ -35,6 +36,7 @@ const config = {
         borderblack: "#1C1C1C1A",
         bordergray: "#B5B5B5",
         textcolor: "#64748B",
+        textgray: '#9CA3AF',
         textdark: "#02050A",
         textbrown: "#33354D",
         bordergrey: "#D1D5DB",
@@ -43,20 +45,23 @@ const config = {
         placeholderText: "#84888D",
         regionGrayText: "#5F5F5F",
         lightButton: "#C2D8FF",
-        grayish: "#9694A4",
+        grayish: "#353c48",
       },
       boxShadow: {
-        dropShadow: "0px 4px 4px 0px #00000040",
+        dropShadow: "0px 2px 4px 0px #0000000D inset",
         cardShadow: "0px 4px 4px 0px #00000040",
+
+        
       },
 
       backgroundImage: {
         upvector: "url('/arti.png')",
         downvector: "url('/downvector.png')",
         logobg: "url('/logoBackground.png')",
-        hero: "url('/hero.png')",
+        hero: "url('/hero.jpg')",
         service: "url('/service.png')",
         "hero-gradient": "linear-gradient(180deg, #3C42D1 70%, #00000033 30%)",
+         'custom-gradient': 'linear-gradient(135deg, #111827 0%, #1F2937 100%)',
       },
       keyframes: {
         "accordion-down": {
