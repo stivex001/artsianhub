@@ -1,6 +1,8 @@
-"use client"
+"use client";
 import React from "react";
 import { Scissors, Zap, Target, Circle } from "lucide-react";
+import { Descriptions } from "./Headings";
+import { ArrowRightIcon } from "../assets/icons/SvgIcons";
 
 interface CategoryItem {
   id: string;
@@ -56,39 +58,47 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
   onButtonClick = () => console.log("Button clicked"),
 }) => {
   return (
-    <div className={`${backgroundColor} rounded-2xl p-8 max-w-6xl mx-auto`}>
-      {/* Header */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">{title}</h2>
-        <p className="text-gray-600 text-lg max-w-2xl">{subtitle}</p>
-      </div>
-
-      {/* Main Content */}
-      <div className="grid lg:grid-cols-2 gap-8 items-start">
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {categories.map((category) => (
-            <div
-              key={category.id}
-              className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mr-4">
-                  {category.icon}
+    <div
+      className={`${backgroundColor} lg:rounded-[40px] border border-[${backgroundColor}] py-24 max-w-7xl mx-auto`}
+    >
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-16">
+        <div className="flex-1">
+          <div className="mb-12">
+            <Descriptions title={title} desc={subtitle} />
+          </div>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {categories.map((category) => (
+              <div
+                key={category.id}
+                className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center mr-4">
+                    {category.icon}
+                  </div>
                 </div>
+                <h3 className="text-lg font-semibold mb-2">{category.title}</h3>
+                <p className="text-gray-600 text-base leading-relaxed">
+                  {category.description}
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {category.title}
-              </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {category.description}
-              </p>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
+          {/* Call to Action Button */}
+          <div className="mt-10">
+            <button
+              onClick={onButtonClick}
+              className="bg-gray-900 text-white px-8 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-2"
+            >
+              <span>{buttonText}</span>
+              <ArrowRightIcon />
+            </button>
+          </div>
+        </div>
         {/* Featured Image */}
-        <div className="relative">
+        <div className="relative flex-1">
           <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-amber-100 to-orange-100">
             <img
               src={featuredImage}
@@ -96,34 +106,11 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
               className="w-full h-full object-cover"
               onError={(e) => {
                 // Fallback to gradient background if image fails to load
-                e.currentTarget.style.display = "none";
+                (e.currentTarget as HTMLImageElement).style.display = "none";
               }}
             />
           </div>
         </div>
-      </div>
-
-      {/* Call to Action Button */}
-      <div className="mt-8 flex justify-start">
-        <button
-          onClick={onButtonClick}
-          className="bg-gray-900 text-white px-8 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors duration-200 flex items-center space-x-2"
-        >
-          <span>{buttonText}</span>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
       </div>
     </div>
   );

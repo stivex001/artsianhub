@@ -1,7 +1,7 @@
+import { Fashion } from "@/components/pages/landingPage/Fashion";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
 import { FindPerfectArtisan } from "@/components/pages/landingPage/FindPerfectArtisan";
 import { Hero } from "@/components/pages/landingPage/Hero";
-import { FeaturedCard } from "@/components/shared/FeaturedCard";
 import React from "react";
 
 type Props = {};
@@ -12,7 +12,7 @@ const Home = (props: Props) => {
       <Hero />
       <FindPerfectArtisan />
       <FeaturesArtisan />
-      <FeaturedCard />
+      <Fashion />
     </div>
   );
 };

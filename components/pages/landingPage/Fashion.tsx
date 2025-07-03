@@ -1,10 +1,10 @@
 import { CategoryCard } from "@/components/shared/CategoryCard";
 import { Headings } from "@/components/shared/Headings";
 import { Category } from "@/types/category";
-import Design from "@/components/assets/images/designer.png"
+import Design from "@/components/assets/images/designer.png";
+import { FeaturedCard } from "@/components/shared/FeaturedCard";
 
 type Props = {};
-
 
 const fashionData: Category[] = [
   {
@@ -31,13 +31,15 @@ const fashionData: Category[] = [
 
 export const Fashion = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Fashion & Textile Artisans" />
+    <section className="py-20 px-4">
+      {/* <Headings title="Fashion & Textile Artisans" />
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
         {fashionData?.map((item) => (
           <CategoryCard key={item?.id} item={item} />
         ))}
-      </div>
-    </div>
+      </div> */}
+
+      <FeaturedCard />
+    </section>
   );
 };
