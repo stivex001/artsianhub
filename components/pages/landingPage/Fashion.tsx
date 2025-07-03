@@ -1,45 +1,55 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/designer.png";
-import { FeaturedCard } from "@/components/shared/FeaturedCard";
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  ScissorsIcon,
+  ShoeIcon,
+  WeaverIcon,
+} from "@/components/assets/icons/FeaturedIcons";
+import tailor from "@/components/assets/images/tailor.png";
 
 type Props = {};
 
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Tailors & Dressmakers – Custom clothing,alterations, and bespoke fashion.",
-    image: Design,
+    id: "tailors",
+    title: "Tailors & Dressmakers",
+    description: "Custom clothing, alterations, and bespoke fashion.",
+    icon: <ScissorsIcon />,
   },
   {
-    id: 2,
-    desc: "Shoemakers & Leatherworkers – Handmade shoes, bags, and accessories.",
-    image: Design,
+    id: "shoemakers",
+    title: "Shoemakers & Leatherworkers",
+    description: "Handmade shoes, bags, and accessories.",
+    icon: <ShoeIcon />,
   },
   {
-    id: 3,
-    desc: "Weavers & Textile Designers – Handwoven fabrics, scarves, and upholstery.",
-    image: Design,
+    id: "weavers",
+    title: "Weavers & Textile Designers",
+    description: "Handwoven fabrics, scarves, and upholstery.",
+    icon: <WeaverIcon />,
   },
   {
-    id: 4,
-    desc: "Embroidery Artists – Custom embroidery for clothing and decor.",
-    image: Design,
+    id: "embroidery",
+    title: "Embroidery Artists",
+    description: "Custom embroidery for clothing and decor.",
+    icon: <WeaverIcon />,
   },
 ];
 
 export const Fashion = (props: Props) => {
   return (
-    <section className="py-20 px-4">
-      {/* <Headings title="Fashion & Textile Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div> */}
-
-      <FeaturedCard />
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Fashion & Textile Artisans"
+        subtitle="Explore top-tier fashion and textile artisans who specialize in custom designs, alterations, and more."
+        categories={defaultCategories}
+        featuredImage={tailor}
+        backgroundColor="#FFFBEB"
+        borderColor="#D97706"
+        buttonText="Explore Fashion & Textile Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+      />
     </section>
   );
 };

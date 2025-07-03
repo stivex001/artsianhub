@@ -1,43 +1,58 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/people.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  Brush,
+  Hairdressers,
+  Perfume,
+  Soap,
+} from "@/components/assets/icons/FeaturedIcons";
+import beuty from "@/components/assets/images/beuty.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Plumbers & Electricians – Home maintenance and repair specialists.",
-    image: Design,
+    id: "Hairdressers",
+    title: "Hairdressers & Barbers",
+    description: "Custom hair styling and grooming.",
+    icon: <Hairdressers />,
   },
   {
-    id: 2,
-    desc: "Mechanics & Bicycle Repair Technicians – Car and bike servicing experts.",
-    image: Design,
+    id: "Makeup",
+    title: "Makeup Artists & Beauty Therapists",
+    description: "Bridal, event makeup, and skincare treatments.",
+    icon: <Brush />,
   },
   {
-    id: 3,
-    desc: "Watchmakers & Clock Restorers – Timepiece repair and restoration.",
-    image: Design,
+    id: "Perfume",
+    title: "Perfume Makers",
+    description: "Handmade and bespoke fragrances.",
+    icon: <Perfume />,
   },
   {
-    id: 4,
-    desc: "Handymen & General Repair Specialists – Home improvement and DIY professionals",
-    image: Design,
+    id: "Soap",
+    title: "Soap & Skincare Artisans",
+    description: "Natural and organic beauty products.",
+    icon: <Soap />,
   },
+  
 ];
 
 export const Skilled = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Skilled Trades & Repair Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Skilled Trades & Repair Artisans"
+        subtitle="Beauty, skincare, and personal care artisans bring creativity and care to help you look and feel your best."
+        categories={defaultCategories}
+        featuredImage={beuty}
+        backgroundColor="#F4F5F6"
+        borderColor="#4B5563"
+        buttonText="Explore Beauty & Personal Care Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+        order
+      />
+    </section>
   );
 };

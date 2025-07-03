@@ -1,43 +1,64 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/interior.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+ 
+  Glass,
+  Hammer,
+  Metal,
+  Potters,
+  Upholsterers,
+} from "@/components/assets/icons/FeaturedIcons";
+import int from "@/components/assets/images/int.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Carpenters & Woodworkers – Custom furniture, cabinetry, and woodcraft.",
-    image: Design,
+    id: "Carpenters",
+    title: "Carpenters & Woodworkers",
+    description: "Custom furniture, cabinetry, and woodcraft.",
+    icon: <Hammer />,
   },
   {
-    id: 2,
-    desc: "Blacksmiths & Metalworkers – Hand-forged tools, gates, and sculptures.",
-    image: Design,
+    id: "Blacksmiths",
+    title: "Blacksmiths & Metalworkers",
+    description: "Hand-forged tools, gates, and sculptures.",
+    icon: <Metal />,
   },
   {
-    id: 3,
-    desc: "Potters & Ceramic Artists – Handmade pottery, tableware, and sculptures.",
-    image: Design,
+    id: "Potters",
+    title: "Potters & Ceramic Artists",
+    description: "Handmade pottery, tableware, and sculptures.",
+    icon: <Potters />,
   },
   {
-    id: 4,
-    desc: "Glassblowers & Stained Glass Artists – Decorative and functional glass art.",
-    image: Design,
+    id: "Glassblowers",
+    title: "Glassblowers & Stained Glass Artists",
+    description: "Decorative and functional glass art.",
+    icon: <Glass />,
+  },
+   {
+    id: "Upholsterers",
+    title: "Upholsterers",
+    description: "Custom furniture restoration and fabric work.",
+    icon: <Upholsterers />,
   },
 ];
 
 export const Interior = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Home & Interior Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Home & Interior Artisans"
+        subtitle="Transform your living space with custom woodwork,furniture, and unique home art from skilled artisans."
+        categories={defaultCategories}
+        featuredImage={int}
+        backgroundColor="#ECFDF5"
+        borderColor="#059669"
+        buttonText="Explore Home & Interior Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+      />
+    </section>
   );
 };
