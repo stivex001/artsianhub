@@ -26,7 +26,7 @@ const Footer = (props: Props) => {
   return (
     <div
       className={`${hideFooter && "hidden"} ${
-        changeFooterBg ? "bg-primary text-white" : "bg-white"
+        changeFooterBg ? "bg-primary text-white" : "bg-[#111827] text-white"
       }  py-20`}
     >
       <Container className="flex  justify-between">
@@ -37,7 +37,7 @@ const Footer = (props: Props) => {
         </div>
         <div
           className={`text-[7px] lg:text-base font-[300] ${
-            changeFooterBg ? "text-white" : "text-primary"
+            changeFooterBg ? "text-white" : "text-white"
           }`}
         >
           <div className="flex items-center justify-end gap-2 text-right">

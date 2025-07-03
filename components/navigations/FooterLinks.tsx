@@ -26,14 +26,14 @@ export const FooterLinks = ({ links, title }: LinksProps) => {
     <div className="flex flex-col gap-2 lg:gap-6">
       <h6
         className={`${
-          changeFooterBg ? "text-white" : "text-primary"
+          changeFooterBg ? "text-white" : "text-white"
         }  text-[7px] lg:text-base font-[300]`}
       >
         {title}
       </h6>
       <div
         className={`flex flex-col space-y-2 lg:space-y-5 ${
-          changeFooterBg ? "text-white" : "text-primary"
+          changeFooterBg ? "text-white" : "text-white"
         } text-[7px] lg:text-sm font-[300]`}
       >
         {links.map((link) => (
