@@ -594,3 +594,100 @@ export const SocialContent = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const Plumbers = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={48}
+    height={48}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} fill="#E5E7EB" rx={12} />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M26.701 18.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.121 2.121 0 1 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76-.01.01Z"
+    />
+  </svg>
+)
+
+export const Mechanic = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={48}
+    height={48}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} fill="#E5E7EB" rx={12} />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M31 29h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C30.7 22.6 28 22 28 22s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7h-7c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 14 24v4c0 .6.4 1 1 1h2"
+    />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M19 31a2 2 0 1 0 0-4 2 2 0 0 0 0 4ZM21 29h6M29 31a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"
+    />
+  </svg>
+)
+
+export const Watchmakers = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={48}
+    height={48}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} fill="#E5E7EB" rx={12} />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M24 34c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
+    />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M24 18v6l4 2"
+    />
+  </svg>
+)
+
+export const Handymen = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={48}
+    height={48}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} fill="#E5E7EB" rx={12} />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M24 34c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
+    />
+    <path
+      stroke="#4B5563"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M24 25a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+    />
+  </svg>
+)
