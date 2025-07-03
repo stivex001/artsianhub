@@ -15,7 +15,7 @@ export const Header = (props: Props) => {
 
   return (
     <header className="bg-white h-24 w-full">
-      <div className="max-w-[1152px] mx-auto flex items-center justify-between py-5 px-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-between py-5 px-4">
         <Link href="/home" className="">
           <Image src={logo} alt="logo" className="w-full h-full object-cover" />
         </Link>

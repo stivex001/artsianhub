@@ -38,18 +38,19 @@ const config = {
         textcolor: "#64748B",
         textgray: '#9CA3AF',
         textdark: "#02050A",
-        textbrown: "#33354D",
+        textdeep: "#111827",
         bordergrey: "#D1D5DB",
         tableText: "#464F60",
         operationBg: "#F1F6FF",
         placeholderText: "#84888D",
-        regionGrayText: "#5F5F5F",
+        milky: "#F9FAFB",
         lightButton: "#C2D8FF",
         grayish: "#353c48",
       },
       boxShadow: {
         dropShadow: "0px 2px 4px 0px #0000000D inset",
         cardShadow: "0px 4px 4px 0px #00000040",
+         boxshadow: "0px 2px 4px -2px #0000001A"
 
         
       },

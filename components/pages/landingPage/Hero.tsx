@@ -21,7 +21,7 @@ export const Hero = (props: Props) => {
   return (
     <div className="relative bg-hero bg-cover bg-center bg-no-repeat min-h-screen ">
       <div className="absolute inset-0 bg-custom-gradient opacity-95 z-0" />
-      <div className="max-w-[1152px] mx-auto flex flex-col items-start justify-center py-24 px-4 relative z-10">
+      <div className="max-w-6xl mx-auto flex flex-col items-start justify-center py-24 px-4 relative z-10">
         <Trusted />
 
         <div className="mb-6 max-w-2xl">

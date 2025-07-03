@@ -1,3 +1,4 @@
+import { FindPerfectArtisan } from "@/components/pages/landingPage/FindPerfectArtisan";
 import { Hero } from "@/components/pages/landingPage/Hero";
 import React from "react";
 
@@ -7,6 +8,7 @@ const Home = (props: Props) => {
   return (
     <div className="">
       <Hero />
+      <FindPerfectArtisan />
     </div>
   );
 };
