@@ -17,7 +17,7 @@ const config = {
         "2xl": "1440px",
       },
     },
-    
+
     extend: {
       colors: {
         current: "currentColor",
@@ -25,7 +25,7 @@ const config = {
         white: "#FFFFFF",
         lightgray: "#D9D9D9",
         primary: "#02198B",
-        lightblue: '#516CF4',
+        lightblue: "#516CF4",
         lightp: "#374151",
         btnprimary: "#0357EE",
         darkBlue: "#071D8A",
@@ -36,7 +36,7 @@ const config = {
         borderblack: "#1C1C1C1A",
         bordergray: "#B5B5B5",
         textcolor: "#64748B",
-        textgray: '#9CA3AF',
+        textgray: "#9CA3AF",
         textdark: "#02050A",
         textdeep: "#111827",
         bordergrey: "#D1D5DB",
@@ -50,8 +50,7 @@ const config = {
       boxShadow: {
         dropShadow: "0px 2px 4px 0px #0000000D inset",
         cardShadow: "0px 4px 4px 0px #00000040",
-         boxshadow: "0px 2px 4px -2px #0000001A"
-
+        boxshadow: "0px 2px 4px -2px #0000001A",
         
       },
 
@@ -62,7 +61,7 @@ const config = {
         hero: "url('/hero.jpg')",
         service: "url('/service.png')",
         "hero-gradient": "linear-gradient(180deg, #3C42D1 70%, #00000033 30%)",
-         'custom-gradient': 'linear-gradient(135deg, #111827 0%, #1F2937 100%)',
+        "custom-gradient": "linear-gradient(135deg, #111827 0%, #1F2937 100%)",
       },
       keyframes: {
         "accordion-down": {

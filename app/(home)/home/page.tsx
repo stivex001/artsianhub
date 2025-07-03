@@ -1,3 +1,4 @@
+import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
 import { FindPerfectArtisan } from "@/components/pages/landingPage/FindPerfectArtisan";
 import { Hero } from "@/components/pages/landingPage/Hero";
 import React from "react";
@@ -9,6 +10,7 @@ const Home = (props: Props) => {
     <div className="">
       <Hero />
       <FindPerfectArtisan />
+      <FeaturesArtisan />
     </div>
   );
 };
