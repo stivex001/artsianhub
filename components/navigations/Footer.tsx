@@ -6,6 +6,8 @@ import { UKFlagIcon } from "../assets/icons/UKflag";
 import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import footerbg from "@/components/assets/images/footerbg.svg";
 
 type Props = {};
 
@@ -29,12 +31,19 @@ const Footer = (props: Props) => {
         changeFooterBg ? "bg-primary text-white" : "bg-[#111827] text-white"
       }  py-20`}
     >
-      <Container className="flex  justify-between">
-        <div className="lg:w-9/12  grid grid-cols-3 gap-5">
+      <Container className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
+        <div className="space-y-6">
+          <div>
+            <Image src={footerbg} alt="" />
+          </div>
+          <h3 className="text-base text-placeholderText">
+            Connecting skilled artisans with customers worldwide. Discover,
+            hire, and collaborate with the best in the craft industry.
+          </h3>
+        </div>
           <FooterLinks links={customerLinks} title="Customer Support" />
           <FooterLinks links={artisansLinks} title="Artisan Support" />
           <FooterLinks links={aboutLinks} title="About Us" />
-        </div>
         <div
           className={`text-[7px] lg:text-base font-[300] ${
             changeFooterBg ? "text-white" : "text-white"
