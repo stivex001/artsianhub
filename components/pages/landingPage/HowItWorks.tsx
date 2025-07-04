@@ -66,7 +66,7 @@ const HowItWorks: React.FC<HowItWorksProps> = ({
               >
                 {/* Connector Line for Desktop */}
                 {index > 0 && (
-                  <div className="hidden md:block absolute top-12 -left-1/2 w-7/12 h-0.5 bg-gray-300"></div>
+                  <div className="hidden md:block absolute top-12 -left-1/2 w-9/12 h-0.5 bg-gray-300"></div>
                 )}
                 {index < steps.length - 1 && (
                   <div className="hidden md:block absolute top-12 right-0 w-1/2 h-0.5 bg-gray-300"></div>

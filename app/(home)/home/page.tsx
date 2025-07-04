@@ -8,6 +8,7 @@ import { Hero } from "@/components/pages/landingPage/Hero";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import { Interior } from "@/components/pages/landingPage/Interior";
 import { Skilled } from "@/components/pages/landingPage/Skilled";
+import StartEarning from "@/components/pages/landingPage/StartEarning";
 import { Visual } from "@/components/pages/landingPage/Visual";
 import React from "react";
 
@@ -27,6 +28,7 @@ const Home = (props: Props) => {
       <Digital />
       <Skilled />
       <HowItWorks />
+      <StartEarning />
     </div>
   );
 };
