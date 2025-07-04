@@ -13,7 +13,8 @@ type Props = {};
 
 const Footer = (props: Props) => {
   const pathname = usePathname();
-  const { customerLinks, artisansLinks, aboutLinks } = useNavigationLinks();
+  const { customerLinks, artisansLinks, aboutLinks, supportLinks } =
+    useNavigationLinks();
 
   const isAuthPage = pathname.startsWith("/auth");
   const isArisanPage = pathname.startsWith("/artisan");
@@ -41,23 +42,10 @@ const Footer = (props: Props) => {
             hire, and collaborate with the best in the craft industry.
           </h3>
         </div>
-          <FooterLinks links={customerLinks} title="Customer Support" />
-          <FooterLinks links={artisansLinks} title="Artisan Support" />
-          <FooterLinks links={aboutLinks} title="About Us" />
-        <div
-          className={`text-[7px] lg:text-base font-[300] ${
-            changeFooterBg ? "text-white" : "text-white"
-          }`}
-        >
-          <div className="flex items-center justify-end gap-2 text-right">
-            <UKFlagIcon />
-
-            <h2 className={``}>
-              MansayHUb <br /> 020 3678 1134{" "}
-            </h2>
-          </div>
-          <h2 className="text-right">(Always Ready, non stop service 24/7)</h2>
-        </div>
+        <FooterLinks links={customerLinks} title="For Clients" />
+        <FooterLinks links={artisansLinks} title="For Artisans" />
+        <FooterLinks links={aboutLinks} title="About" />
+        <FooterLinks links={supportLinks} title="Support" />
       </Container>
     </div>
   );

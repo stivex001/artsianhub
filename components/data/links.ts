@@ -54,5 +54,24 @@ export const useNavigationLinks = () => {
       href: "#",
     },
   ];
-  return { customerLinks, artisansLinks, aboutLinks };
+
+  const supportLinks = [
+    {
+      label: "Help Center",
+      href: "#",
+    },
+    {
+      label: "FAQ",
+      href: "#",
+    },
+    {
+      label: "Privacy Policy",
+      href: "#",
+    },
+    {
+      label: "Accessibilty",
+      href: "#",
+    },
+  ];
+  return { customerLinks, artisansLinks, aboutLinks, supportLinks };
 };
