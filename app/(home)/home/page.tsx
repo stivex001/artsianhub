@@ -7,6 +7,7 @@ import { Food } from "@/components/pages/landingPage/Food";
 import { Hero } from "@/components/pages/landingPage/Hero";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import { Interior } from "@/components/pages/landingPage/Interior";
+import Review from "@/components/pages/landingPage/Review";
 import { Skilled } from "@/components/pages/landingPage/Skilled";
 import StartEarning from "@/components/pages/landingPage/StartEarning";
 import { Visual } from "@/components/pages/landingPage/Visual";
@@ -29,6 +30,7 @@ const Home = (props: Props) => {
       <Skilled />
       <HowItWorks />
       <StartEarning />
+      <Review />
     </div>
   );
 };
