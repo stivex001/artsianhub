@@ -95,7 +95,7 @@ export const RighArrow = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <path
-      stroke="#98A2B3"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}

@@ -5,20 +5,23 @@ import Image from "next/image";
 import hire from "@/components/assets/images/hire.svg";
 import artisan from "@/components/assets/images/artisan.svg";
 import { RighArrow } from "@/components/assets/icons/SvgIcons";
+import { useRouter } from "next/navigation";
 
 const Onboarding = () => {
-  const [selectedOption, setSelectedOption] = useState<"hire" | "artisan">(
-    "hire"
-  );
+  const router = useRouter();
+  const [selectedOption, setSelectedOption] = useState<
+    "client" | "artisan" | ""
+  >("");
 
-  const handleOptionSelect = (option: "hire" | "artisan") => {
+  const handleOptionSelect = (option: "client" | "artisan") => {
     setSelectedOption(option);
   };
 
   const handleContinue = () => {
-    if (selectedOption) {
-      console.log("Selected:", selectedOption);
-      // Handle navigation or next step
+    if (selectedOption === "client") {
+      router.push(`/auth/signup?role=client`);
+    } else {
+      router.push(`/auth/signup?role=artisan`);
     }
   };
 
@@ -48,9 +51,11 @@ const Onboarding = () => {
           {/* Hire Artisans Option */}
           <div
             className={`bg-white rounded-2xl p-8 text-center cursor-pointer transition-all duration-200 hover:shadow-cardShadow ${
-              selectedOption === "hire" ? "shadow-cardShadow" : "shadow-shadowo"
+              selectedOption === "client"
+                ? "shadow-shadowactive border border-primary"
+                : "shadow-shadowo"
             }`}
-            onClick={() => handleOptionSelect("hire")}
+            onClick={() => handleOptionSelect("client")}
           >
             <div className="mb-6">
               <div className="flex items-center justify-center mb-5">
@@ -71,7 +76,7 @@ const Onboarding = () => {
           <div
             className={`bg-white rounded-xl p-8 text-center cursor-pointer transition-all duration-200 hover:shadow-cardShadow ${
               selectedOption === "artisan"
-                ? "shadow-cardShadow"
+                ? "shadow-shadowactive border border-primary"
                 : "shadow-shadowo"
             }`}
             onClick={() => handleOptionSelect("artisan")}
@@ -96,9 +101,9 @@ const Onboarding = () => {
           <button
             onClick={handleContinue}
             disabled={!selectedOption}
-            className={`w-full lg:w-fit mx-auto flex gap-2 justify-center items-center px-8 py-3 text-base font-medium rounded-lg transition-all duration-200 ${
+            className={`w-full lg:w-fit mx-auto flex gap-2 justify-center items-center px-8 py-3 text-base font-medium rounded-xl transition-all duration-200 ${
               selectedOption
-                ? "bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg"
+                ? "bg-primary text-white hover:bg-blue-700"
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
           >

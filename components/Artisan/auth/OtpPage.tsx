@@ -1,5 +1,5 @@
 "use client";
-import ArtisanAuthLayout from "@/components/Artisan/auth/ArtisanAuthLayout";
+import ArtisanAuthLayout from "@/components/Artisan/auth/AuthLayout";
 import React, { useState } from "react";
 import {
   InputOTP,
