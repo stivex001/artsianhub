@@ -85,3 +85,21 @@ export const ArrowRightIcon = (props: SVGProps<SVGSVGElement>) => (
     </defs>
   </svg>
 );
+
+export const RighArrow = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#98A2B3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M16.459 9.771h-12.5M11.417 4.751l5.042 5.02-5.042 5.02"
+    />
+  </svg>
+)

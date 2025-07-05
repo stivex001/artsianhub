@@ -5,9 +5,6 @@ import "./globals.css";
 import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/navigations/Navbar";
-import ScrollToTop from "@/utils/ScrollToTop";
-import Footer from "@/components/navigations/Footer";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 
 const inter = Inter({
@@ -70,11 +67,6 @@ export default function RootLayout({
           >
             <Toaster position="top-center" />
             {children}
-            {/* <Navbar />
-            <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
-              {" "}
-              <Footer />
-            </div> */}
           </body>
         </ModalCloseProvider>
       </QueryProviders>

@@ -51,7 +51,8 @@ const config = {
         dropShadow: "0px 2px 4px 0px #0000000D inset",
         cardShadow: "0px 4px 4px 0px #00000040",
         boxshadow: "0px 2px 4px -2px #0000001A",
-        
+        shadowo: "0px 4px 60px 0px #04060F0D"
+
       },
 
       backgroundImage: {

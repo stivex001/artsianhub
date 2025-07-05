@@ -44,7 +44,7 @@ export const Header = (props: Props) => {
                 <Link href="/auth/login">Login</Link>
               </CustomButton>
               <CustomButton>
-                <Link href="/auth/signup?artisan=true" className="font-light">
+                <Link href="/auth/onboarding" className="font-light">
                   Sign Up
                 </Link>
               </CustomButton>
