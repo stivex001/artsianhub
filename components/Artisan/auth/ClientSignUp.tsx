@@ -3,15 +3,16 @@
 import { useAuth } from "@/api/crud/auth";
 import { AuthUser } from "@/components/api/type";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
-import { gender } from "../settings/data";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Google } from "@/components/assets/icons/Google";
+import { GoogleAuth } from "./GoogleAuth";
 
 type Props = {};
 
@@ -94,7 +95,7 @@ const ClientSignUp = (props: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mt-7 flex flex-col gap-5">
+      <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-5 w-full">
           <ControlledInput
             name="email"
@@ -124,6 +125,19 @@ const ClientSignUp = (props: Props) => {
             rules={{ required: true }}
           />
         </div>
+        <div className="flex items-center gap-3 my-1">
+          <Checkbox />
+          <p className="text-sm text-paragrah">
+            I agree to the{" "}
+            <Link href="#" className="font-medium text-btnprimary">
+              Terms of service
+            </Link>{" "}
+            and{" "}
+            <Link href="#" className="font-medium text-btnprimary">
+              Privacy Policy
+            </Link>{" "}
+          </p>
+        </div>
 
         <CustomButton
           type="submit"
@@ -133,11 +147,15 @@ const ClientSignUp = (props: Props) => {
           className="w-full rounded-[10px]"
           variant="primary"
         />
+
+        <GoogleAuth />
+
         <Link
           href={"/auth/login"}
-          className="text-xs font-semibold flex items-center justify-end "
+          className="text-sm  text-paragrah flex items-center justify-center mt-6 "
         >
-          Already have an account? <span className="text-primary">Log in</span>{" "}
+          Already have an account?{" "}
+          <span className="text-primary ml-1 font-medium">Log in</span>{" "}
         </Link>
       </div>
     </form>

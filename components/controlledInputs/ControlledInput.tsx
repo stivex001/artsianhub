@@ -6,7 +6,7 @@ import { useController, Control } from "react-hook-form";
 import { cn } from "../../lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { EyeIcon } from "../assets/icons/NavIcons";
+import { EyeIcon, EyeIconClose } from "../assets/icons/NavIcons";
 
 type ControlledInputProps = {
   name: string;
@@ -58,16 +58,13 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   });
 
   const baseStyles =
-    "w-full text-white py-3 px-4 placeholder:text-lightgray border";
+    "w-full text-[#98A2B3] py-3 px-4 placeholder:text-[#98A2B3] border rounded-[10px] outline-none ";
   const styles = {
-    normal:
-      "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
-    primary:
-      "border border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
-    secondary:
-      "border-bordergray bg-white text-black h-14 rounded-[10px] focus:ring-primary",
+    normal: "border-white bg-white h-14 text-black ",
+    primary: "border-[#E4E5EA] bg-white ",
+    secondary: "border-bordergray bg-white text-black h-14 ",
     tertiary:
-      "border border-black text-[#9694A4] focus:border-black rounded-[10px] focus:ring-green-500",
+      "border border-black text-[#9694A4] focus:border-black focus:ring-green-500",
     invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",
   };
 
@@ -84,9 +81,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   if (art) {
     return (
       <div>
-        <div
-          className={`border border-[#B5B5B5]  rounded-[10px] relative mb-4 ${className}`}
-        >
+        <div className={`border border-[#B5B5B5]  relative mb-4 ${className}`}>
           <Label
             className={`text-primary text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
           >
@@ -123,14 +118,14 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
               />
             )}
           </div>
-        {type === "password" && !isTextArea && (
-          <div
-            className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-            onClick={togglePasswordVisibility}
-          >
-            <EyeIcon />
-          </div>
-        )}
+          {type === "password" && !isTextArea && (
+            <div
+              className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <EyeIcon />
+            </div>
+          )}
         </div>
         {error && (
           <p className="mt-1 text-xs text-red-500 capitalize">
@@ -145,7 +140,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     <div className="space-y-1">
       <Label
         htmlFor={name}
-        className={`text-base font-semibold capitalize ${labelClassName} `}
+        className={`text-sm font-medium text-paragrah capitalize ${labelClassName} `}
       >
         {label}
       </Label>
@@ -186,7 +181,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
             className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
             onClick={togglePasswordVisibility}
           >
-            <EyeIcon />
+            {showPassword ? <EyeIconClose /> : <EyeIcon />}
           </div>
         )}
       </div>

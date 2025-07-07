@@ -37,10 +37,10 @@ const Onboarding = () => {
       {/* Main Content */}
       <div className="max-w-3xl mx-auto px-4 py-16 ">
         <div className="text-center mb-10">
-          <h1 className="md:text-4xl text-2xl font-bold text-gray-900 mb-1">
+          <h1 className="md:text-4xl text-2xl font-[900] text-paragrah mb-1">
             Welcome to ArtisanHub
           </h1>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-body">
             To help you get started, choose if you'd like to join MensayHubas a
             creative or a hirer.
           </p>

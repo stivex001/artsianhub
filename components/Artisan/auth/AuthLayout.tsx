@@ -8,7 +8,7 @@ type Props = {
 
 const AuthLayout = ({ children }: Props) => {
   return (
-    <div className="p-6 flex min-h-screen items-center justify-center">
+    <div className="lg:px-6 py-6  flex min-h-screen items-center justify-center">
       <div className="hidden lg:block flex-1">
         <Image src={custauth} alt="bg" />
       </div>

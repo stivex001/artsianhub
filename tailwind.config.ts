@@ -46,7 +46,8 @@ const config = {
         milky: "#F9FAFB",
         lightButton: "#C2D8FF",
         grayish: "#353c48",
-        body:'#344054'
+        body:'#344054',
+        paragrah: '#101928'
       },
       boxShadow: {
         dropShadow: "0px 2px 4px 0px #0000000D inset",

@@ -22,6 +22,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const satoshi = localFont({
+  src: [
+    {
+      path: "../public/fonts/satoshi/Satoshi-Variable.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-satoshi",
+});
+
 export const metadata: Metadata = {
   title: "MENSAYHUB",
   description: "Mensayhub",
@@ -63,7 +74,7 @@ export default function RootLayout({
       <QueryProviders>
         <ModalCloseProvider>
           <body
-            className={` ${inter.className} ${geistMono.variable} antialiased`}
+            className={` ${satoshi.variable} antialiased`}
           >
             <Toaster position="top-center" />
             {children}
