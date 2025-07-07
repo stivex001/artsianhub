@@ -1,5 +1,4 @@
 "use client";
-import ArtisanAuthLayout from "@/components/Artisan/auth/AuthLayout";
 import React, { useState } from "react";
 import {
   InputOTP,
@@ -95,17 +94,17 @@ const OTPPage = (props: Props) => {
 
   if (verifyPending) {
     return (
-      <ArtisanAuthLayout>
+      <div>
         <div className="flex flex-col items-center justify-center h-[60vh]">
           <Loader2 className="h-16 w-16 animate-spin text-white" />
           <p className="text-white mt-4 text-lg">Verifying OTP...</p>
         </div>
-      </ArtisanAuthLayout>
+      </div>
     );
   }
 
   return (
-    <ArtisanAuthLayout>
+    <div>
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-[10px] text-center max-w-sm w-full">
@@ -161,7 +160,7 @@ const OTPPage = (props: Props) => {
           onClick={() => router.push(`/artisan/dashboard`)}
         /> */}
       </div>
-    </ArtisanAuthLayout>
+    </div>
   );
 };
 
