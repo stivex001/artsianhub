@@ -149,3 +149,21 @@ export const BackArrowIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
+
+export const ArrowB = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#344054"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3.542 10.229h12.5M8.583 15.249l-5.041-5.02 5.041-5.02"
+    />
+  </svg>
+)
