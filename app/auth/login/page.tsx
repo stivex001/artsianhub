@@ -6,13 +6,11 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import google from "@/components/assets/images/google.svg";
-import Image from "next/image";
 import { useAuthStore } from "@/store/authStore";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import custauth from "@/components/assets/images/SignCustomers.png";
+import loginAuth from "@/components/assets/images/Login.png";
 import AuthLayout from "@/components/Artisan/auth/AuthLayout";
 import { AuthTitle } from "@/components/auth/AuthTitle";
 import { GoogleAuth } from "@/components/Artisan/auth/GoogleAuth";
@@ -102,7 +100,7 @@ const Login = (props: Props) => {
 
   return (
     <AuthLayout
-      authImg={custauth}
+      authImg={loginAuth}
       title="Where Great Work Meets Real Opportunities"
       desc="Whether you're booking help or offering your skills, MensayHub is your trusted space to connect, work, and grow."
     >
@@ -114,9 +112,9 @@ const Login = (props: Props) => {
               <ControlledInput
                 name="email"
                 control={control}
-                placeholder="Enter Email / Phone Number"
+                placeholder="Enter Email"
                 type="text"
-                label="Email / Phone Number"
+                label="Email"
                 variant="primary"
                 rules={{ required: true }}
               />
@@ -130,7 +128,7 @@ const Login = (props: Props) => {
                 rules={{ required: true }}
               />
               <Link
-                href={"#"}
+                href={"/auth/forgot-password"}
                 className="flex items-center justify-end font-semibold text-primary text-sm"
               >
                 forgot password?
