@@ -1,43 +1,57 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/bro.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  Code,
+  Graphic,
+  SocialContent,
+  UX,
+} from "@/components/assets/icons/FeaturedIcons";
+import digital from "@/components/assets/images/digital.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Graphic Designers & Illustrators – Branding, logos, and digital art.",
-    image: Design,
+    id: "Graphic",
+    title: "Graphic Designers & Illustrators",
+    description: "Branding, logos, and digital art.",
+    icon: <Graphic />,
   },
   {
-    id: 2,
-    desc: "Web Designers & Developers – Custom websites and eCommerce stores.",
-    image: Design,
+    id: "Web",
+    title: "Web Designers & Developers",
+    description: "Custom websites and eCommerce stores.",
+    icon: <Code />,
   },
   {
-    id: 3,
-    desc: "UI/UX Designers – User experience and app interface design",
-    image: Design,
+    id: "UX",
+    title: "UI/UX Designers",
+    description: "User experience and app interface design.",
+    icon: <UX />,
   },
   {
-    id: 4,
-    desc: "Content Creators & Social Media Managers – Digital marketing, branding, and online engagement",
-    image: Design,
+    id: "Content",
+    title: "Content Creators & Social Media Managers",
+    description: "Digital marketing, branding, and online engagement.",
+    icon: <SocialContent />,
   },
 ];
 
 export const Digital = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Digital & Creative Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Digital & Creative Artisans"
+        subtitle="From branding to web design, our digital artisans specialize in creating engaging and functional online experiences."
+        categories={defaultCategories}
+        featuredImage={digital}
+        backgroundColor="#EFF6FF"
+        borderColor="#2563EB"
+        buttonText="Explore Digital & Creative Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+        order
+      />
+    </section>
   );
 };

@@ -1,43 +1,63 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/painter.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  Calligraphers,
+  Painters,
+  Photographers,
+  Sculptors,
+  Tattoo,
+} from "@/components/assets/icons/FeaturedIcons";
+import visual from "@/components/assets/images/visual.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Painters & Illustrators – Custom artwork, portraits, and murals.",
-    image: Design,
+    id: "Painters",
+    title: "Custom artwork, portraits, and murals.",
+    description: "Custom hair styling and grooming.",
+    icon: <Painters />,
   },
   {
-    id: 2,
-    desc: "Sculptors – Clay, metal, stone, and mixed-media sculptures.",
-    image: Design,
+    id: "Sculptors",
+    title: "Sculptors",
+    description: "Clay, metal, stone, and mixed-media sculptures.",
+    icon: <Sculptors />,
   },
   {
-    id: 3,
-    desc: "Calligraphers & Lettering Artists – Custom signage, wedding invites, and typography art",
-    image: Design,
+    id: "Calligraphers",
+    title: "Calligraphers & Lettering Artists",
+    description: "Custom signage, wedding invites, and typography art.",
+    icon: <Calligraphers />,
   },
   {
-    id: 4,
-    desc: "Photographers & Videographers – Portraits, event coverage, and commercial media.",
-    image: Design,
+    id: "Photographers",
+    title: "Photographers & Videographers",
+    description: "Portraits, event coverage, and commercial media.",
+    icon: <Photographers />,
+  },
+  {
+    id: "Tattoo",
+    title: "Tattoo Artists",
+    description: "Custom ink designs and body art.",
+    icon: <Tattoo />,
   },
 ];
 
 export const Visual = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Visual & Performing Arts Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Visual & Performing Arts Artisans"
+        subtitle="Custom artwork, sculpture, photography, and tattoo artistry, all created by talented and passionate artists."
+        categories={defaultCategories}
+        featuredImage={visual}
+        backgroundColor="#FAF5FF"
+        borderColor="#9333EA"
+        buttonText="Explore Visual & Performing Arts Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+      />
+    </section>
   );
 };

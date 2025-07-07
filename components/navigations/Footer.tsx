@@ -6,12 +6,15 @@ import { UKFlagIcon } from "../assets/icons/UKflag";
 import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import footerbg from "@/components/assets/images/footerbg.svg";
 
 type Props = {};
 
 const Footer = (props: Props) => {
   const pathname = usePathname();
-  const { customerLinks, artisansLinks, aboutLinks } = useNavigationLinks();
+  const { customerLinks, artisansLinks, aboutLinks, supportLinks } =
+    useNavigationLinks();
 
   const isAuthPage = pathname.startsWith("/auth");
   const isArisanPage = pathname.startsWith("/artisan");
@@ -26,29 +29,23 @@ const Footer = (props: Props) => {
   return (
     <div
       className={`${hideFooter && "hidden"} ${
-        changeFooterBg ? "bg-primary text-white" : "bg-white"
+        changeFooterBg ? "bg-primary text-white" : "bg-[#111827] text-white"
       }  py-20`}
     >
-      <Container className="flex  justify-between">
-        <div className="lg:w-9/12  grid grid-cols-3 gap-5">
-          <FooterLinks links={customerLinks} title="Customer Support" />
-          <FooterLinks links={artisansLinks} title="Artisan Support" />
-          <FooterLinks links={aboutLinks} title="About Us" />
-        </div>
-        <div
-          className={`text-[7px] lg:text-base font-[300] ${
-            changeFooterBg ? "text-white" : "text-primary"
-          }`}
-        >
-          <div className="flex items-center justify-end gap-2 text-right">
-            <UKFlagIcon />
-
-            <h2 className={``}>
-              MansayHUb <br /> 020 3678 1134{" "}
-            </h2>
+      <Container className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12">
+        <div className="space-y-6">
+          <div>
+            <Image src={footerbg} alt="" />
           </div>
-          <h2 className="text-right">(Always Ready, non stop service 24/7)</h2>
+          <h3 className="text-base text-placeholderText">
+            Connecting skilled artisans with customers worldwide. Discover,
+            hire, and collaborate with the best in the craft industry.
+          </h3>
         </div>
+        <FooterLinks links={customerLinks} title="For Clients" />
+        <FooterLinks links={artisansLinks} title="For Artisans" />
+        <FooterLinks links={aboutLinks} title="About" />
+        <FooterLinks links={supportLinks} title="Support" />
       </Container>
     </div>
   );

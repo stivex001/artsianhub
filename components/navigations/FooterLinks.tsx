@@ -23,21 +23,17 @@ export const FooterLinks = ({ links, title }: LinksProps) => {
   const changeFooterBg = isAboutPage || isContactPage || artisanDetails;
 
   return (
-    <div className="flex flex-col gap-2 lg:gap-6">
+    <div className="flex flex-col gap-4">
       <h6
-        className={`${
-          changeFooterBg ? "text-white" : "text-primary"
-        }  text-[7px] lg:text-base font-[300]`}
+        className={`text-lg font-semibold text-white`}
       >
         {title}
       </h6>
       <div
-        className={`flex flex-col space-y-2 lg:space-y-5 ${
-          changeFooterBg ? "text-white" : "text-primary"
-        } text-[7px] lg:text-sm font-[300]`}
+        className={`flex flex-col space-y-2 `}
       >
         {links.map((link) => (
-          <Link key={link.label} href={link.href}>
+          <Link key={link.label} href={link.href} className="text-base text-placeholderText">
             {link.label}
           </Link>
         ))}

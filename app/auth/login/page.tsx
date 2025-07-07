@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { AuthLayout } from "@/components/pages/auth/AuthLayout";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
@@ -13,6 +12,10 @@ import { useAuthStore } from "@/store/authStore";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import custauth from "@/components/assets/images/SignCustomers.png";
+import AuthLayout from "@/components/Artisan/auth/AuthLayout";
+import { AuthTitle } from "@/components/auth/AuthTitle";
+import { GoogleAuth } from "@/components/Artisan/auth/GoogleAuth";
 
 type Props = {};
 
@@ -98,77 +101,61 @@ const Login = (props: Props) => {
   };
 
   return (
-    <AuthLayout>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-8/12 mx-auto pt-16">
-        <div className="flex flex-col  gap-3 mb-14">
-          <h1 className="font-semibold text-2xl text-center ">Sign In</h1>
-          <span className="font-semibold text-sm text-center ">
-            Enter your email and Password
-          </span>
-        </div>
-        <div className="flex flex-col gap-4">
-          <ControlledInput
-            name="email"
-            control={control}
-            placeholder="Enter Email / Phone Number"
-            type="text"
-            label="Email / Phone Number"
-            variant="primary"
-            rules={{ required: true }}
-          />
-          <div className="">
-            <ControlledInput
-              name="password"
-              control={control}
-              placeholder="Password"
-              type="password"
-              label="Password"
-              variant="primary"
-              rules={{ required: true }}
+    <AuthLayout
+      authImg={custauth}
+      title="Where Great Work Meets Real Opportunities"
+      desc="Whether you're booking help or offering your skills, MensayHub is your trusted space to connect, work, and grow."
+    >
+      <div className="flex flex-col gap-10">
+        <AuthTitle title="Welcome Back!" desc="Enter your email and password" />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 w-full">
+              <ControlledInput
+                name="email"
+                control={control}
+                placeholder="Enter Email / Phone Number"
+                type="text"
+                label="Email / Phone Number"
+                variant="primary"
+                rules={{ required: true }}
+              />
+              <ControlledInput
+                name="password"
+                control={control}
+                placeholder="Password"
+                type="password"
+                label="Password"
+                variant="primary"
+                rules={{ required: true }}
+              />
+              <Link
+                href={"#"}
+                className="flex items-center justify-end font-semibold text-primary text-sm"
+              >
+                forgot password?
+              </Link>
+            </div>
+            <CustomButton
+              type="submit"
+              label="Login"
+              className="w-full rounded-[10px]"
+              disabled={!isValid}
+              isLoading={isPending}
             />
+
+            <GoogleAuth />
+
             <Link
-              href={"#"}
-              className="flex items-center justify-end font-semibold  my-2"
+              href={"/auth/onboarding"}
+              className="text-sm  text-paragrah flex items-center justify-center mt-6 "
             >
-              forgot password?
+              Don’t have an account?{" "}
+              <span className="text-primary ml-1 font-medium">Sign Up</span>{" "}
             </Link>
           </div>
-        </div>
-        <div className="my-9">
-          <CustomButton
-            type="submit"
-            label="Login"
-            className="w-full rounded-[10px]"
-            disabled={!isValid}
-            isLoading={isPending}
-          />
-          <Link
-            href={"/auth/signup"}
-            className="text-xs font-semibold flex items-center justify-center my-4 "
-          >
-            Are you new here?{" "}
-            <span className="text-primary">Create an Account</span>{" "}
-          </Link>
-        </div>
-        <div className="flex flex-col gap-5 justify-center">
-          <span className="text-center font-[200] text-[10px]">
-            Or sign in with google
-          </span>
-          <button
-            type="button"
-            className="flex items-center justify-center gap-2 h-9 border border-[#878E96] rounded-[10px] text-sm font-bold text-[#6C6F73]"
-          >
-            <Image src={google} alt="google" />
-            <span className="mt-0.5">Continue with Google</span>
-          </button>
-        </div>
-        <h2 className="text-center lg:text-left lg:max-w-xs mx-auto text-xs font-[300] absolute left-10 bottom-6 ">
-          Your membership signifies your agreement to the Mansayhub Terms of
-          Service and Privacy Policy. You may occasionally receive emails from
-          us. Please review our Privacy Policy to understand how we handle your
-          personal data.
-        </h2>
-      </form>
+        </form>
+      </div>
     </AuthLayout>
   );
 };

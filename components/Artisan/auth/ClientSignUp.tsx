@@ -3,66 +3,27 @@
 import { useAuth } from "@/api/crud/auth";
 import { AuthUser } from "@/components/api/type";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
-import { gender } from "../settings/data";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Google } from "@/components/assets/icons/Google";
+import { GoogleAuth } from "./GoogleAuth";
 
 type Props = {};
 
 const fields: Field[] = [
-  {
-    name: "firstName",
-    type: "text",
-    errorMessage: "first Name is required",
-    isRequired: true,
-  },
-  {
-    name: "lastName",
-    type: "text",
-    errorMessage: "Last Name is required",
-    isRequired: true,
-  },
   {
     name: "email",
     type: "email",
     errorMessage: "Email is required",
     isRequired: true,
   },
-  {
-    name: "phoneNumber",
-    type: "text",
-    errorMessage: "phone Number is required",
-    isRequired: true,
-  },
-  {
-    name: "dateOfBirth",
-    type: "date",
-    errorMessage: "DOB is required",
-    isRequired: true,
-  },
-  {
-    name: "specialization",
-    type: "text",
-    errorMessage: "specialization is required",
-    isRequired: true,
-  },
-  {
-    name: "residentialAddress",
-    type: "text",
-    errorMessage: "Address is required",
-    isRequired: true,
-  },
-  {
-    name: "gender",
-    type: "text",
-    errorMessage: "Gender is required",
-  },
+
   {
     name: "password",
     type: "text",
@@ -134,35 +95,8 @@ const ClientSignUp = (props: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mt-7 flex flex-col gap-5">
-        <h1 className="font-semibold text-base">Get Started</h1>
-        <div className="flex flex-col md:flex-row gap-8 w-full">
-          <div className="w-full">
-            <ControlledInput
-              name="firstName"
-              control={control}
-              placeholder=""
-              type="text"
-              label="First Name"
-              variant="primary"
-              rules={{ required: true }}
-              art
-            />
-          </div>
-          <div className="w-full">
-            <ControlledInput
-              name="lastName"
-              control={control}
-              placeholder=""
-              type="text"
-              label="Last Name"
-              variant="primary"
-              rules={{ required: true }}
-              art
-            />
-          </div>
-        </div>
-        <div className="w-full">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 w-full">
           <ControlledInput
             name="email"
             control={control}
@@ -171,74 +105,7 @@ const ClientSignUp = (props: Props) => {
             label="Email"
             variant="primary"
             rules={{ required: true }}
-            art
           />
-        </div>
-        <div className="flex flex-col lg:flex-row gap-8 w-full">
-          <div className="w-full">
-            <ControlledInput
-              name="phoneNumber"
-              control={control}
-              placeholder=""
-              type="number"
-              label="Phone Number"
-              variant="primary"
-              rules={{ required: true }}
-              art
-            />
-          </div>
-          <div className="w-full">
-            <ControlledInput
-              name="dateOfBirth"
-              control={control}
-              placeholder="Enter"
-              type="date"
-              label="Date Of Birth"
-              variant="primary"
-              rules={{ required: true }}
-              art
-            />
-          </div>
-        </div>
-
-        <div className="w-full">
-          <ControlledInput
-            name="specialization"
-            control={control}
-            placeholder="Specific skills or services offered"
-            type="text"
-            label="Trade or Specialization"
-            variant="primary"
-            rules={{ required: true }}
-            art
-          />
-        </div>
-        <div className="flex flex-col lg:flex-row gap-8 w-full">
-          <div className="w-full">
-            <ControlledInput
-              name="residentialAddress"
-              control={control}
-              placeholder="Complete current address"
-              type="text"
-              label="Residential Address"
-              variant="primary"
-              rules={{ required: true }}
-              art
-            />
-          </div>
-          <div className="w-full">
-            <ControlledSelect
-              name="gender"
-              label="Gender*(optional)"
-              options={gender}
-              control={control}
-              variant="primary"
-              art
-            />
-          </div>
-        </div>
-
-        <div className="w-full">
           <ControlledInput
             name="password"
             control={control}
@@ -247,10 +114,7 @@ const ClientSignUp = (props: Props) => {
             label="Password"
             variant="primary"
             rules={{ required: true }}
-            art
           />
-        </div>
-        <div className="w-full">
           <ControlledInput
             name="confirmPassword"
             control={control}
@@ -259,26 +123,41 @@ const ClientSignUp = (props: Props) => {
             label="Confirm New Password"
             variant="primary"
             rules={{ required: true }}
-            art
           />
+        </div>
+        <div className="flex items-center gap-3 my-1">
+          <Checkbox />
+          <p className="text-sm text-paragrah">
+            I agree to the{" "}
+            <Link href="#" className="font-medium text-btnprimary">
+              Terms of service
+            </Link>{" "}
+            and{" "}
+            <Link href="#" className="font-medium text-btnprimary">
+              Privacy Policy
+            </Link>{" "}
+          </p>
         </div>
 
-        <div className="my-9 w-[200px] mx-auto">
-          <CustomButton
-            type="submit"
-            disabled={!isValid}
-            isLoading={isPending}
-            label="Create My Account"
-            className="w-full rounded-[10px]"
-          />
-        </div>
+        <CustomButton
+          type="submit"
+          disabled={!isValid}
+          isLoading={isPending}
+          label="Create My Account"
+          className="w-full rounded-[10px]"
+          variant="primary"
+        />
+
+        <GoogleAuth />
+
+        <Link
+          href={"/auth/login"}
+          className="text-sm  text-paragrah flex items-center justify-center mt-6 "
+        >
+          Already have an account?{" "}
+          <span className="text-primary ml-1 font-medium">Log in</span>{" "}
+        </Link>
       </div>
-      <Link
-        href={"/auth/login"}
-        className="text-xs font-semibold flex items-center justify-end "
-      >
-        Already have an account? <span className="text-primary">Log in</span>{" "}
-      </Link>
     </form>
   );
 };

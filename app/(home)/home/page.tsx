@@ -1,0 +1,38 @@
+import { Beauty } from "@/components/pages/landingPage/Beauty";
+import { Digital } from "@/components/pages/landingPage/Digital";
+import { Fashion } from "@/components/pages/landingPage/Fashion";
+import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
+import { FindPerfectArtisan } from "@/components/pages/landingPage/FindPerfectArtisan";
+import { Food } from "@/components/pages/landingPage/Food";
+import { Hero } from "@/components/pages/landingPage/Hero";
+import HowItWorks from "@/components/pages/landingPage/HowItWorks";
+import { Interior } from "@/components/pages/landingPage/Interior";
+import Review from "@/components/pages/landingPage/Review";
+import { Skilled } from "@/components/pages/landingPage/Skilled";
+import StartEarning from "@/components/pages/landingPage/StartEarning";
+import { Visual } from "@/components/pages/landingPage/Visual";
+import React from "react";
+
+type Props = {};
+
+const Home = (props: Props) => {
+  return (
+    <div className="">
+      <Hero />
+      <FindPerfectArtisan />
+      <FeaturesArtisan />
+      <Fashion />
+      <Food />
+      <Interior />
+      <Beauty />
+      <Visual />
+      <Digital />
+      <Skilled />
+      <HowItWorks />
+      <StartEarning />
+      <Review />
+    </div>
+  );
+};
+
+export default Home;

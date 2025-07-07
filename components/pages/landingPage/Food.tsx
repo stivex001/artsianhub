@@ -1,43 +1,66 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/baker.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  CakeIcon,
+  CholateIcon,
+  FishMonger,
+  ForkIcon,
+  ScissorsIcon,
+  ShoeIcon,
+  WeaverIcon,
+} from "@/components/assets/icons/FeaturedIcons";
+import cook from "@/components/assets/images/cook.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Chefs & Caterers – Private dining, event catering, and meal prep services.",
-    image: Design,
+    id: "chefs",
+    title: "Chefs & Caterers",
+    description: "Private dining, event catering, and meal prep services.",
+    icon: <ForkIcon />,
   },
   {
-    id: 2,
-    desc: "Bakers & Pastry Chefs – Handmade cakes, pastries, and artisanal bread.",
-    image: Design,
+    id: "bakers",
+    title: "Bakers & Pastry Chefs",
+    description: "Handmade cakes, pastries, and artisanal bread.",
+    icon: <CakeIcon />,
   },
   {
-    id: 3,
-    desc: "Chocolatiers – Craft chocolate makers and confectioners.",
-    image: Design,
+    id: "Chocolatiers",
+    title: "Chocolatiers",
+    description: "Craft chocolate makers and confectioners.",
+    icon: <CholateIcon />,
   },
   {
-    id: 4,
-    desc: "Butchers & Fishmongers – Specialist meat and seafood preparation.",
-    image: Design,
+    id: "Butchers",
+    title: "Butchers & Fishmongers",
+    description: "Specialist meat and seafood preparation.",
+    icon: <FishMonger />,
+  },
+   {
+    id: "Cheesemakers",
+    title: "Cheesemakers",
+    description: "Traditional and modern dairy artisans.",
+    icon: <WeaverIcon />,
   },
 ];
 
 export const Food = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Food & Culinary Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Food & Culinary Artisans"
+        subtitle="Bring flavor to your events or home with our skilled food artisans who specialize in culinary creations."
+        categories={defaultCategories}
+        featuredImage={cook}
+        backgroundColor="#FFFBEB"
+        borderColor="#D97706"
+        buttonText="Explore Food & Culinary Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+        order
+      />
+    </section>
   );
 };

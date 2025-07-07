@@ -1,43 +1,60 @@
-import { CategoryCard } from "@/components/shared/CategoryCard";
-import { Headings } from "@/components/shared/Headings";
-import { Category } from "@/types/category";
-import Design from "@/components/assets/images/people.png"
+"use client";
+
+import { CategoryItem, FeaturedCard } from "@/components/shared/FeaturedCard";
+import {
+  Brush,
+  Hairdressers,
+  Handymen,
+  Mechanic,
+  Perfume,
+  Plumbers,
+  Soap,
+  Watchmakers,
+} from "@/components/assets/icons/FeaturedIcons";
+import carpenter from "@/components/assets/images/carpenter.png";
 
 type Props = {};
 
-
-const fashionData: Category[] = [
+const defaultCategories: CategoryItem[] = [
   {
-    id: 1,
-    desc: "Plumbers & Electricians – Home maintenance and repair specialists.",
-    image: Design,
+    id: "Plumbers",
+    title: "Plumbers & Electricians",
+    description: "Home maintenance and repair specialists.",
+    icon: <Plumbers />,
   },
   {
-    id: 2,
-    desc: "Mechanics & Bicycle Repair Technicians – Car and bike servicing experts.",
-    image: Design,
+    id: "Mechanics",
+    title: "Mechanics & Bicycle Repair Technicians",
+    description: "Car and bike servicing experts.",
+    icon: <Mechanic />,
   },
   {
-    id: 3,
-    desc: "Watchmakers & Clock Restorers – Timepiece repair and restoration.",
-    image: Design,
+    id: "Watchmakers",
+    title: "Watchmakers & Clock Restorers",
+    description: "Timepiece repair and restoration..",
+    icon: <Watchmakers />,
   },
   {
-    id: 4,
-    desc: "Handymen & General Repair Specialists – Home improvement and DIY professionals",
-    image: Design,
+    id: "Handymen",
+    title: "Handymen & General Repair Specialists",
+    description: "Home improvement and DIY professionals..",
+    icon: <Handymen />,
   },
 ];
 
 export const Skilled = (props: Props) => {
   return (
-    <div className="pb-14 px-5 lg:px-16 flex flex-col gap-14">
-      <Headings title="Skilled Trades & Repair Artisans" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10 lg:gap-16">
-        {fashionData?.map((item) => (
-          <CategoryCard key={item?.id} item={item} />
-        ))}
-      </div>
-    </div>
+    <section className="py-20 px-4 bg-white">
+      <FeaturedCard
+        title="Skilled Trades & Repair Artisans"
+        subtitle="Get skilled home repairs and services from expert tradespeople—plumbers, electricians, and mechanics."
+        categories={defaultCategories}
+        featuredImage={carpenter}
+        backgroundColor="#F4F5F6"
+        borderColor="#4B5563"
+        buttonText="Explore Skilled Trades & Repair Artisans"
+        onButtonClick={() => console.log("Button clicked")}
+      />
+    </section>
   );
 };

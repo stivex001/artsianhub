@@ -1,28 +1,36 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono, Josefin_Sans } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { Navbar } from "@/components/navigations/Navbar";
-import ScrollToTop from "@/utils/ScrollToTop";
-import Footer from "@/components/navigations/Footer";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 
-const josefin = Josefin_Sans({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
 });
 
-// const josefin = Josefin_Sans({
-//   variable: "--font-josefin-sans",
+// const inter = Inter({
+//   variable: "--font-inter-sans",
 //   subsets: ["latin"],
 // });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const satoshi = localFont({
+  src: [
+    {
+      path: "../public/fonts/satoshi/Satoshi-Variable.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-satoshi",
 });
 
 export const metadata: Metadata = {
@@ -66,16 +74,10 @@ export default function RootLayout({
       <QueryProviders>
         <ModalCloseProvider>
           <body
-            className={` ${josefin.className} ${geistMono.variable} antialiased`}
+            className={` ${satoshi.variable} antialiased`}
           >
             <Toaster position="top-center" />
-            {/* <ScrollToTop /> */}
-            <Navbar />
-            <div className="w-full h-[calc(100vh-96px)]  scrollbar-hidden ">
-              {" "}
-              {children}
-              <Footer />
-            </div>
+            {children}
           </body>
         </ModalCloseProvider>
       </QueryProviders>

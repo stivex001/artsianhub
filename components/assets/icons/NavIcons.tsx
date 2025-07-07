@@ -46,39 +46,37 @@ export const PolygonBlue = (props: SVGProps<SVGSVGElement>) => (
   >
     <path fill="#1A60AA" d="m28 0 27.713 44.25H.287L28 0Z" />
   </svg>
-)
+);
 
 export const EyeIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    width={11}
-    height={11}
+    width={20}
+    height={20}
     fill="none"
     {...props}
   >
-    <path fill="url(#a)" d="M0 0h11v11H0z" />
-    <defs>
-      <pattern
-        id="a"
-        width={1}
-        height={1}
-        patternContentUnits="objectBoundingBox"
-      >
-        <use xlinkHref="#b" transform="scale(.01111)" />
-      </pattern>
-      <image
-        xlinkHref="data:image/png;base64,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"
-        id="b"
-        width={90}
-        height={90}
-        preserveAspectRatio="none"
-      />
-    </defs>
+    <path
+      fill="#98A2B3"
+      d="M10 3.333c1.723 0 3.358.598 4.78 1.705 1.423 1.1 2.635 2.707 3.505 4.72a.608.608 0 0 1 0 .477c-1.74 4.024-4.838 6.431-8.286 6.431h-.007c-3.44 0-6.537-2.407-8.277-6.431a.609.609 0 0 1 0-.478c1.74-4.024 4.838-6.424 8.277-6.424h.007Zm0 3.435A3.242 3.242 0 0 0 6.747 10c0 1.778 1.455 3.224 3.251 3.224 1.789 0 3.244-1.446 3.245-3.224a3.24 3.24 0 0 0-3.245-3.232Zm0 1.21c1.114 0 2.025.905 2.025 2.02 0 1.107-.91 2.012-2.025 2.012a2.025 2.025 0 0 1-2.032-2.012c0-.137.017-.267.041-.396h.04c.903 0 1.635-.71 1.667-1.6A1.62 1.62 0 0 1 10 7.978Z"
+    />
   </svg>
 );
 
-
+export const EyeIconClose = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <path
+      fill="#98A2B3"
+      d="M15.976 3.095a.61.61 0 0 1 .862 0 .608.608 0 0 1 0 .87l-1.48 1.492c1.178 1.083 2.179 2.545 2.927 4.3a.625.625 0 0 1 0 .484c-1.74 4.085-4.838 6.53-8.286 6.53h-.008c-1.57 0-3.074-.517-4.4-1.46l-1.576 1.592a.6.6 0 0 1-.431.18.59.59 0 0 1-.432-.18.614.614 0 0 1-.073-.772l.024-.032L15.13 3.964c.016-.016.033-.032.04-.049a.22.22 0 0 0 .04-.048l.765-.772ZM10 3.238c1.163 0 2.293.278 3.334.803l-2.716 2.74a3.768 3.768 0 0 0-.618-.056c-1.797 0-3.252 1.468-3.252 3.281 0 .213.024.427.057.623l-3.01 3.037c-.812-.952-1.52-2.1-2.08-3.421a.625.625 0 0 1 0-.485c1.74-4.085 4.838-6.522 8.277-6.522h.008Zm1.795 5.813c.146.28.227.608.227.952 0 1.124-.91 2.043-2.024 2.043-.341 0-.667-.082-.943-.23l-.886.894c.52.353 1.154.567 1.829.567 1.789 0 3.244-1.469 3.244-3.274 0-.68-.21-1.321-.56-1.846l-.887.894Z"
+    />
+  </svg>
+);
 
 export const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -112,7 +110,7 @@ export const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
       />
     </defs>
   </svg>
-)
+);
 
 export const RatingIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -127,7 +125,7 @@ export const RatingIcon = (props: SVGProps<SVGSVGElement>) => (
       d="m27 0 6.286 20.038H53.63L37.172 32.423l6.286 20.038L27 40.078 10.542 52.462l6.286-20.039L.37 20.038h20.344L27 0Z"
     />
   </svg>
-)
+);
 
 export const LogoutIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -157,7 +155,7 @@ export const LogoutIcon = (props: SVGProps<SVGSVGElement>) => (
       />
     </defs>
   </svg>
-)
+);
 
 export const HamburgerIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
