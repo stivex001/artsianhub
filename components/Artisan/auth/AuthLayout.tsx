@@ -31,7 +31,7 @@ const AuthLayout = ({ children, authImg, title, desc }: Props) => {
       </div>
       <section className="w-full lg:w-1/2 flex flex-col">
         {/* Scrollable content container */}
-        <div className="flex-1 overflow-y-auto flex items-center justify-center p-4 lg:p-6 no-scrollbar">
+        <div className="flex-1 overflow-y-auto flex items-center justify-center px-4 lg:px-0 lg:py-6 no-scrollbar">
           <div className="w-full max-w-[512px] my-auto">{children}</div>
         </div>
       </section>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -104,7 +104,7 @@ const OTPPage = (props: Props) => {
   }
 
   return (
-    <div>
+    <Suspense fallback={<div>loading...</div>}>
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-[10px] text-center max-w-sm w-full">
@@ -119,9 +119,7 @@ const OTPPage = (props: Props) => {
             <div className="space-y-4">
               <CustomButton
                 label={
-                  isClient
-                    ? "Proceed"
-                    : "Complete registration by Siginin in"
+                  isClient ? "Proceed" : "Complete registration by Siginin in"
                 }
                 onClick={handleSuccessModalAction}
                 className="w-full rounded-[10px]"
@@ -131,7 +129,7 @@ const OTPPage = (props: Props) => {
         </div>
       )}
 
-      <div className="flex flex-col items-center justify-center h-[60vh]">
+      <div className="flex flex-col items-center justify-center">
         <h1 className="text-white text-3xl font-semibold mb-2">Enter Code</h1>
         <p className="text-white text-base font-semibold">
           We sent a code to {email}
@@ -160,7 +158,7 @@ const OTPPage = (props: Props) => {
           onClick={() => router.push(`/artisan/dashboard`)}
         /> */}
       </div>
-    </div>
+    </Suspense>
   );
 };
 

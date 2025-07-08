@@ -14,6 +14,7 @@ import loginAuth from "@/components/assets/images/Login.png";
 import AuthLayout from "@/components/Artisan/auth/AuthLayout";
 import { AuthTitle } from "@/components/auth/AuthTitle";
 import { BackNavigation } from "@/components/shared/BackNavigation";
+import { ContactSupport } from "@/components/Artisan/auth/ContactSupport";
 
 type Props = {};
 
@@ -39,7 +40,7 @@ const ForgotPassword = (props: Props) => {
   const { isPending, mutateAsync } = loginUser;
 
   const onSubmit = async (data: any) => {
-    router.push(`/auth/otp`)
+    router.push(`/auth/otp`);
     // try {
     //   await mutateAsync(data, {
     //     onSuccess: (response: any) => {
@@ -96,15 +97,7 @@ const ForgotPassword = (props: Props) => {
               isLoading={isPending}
             />
 
-            <Link
-              href={"/auth/onboarding"}
-              className="text-sm  text-paragrah flex items-center justify-center mt-6 "
-            >
-              Having a bit of trouble?{" "}
-              <span className="text-primary ml-1 font-medium">
-                Contact Support
-              </span>{" "}
-            </Link>
+            <ContactSupport />
           </div>
         </form>
       </div>

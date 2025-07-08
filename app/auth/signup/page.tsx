@@ -11,30 +11,31 @@ const Register = () => {
   const params = useSearchParams();
   const role = params.get("role");
   const client = role === "client";
-  const artisan = role === "artisan";
 
   return (
-    <AuthLayout
-      authImg={client ? custauth : artisanauth}
-      title={
-        client ? "Welcome to ArtisanHub" : "Join ArtisanHub and Get Connected"
-      }
-      desc={
-        client
-          ? "Connect with skilled artisans and grow your business with our trusted platform"
-          : "Join the professional artisan community"
-      }
-    >
-      <div className="flex flex-col gap-10">
-        <AuthTitle
-          title="Create an Account"
-          desc="Enter your email and password"
-        />
-        <Suspense fallback={<div>Loading...</div>}>
-          <ClientSignUp />
-        </Suspense>
-      </div>
-    </AuthLayout>
+    <Suspense fallback={<div>loading...</div>}>
+      <AuthLayout
+        authImg={client ? custauth : artisanauth}
+        title={
+          client ? "Welcome to ArtisanHub" : "Join ArtisanHub and Get Connected"
+        }
+        desc={
+          client
+            ? "Connect with skilled artisans and grow your business with our trusted platform"
+            : "Join the professional artisan community"
+        }
+      >
+        <div className="flex flex-col gap-10">
+          <AuthTitle
+            title="Create an Account"
+            desc="Enter your email and password"
+          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ClientSignUp />
+          </Suspense>
+        </div>
+      </AuthLayout>
+    </Suspense>
   );
 };
 
