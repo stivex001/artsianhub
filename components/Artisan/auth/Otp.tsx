@@ -22,7 +22,7 @@ type Props = {
   email?: string;
 };
 
-export const OTP = ({ email }: Props) => {
+const OtpContent = ({ email }: Props) => {
   const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
 
@@ -136,4 +136,4 @@ export const OTP = ({ email }: Props) => {
   );
 };
 
-
+export default OtpContent;
