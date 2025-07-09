@@ -39,7 +39,7 @@ const OtpContent = ({ email }: Props) => {
       await verifyOtp(payload, {
         onSuccess: (response: any) => {
           console.log(response, "res_");
-          // router.push(`/`);
+          router.push(`/auth/profile-setup`);
         },
         onError: (error: any) => {
           toast.error(error?.message);
