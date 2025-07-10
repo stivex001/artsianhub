@@ -122,7 +122,7 @@ export const ClientProfileSetup = (props: Props) => {
       >
         <div>
           <h1 className="text-paragrah font-bold text-xl">
-            You're All Set, Jenny!
+            You're All Set, Stephen!
           </h1>
           <p className="text-sm text-body">
             You can now explore artisans around you, request services, and

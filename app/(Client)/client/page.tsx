@@ -1,11 +1,19 @@
-import React from 'react'
+"use client";
+import { Search, User } from "lucide-react";
+import { ClientNav } from "@/components/Client/ClientNav";
+import { ClientHero } from "@/components/Client/ClientHero";
+import Footer from "@/components/navigations/Footer";
 
-type Props = {}
+type Props = {};
 
 const ClientPage = (props: Props) => {
   return (
-    <div>ClientPage</div>
-  )
-}
+    <div className="min-h-screen bg-gray-50">
+      <ClientNav />
+      <ClientHero />
+      <Footer />
+    </div>
+  );
+};
 
-export default ClientPage
+export default ClientPage;
