@@ -52,7 +52,6 @@ const ProfilePics = ({
 
   const initials = getUserInitials(user?.firstName, user?.lastName);
 
-  console.log(preview, "profile__dggdvgdv");
 
   return (
     <div className="w-[30%] flex flex-col gap-4">

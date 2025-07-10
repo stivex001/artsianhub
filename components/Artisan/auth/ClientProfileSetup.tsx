@@ -6,8 +6,10 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { AuthUser } from "@/components/api/type";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { Camera } from "lucide-react";
-import { CameraIcon, NoImageIcon } from "@/components/assets/icons/SvgIcons";
+import { ChangeProfilepics } from "@/components/controlledInputs/ChangeProfilepics";
+import { CustomModal } from "@/components/modals/CustomModal";
+import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -33,30 +35,21 @@ const fields: Field[] = [
 ];
 
 export const ClientProfileSetup = (props: Props) => {
-  const { control, handleSubmit, formState, watch, setError, clearErrors } =
+  const router = useRouter()
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const { control, handleSubmit, formState } =
     useDynamicForm<AuthUser>(fields, {});
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    location: "",
-    profilePhoto: null as File | null,
-  });
-
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        profilePhoto: file,
-      }));
+  const handleCreateProfile = (data: any) => {
+    const formData = new FormData();
+    if (selectedFile) {
+      formData.append("profilePhoto", selectedFile);
     }
-  };
 
-  const handleCreateProfile = () => {
-    // Handle form submission
-    console.log("Form data:", formData);
+    console.log("Form data:", data);
+    setOpenModal(true);
   };
 
   return (
@@ -76,41 +69,11 @@ export const ClientProfileSetup = (props: Props) => {
         className="flex flex-col gap-5"
       >
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col items-center gap-2 bg-[#F9F9FB] w-[148px] p-6">
-            <label className="text-sm font-medium text-gray-700 self-start">
-              Profile Photo
-            </label>
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full  flex items-center justify-center overflow-hidden">
-                {formData.profilePhoto ? (
-                  <img
-                    src={URL.createObjectURL(formData.profilePhoto)}
-                    alt="Profile"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-white rounded-full flex items-center justify-center">
-                    <div className="mt-6">
-                      <NoImageIcon />
-                    </div>
-                  </div>
-                )}
-              </div>
-              <label
-                htmlFor="photo-upload"
-                className="absolute bottom-0 right-0 w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer transition-colors"
-              >
-                <CameraIcon />
-              </label>
-              <input
-                id="photo-upload"
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="hidden"
-              />
-            </div>
-          </div>
+          <ChangeProfilepics
+            setSelectedFile={setSelectedFile}
+            selectedFile={selectedFile}
+          />
+
           <div className="grid lg:grid-cols-2 gap-5">
             <ControlledInput
               name="firstName"
@@ -152,6 +115,28 @@ export const ClientProfileSetup = (props: Props) => {
           />
         </div>
       </form>
+      <CustomModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        icon={<ConfirmIcon />}
+      >
+        <div>
+          <h1 className="text-paragrah font-bold text-xl">
+            You're All Set, Jenny!
+          </h1>
+          <p className="text-sm text-body">
+            You can now explore artisans around you, request services, and
+            manage your appointments — all from your dashboard.
+          </p>
+        </div>
+        <CustomButton
+          type="button"
+          label="Go to Dashboard"
+          className="w-full rounded-xl"
+          variant="primary"
+          onClick={() => router.push(`/client`)}
+        />
+      </CustomModal>
     </ProfileSetupLayout>
   );
 };
