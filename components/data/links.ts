@@ -1,3 +1,11 @@
+import {
+  FacebookIcon,
+  Instagram,
+  Linkdln,
+  Twitter,
+  Youtube,
+} from "../assets/icons/SocialIcons";
+
 export const useNavigationLinks = () => {
   const customerLinks = [
     {
@@ -5,52 +13,60 @@ export const useNavigationLinks = () => {
       href: "#",
     },
     {
-      label: "Getting Started",
+      label: "Browse Categories",
       href: "#",
     },
     {
-      label: "Login",
+      label: "How It Works",
       href: "#",
     },
     {
-      label: "Mobile App",
+      label: "Client Reviews",
+      href: "#",
+    },
+    {
+      label: "Trust & Safety",
       href: "#",
     },
   ];
 
   const artisansLinks = [
     {
-      label: "How it Works",
-      href: "#",
-    },
-    {
       label: "Join as an Artisan",
+      href: "/auth/signup?role=artisan",
+    },
+    {
+      label: "Artisan Success Stories",
       href: "#",
     },
     {
-      label: "Help Centre",
+      label: "Resources",
       href: "#",
     },
     {
-      label: "Mobile App",
+      label: "Community Guidelines",
+      href: "#",
+    },
+    {
+      label: "Artisan Support",
       href: "#",
     },
   ];
   const aboutLinks = [
     {
-      label: "Privacy Policy",
-      href: "#",
-    },
-    {
-      label: "Terms & Conditions",
-      href: "#",
-    },
-    {
-      label: "FAQ",
+      label: "About Us",
       href: "#",
     },
     {
       label: "Careers",
+      href: "#",
+    },
+    {
+      label: "Press",
+      href: "#",
+    },
+    {
+      label: "Contact",
       href: "#",
     },
   ];
@@ -69,9 +85,42 @@ export const useNavigationLinks = () => {
       href: "#",
     },
     {
+      label: "Terms of Service",
+      href: "#",
+    },
+    {
       label: "Accessibilty",
       href: "#",
     },
   ];
-  return { customerLinks, artisansLinks, aboutLinks, supportLinks };
+
+  const socialLinks = [
+    {
+      icon: FacebookIcon,
+      href: "www.facebook.com",
+    },
+    {
+      icon: Instagram,
+      href: "www.instagram.com",
+    },
+    {
+      icon: Twitter,
+      href: "www.x.com",
+    },
+    {
+      icon: Linkdln,
+      href: "www.linkdln.com",
+    },
+    {
+      icon: Youtube,
+      href: "www.youtube.com",
+    },
+  ];
+  return {
+    customerLinks,
+    artisansLinks,
+    aboutLinks,
+    supportLinks,
+    socialLinks,
+  };
 };

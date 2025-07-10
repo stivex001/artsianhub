@@ -1,5 +1,5 @@
 "use client";
-import { Search, User } from "lucide-react";
+
 import { ClientNav } from "@/components/Client/ClientNav";
 import { ClientHero } from "@/components/Client/ClientHero";
 import Footer from "@/components/navigations/Footer";
