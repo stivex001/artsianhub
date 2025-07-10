@@ -15,12 +15,7 @@ const ProfileSetupLayout = ({ children, title, desc }: Props) => {
   return (
     <div className="lg:px-6 py-6  flex h-screen overflow-hidden">
       <div className="hidden lg:flex flex-col justify-center bg-[#f9f9fb]  lg:w-1/2 relative rounded-3xl p-8 z-10">
-        {/* <Image
-          src={authImg}
-          alt="bg"
-          className="absolute inset-0 w-full h-full object-cover rounded-3xl"
-          priority
-        /> */}
+
         <Link href="/" className="absolute top-8 left-8">
           <BrandIcon />
         </Link>

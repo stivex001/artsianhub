@@ -29,7 +29,7 @@ const RegisterContent = () => {
           title="Create an Account"
           desc="Enter your email and password"
         />
-        <ClientSignUp />
+        <ClientSignUp role={role} />
       </div>
     </AuthLayout>
   );

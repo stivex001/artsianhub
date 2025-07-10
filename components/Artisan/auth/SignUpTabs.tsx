@@ -37,7 +37,7 @@ const SignUpTabs = () => {
       </TabsList>
 
       <TabsContent value="client" className="w-full">
-        <ClientSignUp />
+        <ClientSignUp role="client" />
       </TabsContent>
       <TabsContent value="Artisan" className="w-full">
         <ArtisanSignUp />

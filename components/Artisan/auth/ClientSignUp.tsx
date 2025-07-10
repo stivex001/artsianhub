@@ -11,10 +11,11 @@ import { toast } from "sonner";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Google } from "@/components/assets/icons/Google";
 import { GoogleAuth } from "./GoogleAuth";
 
-type Props = {};
+type Props = {
+  role:any
+};
 
 const fields: Field[] = [
   {
@@ -37,7 +38,7 @@ const fields: Field[] = [
   },
 ];
 
-const ClientSignUp = (props: Props) => {
+const ClientSignUp = ({role}: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState, watch, setError, clearErrors } =
     useDynamicForm<AuthUser>(fields, {});
@@ -74,7 +75,7 @@ const ClientSignUp = (props: Props) => {
 
     const payload = {
       ...data,
-      isClient: true,
+      role,
     };
 
     try {
@@ -82,7 +83,7 @@ const ClientSignUp = (props: Props) => {
         onSuccess: (response: any) => {
           console.log(response, "res_");
           toast.success(response?.message);
-          router.push(`/auth/otp?email=${data.email}&&isClient=true`);
+          router.push(`/auth/otp?email=${data.email}&&role=${role}`);
         },
         onError: (error: any) => {
           toast.error(error?.message);

@@ -11,7 +11,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
 import { CustomButton } from "@/components/clickable/CustomButton";
@@ -23,6 +23,8 @@ type Props = {
 };
 
 const OtpContent = ({ email }: Props) => {
+  const params = useSearchParams();
+  const role = params.get("role");
   const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
 
@@ -39,7 +41,7 @@ const OtpContent = ({ email }: Props) => {
       await verifyOtp(payload, {
         onSuccess: (response: any) => {
           console.log(response, "res_");
-          router.push(`/auth/profile-setup`);
+          router.push(`/auth/profile-setup?role=${role}`);
         },
         onError: (error: any) => {
           toast.error(error?.message);
