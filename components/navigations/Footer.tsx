@@ -2,7 +2,6 @@
 
 import React from "react";
 import Container from "../ui/Container";
-import { UKFlagIcon } from "../assets/icons/UKflag";
 import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
 import { usePathname } from "next/navigation";

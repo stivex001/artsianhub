@@ -49,7 +49,7 @@ const HowItWorks: React.FC<HowItWorksProps> = ({
   steps = defaultSteps,
 }) => {
   return (
-    <section className={`bg-white py-20 px-4 text-center`}>
+    <section id="howitworks" className={`bg-white py-20 px-4 text-center`}>
       <div className="max-w-6xl mx-auto">
         <div className="max-w-2xl mx-auto text-center mb-12">
           <Descriptions title={title} desc={subtitle} />
