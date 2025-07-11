@@ -15,9 +15,11 @@ import Image from "next/image";
 import ava from "@/components/assets/images/ava.svg";
 import { UserNav } from "./UserNav";
 
-type Props = {};
+type Props = {
+  brandlogo?: boolean;
+};
 
-export const UserProfile = (props: Props) => {
+export const UserProfile = ({ brandlogo }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -115,7 +117,9 @@ export const UserProfile = (props: Props) => {
         </div>
         <ChevronDown
           size={20}
-          className={`text-white transition-transform duration-200 ${
+          className={`${
+            brandlogo ? "text-[#98A2B3]" : "text-white"
+          }  transition-transform duration-200 ${
             isDropdownOpen ? "rotate-180" : ""
           }`}
         />
@@ -125,7 +129,7 @@ export const UserProfile = (props: Props) => {
       {isDropdownOpen && (
         <UserNav
           handleMenuItemClick={handleMenuItemClick}
-          onClose={() =>setIsDropdownOpen(false)}
+          onClose={() => setIsDropdownOpen(false)}
         />
       )}
     </div>

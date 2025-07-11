@@ -3,15 +3,18 @@ import { artisans } from "../Client/data";
 import Image from "next/image";
 import { MapPin, Star } from "lucide-react";
 import { MapIcon } from "../assets/icons/UsersIcon";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 export const ArtisanCard = (props: Props) => {
+    const router = useRouter()
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {artisans.map((artisan) => (
         <div
-          key={artisan.id}
+          key={artisan?.id}
+          onClick={() => router.push(`/client/artisan-details/${artisan?.id}`)}
           className="bg-white rounded-3xl pt-2 px-2 pb-5 shadow-boxshadow hover:shadow-md transition overflow-hidden text-left cursor-pointer"
         >
     
