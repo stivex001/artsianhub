@@ -14,7 +14,7 @@ export const ClientNav = ({ brandlogo }: Props) => {
         brandlogo ? "bg-white" : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-5">
+      <div className="max-w-7xl mx-auto px-5">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/client" className="">

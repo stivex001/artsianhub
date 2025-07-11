@@ -9,7 +9,7 @@ const DetailsLayout = ({ children }: Props) => {
   return (
     <div className="">
       <ClientNav brandlogo />
-      <div className="mt-24 max-w-6xl mx-auto px-5">{children}</div>
+      <div className="mt-24 max-w-7xl mx-auto px-5">{children}</div>
     </div>
   );
 };
