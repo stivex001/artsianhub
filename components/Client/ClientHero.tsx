@@ -7,7 +7,7 @@ type Props = {};
 
 export const ClientHero = (props: Props) => {
   return (
-    <section className=" lg:h-[70vh] px-5 py-24 sm:py-32 relative overflow-hidden">
+    <section className=" lg:h-[60vh] px-5 py-24 sm:py-32 relative overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0 ">
         <div className="w-full h-full  bg-gradient-to-r from-black/70 to-black/50">
