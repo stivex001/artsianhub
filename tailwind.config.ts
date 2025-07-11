@@ -47,7 +47,8 @@ const config = {
         lightButton: "#C2D8FF",
         grayish: "#353c48",
         body:'#344054',
-        paragrah: '#101928'
+        paragrah: '#101928',
+        grayis: '#98A2B3'
       },
       boxShadow: {
         dropShadow: "0px 2px 4px 0px #0000000D inset",
