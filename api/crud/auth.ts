@@ -32,22 +32,22 @@ export interface Wallet {
 
 export const useAuth = () => {
   const registerUser = useApiMutation<AuthResponse, FormData>({
-    url: "/user/register ",
+    url: "/auth/register ",
     method: "POST",
   });
 
   const loginUser = useApiMutation<AuthResponse, FormData>({
-    url: "/user/login ",
+    url: "/auth/login ",
     method: "POST",
   });
 
   const verifyOTP = useApiMutation<AuthResponse, FormData>({
-    url: "/user/verify-otp",
+    url: "/auth/verify-otp",
     method: "POST",
   });
 
   const resendOTP = useApiMutation<AuthResponse, FormData>({
-    url: "/user/resend-otp",
+    url: "/auth/resend-otp",
     method: "POST",
   });
 

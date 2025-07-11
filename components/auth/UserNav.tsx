@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import ava from "@/components/assets/images/ava.svg";
@@ -8,9 +9,13 @@ import {
   ProfileIcon,
   SettingsIcon,
 } from "../assets/icons/UsersIcon";
+import { useAuthStore } from "@/store/authStore";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type UserNavProps = {
   handleMenuItemClick: any;
+  onClose: any;
 };
 
 // Mock user data for demonstration
@@ -20,7 +25,17 @@ const mockUser = {
   email: "jennysam@email.com",
 };
 
-export const UserNav = ({ handleMenuItemClick }: UserNavProps) => {
+export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
+  const router = useRouter();
+  const { currentUser, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+    router.push("/");
+    onClose();
+  };
+
   return (
     <div className="absolute right-0 top-full mt-2 w-60 bg-white rounded-[14px] shadow-usershadow p-2.5 z-50">
       <div className="bg-[#F9F9FB] h-[70px] rounded-2xl p-2.5 flex items-center gap-2">
@@ -37,7 +52,7 @@ export const UserNav = ({ handleMenuItemClick }: UserNavProps) => {
           <h3 className="font-bold text-paragrah text-sm">
             {mockUser.firstName} {mockUser.lastName}
           </h3>
-          <p className="text-xs text-[#667185]">{mockUser.email}</p>
+          <p className="text-xs text-[#667185]">{currentUser?.email}</p>
         </div>
       </div>
 
@@ -78,7 +93,7 @@ export const UserNav = ({ handleMenuItemClick }: UserNavProps) => {
         <div className="my-2 border-t border-gray-100"></div>
 
         <button
-          onClick={() => handleMenuItemClick("logout")}
+          onClick={handleLogout}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <LogoutIcon />

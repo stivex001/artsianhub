@@ -1,6 +1,13 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown, User, Settings, CreditCard, LogOut, Briefcase } from "lucide-react";
+import {
+  ChevronDown,
+  User,
+  Settings,
+  CreditCard,
+  LogOut,
+  Briefcase,
+} from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useUser } from "@/api/crud/user";
 import { getUserInitials } from "@/utils/getUserInitials";
@@ -14,7 +21,7 @@ export const UserProfile = (props: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  //   const { currentUser } = useAuthStore();
+  // const { currentUser } = useAuthStore();
   //   const { getCurrentArtisanUser } = useUser();
   //   const { data: user } = getCurrentArtisanUser();
 
@@ -24,8 +31,6 @@ export const UserProfile = (props: Props) => {
   //     currentUser?.firstName,
   //     currentUser?.lastName
   //   );
-
-
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -44,40 +49,43 @@ export const UserProfile = (props: Props) => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         closeDropdown();
       }
     };
 
     if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isDropdownOpen]);
 
   // Close dropdown on escape key
   useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         closeDropdown();
       }
     };
 
     if (isDropdownOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
+      document.addEventListener("keydown", handleEscapeKey);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [isDropdownOpen]);
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button 
+      <button
         onClick={toggleDropdown}
         className="bg-transparent flex items-center gap-2 relative hover:opacity-80 transition-opacity"
       >
@@ -105,17 +113,20 @@ export const UserProfile = (props: Props) => {
             className="w-full h-full object-cover rounded-full"
           />
         </div>
-        <ChevronDown 
-          size={20} 
+        <ChevronDown
+          size={20}
           className={`text-white transition-transform duration-200 ${
-            isDropdownOpen ? 'rotate-180' : ''
-          }`} 
+            isDropdownOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 
       {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <UserNav handleMenuItemClick={handleMenuItemClick} />
+        <UserNav
+          handleMenuItemClick={handleMenuItemClick}
+          onClose={() =>setIsDropdownOpen(false)}
+        />
       )}
     </div>
   );

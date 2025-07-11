@@ -41,12 +41,12 @@ const Login = (props: Props) => {
 
   useEffect(() => {
     if (accessToken && currentUser) {
-      if (currentUser?.isAdmin) {
+      if (currentUser?.role === "admin") {
         router.replace("/admin/dashboard");
-      } else if (currentUser?.isArtisan) {
+      } else if (currentUser?.role === "artisan") {
         router.replace("/artisan/dashboard");
-      } else if (currentUser?.isClient) {
-        router.replace("/");
+      } else if (currentUser?.role === "client") {
+        router.replace("/client");
       }
     }
   }, [accessToken, currentUser, router]);
@@ -64,8 +64,6 @@ const Login = (props: Props) => {
           const token = response?.token;
           const user = response?.user;
 
-          console.log(user, "user");
-
           if (token && user) {
             setAccessToken(token);
             setCurrentUser(user);
@@ -73,12 +71,12 @@ const Login = (props: Props) => {
             toast.success(response?.message);
 
             // Redirect based on role
-            if (user?.isAdmin === true) {
+            if (user?.role === "admin") {
               router.push("/admin/dashboard");
-            } else if (user?.isArtisan === true) {
+            } else if (user?.role === "artisan") {
               router.push("/artisan/dashboard");
-            } else if (user?.isClient === true) {
-              router.push("/");
+            } else if (user?.role === "client") {
+              router.push("/client");
             } else {
               toast.error("Role not recognized. Please contact support.");
               router.push("/auth/login");

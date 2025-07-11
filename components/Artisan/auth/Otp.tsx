@@ -18,15 +18,33 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import { Spinner } from "@/components/shared/Spinner";
 import { ContactSupport } from "@/components/Artisan/auth/ContactSupport";
 
-type Props = {
-  email?: string;
-};
+type Props = {};
 
-const OtpContent = ({ email }: Props) => {
+const OtpContent = ({}: Props) => {
   const params = useSearchParams();
   const role = params.get("role");
+  const email = params.get("email");
   const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
+  const [timeLeft, setTimeLeft] = useState(15 * 60);
+
+  React.useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, "0")}:${sec
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   const { verifyOTP, resendOTP } = useAuth();
   const { isPending: verifyPending, mutateAsync: verifyOtp } = verifyOTP;
@@ -40,7 +58,7 @@ const OtpContent = ({ email }: Props) => {
     try {
       await verifyOtp(payload, {
         onSuccess: (response: any) => {
-          console.log(response, "res_");
+          toast.success(response?.message);
           router.push(`/auth/profile-setup?role=${role}`);
         },
         onError: (error: any) => {
@@ -66,9 +84,8 @@ const OtpContent = ({ email }: Props) => {
     try {
       await resendOtp(payload, {
         onSuccess: (response: any) => {
-          console.log(response, "res_");
           toast.success(response?.message);
-          router.push(`/`);
+          setTimeLeft(15 * 60);
         },
         onError: (error: any) => {
           toast.error(error?.message);
@@ -93,7 +110,7 @@ const OtpContent = ({ email }: Props) => {
         />
         <form onSubmit={() => submit(otpValue)} className="space-y-6">
           <InputOTP value={otpValue} onChange={handleOtpChange} maxLength={6}>
-            <InputOTPGroup className="gap-4 rounded-[10px]">
+            <InputOTPGroup className="gap-1 lg:gap-4 rounded-[10px]">
               {[0, 1, 2].map((index) => (
                 <InputOTPSlot
                   key={index}
@@ -101,7 +118,7 @@ const OtpContent = ({ email }: Props) => {
                   index={index}
                 />
               ))}
-              <InputOTPSeparator className="text-[#EBEBEB]" />
+              <InputOTPSeparator className="text-[#EBEBEB] hidden lg:block" />
               {[3, 4, 5].map((index) => (
                 <InputOTPSlot
                   key={index}
@@ -112,12 +129,22 @@ const OtpContent = ({ email }: Props) => {
             </InputOTPGroup>
           </InputOTP>
           <p className="text-sm">
-            Code expires in{" "}
-            <span className="text-primary font-medium">00:30</span>
+            {timeLeft > 0 ? (
+              <>
+                Code expires in{" "}
+                <span className="text-primary font-medium">
+                  {formatTime(timeLeft)}
+                </span>
+              </>
+            ) : (
+              <span className="text-red-500 font-medium">Code expired</span>
+            )}
           </p>
+
           <CustomButton
             label="Verify"
             type="submit"
+            disabled={timeLeft <= 0}
             isLoading={verifyPending}
             className="w-full font-medium "
           />
