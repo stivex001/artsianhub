@@ -1,6 +1,6 @@
 import { LogoIcon } from "@/components/assets/icons/SvgIcons";
-import { ChevronDown, User } from "lucide-react";
 import Link from "next/link";
+import { UserProfile } from "../auth/UserProfile";
 
 type Props = {};
 
@@ -14,17 +14,7 @@ export const ClientNav = (props: Props) => {
             <LogoIcon />
           </Link>
 
-          {/* User Profile */}
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <button className="flex items-center space-x-2 bg-gray-100 rounded-full p-2 hover:bg-gray-200 transition-colors">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <User size={16} className="text-white" />
-                </div>
-                <ChevronDown size={16} className="text-gray-600" />
-              </button>
-            </div>
-          </div>
+          <UserProfile />
         </div>
       </div>
     </header>
