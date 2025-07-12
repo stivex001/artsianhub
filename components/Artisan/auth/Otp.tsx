@@ -63,6 +63,7 @@ const OtpContent = ({}: Props) => {
         },
         onError: (error: any) => {
           toast.error(error?.message);
+          console.log(error, "errorodod")
         },
       });
     } catch (error) {
@@ -118,7 +119,7 @@ const OtpContent = ({}: Props) => {
                   index={index}
                 />
               ))}
-              <InputOTPSeparator className="text-[#EBEBEB] hidden lg:block" />
+              <InputOTPSeparator className="text-[#EBEBEB] hidden md:block" />
               {[3, 4, 5].map((index) => (
                 <InputOTPSlot
                   key={index}

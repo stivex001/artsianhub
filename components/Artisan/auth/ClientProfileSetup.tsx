@@ -10,6 +10,9 @@ import { ChangeProfilepics } from "@/components/controlledInputs/ChangeProfilepi
 import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
+import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
+import { useUser } from "@/api/crud/user";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -28,28 +31,60 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
-    name: "location",
+    name: "phoneNumber",
+    type: "text",
+    errorMessage: "Phone Number is required",
+    isRequired: true,
+  },
+  {
+    name: "city",
     type: "text",
     errorMessage: "location is required",
+    isRequired: true,
   },
 ];
 
 export const ClientProfileSetup = (props: Props) => {
-  const router = useRouter()
+  const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [firstName, setFirstName] = useState<string>("");
 
-  const { control, handleSubmit, formState } =
-    useDynamicForm<AuthUser>(fields, {});
+  const { control, handleSubmit, formState } = useDynamicForm<AuthUser>(
+    fields,
+    {}
+  );
 
-  const handleCreateProfile = (data: any) => {
+  const { isValid } = formState;
+
+  const { createClientProfile } = useUser();
+  const { mutate: createProfile, isPending } = createClientProfile;
+
+  const handleCreateProfile = async (data: any) => {
     const formData = new FormData();
-    if (selectedFile) {
-      formData.append("profilePhoto", selectedFile);
-    }
+    try {
+      if (selectedFile) {
+        formData.append("profilePicture", selectedFile);
+      }
+      formData.append("firstName", data?.firstName);
+      formData.append("lastName", data?.lastName);
+      formData.append("phoneNumber", data?.phoneNumber);
+      formData.append("city", data?.city);
 
-    console.log("Form data:", data);
-    setOpenModal(true);
+      createProfile(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile created successfully");
+          setFirstName(data?.firstName);
+          setOpenModal(true);
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Create Profile Error:", error);
+        },
+      });
+    } catch (error: any) {
+      toast.error(error?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -94,8 +129,14 @@ export const ClientProfileSetup = (props: Props) => {
               rules={{ required: true }}
             />
           </div>
+          <ControlledPhoneInput
+            label="Phone Number"
+            name="phoneNumber"
+            control={control}
+            rules={{ required: true }}
+          />
           <ControlledInput
-            name="location"
+            name="city"
             control={control}
             placeholder="Enter your location"
             type="text"
@@ -107,8 +148,8 @@ export const ClientProfileSetup = (props: Props) => {
         <div className="w-fit self-end">
           <CustomButton
             type="submit"
-            // disabled={!isValid}
-            // isLoading={isPending}
+            disabled={!isValid}
+            isLoading={isPending}
             label="Submit"
             className="w-full rounded-[10px]"
             variant="primary"
@@ -122,7 +163,7 @@ export const ClientProfileSetup = (props: Props) => {
       >
         <div>
           <h1 className="text-paragrah font-bold text-xl">
-            You're All Set, Stephen!
+            You're All Set, {firstName}!
           </h1>
           <p className="text-sm text-body">
             You can now explore artisans around you, request services, and

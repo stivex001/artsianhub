@@ -13,7 +13,7 @@ const BreadCrumbs = (props: Props) => {
   const artisan = artisans?.find((art) => String(art?.id) === String(id));
 
   return (
-    <nav className="bg-white sticky top-20 z-50">
+    <nav className="bg-white sticky top-20 z-10">
       <div className="">
         <div className="flex items-center space-x-2 text-sm text-[#667185]">
           <Link

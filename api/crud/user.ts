@@ -58,6 +58,14 @@ export const useUser = () => {
     },
   });
 
+   const createClientProfile = useApiMutation<AuthResponse, FormData>({
+    url: "/client",
+    method: "POST",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({
     url: "/artisan/profile",
     method: "PUT",
@@ -70,5 +78,6 @@ export const useUser = () => {
     getCurrentArtisanUser,
     updateArtisanProfile,
     createArtisanProfile,
+    createClientProfile,
   };
 };
