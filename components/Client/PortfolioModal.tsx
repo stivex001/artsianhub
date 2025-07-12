@@ -36,39 +36,35 @@ export const PortfolioModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-11/12 mx-auto">
-          <div className="flex justify-between">
-            <div>
-              <h3 className="text-base font-bold text-paragrah mb-2">
+          <div>
+            <div className="flex justify-between mb-2">
+              <h3 className="text-base font-bold text-paragrah ">
                 {item?.title}
               </h3>
-
-              <div className="flex items-center mb-5">
-                <MapIcon />
-                <span className="text-body text-sm font-medium ml-1">
-                  {item?.location}
-                </span>
-              </div>
-
-              <p className="text-[#667185] text-sm mb-5">{item?.description}</p>
-
-              <div className="flex flex-wrap gap-1">
-                {item?.services?.map((service, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
-                  >
-                    {service}
-                  </span>
-                ))}
-              </div>
+              <button onClick={onClose} className="">
+                <X />
+              </button>
             </div>
 
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full transition-colors"
-            >
-              <X />
-            </button>
+            <div className="flex items-center mb-5">
+              <MapIcon />
+              <span className="text-body text-sm font-medium ml-1">
+                {item?.location}
+              </span>
+            </div>
+
+            <p className="text-[#667185] text-sm mb-5">{item?.description}</p>
+
+            <div className="flex flex-wrap gap-1">
+              {item?.services?.map((service, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
+                >
+                  {service}
+                </span>
+              ))}
+            </div>
           </div>
 
           <div className="my-6">

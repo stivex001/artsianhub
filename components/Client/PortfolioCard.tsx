@@ -1,30 +1,54 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { PortfolioModal } from "./PortfolioModal";
+import { useParams, useRouter } from "next/navigation";
+import { artisans } from "./data";
 
 type Props = {
   item: any;
 };
 
 export const PortfolioCard = ({ item }: Props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const params = useParams();
+  const id = params.id;
+  const artisan = artisans?.find((art) => String(art?.id) === String(id));
 
-  const openModal = () => setIsModalOpen(true);
+  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 640);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const handleClick = () => {
+    if (isMobile) {
+      router.push(`/client/artisan-details/${artisan?.id}/${item.id}`);
+    } else {
+      setIsModalOpen(true);
+    }
+  };
 
   return (
     <>
       <div
-        onClick={openModal}
-        className="bg-white rounded-2xl py-4 px-2.5 overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col gap-3 cursor-pointer"
+        onClick={handleClick}
+        className="bg-white  rounded-2xl py-4 px-2.5 overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col gap-3 cursor-pointer"
       >
         <div className="aspect-video bg-gray-100 rounded-xl relative overflow-hidden">
           <Image
             src={item?.images?.[0]}
             alt={item?.title}
-            //   layout="fill"
             width={262}
             height={200}
             className="w-full h-full object-cover rounded-xl transition-transform duration-300"
