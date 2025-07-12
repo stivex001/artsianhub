@@ -1,6 +1,7 @@
 import React from "react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { CustomButton } from "../clickable/CustomButton";
+import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
 
 type Props = {
   artisan: any;
@@ -66,61 +67,8 @@ export const ArtisanContent = ({ artisan }: Props) => {
           </div>
         </div>
 
-        {/* Right Column - Details */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-lg shadow-sm">
-            {/* Tabs */}
-            <nav className="flex space-x-4 px-6">
-              <button className="py-4 px-1 border-b-2 border-blue-600 text-blue-600 font-medium">
-                About
-              </button>
-              <button className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                Portfolio
-              </button>
-              <button className="py-4 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                Ratings & Review
-              </button>
-            </nav>
-
-            {/* Content */}
-            <div className="p-6">
-              {/* About Section */}
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  About This Artisan
-                </h2>
-                <div className="prose prose-gray max-w-none">
-                  {artisan?.about
-                    ?.split("\n\n")
-                    .map((paragraph: any, index: number) => (
-                      <p
-                        key={index}
-                        className="mb-4 text-gray-700 leading-relaxed"
-                      >
-                        {paragraph}
-                      </p>
-                    ))}
-                </div>
-              </div>
-
-              {/* Services Section */}
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Services Offered
-                </h2>
-                <div className="flex flex-wrap gap-2">
-                  {artisan?.services.map((service: any, index: number) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
-                    >
-                      {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <ArtisanDetailsTab />
         </div>
       </div>
     </div>

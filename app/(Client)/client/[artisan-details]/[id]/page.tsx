@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 
-type Props = {
-  artisanId?: string;
-};
-
-const ArtisanDetails = ({ artisanId }: Props) => {
+const ArtisanDetails = () => {
   const params = useParams();
   const id = params.id;
   const artisan = artisans?.find((art) => String(art?.id) === String(id));
