@@ -1,12 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { artisans } from "../Client/data";
 
 type Props = {};
 
 const BreadCrumbs = (props: Props) => {
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
   const artisan = artisans?.find((art) => String(art?.id) === String(id));
@@ -22,7 +23,10 @@ const BreadCrumbs = (props: Props) => {
             Home
           </Link>
           <span>{`>`}</span>
-          <button className="hover:text-blue-600 transition-colors capitalize">
+          <button
+            onClick={() => router.back()}
+            className="hover:text-blue-600 transition-colors capitalize"
+          >
             {artisan?.profession}s
           </button>
           <span>{`>`}</span>

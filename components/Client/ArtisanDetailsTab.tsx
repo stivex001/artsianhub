@@ -5,6 +5,7 @@ import { AboutArtisan } from "./AboutArtisan";
 import { useParams } from "next/navigation";
 import { artisans } from "./data";
 import { ArtisanPortfolio } from "./ArtisanPortfolio";
+import { ArtisanRating } from "./ArtisanRating";
 
 type Props = {};
 
@@ -44,10 +45,10 @@ export const ArtisanDetailsTab = (props: Props) => {
         <AboutArtisan artisan={artisan} />
       </TabsContent>
       <TabsContent value="portfolio" className="w-full">
-        <ArtisanPortfolio  />
+        <ArtisanPortfolio />
       </TabsContent>
       <TabsContent value="rating" className="w-full">
-        Rating
+        <ArtisanRating />
       </TabsContent>
     </Tabs>
   );

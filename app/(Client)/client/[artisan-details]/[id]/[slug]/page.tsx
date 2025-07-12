@@ -49,8 +49,11 @@ const PortfolioDetails = (props: Props) => {
 
       <div className="my-6">
         <div className="grid gap-2">
-          {images?.map((img) => (
-            <div className="aspect-video bg-gray-100 rounded-2xl relative overflow-hidden">
+          {images?.map((img, index) => (
+            <div
+              key={index}
+              className="aspect-video bg-gray-100 rounded-2xl relative overflow-hidden"
+            >
               <Image
                 src={img}
                 alt={`${portfolioItems?.title} detail 1`}
