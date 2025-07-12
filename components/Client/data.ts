@@ -192,3 +192,45 @@ export const artisans = [
     services: ["Plumbing", "Piping"],
   },
 ];
+
+export const mockPortfolioItems = [
+  {
+    id: 1,
+    title: "Installed 5-tap kitchen plumbing",
+    location: "Chesterfield",
+    description:
+      "Ever hovered over a button and felt a satisfying bounce or heard a soft chime when completing a task in an app? Those are microinteractions — small, often subtle animations or feedback loops that make user interfaces feel alive. In this article, we’ll explore how these tiny UX moments enhance user satisfaction, provide visual feedback, and reduce friction in digital products.",
+    images: [
+      "https://plus.unsplash.com/premium_photo-1683134517704-3cdd744faff8?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1676045367913-8c9fdff59165?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1723600908655-06af05d9f646?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1683134517704-3cdd744faff8?w=600&auto=format&fit=crop&q=60",
+    ],
+    services: ["Plumbing", "Carpentry"],
+  },
+  {
+    id: 2,
+    title: "Bathroom Renovation",
+    location: "Manchester",
+    description:
+      "Transforming your bathroom with modern fittings and elegant finishes. This project involved plumbing, tiling, and fixture installations.",
+    images: [
+      "https://plus.unsplash.com/premium_photo-1676045367913-8c9fdff59165?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1683134517704-3cdd744faff8?w=600&auto=format&fit=crop&q=60",
+    ],
+    services: ["Plumbing", "Tiling"],
+  },
+  {
+    id: 3,
+    title: "Full Kitchen Upgrade",
+    location: "Liverpool",
+    description:
+      "Upgraded a vintage kitchen to a sleek, modern cooking space. Installed new plumbing, electrical, and cabinetry.",
+    images: [
+      "https://plus.unsplash.com/premium_photo-1723600908655-06af05d9f646?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1676045367913-8c9fdff59165?w=600&auto=format&fit=crop&q=60",
+      "https://plus.unsplash.com/premium_photo-1683134517704-3cdd744faff8?w=600&auto=format&fit=crop&q=60",
+    ],
+    services: ["Plumbing", "Electrical", "Carpentry"],
+  },
+];
