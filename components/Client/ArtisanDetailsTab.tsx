@@ -4,16 +4,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { AboutArtisan } from "./AboutArtisan";
 import { useParams } from "next/navigation";
 import { artisans } from "./data";
+import { ArtisanPortfolio } from "./ArtisanPortfolio";
 
 type Props = {};
 
 export const ArtisanDetailsTab = (props: Props) => {
+  const [activeTab, setActiveTab] = useState<"about" | "portfolio" | "rating">(
+    "about"
+  );
+
   const params = useParams();
   const id = params.id;
   const artisan = artisans?.find((art) => String(art?.id) === String(id));
 
   return (
-    <Tabs className="flex flex-col gap-6">
+    <Tabs defaultValue={activeTab} className="flex flex-col gap-6">
       <TabsList className="flex items-center justify-start">
         <TabsTrigger
           value="about"
@@ -39,7 +44,7 @@ export const ArtisanDetailsTab = (props: Props) => {
         <AboutArtisan artisan={artisan} />
       </TabsContent>
       <TabsContent value="portfolio" className="w-full">
-        portfolio
+        <ArtisanPortfolio />
       </TabsContent>
       <TabsContent value="rating" className="w-full">
         Rating
