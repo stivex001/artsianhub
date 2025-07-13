@@ -12,9 +12,10 @@ import { CustomButton } from "@/components/clickable/CustomButton";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GoogleAuth } from "./GoogleAuth";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {
-  role:any
+  role: any;
 };
 
 const fields: Field[] = [
@@ -38,8 +39,9 @@ const fields: Field[] = [
   },
 ];
 
-const ClientSignUp = ({role}: Props) => {
+const ClientSignUp = ({ role }: Props) => {
   const router = useRouter();
+  const { setAccessToken } = useAuthStore();
   const { control, handleSubmit, formState, watch, setError, clearErrors } =
     useDynamicForm<AuthUser>(fields, {});
 
@@ -83,6 +85,10 @@ const ClientSignUp = ({role}: Props) => {
         onSuccess: (response: any) => {
           console.log(response, "res_");
           toast.success(response?.message);
+          const token = response?.token;
+          if (token) {
+            setAccessToken(token);
+          }
           router.push(`/auth/otp?email=${data.email}&&role=${role}`);
         },
         onError: (error: any) => {
