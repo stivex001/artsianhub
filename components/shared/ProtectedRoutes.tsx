@@ -1,6 +1,5 @@
 "use client";
 
-import { useUser } from "@/api/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useMemo } from "react";
@@ -13,20 +12,18 @@ type Props = {
 
 const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
   const router = useRouter();
-  const {  accessToken } = useAuthStore();
-  const { getCurrentArtisanUser } = useUser();
-  const { data: user } = getCurrentArtisanUser();
-  const currentUser = user?.user
+  const { accessToken, currentUser } = useAuthStore();
 
   const userRole = useMemo(() => {
-    if (currentUser?.isAdmin) return "admin";
-    if (currentUser?.isArtisan) return "artisan";
-    if (currentUser?.isClient) return "client";
+    if (currentUser?.role === "admin") return "admin";
+    if (currentUser?.role === "artisan") return "artisan";
+    if (currentUser?.role === "client") return "client";
     return null;
   }, [currentUser]);
 
   useEffect(() => {
     if (!currentUser || !accessToken) {
+      toast.error("You are not Authenticated, kindly login");
       router.replace("/auth/login");
       return;
     }
@@ -43,7 +40,7 @@ const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
     } else if (userRole === "admin") {
       router.replace("/admin/dashboard");
     } else if (userRole === "client") {
-      router.replace("/");
+      router.replace("/client");
     }
   }, [userRole, currentUser, accessToken, allowedRoles, router]);
 

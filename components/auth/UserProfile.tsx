@@ -23,7 +23,7 @@ export const UserProfile = ({ brandlogo }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // const { currentUser } = useAuthStore();
+  const { currentUser } = useAuthStore();
   //   const { getCurrentArtisanUser } = useUser();
   //   const { data: user } = getCurrentArtisanUser();
 
@@ -92,23 +92,9 @@ export const UserProfile = ({ brandlogo }: Props) => {
         className="bg-transparent flex items-center gap-2 relative hover:opacity-80 transition-opacity"
       >
         <div className="w-10 h-10">
-          {/* {profilePhoto ? (
-            <div className="w-12 h-12 cursor-pointer">
-              <Image
-                src={profilePhoto}
-                alt={`${currentUser?.firstName}`}
-                width={40}
-                height={40}
-                className="w-full h-full object-cover rounded-full"
-              />
-            </div>
-          ) : (
-            <div className="bg-primary text-white w-12 h-12 flex items-center justify-center rounded-full text-base font-semibold cursor-pointer">
-              {initials}
-            </div>
-          )} */}
+        
           <Image
-            src={ava}
+            src={currentUser?.profilePicture ||ava}
             alt={`avatar`}
             width={40}
             height={40}

@@ -31,7 +31,7 @@ export interface AuthUser {
   residentialAddress: string;
   gender: string;
   email: string;
-  profile: string;
+  profilePicture: string;
   password: string;
   confirmPassword: string;
   role: string;
@@ -39,21 +39,6 @@ export interface AuthUser {
   isAdmin: boolean;
   isClient: boolean;
   artisanId: ID;
-}
-
-export type GeoDataItem = {
-  code: string;
-  name: string;
-  country: string;
-  parentId: ID;
-  stateOrLgaOrCountry: string;
-};
-export interface GeoArea {
-  parentId: ID;
-  code: string;
-  name: string;
-  stateOrLgaOrCountry: string;
-  data: GeoDataItem[];
 }
 
 export type ConfigDataItem = {

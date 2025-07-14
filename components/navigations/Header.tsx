@@ -32,7 +32,7 @@ export const Header = (props: Props) => {
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
-    setIsMenuOpen(false); // close mobile menu
+    setIsMenuOpen(false); 
   };
 
   useEffect(() => {

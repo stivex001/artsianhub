@@ -18,13 +18,6 @@ type UserNavProps = {
   onClose: any;
 };
 
-// Mock user data for demonstration
-const mockUser = {
-  firstName: "Jenny",
-  lastName: "Sam",
-  email: "jennysam@email.com",
-};
-
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   const router = useRouter();
   const { currentUser, logout } = useAuthStore();
@@ -41,7 +34,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
       <div className="bg-[#F9F9FB] h-[70px] rounded-2xl p-2.5 flex items-center gap-2">
         <div className="w-12 h-12 flex-shrink-0">
           <Image
-            src={ava}
+            src={currentUser?.profilePicture || ava}
             alt={`avatar`}
             width={48}
             height={48}
@@ -50,7 +43,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-paragrah text-sm">
-            {mockUser.firstName} {mockUser.lastName}
+            {currentUser?.firstName} {currentUser?.lastName}
           </h3>
           <p className="text-xs text-[#667185]">{currentUser?.email}</p>
         </div>

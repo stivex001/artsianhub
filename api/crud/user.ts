@@ -38,10 +38,6 @@ export interface CurrentUser {
   };
 }
 
-export interface Wallet {
-  data: any;
-  bonus: any;
-}
 
 export const useUser = () => {
   const getCurrentArtisanUser = () =>

@@ -1,35 +1,6 @@
 import { AuthResponse, ID } from "@/components/api/type";
 import { useApiMutation } from "@/hooks/useApiMutation";
 
-export interface CurrentUserData {
-  email: string;
-  name: string;
-  password: string;
-  artisanId: string;
-}
-
-export interface CurrentUser {
-  access_token?: any;
-  name: string;
-  profile: string;
-  isArtisan: boolean;
-  isAdmin: boolean;
-  confirmPassword: string;
-  password: string;
-  confirm_pass: string;
-  createdAt: string;
-  id: ID;
-  isActive: boolean;
-  data: CurrentUserData;
-  artisanId: ID;
-
-}
-
-export interface Wallet {
-  data: any;
-  bonus: any;
-}
-
 export const useAuth = () => {
   const registerUser = useApiMutation<AuthResponse, FormData>({
     url: "/auth/register ",
