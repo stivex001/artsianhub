@@ -95,8 +95,9 @@ const ClientSignUp = ({ role }: Props) => {
           toast.error(error?.message);
         },
       });
-    } catch (error) {
-      console.log("An error occurred: ", error);
+    } catch (error:any) {
+      console.log("Anerroroccurred ", error?.data);
+        toast.error(error?.data?.error);
     }
   };
 

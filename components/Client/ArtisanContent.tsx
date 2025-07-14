@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { CustomButton } from "../clickable/CustomButton";
 import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
+import { ContactArtisanModal } from "./ContactArtisanModal";
 
 type Props = {
   artisan: any;
@@ -19,6 +20,10 @@ const renderStars = (rating: any) => {
 };
 
 export const ArtisanContent = ({ artisan }: Props) => {
+  const [isModalContactOpen, setIsModalContactOpen] = useState(false);
+
+  const closeModal = () => setIsModalContactOpen(false);
+
   return (
     <div className="my-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -62,11 +67,16 @@ export const ArtisanContent = ({ artisan }: Props) => {
                 label="Contact Artisan"
                 type="button"
                 className="w-full"
+                onClick={() => setIsModalContactOpen(true)}
               />
             </div>
           </div>
+          <ContactArtisanModal
+            item={artisan}
+            isOpen={isModalContactOpen}
+            onClose={closeModal}
+          />
         </div>
-
         <div className="lg:col-span-2">
           <ArtisanDetailsTab />
         </div>
