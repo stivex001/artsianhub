@@ -85,7 +85,7 @@ const ClientSignUp = ({ role }: Props) => {
         onSuccess: (response: any) => {
           console.log(response, "res_");
           toast.success(response?.message);
-          const token = response?.token;
+          const token = response?.user?.token;
           if (token) {
             setAccessToken(token);
           }

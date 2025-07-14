@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
 import { useUser } from "@/api/crud/user";
 import { toast } from "sonner";
+import { useAuthStore } from "@/store/authStore";
 
 type Props = {};
 
@@ -50,6 +51,8 @@ export const ClientProfileSetup = (props: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("");
 
+  const { setCurrentUser } = useAuthStore();
+
   const { control, handleSubmit, formState } = useDynamicForm<AuthUser>(
     fields,
     {}
@@ -73,7 +76,10 @@ export const ClientProfileSetup = (props: Props) => {
 
       createProfile(formData, {
         onSuccess: (response: any) => {
-          toast.success(response?.message || "Profile created successfully");
+          const user = response?.data;
+          if (user) {
+            setCurrentUser(user);
+          }
           setFirstName(data?.firstName);
           setOpenModal(true);
         },
