@@ -142,3 +142,20 @@ export const FilterIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const ProfileCheckIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={32}
+    height={32}
+    fill="none"
+    {...props}
+  >
+    <rect width={32} height={32} fill="#1129A0" fillOpacity={0.05} rx={16} />
+    <circle cx={16.004} cy={16.005} r={11.853} fill="#fff" />
+    <path
+      fill="#1129A0"
+      d="M16 4.148C9.468 4.148 4.146 9.47 4.146 16S9.47 27.852 16 27.852 27.851 22.53 27.851 16 22.53 4.148 16 4.148Zm5.665 9.126-6.72 6.72a.888.888 0 0 1-1.257 0l-3.354-3.354a.894.894 0 0 1 0-1.256.894.894 0 0 1 1.256 0l2.726 2.726 6.092-6.092a.894.894 0 0 1 1.256 0c.344.343.344.9 0 1.256Z"
+    />
+  </svg>
+)
