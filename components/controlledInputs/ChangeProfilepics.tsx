@@ -4,9 +4,14 @@ import { CameraIcon, NoImageIcon } from "../assets/icons/SvgIcons";
 type ChangeProfileProps = {
   setSelectedFile: (value: File) => void;
   selectedFile: File | null;
+  art?: boolean;
 };
 
-export const ChangeProfilepics = ({ setSelectedFile,selectedFile }: ChangeProfileProps) => {
+export const ChangeProfilepics = ({
+  setSelectedFile,
+  selectedFile,
+  art,
+}: ChangeProfileProps) => {
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -15,9 +20,9 @@ export const ChangeProfilepics = ({ setSelectedFile,selectedFile }: ChangeProfil
   };
 
   return (
-    <div className="flex flex-col items-center gap-2 bg-[#F9F9FB] w-[148px] p-6">
-      <label className="text-sm font-medium text-gray-700 self-start">
-        Profile Photo
+    <div className="flex flex-col items-center gap-2 bg-[#F9F9FB] rounded-2xl w-[230px] p-6">
+      <label className="text-sm font-medium text-gray-700 text-center">
+        {art ? "Professional Photo" : "Profile Photo"}
       </label>
       <div className="relative">
         <div className="w-24 h-24 rounded-full  flex items-center justify-center overflow-hidden">
@@ -49,6 +54,7 @@ export const ChangeProfilepics = ({ setSelectedFile,selectedFile }: ChangeProfil
           className="hidden"
         />
       </div>
+      {art && <p className="text-xs text-[#667185]">250x250 Min size / 5 MB Max</p>}
     </div>
   );
 };

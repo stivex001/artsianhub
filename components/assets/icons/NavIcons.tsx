@@ -192,3 +192,39 @@ export const SearchIcon = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   );
 };
+
+export const NextIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={21}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#fff"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M16.458 9.89h-12.5M11.416 4.869l5.042 5.02-5.042 5.02"
+    />
+  </svg>
+)
+
+export const BackIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={21}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#344054"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M3.542 10.729h12.5M8.583 15.749l-5.042-5.02 5.042-5.02"
+    />
+  </svg>
+)

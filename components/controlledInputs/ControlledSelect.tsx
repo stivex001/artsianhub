@@ -1,7 +1,13 @@
-import { useState } from "react";
 import { Label } from "../ui/label";
 import { Control, useController } from "react-hook-form";
 import { cn } from "../../lib/utils";
+import {
+  Select as ShadcnSelect,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type CustomSelectProps = {
   options: { value: string; label: string }[];
@@ -29,7 +35,7 @@ export const ControlledSelect = ({
   labelClassName,
 }: CustomSelectProps) => {
   const {
-    field: { onChange, value, ref },
+    field: { onChange, value },
     fieldState: { error, invalid },
   } = useController({
     name,
@@ -37,34 +43,27 @@ export const ControlledSelect = ({
     rules,
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredOptions = options?.filter((option) =>
-    option?.label?.toLowerCase()?.includes(searchTerm?.toLowerCase())
-  );
-
   const baseStyles =
-    "w-full text-white py-3 px-4 placeholder:text-lightgray border";
+    "w-full text-[#98A2B3] !h-14 py-3 px-4 placeholder:text-[#98A2B3] border rounded-[10px] !focus:none !outline-none ";
   const styles = {
-    normal:
-      "border-white bg-white rounded-[10px] h-14 text-black focus:ring-primary",
-    primary:
-      "border border-bordergray bg-bordergrey rounded-[10px] focus:ring-primary",
-    secondary:
-      "border border-bordergray  h-14 rounded-[10px] focus:ring-primary",
+    normal: "!border-white bg-white !h-14 text-black ",
+    primary: "border-[#E4E5EA] bg-white ",
+    secondary: "border-bordergray bg-white text-black h-14 ",
     tertiary:
-      "border border-black text-[#9694A4] focus:border-black rounded-[10px] focus:ring-green-500",
+      "border border-black text-[#9694A4] focus:border-black focus:ring-green-500",
     invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",
   };
+
   const inputClassName = cn(baseStyles, styles[variant], {
     [styles.invalid]: invalid,
   });
 
   if (art) {
+    // keep native fallback for art
     return (
       <div>
         <div
-          className={`border border-[#B5B5B5]  rounded-[10px] relative mb-4 ${className}`}
+          className={`border border-[#B5B5B5] rounded-[10px] relative mb-4 ${className}`}
         >
           <Label
             className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
@@ -72,7 +71,6 @@ export const ControlledSelect = ({
             {label}
           </Label>
           <select
-            ref={ref}
             id={name}
             name={name}
             value={value ?? ""}
@@ -84,9 +82,9 @@ export const ControlledSelect = ({
                 {placeholder}
               </option>
             )}
-            {options?.map((option) => (
-              <option key={option.value} value={option?.value}>
-                {option?.label}
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
               </option>
             ))}
           </select>
@@ -103,54 +101,26 @@ export const ControlledSelect = ({
   return (
     <div className="space-y-1">
       {label && (
-        <Label htmlFor={name} className="text-base font-semibold capitalize">
+        <Label
+          htmlFor={name}
+          className={`text-sm font-medium text-paragrah capitalize ${labelClassName} `}
+        >
           {label}
         </Label>
       )}
 
-      <div className="relative">
-        {/* <input 
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search options..."
-          className="absolute top-0 left-0 w-full px-4 py-2 border border-gray-300 rounded-lg text-sm mb-2 outline-none z-10"
-        /> */}
-
-        <select
-          ref={ref}
-          id={name}
-          name={name}
-          value={value ?? ""}
-          onChange={onChange}
-          className={`${inputClassName} ${className}`}
-        >
-          {/* {placeholder && (
-            <option value="" disabled hidden>
-              {placeholder}
-            </option>
-          )}
-          {filteredOptions.length > 0 ? (
-            filteredOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))
-          ) : (
-            <option disabled>No options found</option>
-          )} */}
-          {placeholder && (
-            <option value="" disabled hidden>
-              {placeholder}
-            </option>
-          )}
+      <ShadcnSelect value={value} onValueChange={onChange}>
+        <SelectTrigger className={cn(inputClassName, className)}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent className="bg-white">
           {options.map((option) => (
-            <option key={option?.value} value={option?.value}>
-              {option?.label}
-            </option>
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
           ))}
-        </select>
-      </div>
+        </SelectContent>
+      </ShadcnSelect>
 
       {error && (
         <div className="text-red-400 text-xs flex items-center gap-1 mt-1">
