@@ -13,8 +13,8 @@ type Props = {};
 
 const UserDesc = (props: Props) => {
   const { currentUser } = useAuthStore();
-  const { getCurrentArtisanUser } = useUser();
-  const { data: user } = getCurrentArtisanUser();
+  const { getCurrentUser } = useUser();
+  const { data: user } = getCurrentUser();
 
   
 

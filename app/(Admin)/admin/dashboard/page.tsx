@@ -28,9 +28,9 @@ const revenueData = [
 ];
 
 const AdminDashboard = (props: Props) => {
-  const { getCurrentArtisanUser } = useUser();
+  const { getCurrentUser } = useUser();
   const { getAllArtisanCount } = useArtisans();
-  const { data, isLoading } = getCurrentArtisanUser();
+  const { data, isLoading } = getCurrentUser();
   const { data: counts, isLoading: ispending } = getAllArtisanCount();
 
   const appointmentsCount = counts?.appointments;

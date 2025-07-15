@@ -12,6 +12,7 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/api/crud/user";
 
 type UserNavProps = {
   handleMenuItemClick: any;
@@ -21,6 +22,10 @@ type UserNavProps = {
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   const router = useRouter();
   const { currentUser, logout } = useAuthStore();
+  const { getCurrentUser } = useUser();
+  const { data: user } = getCurrentUser();
+
+  const profilePhoto = user?.data?.profilePicture;
 
   const handleLogout = () => {
     logout();
@@ -34,7 +39,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
       <div className="bg-[#F9F9FB] h-[70px] rounded-2xl p-2.5 flex items-center gap-2">
         <div className="w-12 h-12 flex-shrink-0">
           <Image
-            src={currentUser?.profilePicture || ava}
+            src={profilePhoto || ava}
             alt={`avatar`}
             width={48}
             height={48}

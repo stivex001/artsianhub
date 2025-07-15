@@ -23,16 +23,16 @@ export const UserProfile = ({ brandlogo }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { currentUser } = useAuthStore();
-  //   const { getCurrentArtisanUser } = useUser();
-  //   const { data: user } = getCurrentArtisanUser();
+  // const { currentUser } = useAuthStore();
+  const { getCurrentUser } = useUser();
+  const { data: user } = getCurrentUser();
 
-  //   const profilePhoto = user?.profilePhoto?.url;
+  const profilePhoto = user?.data?.profilePicture;
 
-  //   const initials = getUserInitials(
-  //     currentUser?.firstName,
-  //     currentUser?.lastName
-  //   );
+  // const initials = getUserInitials(
+  //   currentUser?.firstName,
+  //   currentUser?.lastName
+  // );
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -92,9 +92,8 @@ export const UserProfile = ({ brandlogo }: Props) => {
         className="bg-transparent flex items-center gap-2 relative hover:opacity-80 transition-opacity"
       >
         <div className="w-10 h-10">
-        
           <Image
-            src={currentUser?.profilePicture ||ava}
+            src={profilePhoto || ava}
             alt={`avatar`}
             width={40}
             height={40}

@@ -35,8 +35,8 @@ const fields: Field[] = [
 
 const CreateArtisanService = () => {
   const router = useRouter();
-  const { getCurrentArtisanUser } = useUser();
-  const { data: currentUser } = getCurrentArtisanUser();
+  const { getCurrentUser } = useUser();
+  const { data: currentUser } = getCurrentUser();
   const { getAllCategories } = useCategories();
   const { createServices, getArtisanServices, getAllServices } = useServices();
 

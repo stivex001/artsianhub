@@ -9,8 +9,8 @@ import { useUser } from "@/api/crud/user";
 import DeleteServiceModal from "./DeleteServiceModal";
 
 const ServiceList = () => {
-  const { getCurrentArtisanUser } = useUser();
-  const { data: currentUser } = getCurrentArtisanUser();
+  const { getCurrentUser } = useUser();
+  const { data: currentUser } = getCurrentUser();
 
   if (!currentUser) {
     return;

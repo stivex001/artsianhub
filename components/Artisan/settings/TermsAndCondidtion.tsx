@@ -21,8 +21,8 @@ const fields: Field[] = [
 const TermsAndCondition = () => {
   const router = useRouter();
   const { kycFormData }: { kycFormData: { languagesSpoken?: string | string[]; [key: string]: any } } = useKYCStore();
-  const { getCurrentArtisanUser, createArtisanProfile } = useUser();
-  const { refetch } = getCurrentArtisanUser();
+  const { getCurrentUser, createArtisanProfile } = useUser();
+  const { refetch } = getCurrentUser();
   const { control, handleSubmit } = useDynamicForm(fields, {});
   const { mutate: createProfile, isPending } = createArtisanProfile;
 

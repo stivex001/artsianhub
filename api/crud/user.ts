@@ -7,9 +7,7 @@ export interface CurrentUserData {
   firstName: string;
   lastName: string;
   password: string;
-  profilePhoto: {
-    url: string;
-  };
+  profilePicture: string;
 }
 
 export interface CurrentUser {
@@ -31,18 +29,17 @@ export interface CurrentUser {
     url: string;
   };
   user: {
-    isAdmin:boolean
-    isArtisan:boolean
-    isClient:boolean
-    _id:string
+    isAdmin: boolean;
+    isArtisan: boolean;
+    isClient: boolean;
+    _id: string;
   };
 }
 
-
 export const useUser = () => {
-  const getCurrentArtisanUser = () =>
+  const getCurrentUser = () =>
     useApiQuery<CurrentUser>(["currentUser"], {
-      url: `/artisan/profile`,
+      url: `/profile`,
       method: "GET",
     });
 
@@ -54,7 +51,7 @@ export const useUser = () => {
     },
   });
 
-   const createClientProfile = useApiMutation<AuthResponse, FormData>({
+  const createClientProfile = useApiMutation<AuthResponse, FormData>({
     url: "/client",
     method: "POST",
     headers: {
@@ -71,7 +68,7 @@ export const useUser = () => {
   });
 
   return {
-    getCurrentArtisanUser,
+    getCurrentUser,
     updateArtisanProfile,
     createArtisanProfile,
     createClientProfile,

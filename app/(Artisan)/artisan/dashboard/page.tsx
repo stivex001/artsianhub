@@ -10,8 +10,8 @@ import React from "react";
 type Props = {};
 
 const ArtisanDashboard = (props: Props) => {
-  const { getCurrentArtisanUser } = useUser();
-  const { data, isLoading } = getCurrentArtisanUser();
+  const { getCurrentUser } = useUser();
+  const { data, isLoading } = getCurrentUser();
 
   const { currentUser } = useAuthStore();
 

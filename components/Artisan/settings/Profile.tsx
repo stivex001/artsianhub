@@ -66,8 +66,8 @@ type UserDetails = {
 
 const Profile = (props: Props) => {
   const { currentUser } = useAuthStore();
-  const { getCurrentArtisanUser, updateArtisanProfile } = useUser();
-  const { data: user, refetch } = getCurrentArtisanUser();
+  const { getCurrentUser, updateArtisanProfile } = useUser();
+  const { data: user, refetch } = getCurrentUser();
   const userDetails: UserDetails | undefined =
     typeof user?.user === "object" ? (user?.user as UserDetails) : undefined;
 
