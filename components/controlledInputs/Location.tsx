@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { LocationType } from "../Artisan/settings/AdditionalInformation";
-import GooglePlacesInput from "../shared/GooglePlacesInput";
 
 type Props = {
-    defaultValues?:LocationType
+  defaultValues?: LocationType;
 };
 
-const Location = ({defaultValues}: Props) => {
+const Location = ({ defaultValues }: Props) => {
   const [locationName, setLocationName] = useState("");
   const [locationAddress, setLocationAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{
@@ -44,13 +43,6 @@ const Location = ({defaultValues}: Props) => {
         value={locationName}
         onChange={(e) => setLocationName(e.target.value)}
       />
-      <div>
-        <GooglePlacesInput
-          defaultValue={defaultValues?.geometry?.address}
-          apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-          onSelect={handleAddressSelect}
-        />
-      </div>
     </div>
   );
 };

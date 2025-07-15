@@ -65,8 +65,6 @@ export const ServiceDetailsStage = (props: Props) => {
 
   const { isValid, errors } = formState;
 
-  console.log(errors, "errr");
-
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
 

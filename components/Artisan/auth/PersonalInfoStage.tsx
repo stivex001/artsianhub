@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { gender } from "../settings/data";
 import { NextIcon } from "@/components/assets/icons/NavIcons";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
+import AutoSearchLocation from "@/components/shared/AutoSearchLocation";
 
 type Props = {};
 
@@ -86,6 +87,7 @@ export const PersonalInfoStage = (props: Props) => {
           art
         />
 
+        {/* <AutoSearchLocation /> */}
         <div className="grid lg:grid-cols-2 gap-5">
           <ControlledInput
             name="firstName"
