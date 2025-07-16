@@ -35,7 +35,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   };
 
   return (
-    <div className="absolute right-0 top-full mt-2 w-60 bg-white rounded-[14px] shadow-usershadow p-2.5 z-50">
+    <div className="absolute right-0 top-full mt-2 min-w-[300px] bg-white rounded-[14px] shadow-usershadow p-2.5 z-50">
       <div className="bg-[#F9F9FB] h-[70px] rounded-2xl p-2.5 flex items-center gap-2">
         <div className="w-12 h-12 flex-shrink-0">
           <Image

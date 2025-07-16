@@ -23,7 +23,7 @@ const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
 
   useEffect(() => {
     if (!currentUser || !accessToken) {
-      toast.error("You are not Authenticated, kindly login");
+      // toast.error("You are not Authenticated, kindly login");
       router.replace("/auth/login");
       return;
     }
