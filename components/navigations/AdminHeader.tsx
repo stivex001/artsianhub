@@ -8,6 +8,7 @@ import { BackArrowIcon } from "../assets/icons/NavigationIcons";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "@/api/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
+import { UserProfile } from "../auth/UserProfile";
 
 type Props = {};
 
@@ -26,26 +27,19 @@ export const AdminHeader = (props: Props) => {
 
   return (
     <header
-      className={`bg-[#f9f9fb] rounded-t-[10px] w-full sticky top-0 left-0 z-50 flex items-center pt-14 pb-5 px-5 justify-between lg:justify-end ${
+      className={`bg-[#f9f9fb] w-full sticky top-0 left-0 z-50 flex items-center  px-5 justify-between lg:justify-end ${
         showBackArrow ? "justify-between " : "justify-end"
       }`}
     >
       <MobileNav />
-      {showBackArrow && (
-        <div
-          onClick={() => router.back()}
-          className="hidden lg:block cursor-pointer -mt-6"
-        >
-          <BackArrowIcon />
-        </div>
-      )}
-      <div className="flex items-center gap-5">
+
+      <div className="flex items-center gap-2.5">
         <button
           onClick={() => setOpenNotification((prev) => !prev)}
           className="relative"
         >
           <NotificationIcon />
-          <span className="absolute -top-2 -left-1 text-[#AE2525] font-semibold text-base">
+          <span className="absolute -top-3 rigth-1 text-[#AE2525] font-semibold text-base">
             {notificationData?.length}
           </span>
           {openNotification && (
@@ -58,7 +52,7 @@ export const AdminHeader = (props: Props) => {
           )}
         </button>
 
-        <UserDesc />
+        <UserProfile />
       </div>
     </header>
   );

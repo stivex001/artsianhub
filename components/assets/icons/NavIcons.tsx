@@ -81,34 +81,21 @@ export const EyeIconClose = (props: SVGProps<SVGSVGElement>) => (
 export const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
-    width={29}
-    height={30}
+    width={40}
+    height={40}
     fill="none"
     {...props}
   >
+    <rect width={40} height={40} fill="#1129A0" fillOpacity={0.05} rx={20} />
     <path
-      fill="url(#a)"
-      d="M0 14.135h20v20H0z"
-      transform="rotate(-41.493 0 14.135)"
+      fill="#1129A0"
+      d="M26.75 17v.704c0 .845.24 1.671.692 2.374l1.108 1.723c1.011 1.574.239 3.713-1.52 4.21a25.794 25.794 0 0 1-14.06 0c-1.759-.497-2.531-2.636-1.52-4.21l1.108-1.723c.452-.703.693-1.529.693-2.374V17c0-3.866 3.022-7 6.749-7s6.75 3.134 6.75 7Z"
+      opacity={0.5}
     />
-    <defs>
-      <pattern
-        id="a"
-        width={1}
-        height={1}
-        patternContentUnits="objectBoundingBox"
-      >
-        <use xlinkHref="#b" transform="scale(.01111)" />
-      </pattern>
-      <image
-        xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEZElEQVR4nO2cz4scRRTHn4n4A0Rxd15NfoGoi8he13lvEoKLN/GgKIy/ku33JosRxIgKohddRfCgh+hF8eKfEPwZgnhRkESjBhQ9BPEgxCD4A7NGMa5GatYBWXdmdnq6p6tq3gfqNFM925/59puurqoFMAzDMAzDMAzDMAzDMIKgNrdna531Lkf6kmM54ki/dqQ/OZZzSPqbIzmFLF/415DkWcfZrfWde12/Y87cfODiOsmiI/kQSX5E1l+R5Bg25YB/DSaFbY2F6RrLQ/7kHev5oRvpCpK8iw2VKdpz+X+P7XixjqQf9el/YqqZbYeUmWpm231yfcJyCV5XupxBlqc7wlutzY7l+Ab6nUgy2bOzrYuQ5YlCBa9pyPoDsh7a8PtJH4SUqDUWrnOkn5UleIQv5iikgmtktzuS5aql9io5kALIoo7kz8qF9ik1EDuO2o9ULXJwkw8gZlwUkn2iRSFWHOujVQvcYNk46u+EIEZcLJJJjm3Z3UaIEReLZNZDflADMeIiqcn/tp+3zu2vQWwg6zMByBu2PQ/R0GptRtZXApCWp/1y5dz+KyB0djQXpxzr2wEIy99I74eQQW7vRpZvKxc1ensfQmRHs3Vppx4HPKQeMtEr/sqEkHCktyHrN5XLKbgh6x0QAnXKbkLW96oW4kpr8lylgmuN7MbcU0wcT0OWt8qss68iy1n/iNDfT643nTO9a982R3IyedEkn5ci2kv+3weSHp5U2Uj6fRmeL+g509FD9upEasKyqaQZFn/g3h86ebKR5WwpopH1YP9veLJkY0mlo7N6x8s02doV/RWUur6C5M3+37YcuWpeLlnb1/kVQCxfJlQ6yrm962LJ1m6gXoCysWTr+Ibgk51s+WvQitRCmdxky/jXdExisrGqBY4TlWyS5UqnslaTLe+knmxkPQhVs5psfSPZZJN/3rNYhxBIOdlI8hiERJKyST6F+aULITSSKiMkZ6Z3yvUQKkkkm3TFb5mD0Bkl2diQLf4pWYWi/3Ys90EsxCobWR+HqPBr7UgWBi6gCamMkDwMMYG7sms3uEnyfDCyY5Tsp3yGP1GtTnZskle3++on+U9Yxy87OsmdzZh67+gnruOTHaNkz8D7Zw5INslTECu5ajNXIJvkZYgZZP2j2EtbC5eNLK9Hu8uqi2P9rlDRXOygxu88CG4xeR4Gz7hor0t5DIMaOedImpACjtr35LqcKcvKn4OUJyEdljb5Z7hDXs4f+5pZ6oQvycnk/k2Pu6F9zRB3H6f9+7t9y5JdY70FUqROe68ePEKU4/59a/sWLpv0MKTN0qY6y92dR6Ukpzo/Rqyn/Q9mrZnd6V/v1bNI2X6fY+mnGjOzI6wb6d76+Q1M1fz1kTEzYrItzWNKtjEkJnuMzFqyTXaSzIzwA2mUIBtJXhz2uEYe2STLfvfven2NAmUj6e/9Rp9GUbJJXhv2WMYGZPua7MuFT7KXjPMPXDaon5EfX5OtLhuGYRiGYRgGxM0/BiKRhXFPyDwAAAAASUVORK5CYII="
-        id="b"
-        width={90}
-        height={90}
-        preserveAspectRatio="none"
-      />
-    </defs>
+    <path
+      fill="#1129A0"
+      d="M20.75 14a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0v-4ZM15.243 26.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0Z"
+    />
   </svg>
 );
 
@@ -209,7 +196,7 @@ export const NextIcon = (props: SVGProps<SVGSVGElement>) => (
       d="M16.458 9.89h-12.5M11.416 4.869l5.042 5.02-5.042 5.02"
     />
   </svg>
-)
+);
 
 export const BackIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -227,4 +214,4 @@ export const BackIcon = (props: SVGProps<SVGSVGElement>) => (
       d="M3.542 10.729h12.5M8.583 15.749l-5.042-5.02 5.042-5.02"
     />
   </svg>
-)
+);
