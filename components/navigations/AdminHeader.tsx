@@ -26,7 +26,7 @@ export const AdminHeader = (props: Props) => {
 
   return (
     <header
-      className={`bg-white rounded-t-[10px] w-full sticky top-0 left-0 z-50 flex items-center pt-14 pb-5 px-5 justify-between lg:justify-end ${
+      className={`bg-[#f9f9fb] rounded-t-[10px] w-full sticky top-0 left-0 z-50 flex items-center pt-14 pb-5 px-5 justify-between lg:justify-end ${
         showBackArrow ? "justify-between " : "justify-end"
       }`}
     >

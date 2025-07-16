@@ -1,6 +1,5 @@
 "use client";
 import { useModalClose } from "@/contexts/SheetCloseModal";
-import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -9,7 +8,7 @@ import React from "react";
 interface Link {
   path: string;
   label: string;
-  icon: StaticImageData;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   sub?: any[];
 }
 
@@ -35,34 +34,28 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ links, mobile }) => {
   return (
     <aside className={`pb-6 ${!mobile && "animated-appearance"}`}>
       <nav className="flex flex-col items-start justify-center space-y-1">
-        {links?.map(({ path, label, icon }) => {
+        {links?.map(({ path, label, icon: Icon }) => {
           const isActive = isRouteActive(pathname, path);
 
           return (
             <div key={path} className="w-full h-full">
               <Link
                 href={path}
-                className={`w-full gap-6 flex items-center font-semibold rounded transition-all `}
+                className={`w-full flex items-center rounded transition-all `}
                 onClick={closeModal}
               >
                 <div
                   className={`${
-                    isActive ? "bg-[#D8D8D9]" : ""
-                  }  w-full h-20 flex items-center px-12 hover:bg-[#D8D8D9]/50`}
+                    isActive ? "bg-primary text-white" : ""
+                  }  w-full h-14 flex rounded-2xl px-5 items-center hover:bg-primary/40 hover:text-white`}
                 >
                   <div
                     className={`flex items-center gap-3 text-sm whitespace-nowrap   group-hover:text-white  ${
-                      isActive ? "text-black" : "text-darker"
+                      isActive ? "text-white" : "text-body"
                     }`}
                   >
-                    <div className="w-5 h-5">
-                      <Image
-                        src={icon ?? ""}
-                        alt=""
-                        className="w-full h-full"
-                      />
-                    </div>
-                    {label}
+                    <Icon />
+                    <span>{label}</span>
                   </div>
                 </div>
               </Link>
