@@ -20,6 +20,7 @@ type ControlledInputProps = {
   labelClassName?: string;
   art?: boolean;
   dontShowTime?: boolean;
+  ShowHr?: boolean;
   isTextArea?: boolean;
   minLength?: number;
   maxLength?: number;
@@ -39,6 +40,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   method,
   variant = "primary",
   dontShowTime = false,
+  ShowHr = false,
   art = false,
   className,
   labelClassName,
@@ -104,18 +106,23 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
                 cols={cols}
               />
             ) : (
-              <input
-                id={name}
-                name={name}
-                type={type === "password" && showPassword ? "text" : type}
-                placeholder={placeholder}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                ref={ref}
-                className="py-3 w-full bg-transparent outline-none px-3 placeholder:text-white"
-                {...props}
-              />
+              <div className="relative">
+                <input
+                  id={name}
+                  name={name}
+                  type={type === "password" && showPassword ? "text" : type}
+                  placeholder={placeholder}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  ref={ref}
+                  className="py-3 w-full bg-transparent outline-none px-3 placeholder:text-white"
+                  {...props}
+                />
+                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                  /hr
+                </span>
+              </div>
             )}
           </div>
           {type === "password" && !isTextArea && (
@@ -162,18 +169,25 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
             cols={cols}
           />
         ) : (
-          <input
-            id={name}
-            name={name}
-            type={type === "password" && showPassword ? "text" : type}
-            placeholder={placeholder}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-            ref={ref}
-            className={inputClassName}
-            {...props}
-          />
+          <div className="relative">
+            <input
+              id={name}
+              name={name}
+              type={type === "password" && showPassword ? "text" : type}
+              placeholder={placeholder}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              ref={ref}
+              className={inputClassName}
+              {...props}
+            />
+            {ShowHr && (
+              <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-sm text-paragrah font-medium">
+                /hr
+              </span>
+            )}
+          </div>
         )}
 
         {type === "password" && !isTextArea && (

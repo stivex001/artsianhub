@@ -9,7 +9,6 @@ import React, { useState } from "react";
 import { gender } from "../settings/data";
 import { NextIcon } from "@/components/assets/icons/NavIcons";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
-import AutoSearchLocation from "@/components/shared/AutoSearchLocation";
 
 type Props = {};
 

@@ -1,28 +1,102 @@
+"use client";
 import React, { useState } from "react";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { BackIcon } from "@/components/assets/icons/NavIcons";
+import ControlledInput from "@/components/controlledInputs/ControlledInput";
+import useDynamicForm from "@/hooks/useDynamicForm";
+import { Field } from "@/schemas/dynamicSchema";
+import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
+import { useUser } from "@/api/crud/user";
+import { useAuthStore } from "@/store/authStore";
+import { toast } from "sonner";
+import { CustomModal } from "@/components/modals/CustomModal";
+import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
-export const LocationPriceStage = (props: Props) => {
-  const [travelDistance, setTravelDistance] = useState(100);
-  const [price, setPrice] = useState("");
+const fields: Field[] = [
+  {
+    name: "primaryLocation",
+    type: "text",
+    errorMessage: "Location is required",
+    isRequired: true,
+  },
 
+  {
+    name: "workDistanceKm",
+    type: "text",
+    errorMessage: "Work Distance is required",
+    isRequired: true,
+  },
+  {
+    name: "pricePerHour",
+    type: "number",
+    errorMessage: "Price per hour is required",
+    isRequired: true,
+  },
+];
+
+export const LocationPriceStage = (props: Props) => {
+  const router = useRouter();
   const {
     setCurrentStep,
+    personalInfo,
     serviceDetails,
+    resetProfile,
     markStepCompleted,
-    updateServiceDetails,
   } = useArtisanProfileStore();
+  const [firstName, setFirstName] = useState<string>("");
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const { control, handleSubmit, formState, getValues } = useDynamicForm(
+    fields,
+    {}
+  );
 
-  const handleSubmit = () => {
-    const formData = {
-      travelDistance,
-      price,
-    };
-    console.log("Form submitted:", formData);
-    // Handle form submission
+  const { isValid } = formState;
+
+  const { createArtisanProfile } = useUser();
+  const { mutate: createProfile, isPending } = createArtisanProfile;
+
+  const { setCurrentUser } = useAuthStore();
+
+  const handleSubmitProfile = async (data: any) => {
+    const formData = new FormData();
+    try {
+      if (personalInfo?.profilePicture) {
+        formData.append("profilePicture", personalInfo.profilePicture);
+      }
+
+      formData.append("firstName", personalInfo?.firstName);
+      formData.append("lastName", personalInfo?.lastName);
+      formData.append("gender", personalInfo?.gender);
+      formData.append("dateOfBirth", personalInfo?.dateOfBirth);
+      formData.append("professionalTitle", serviceDetails?.professionalTitle);
+      formData.append("skillDescription", serviceDetails?.skillDescription);
+      formData.append("serviceCategory", serviceDetails?.serviceCategory);
+      formData.append("primaryLocation", data?.primaryLocation);
+      formData.append("workDistanceKm", data?.workDistanceKm);
+      formData.append("pricePerHour", data?.pricePerHour);
+
+      createProfile(formData, {
+        onSuccess: (response: any) => {
+          const user = response?.data;
+          if (user) {
+            setCurrentUser(user);
+          }
+          setFirstName(personalInfo?.firstName);
+          markStepCompleted("locationPriceDetails");
+          setCurrentStep(3);
+          setOpenModal(true);
+          resetProfile();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Create Profile Error:", error);
+        },
+      });
+    } catch (error) {}
   };
 
   const handleGoBack = () => {
@@ -30,96 +104,90 @@ export const LocationPriceStage = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Travel Distance */}
-      <div className="flex flex-col gap-3">
-        <label className="text-lg font-semibold text-gray-900">
-          Travel Distance
-        </label>
-        <p className="text-gray-600">How far are you willing to go for work?</p>
-        <div className="flex items-center gap-4">
-          <div className="flex-1">
-            <input
-              type="range"
-              min="0"
-              max="200"
-              value={travelDistance}
-              onChange={(e) => setTravelDistance(Number(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-              style={{
-                background: `linear-gradient(to right, #3b82f6 0%, #3b82f6 ${
-                  (travelDistance / 200) * 100
-                }%, #e5e7eb ${(travelDistance / 200) * 100}%, #e5e7eb 100%)`,
-              }}
-            />
-          </div>
-          <span className="text-lg font-semibold text-gray-900 min-w-[60px]">
-            {travelDistance}m
-          </span>
-        </div>
+    <div className="flex flex-col gap-8">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-paragrah">
+          Location & Price Details
+        </h1>
+        <p className="text-sm text-body">
+          Where do you work and how much do you charge?
+        </p>
       </div>
+      <form
+        onSubmit={handleSubmit(handleSubmitProfile)}
+        className="flex flex-col gap-5"
+      >
+        <ControlledInput
+          name="primaryLocation"
+          control={control}
+          placeholder="Enter your location or region"
+          type="text"
+          label="Primary Location"
+          variant="primary"
+          rules={{ required: true }}
+        />
 
-      {/* Starting Price */}
-      <div className="flex flex-col gap-2">
-        <label className="text-lg font-semibold text-gray-900">
-          Starting Price
-        </label>
-        <div className="relative">
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Enter your price"
-            className="w-full p-4 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+        <ControlledRangeSelector
+          name="workDistanceKm"
+          label="Travel Distance"
+          desc="How far are you willing to go for work?"
+          control={control}
+          type="range"
+          minLength={0}
+          maxLength={200}
+        />
+        <ControlledInput
+          name="pricePerHour"
+          control={control}
+          placeholder="Enter your price"
+          type="number"
+          label="Starting Price"
+          variant="primary"
+          rules={{ required: true }}
+          ShowHr
+        />
+        <div className="flex items-center justify-end gap-5">
+          <CustomButton
+            type="button"
+            className="w-fit rounded-[10px]"
+            variant="transparent"
+            icon={BackIcon}
+            label="Back"
+            onClick={handleGoBack}
           />
-          <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
-            /hr
-          </span>
-        </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-end gap-5">
+          <CustomButton
+            type="submit"
+            disabled={!isValid}
+            isLoading={isPending}
+            className="w-fit rounded-[10px]"
+            variant="primary"
+            label="Submit Profile"
+          />
+        </div>
+      </form>
+      <CustomModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        icon={<ConfirmIcon />}
+      >
+        <div>
+          <h1 className="text-paragrah font-bold text-xl">
+            Welcome to MensayHub, {firstName}!
+          </h1>
+          <p className="text-sm text-body">
+            Your profile is now live. Start receiving job requests, managing
+            your services, and building your portfolio from your dashboard.
+          </p>
+        </div>
         <CustomButton
           type="button"
-          className="w-fit rounded-[10px]"
-          variant="transparent"
-          icon={BackIcon}
-          label="Back"
-          onClick={handleGoBack}
-        />
-
-        <CustomButton
-          type="submit"
-          // disabled={!isValid}
-          className="w-fit rounded-[10px]"
+          label="Proceed"
+          className="w-full rounded-xl"
           variant="primary"
-          label="Submit Profile"
+          onClick={() => router.push(`/artisan/dashboard`)}
         />
-      </div>
-
-      <style jsx>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .slider::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #3b82f6;
-          cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-      `}</style>
+      </CustomModal>
     </div>
   );
 };

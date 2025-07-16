@@ -178,7 +178,7 @@ export const ClientProfileSetup = (props: Props) => {
         </div>
         <CustomButton
           type="button"
-          label="Go to Dashboard"
+          label="Proceed"
           className="w-full rounded-xl"
           variant="primary"
           onClick={() => router.push(`/client`)}

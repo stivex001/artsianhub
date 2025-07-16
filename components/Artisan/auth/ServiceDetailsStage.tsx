@@ -80,60 +80,66 @@ export const ServiceDetailsStage = (props: Props) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleCreateServiceDetails)}
-      className="flex flex-col gap-5"
-    >
-      <div className="flex flex-col gap-5">
-        <ControlledSelect
-          name="serviceCategory"
-          label="Service Category"
-          options={gender}
-          control={control}
-          variant="primary"
-          placeholder="Select Service Category"
-          rules={{ required: false }}
-        />
-        <ControlledInput
-          name="professionalTitle"
-          control={control}
-          placeholder="Add professional title"
-          type="text"
-          label="Professional title"
-          variant="primary"
-          rules={{ required: true }}
-        />
-        <ControlledInput
-          name="skillDescription"
-          control={control}
-          placeholder="Tell us about your skill, experience, or what makes you stand out..."
-          type="text"
-          label="Describe Your Skills & Experience"
-          variant="primary"
-          rules={{ required: true }}
-          isTextArea
-        />
+    <div className="flex flex-col gap-8">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-paragrah">Service Details</h1>
+        <p className="text-sm text-body">What do you do best?</p>
       </div>
-      <div className="flex items-center justify-end gap-5">
-        <CustomButton
-          type="button"
-          className="w-fit rounded-[10px]"
-          variant="transparent"
-          icon={BackIcon}
-          label="Back"
-          onClick={handleGoBack}
-        />
+      <form
+        onSubmit={handleSubmit(handleCreateServiceDetails)}
+        className="flex flex-col gap-5"
+      >
+        <div className="flex flex-col gap-5">
+          <ControlledSelect
+            name="serviceCategory"
+            label="Service Category"
+            options={gender}
+            control={control}
+            variant="primary"
+            placeholder="Select Service Category"
+            rules={{ required: false }}
+          />
+          <ControlledInput
+            name="professionalTitle"
+            control={control}
+            placeholder="Add professional title"
+            type="text"
+            label="Professional title"
+            variant="primary"
+            rules={{ required: true }}
+          />
+          <ControlledInput
+            name="skillDescription"
+            control={control}
+            placeholder="Tell us about your skill, experience, or what makes you stand out..."
+            type="text"
+            label="Describe Your Skills & Experience"
+            variant="primary"
+            rules={{ required: true }}
+            isTextArea
+          />
+        </div>
+        <div className="flex items-center justify-end gap-5">
+          <CustomButton
+            type="button"
+            className="w-fit rounded-[10px]"
+            variant="transparent"
+            icon={BackIcon}
+            label="Back"
+            onClick={handleGoBack}
+          />
 
-        <CustomButton
-          type="submit"
-          disabled={!isValid}
-          className="w-fit rounded-[10px]"
-          variant="primary"
-          icon={NextIcon}
-        >
-          Next
-        </CustomButton>
-      </div>
-    </form>
+          <CustomButton
+            type="submit"
+            disabled={!isValid}
+            className="w-fit rounded-[10px]"
+            variant="primary"
+            icon={NextIcon}
+          >
+            Next
+          </CustomButton>
+        </div>
+      </form>
+    </div>
   );
 };
