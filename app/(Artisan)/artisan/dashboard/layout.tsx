@@ -12,7 +12,7 @@ const ArtisanDashboardLayout = ({ children }: Props) => {
     <ProtectedRoutes allowedRoles={["artisan"]}>
       <div className="flex  min-h-screen w-full h-full overflow-x-clip">
         <Sidebar />
-        <div className="w-full lg:w-[80%] bg-[#f9f9fb] rounded-[10px] px-5 py-5">
+        <div className="w-full lg:w-[80%] bg-[#f9f9fb] rounded-[10px]">
           <AdminHeader />
           <div className="px-4 lg:px-8  rounded-b-[10px] py-5 overflow-y-auto no-scrollbar scrollbar-hidden">
             {children}

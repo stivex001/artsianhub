@@ -1,4 +1,4 @@
-import { BriefCaseIcon, DashboardIcon } from "../assets/icons/LinksIcon";
+import { BriefCaseIcon, CalenderIcon, DashboardIcon, FolioIcon, SettingsIcon, SubIcon } from "../assets/icons/LinksIcon";
 
 export const artisanLinks = [
   {
@@ -13,16 +13,27 @@ export const artisanLinks = [
   },
 
   {
-    path: "/artisan/dashboard/portfolio",
-    label: "Service List",
-    icon: DashboardIcon,
+    path: "/artisan/dashboard/calendar",
+    label: "Calendar",
+    icon: CalenderIcon,
   },
 
-  // {
-  //   path: "/artisan/dashboard/subscription",
-  //   label: "Subscription",
-  //   icon: SubcriptionIcon,
-  // },
+  {
+    path: "/artisan/dashboard/portfolio",
+    label: "Portfolio",
+    icon: FolioIcon,
+  },
+
+  {
+    path: "/artisan/dashboard/subscription",
+    label: "Subscription",
+    icon: SubIcon,
+  },
+  {
+    path: "/artisan/dashboard/settings",
+    label: "Settings",
+    icon: SettingsIcon,
+  },
 ];
 
 export const adminLinks = [
