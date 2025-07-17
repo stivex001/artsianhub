@@ -14,7 +14,7 @@ const data = [
   },
 ];
 
-const filterOptions = [
+export const filterOptions = [
   { id: 1, label: "January" },
   { id: 2, label: "February" },
   { id: 3, label: "March" },
@@ -36,13 +36,14 @@ const RevenueDetails = (props: Props) => {
   };
 
   return (
-    <Wrapper className="flex-1 px-2 py-8">
-      <div className="w-11/12 mx-auto flex items-center justify-between gap-7 mb-8">
-        <h1 className="text-xl">Revenue In Dollars $</h1>
+    <Wrapper className="lg:w-[45%] ">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-base font-bold text-paragrah">
+          Appointment Review
+        </h1>
         <FilterComponent
           onFilterChange={handleFiterChange}
           options={filterOptions}
-          className="!bg-primary rounded-[5px] !text-white"
           showIcon
         />
       </div>
