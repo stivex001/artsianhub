@@ -5,13 +5,22 @@ export interface StatCardProps {
   value: number;
   change?: number;
   icon: FC<SVGProps<SVGSVGElement>>;
+  className?: string;
 }
 
-const StatCard = ({ StatData }: { StatData: StatCardProps }) => {
+const StatCard = ({
+  StatData,
+  className,
+}: {
+  StatData: StatCardProps;
+  className?: string;
+}) => {
   const Icon = StatData.icon;
 
   return (
-    <div className="bg-white text-grey border border-borderColor p-4 rounded-2xl flex flex-col gap-3">
+    <div
+      className={`bg-white p-4 rounded-2xl flex flex-col gap-3 ${className}`}
+    >
       <Icon />
       <div className="flex flex-col gap-1">
         <h3 className="text-2xl font-bold text-paragrah">

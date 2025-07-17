@@ -20,35 +20,35 @@ export interface Category {
 export const useCategories = () => {
   const getAllCategories = () =>
     useApiQuery<Category[]>(["categories"], {
-      url: `/category/get-all-categories`,
+      url: `/categories`,
       method: "GET",
     });
 
   const getCategoryById = (id: string, options?: object) =>
-    useApiQuery<Category>(["category", id], {
-      url: `/category/get-category/${id}`,
+    useApiQuery<Category>(["categories", id], {
+      url: `/categories/${id}`,
       method: "GET",
       ...options,
     });
 
   const createCategory = useApiMutation<AuthResponse, FormData>({
-    url: "/category/create-category",
+    url: "/categories",
     method: "POST",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+    // headers: {
+    //   "Content-Type": "multipart/form-data",
+    // },
   });
 
   const updateCategory = (id: string) => {
     useApiMutation<AuthResponse, FormData>({
-      url: `/category/update-category/${id}`,
+      url: `/categories/${id}`,
       method: "PUT",
     });
   };
 
   const deleteCategory = (id: string) =>
     useApiMutation({
-      url: `/category/delete-category/${id}`,
+      url: `/categories/${id}`,
       method: "DELETE",
     });
 

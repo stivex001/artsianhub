@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Wrapper = ({ children, className }: Props) => {
-  return <div className={`border border-[#5691D1] rounded-[10px] ${className}`}>{children}</div>;
+  return <div className={`bg-white p-5 rounded-2xl ${className}`}>{children}</div>;
 };
 
 export default Wrapper;

@@ -8,7 +8,6 @@ import React from "react";
 import { BackIcon, NextIcon } from "@/components/assets/icons/NavIcons";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
 import { useCategories } from "@/api/crud/categories";
-import { gender } from "../settings/data";
 
 type Props = {};
 
@@ -45,12 +44,13 @@ export const ServiceDetailsStage = (props: Props) => {
   } = useArtisanProfileStore();
 
   const { data: category } = getAllCategories();
+  
 
   const categoryOptions = Array.isArray(category)
-    ? category.map((cat) => ({
-        id: cat._id,
-        value: cat._id,
-        label: cat.name,
+    ? category?.map((cat) => ({
+        id: cat?._id,
+        value: cat?._id,
+        label: cat?.name,
       }))
     : [];
 
@@ -93,7 +93,7 @@ export const ServiceDetailsStage = (props: Props) => {
           <ControlledSelect
             name="serviceCategory"
             label="Service Category"
-            options={gender}
+            options={categoryOptions}
             control={control}
             variant="primary"
             placeholder="Select Service Category"
