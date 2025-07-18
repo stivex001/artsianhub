@@ -1,4 +1,4 @@
-import ArtisanPictures from "@/components/Artisan/portfolio/ArtisanPictures";
+import ArtisanPictures from "@/components/Artisan/portfolio/CreateProjectModal";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";

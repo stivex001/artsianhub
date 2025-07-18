@@ -23,7 +23,7 @@ export const CustomButton: FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    "font-medium w-fit h-12 rounded-xl text-sm  transition-all leading-[140%] flex items-center justify-center gap-x-1 capitalize duration-300 ease-in font-medium disabled:cursor-not-allowed";
+    "font-medium w-fit h-12 rounded-xl text-sm  transition-all  flex items-center justify-center gap-x-1 capitalize duration-300 ease-in font-medium disabled:cursor-not-allowed";
   const variants = {
     primary:
       "bg-primary text-white border-primary hover:bg-primary/80 active:bg-primary/90 disabled:bg-primary/30",
@@ -39,7 +39,7 @@ export const CustomButton: FC<ButtonProps> = ({
   const sizes = {
     sm: "py-1 px-2 text-sm",
     md: "py-1.5 px-4 text-base",
-    lg: "py-2.5 px-6 text-sm",
+    lg: "py-3 px-4 text-sm",
     xl: "py-3 px-6 text-xl",
   };
 
@@ -61,10 +61,10 @@ export const CustomButton: FC<ButtonProps> = ({
       {isLoading ? (
         <Spinner />
       ) : (
-        <>
+        <div className="flex items-center gap-2">
           {children}
-          {Icon && <Icon className=" -mt-1" />}
-        </>
+          {Icon && <Icon className="-mt-1" />}
+        </div>
       )}
       {label}
     </Button>
