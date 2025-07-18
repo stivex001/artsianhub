@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { PortfolioModal } from "./PortfolioModal";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { artisans } from "./data";
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 
 export const PortfolioCard = ({ item }: Props) => {
   const params = useParams();
+  const pathname = usePathname();
   const id = params.id;
   const artisan = artisans?.find((art) => String(art?.id) === String(id));
 
@@ -20,6 +21,8 @@ export const PortfolioCard = ({ item }: Props) => {
   const [isMobile, setIsMobile] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);
+  const artisanPage = pathname.startsWith("/artisan");
+  const clientPage = pathname.startsWith("/client");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -32,8 +35,10 @@ export const PortfolioCard = ({ item }: Props) => {
   }, []);
 
   const handleClick = () => {
-    if (isMobile) {
+    if (isMobile && clientPage) {
       router.push(`/client/artisan-details/${artisan?.id}/${item.id}`);
+    } else if (artisanPage) {
+      router.push(`/artisan/dashboard/portfolio/${item?.id}`);
     } else {
       setIsModalOpen(true);
     }

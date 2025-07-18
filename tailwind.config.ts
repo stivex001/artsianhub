@@ -46,9 +46,10 @@ const config = {
         milky: "#F9FAFB",
         lightButton: "#C2D8FF",
         grayish: "#353c48",
-        body:'#344054',
-        paragrah: '#101928',
-        grayis: '#98A2B3'
+        body: "#344054",
+        paragrah: "#101928",
+        grayis: "#98A2B3",
+        error: "#D11919",
       },
       boxShadow: {
         dropShadow: "0px 2px 4px 0px #0000000D inset",
@@ -56,8 +57,7 @@ const config = {
         boxshadow: "0px 2px 4px -2px #0000001A",
         shadowo: "0px 4px 60px 0px #04060F0D",
         shadowactive: "0px 4px 60px 0px #1129A01C",
-        usershadow: "0px 12.3px 28.7px 0px #00000026"
-
+        usershadow: "0px 12.3px 28.7px 0px #00000026",
       },
 
       backgroundImage: {

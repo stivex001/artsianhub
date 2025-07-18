@@ -46,7 +46,6 @@ const Portfolio = () => {
       </div>
 
       <CreateProjectModal
-        // item={artisan}
         isOpen={isModalProjectOpen}
         onClose={closeModal}
       />

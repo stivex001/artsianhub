@@ -15,6 +15,8 @@ import React from "react";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  edit?:boolean
+  item?:any
 };
 
 const fields: Field[] = [
@@ -38,7 +40,7 @@ const fields: Field[] = [
   },
 ];
 
-export const CreateProjectModal = ({ isOpen, onClose }: Props) => {
+export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
   const { files, setFiles } = useFileUpload(4);
   const { control, handleSubmit, formState, watch, setError, clearErrors } =
     useDynamicForm(fields, {});
@@ -62,7 +64,7 @@ export const CreateProjectModal = ({ isOpen, onClose }: Props) => {
     >
       <div className="flex items-center justify-between">
         <Descriptions
-          title="Add a New Project"
+          title={edit ? "Edit Project" : "Add a New Project"}
           desc="Share your work. Add images, a short description, and the type of service you completed."
         />
         <button onClick={onClose} className="">
@@ -135,7 +137,7 @@ export const CreateProjectModal = ({ isOpen, onClose }: Props) => {
             type="submit"
             //   disabled={!isValid}
             //   isLoading={isPending}
-            label="Upload project"
+            label={edit ? "Save Changes" : "Upload project"}
             className="w-fit rounded-xl"
             variant="primary"
           />

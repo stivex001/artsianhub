@@ -71,3 +71,20 @@ export const AddIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
+export const GoBackIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    {...props}
+  >
+    <rect width={23} height={23} x={0.5} y={0.5} fill="#fff" rx={3.5} />
+    <rect width={23} height={23} x={0.5} y={0.5} stroke="#E4E7EC" rx={3.5} />
+    <path
+      fill="#000"
+      d="M7.146 12.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L8.707 11.5H16.5a.5.5 0 0 1 0 1H8.707l1.147 1.146a.5.5 0 0 1-.708.708l-2-2Z"
+    />
+  </svg>
+)
+
