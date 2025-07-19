@@ -232,3 +232,20 @@ export const SearchLocationIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const ErrorIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={17}
+    fill="none"
+    {...props}
+  >
+    <path
+      fill="#9E0A05"
+      fillRule="evenodd"
+      d="M14.666 8.5a6.667 6.667 0 1 0-13.333 0 6.667 6.667 0 0 0 13.333 0ZM8 4.667a.5.5 0 0 1 .5.5v4a.5.5 0 1 1-1 0v-4a.5.5 0 0 1 .5-.5Zm0 7.167A.667.667 0 1 0 8 10.5a.667.667 0 0 0 0 1.334Z"
+      clipRule="evenodd"
+    />
+  </svg>
+)

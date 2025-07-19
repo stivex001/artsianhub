@@ -58,6 +58,8 @@ const config = {
         shadowo: "0px 4px 60px 0px #04060F0D",
         shadowactive: "0px 4px 60px 0px #1129A01C",
         usershadow: "0px 12.3px 28.7px 0px #00000026",
+        shadowHover: "0px 4px 60px 0px #04060F0D"
+
       },
 
       backgroundImage: {

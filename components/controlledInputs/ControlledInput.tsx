@@ -7,6 +7,7 @@ import { cn } from "../../lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { EyeIcon, EyeIconClose } from "../assets/icons/NavIcons";
+import { ErrorIcon } from "../assets/icons/OtherIcons";
 
 type ControlledInputProps = {
   name: string;
@@ -60,19 +61,26 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   });
 
   const baseStyles =
-    "w-full text-[#98A2B3] py-3 px-4 placeholder:text-[#98A2B3] border rounded-[10px] outline-none ";
+    "w-full h-[44px]  px-4 border rounded-[10px] outline-none text-body placeholder:text-[#98A2B3] placeholder:font-normal font-semibold";
+
   const styles = {
-    normal: "border-white bg-white h-14 text-black ",
-    primary: "border-[#E4E5EA] bg-white ",
-    secondary: "border-bordergray bg-white text-black h-14 ",
+    normal: "border-white bg-white h-14",
+    primary: "border-[#E4E5EA] ",
+    secondary: "border-bordergray bg-white h-14 focus:border-primary",
     tertiary:
-      "border border-black text-[#9694A4] focus:border-black focus:ring-green-500",
-    invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",
+      "border border-black text-[#9694A4] focus:border-primary focus:ring-0",
+    invalid: "border-red-500 focus:border-red-500",
   };
 
-  const inputClassName = cn(baseStyles, styles[variant], {
-    [styles.invalid]: invalid,
-  });
+  const inputClassName = cn(
+    baseStyles,
+    styles[variant],
+    {
+      "border-red-500 focus:border-red-500": invalid,
+      "focus:border-primary": !invalid,
+    },
+    className
+  );
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -80,74 +88,11 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     setShowPassword((prev) => !prev);
   };
 
-  if (art) {
-    return (
-      <div>
-        <div className={`border border-[#B5B5B5]  relative mb-4 ${className}`}>
-          <Label
-            className={`text-primary text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
-          >
-            {label}
-          </Label>
-          <div className="relative">
-            {isTextArea ? (
-              <textarea
-                id={name}
-                name={name}
-                placeholder={placeholder}
-                onChange={onChange}
-                onBlur={onBlur}
-                value={value}
-                ref={ref}
-                className={`bg-transparent outline-none py-4 px-3 placeholder:text-white h-auto resize-none`}
-                maxLength={maxLength}
-                minLength={minLength}
-                rows={rows}
-                cols={cols}
-              />
-            ) : (
-              <div className="relative">
-                <input
-                  id={name}
-                  name={name}
-                  type={type === "password" && showPassword ? "text" : type}
-                  placeholder={placeholder}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  ref={ref}
-                  className="py-3 w-full bg-transparent outline-none px-3 placeholder:text-white"
-                  {...props}
-                />
-                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
-                  /hr
-                </span>
-              </div>
-            )}
-          </div>
-          {type === "password" && !isTextArea && (
-            <div
-              className="absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
-              <EyeIcon />
-            </div>
-          )}
-        </div>
-        {error && (
-          <p className="mt-1 text-xs text-red-500 capitalize">
-            {error.message}
-          </p>
-        )}
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-1">
       <Label
         htmlFor={name}
-        className={`text-sm font-medium text-paragrah capitalize ${labelClassName} `}
+        className={`text-sm font-medium text-paragrah capitalize ${labelClassName}`}
       >
         {label}
       </Label>
@@ -201,7 +146,10 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
       </div>
 
       {error && (
-        <p className="mt-1 text-xs text-red-500 capitalize">{error.message}</p>
+        <div className="flex items-center gap-1 mt-1">
+          <ErrorIcon />
+          <p className=" text-xs text-red-500 capitalize">{error.message}</p>
+        </div>
       )}
     </div>
   );
