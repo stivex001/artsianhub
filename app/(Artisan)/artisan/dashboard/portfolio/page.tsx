@@ -1,17 +1,13 @@
 "use client";
 
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
-import CreateArtisanService from "@/components/Artisan/servicelist/CreateArtisanService";
-import ServiceList from "@/components/Artisan/servicelist/ServiceList";
 import { AddIcon } from "@/components/assets/icons/ModalIcon";
-import { BackIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { ContactArtisanModal } from "@/components/Client/ContactArtisanModal";
 import { mockPortfolioItems } from "@/components/Client/data";
 import { PortfolioCard } from "@/components/Client/PortfolioCard";
 import { Descriptions } from "@/components/shared/Headings";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import React, {  useState } from "react";
 
 const portfolioItems = mockPortfolioItems;
 
@@ -40,7 +36,7 @@ const Portfolio = () => {
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {portfolioItems?.map((item) => (
-            <PortfolioCard key={item.id} item={item} />
+            <PortfolioCard key={item.id} item={item} showDate />
           ))}
         </div>
       </div>

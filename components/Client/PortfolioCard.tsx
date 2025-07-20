@@ -8,9 +8,10 @@ import { artisans } from "./data";
 
 type Props = {
   item: any;
+  showDate?: boolean;
 };
 
-export const PortfolioCard = ({ item }: Props) => {
+export const PortfolioCard = ({ item, showDate }: Props) => {
   const params = useParams();
   const pathname = usePathname();
   const id = params.id;
@@ -48,7 +49,7 @@ export const PortfolioCard = ({ item }: Props) => {
     <>
       <div
         onClick={handleClick}
-        className="bg-white  rounded-2xl py-4 px-2.5 overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col gap-3 cursor-pointer"
+        className="bg-white  rounded-2xl py-4 px-2.5 overflow-hidden hover:shadow-shadowHover transition-shadow duration-200 flex flex-col gap-3 cursor-pointer"
       >
         <div className="aspect-video bg-gray-100 rounded-xl relative overflow-hidden">
           <Image
@@ -85,6 +86,11 @@ export const PortfolioCard = ({ item }: Props) => {
               </span>
             ))}
           </div>
+          {showDate && (
+            <div className="flex items-center justify-end">
+              <p className="text-sm text-[#667185]">Jul 20, 2025</p>
+            </div>
+          )}
         </div>
         <PortfolioModal item={item} isOpen={isModalOpen} onClose={closeModal} />
       </div>

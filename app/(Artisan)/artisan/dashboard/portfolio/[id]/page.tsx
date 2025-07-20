@@ -1,8 +1,12 @@
 "use client";
 import ArtisanBreadCrumbs from "@/components/Artisan/portfolio/BreadCrumbs";
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
+import { DeleteProjectModal } from "@/components/Artisan/portfolio/DeleteProjectModal";
+import { DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
+import { CustomButton } from "@/components/clickable/CustomButton";
 import { mockPortfolioItems } from "@/components/Client/data";
+import { CustomModal } from "@/components/modals/CustomModal";
 import Wrapper from "@/components/shared/Wrapper";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -123,8 +127,13 @@ const ProjectDetails = (props: Props) => {
         <CreateProjectModal
           isOpen={isModalProjectOpen}
           onClose={closeModal}
-          item={[]}
+          item={item}
           edit
+        />
+        <DeleteProjectModal
+          isOpen={isDeleteModalProjectOpen}
+          onClose={() => setIsDeleteModalProjectOpen(false)}
+          item={item?.id}
         />
       </Wrapper>
     </main>
