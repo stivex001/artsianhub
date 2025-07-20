@@ -1,86 +1,15 @@
 "use client";
 
+import { sampleData } from "@/components/Artisan/manageAppointment/data";
 import { Descriptions } from "@/components/shared/Headings";
 import { ReusableTable } from "@/components/shared/ResuableTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { TabComponent } from "@/components/shared/TabComponent";
 import Wrapper from "@/components/shared/Wrapper";
+import Image from "next/image";
 import { useState } from "react";
 
 type Props = {};
-
-const sampleData = [
-  {
-    id: 1,
-    clientName: "Chance Gouse",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Pending",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 2,
-    clientName: "Kadin Vaccaro",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Completed",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 3,
-    clientName: "Kadin Vaccaro",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "No Show (Artisan)",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 4,
-    clientName: "Desirae George",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Accepted",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 4,
-    clientName: "Desirae George",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Accepted",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 4,
-    clientName: "Desirae George",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Accepted",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-  {
-    id: 4,
-    clientName: "Desirae George",
-    avatar: "👤",
-    contact: { email: "chancegouse@email.com", phone: "09070000000" },
-    services: "Plumbing",
-    location: "Chesterfield",
-    status: "Accepted",
-    date: { date: "Jan 2, 2024", time: "10:am" },
-  },
-];
 
 const tabs = [
   { key: "all", label: "All", count: 156 },
@@ -97,14 +26,25 @@ const columns = [
     key: "clientName",
     header: "Client Name",
     render: (value: any, row: any) => (
-      <div className="flex items-center">
-        <div className="h-10 w-10 flex-shrink-0">
-          <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
-            {row.clientName.charAt(0)}
-          </div>
+      <div className="flex items-center gap-3">
+        <div className="">
+          {row?.photo ? (
+            <div className="w-10 h-10 relative overflow-hidden">
+              <Image
+                src={row?.photo}
+                alt={row?.clientName}
+                fill
+                className="object-cover rounded-full"
+              />
+            </div>
+          ) : (
+            <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
+              {row.clientName.charAt(0)}
+            </div>
+          )}
         </div>
-        <div className="ml-4">
-          <div className="text-sm font-medium text-gray-900">{value}</div>
+        <div className="">
+          <div className="text-sm  text-body">{value}</div>
         </div>
       </div>
     ),
@@ -162,7 +102,11 @@ const ManageAppointment = (props: Props) => {
       />
 
       <Wrapper className="flex flex-col gap-4 overflow-hidden no-scrollbar scrollbar-hidden">
-        <TabComponent tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <TabComponent
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
         <ReusableTable
           columns={columns}
           data={sampleData}
@@ -174,7 +118,7 @@ const ManageAppointment = (props: Props) => {
             totalPages: 10,
             onPageChange: setCurrentPage,
           }}
-          className="shadow-sm"
+          url="/artisan/dashboard/manage-appointment"
         />
       </Wrapper>
     </section>

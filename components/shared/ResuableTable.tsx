@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { ResuablePagination } from "./ResuablePagination";
+import { useRouter } from "next/navigation";
 
 // Types
 interface TableColumn<T = any> {
@@ -24,6 +25,7 @@ interface TableProps<T = any> {
   };
   className?: string;
   emptyMessage?: string;
+  url?: string;
 }
 
 // Main Table Component
@@ -36,7 +38,9 @@ export const ReusableTable: React.FC<TableProps> = ({
   pagination,
   className = "",
   emptyMessage = "No data available",
+  url,
 }) => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,8 +48,6 @@ export const ReusableTable: React.FC<TableProps> = ({
     setSearchQuery(query);
     onSearch?.(query);
   };
-
-
 
   return (
     <div className={` ${className}`}>
@@ -97,14 +99,15 @@ export const ReusableTable: React.FC<TableProps> = ({
               data.map((row, index) => (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 transition-colors duration-150"
+                  className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                 >
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className={`p-3 whitespace-nowrap text-sm text-body ${
+                      className={`px-3 py-4 whitespace-nowrap text-sm text-body ${
                         column.className || ""
                       }`}
+                      onClick={() => router.push(`${url}/${row.id}`)}
                     >
                       {column.render
                         ? column.render(row[column.key], row)
@@ -118,9 +121,7 @@ export const ReusableTable: React.FC<TableProps> = ({
         </table>
       </div>
 
-      {pagination && (
-        <ResuablePagination pagination={pagination} />
-      )}
+      {pagination && <ResuablePagination pagination={pagination} />}
     </div>
   );
 };

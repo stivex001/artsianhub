@@ -1,0 +1,86 @@
+export const sampleData = [
+  {
+    id: 1,
+    clientName: "Chance Gouse",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Pending",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+    photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+  {
+    id: 2,
+    clientName: "Kadin Vaccaro",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Completed",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+  {
+    id: 3,
+    clientName: "Kadin Vaccaro",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "No Show (Artisan)",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "",
+  },
+  {
+    id: 4,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+  {
+    id: 5,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+  {
+    id: 6,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+  {
+    id: 4,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+     photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+  },
+];
