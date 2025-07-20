@@ -1,7 +1,8 @@
 "use client";
 
 import { Descriptions } from "@/components/shared/Headings";
-import { ReusableTable, StatusBadge } from "@/components/shared/ResuableTable";
+import { ReusableTable } from "@/components/shared/ResuableTable";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { TabComponent } from "@/components/shared/TabComponent";
 import Wrapper from "@/components/shared/Wrapper";
 import { useState } from "react";
@@ -37,6 +38,36 @@ const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "No Show (Artisan)",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+  },
+  {
+    id: 4,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+  },
+  {
+    id: 4,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
+    date: { date: "Jan 2, 2024", time: "10:am" },
+  },
+  {
+    id: 4,
+    clientName: "Desirae George",
+    avatar: "👤",
+    contact: { email: "chancegouse@email.com", phone: "09070000000" },
+    services: "Plumbing",
+    location: "Chesterfield",
+    status: "Accepted",
     date: { date: "Jan 2, 2024", time: "10:am" },
   },
   {
