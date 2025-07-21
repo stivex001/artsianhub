@@ -16,7 +16,27 @@ export interface Services {
   topServices: ServicesData[];
 }
 
-export interface GetServicesData {}
+export interface PortfolioData {
+  _id: string;
+  artisanId: string;
+  title: string;
+  location: string;
+  serviceType: string[];
+  description: string;
+  date: string;
+  photos: {
+    url: string;
+    _id: string;
+  }[];
+}
+
+export interface GetServicesData {
+  data: PortfolioData[];
+}
+
+export interface GetSingleServicesData {
+  data: PortfolioData;
+}
 
 export interface GetArtianServices {
   artisanId: {
@@ -45,30 +65,30 @@ export interface GetArtianServices {
 export const useServices = () => {
   const getTopRatedService = () =>
     useApiQuery<Services>(["services"], {
-      url: `/top-rated-artisan-services`,
+      url: `/top-rated-portfolios`,
       method: "GET",
     });
 
   const getAllServices = () =>
     useApiQuery<GetArtianServices[]>(["artisan_services"], {
-      url: `/artisan-services`,
+      url: `/portfolios`,
       method: "GET",
     });
 
   const getArtisanServices = (id: string) =>
-    useApiQuery<GetArtianServices[]>(["artisan_services"], {
-      url: `/artisan-services/artisan-get-services/${id}`,
+    useApiQuery<GetServicesData>(["artisan_services"], {
+      url: `/portfolios/artisan/${id}`,
       method: "GET",
     });
 
   const getServicesById = (id: string) =>
-    useApiQuery<GetArtianServices>(["services"], {
-      url: `/artisan-services/${id}`,
+    useApiQuery<GetSingleServicesData>(["single-service"], {
+      url: `/portfolios/${id}`,
       method: "GET",
     });
 
   const createServices = useApiMutation<AuthResponse, FormData>({
-    url: "/artisan-services",
+    url: "/portfolios",
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
@@ -77,7 +97,7 @@ export const useServices = () => {
 
   const updateServices = (id: string) => {
     useApiMutation<AuthResponse, FormData>({
-      url: `/artisan-services/${id}`,
+      url: `/portfolios/${id}`,
       method: "PUT",
       headers: {
         "Content-Type": "multipart/form-data",
@@ -87,7 +107,7 @@ export const useServices = () => {
 
   const deleteService = (id: string) =>
     useApiMutation({
-      url: `/artisan-services/${id}`,
+      url: `/portfolios/${id}`,
       method: "DELETE",
     });
 

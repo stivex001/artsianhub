@@ -1,5 +1,6 @@
 "use client";
 import { useCategories } from "@/api/crud/categories";
+import { useServices } from "@/api/crud/services";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
@@ -11,42 +12,65 @@ import { useFileUpload } from "@/hooks/useFileUpload";
 import { Field } from "@/schemas/dynamicSchema";
 import { X } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  edit?:boolean
-  item?:any
+  edit?: boolean;
+  item?: any;
+  currentUser?:any
 };
 
 const fields: Field[] = [
   {
-    name: "email",
-    type: "email",
-    errorMessage: "Email is required",
+    name: "title",
+    type: "text",
+    errorMessage: "Professional Title is required",
     isRequired: true,
   },
 
   {
-    name: "password",
+    name: "location",
     type: "text",
-    errorMessage: "Password is required",
+    errorMessage: "location is required",
     isRequired: true,
   },
   {
-    name: "confirmPassword",
+    name: "serviceType",
     type: "text",
-    errorMessage: "Password is required",
+    errorMessage: "serviceType is required",
+  },
+  {
+    name: "date",
+    type: "date",
+    errorMessage: "date is required",
+  },
+  {
+    name: "description",
+    type: "text",
+    errorMessage: "description is required",
+  },
+  {
+    name: "serviceType",
+    type: "text",
+    errorMessage: "serviceType is required",
   },
 ];
 
-export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
+export const CreateProjectModal = ({ isOpen, onClose, edit, item,currentUser }: Props) => {
   const { files, setFiles } = useFileUpload(4);
-  const { control, handleSubmit, formState, watch, setError, clearErrors } =
-    useDynamicForm(fields, {});
+  const { control, handleSubmit, formState, reset } = useDynamicForm(
+    fields,
+    {}
+  );
 
   const { getAllCategories } = useCategories();
   const { data: category } = getAllCategories();
+  const { createServices, getArtisanServices } = useServices();
+
+  const { mutate: createSer, isPending } = createServices;
+  const { refetch } = getArtisanServices(currentUser?._id as string);
 
   const categoryOptions = Array.isArray(category)
     ? category?.map((cat) => ({
@@ -55,6 +79,42 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
         label: cat?.name,
       }))
     : [];
+
+  const { isValid } = formState;
+
+  const onSubmit = async (data: any) => {
+    const formData = new FormData();
+
+    if (!files?.length) {
+      toast.error("Please upload at least one image");
+      return;
+    }
+    formData.append("title", data?.title);
+    formData.append("description", data?.description);
+    formData.append("location", data?.location);
+    formData.append("serviceType", data?.serviceType);
+    formData.append("date", data?.date);
+
+    files?.forEach((file: File) => {
+      formData.append("photos", file);
+    });
+
+    try {
+      await createSer(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Project created successfully");
+          refetch();
+          onClose();
+          reset();
+          setFiles([]);
+        },
+        onError: (error: any) => {
+          console.error("Errorcreatingprofile:", error);
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {}
+  };
 
   return (
     <BaseModal
@@ -71,7 +131,7 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
           <X />
         </button>
       </div>
-      <form className="flex flex-col gap-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
         <div className="flex gap-8">
           <section className="flex-1">
             <FileUpload files={files} onFilesChange={setFiles} maxFiles={4} />
@@ -96,7 +156,7 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
               rules={{ required: true }}
             />
             <ControlledSelect
-              name="serviceCategory"
+              name="serviceType"
               label="Service Category"
               options={categoryOptions}
               control={control}
@@ -114,7 +174,7 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
               rules={{ required: true }}
             />
             <ControlledInput
-              name="Description"
+              name="description"
               control={control}
               placeholder="What did you do in this project?"
               type="text"
@@ -135,8 +195,8 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item }: Props) => {
           />
           <CustomButton
             type="submit"
-            //   disabled={!isValid}
-            //   isLoading={isPending}
+            // disabled={!isValid}
+            isLoading={isPending}
             label={edit ? "Save Changes" : "Upload project"}
             className="w-fit rounded-xl"
             variant="primary"

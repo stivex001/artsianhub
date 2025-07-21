@@ -1,12 +1,9 @@
 "use client";
+import { useServices } from "@/api/crud/services";
 import ArtisanBreadCrumbs from "@/components/Artisan/portfolio/BreadCrumbs";
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
 import { DeleteProjectModal } from "@/components/Artisan/portfolio/DeleteProjectModal";
-import { DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
-import { CustomButton } from "@/components/clickable/CustomButton";
-import { mockPortfolioItems } from "@/components/Client/data";
-import { CustomModal } from "@/components/modals/CustomModal";
 import Wrapper from "@/components/shared/Wrapper";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -23,10 +20,11 @@ const ProjectDetails = (props: Props) => {
 
   const closeModal = () => setIsModalProjectOpen(false);
 
-  const item = mockPortfolioItems?.find(
-    (art) => String(art?.id) === String(id)
-  );
-  const images = item?.images || [];
+  const { getServicesById } = useServices();
+  const { data: data, isPending, refetch } = getServicesById(id as string);
+
+  const item = data?.data;
+  const images = item?.photos || [];
 
   return (
     <main className="flex flex-col gap-5">
@@ -37,7 +35,7 @@ const ProjectDetails = (props: Props) => {
           {images[0] && (
             <div className="aspect-video bg-gray-100 rounded-2xl relative overflow-hidden">
               <Image
-                src={images[0]}
+                src={images?.[0]?.url}
                 alt={item?.title as string}
                 fill
                 className="w-full h-full object-cover rounded-xl"
@@ -50,7 +48,7 @@ const ProjectDetails = (props: Props) => {
             {images[1] && (
               <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                 <Image
-                  src={images[1]}
+                  src={images?.[1]?.url}
                   alt={`${item?.title} detail 1`}
                   fill
                   className="w-full h-full object-cover rounded-xl"
@@ -62,7 +60,7 @@ const ProjectDetails = (props: Props) => {
                 {images[2] && (
                   <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                     <Image
-                      src={images[2]}
+                      src={images?.[2]?.url}
                       alt={`${item?.title} detail 2`}
                       fill
                       className="w-full h-full object-cover rounded-xl"
@@ -72,7 +70,7 @@ const ProjectDetails = (props: Props) => {
                 {images[3] && (
                   <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                     <Image
-                      src={images[3]}
+                      src={images?.[3]?.url}
                       alt={`${item?.title} detail 3`}
                       fill
                       className="w-full h-full object-cover rounded-xl"
@@ -113,8 +111,8 @@ const ProjectDetails = (props: Props) => {
 
           <p className="text-[#667185] text-sm mb-5">{item?.description}</p>
 
-          <div className="flex flex-wrap gap-1">
-            {item?.services?.map((service, index) => (
+          {/* <div className="flex flex-wrap gap-1">
+            {item?.serviceType?.map((service, index) => (
               <span
                 key={index}
                 className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
@@ -122,7 +120,7 @@ const ProjectDetails = (props: Props) => {
                 {service}
               </span>
             ))}
-          </div>
+          </div> */}
         </div>
         <CreateProjectModal
           isOpen={isModalProjectOpen}
@@ -133,7 +131,8 @@ const ProjectDetails = (props: Props) => {
         <DeleteProjectModal
           isOpen={isDeleteModalProjectOpen}
           onClose={() => setIsDeleteModalProjectOpen(false)}
-          item={item?.id}
+          id={item?._id}
+          refetch={refetch}
         />
       </Wrapper>
     </main>

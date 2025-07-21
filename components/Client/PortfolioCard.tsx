@@ -5,6 +5,7 @@ import { MapIcon } from "../assets/icons/UsersIcon";
 import { PortfolioModal } from "./PortfolioModal";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { artisans } from "./data";
+import { formatDate } from "@/utils/formatDate";
 
 type Props = {
   item: any;
@@ -37,9 +38,9 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
 
   const handleClick = () => {
     if (isMobile && clientPage) {
-      router.push(`/client/artisan-details/${artisan?.id}/${item.id}`);
+      router.push(`/client/artisan-details/${artisan?.id}/${item?._id}`);
     } else if (artisanPage) {
-      router.push(`/artisan/dashboard/portfolio/${item?.id}`);
+      router.push(`/artisan/dashboard/portfolio/${item?._id}`);
     } else {
       setIsModalOpen(true);
     }
@@ -53,7 +54,7 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
       >
         <div className="aspect-video bg-gray-100 rounded-xl relative overflow-hidden">
           <Image
-            src={item?.images?.[0]}
+            src={item?.photos?.[0]?.url}
             alt={item?.title}
             width={262}
             height={200}
@@ -88,7 +89,7 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
           </div>
           {showDate && (
             <div className="flex items-center justify-end">
-              <p className="text-sm text-[#667185]">Jul 20, 2025</p>
+              <p className="text-sm text-[#667185]">{formatDate(item?.date)}</p>
             </div>
           )}
         </div>
