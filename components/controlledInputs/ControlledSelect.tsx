@@ -8,6 +8,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronDownIcon } from "lucide-react";
 
 type CustomSelectProps = {
   options: { value: string; label: string }[];
@@ -20,6 +27,7 @@ type CustomSelectProps = {
   variant?: "primary" | "secondary" | "tertiary" | "normal";
   art?: boolean;
   labelClassName?: string;
+  multi?: boolean;
 };
 
 export const ControlledSelect = ({
@@ -33,6 +41,7 @@ export const ControlledSelect = ({
   variant = "primary",
   art = false,
   labelClassName,
+  multi = false,
 }: CustomSelectProps) => {
   const {
     field: { onChange, value },
@@ -58,8 +67,112 @@ export const ControlledSelect = ({
     [styles.invalid]: invalid,
   });
 
+  if (multi) {
+    // Handle both array and string formats
+    let selectedValues: string[] = [];
+    
+    if (Array.isArray(value)) {
+      selectedValues = value;
+    } else if (typeof value === 'string' && value) {
+      // If it's a comma-separated string, convert it to array
+      selectedValues = value.split(',').map(v => v.trim()).filter(Boolean);
+    }
+
+    const toggleOption = (optionValue: string) => {
+      let newValues: string[] = [];
+      if (selectedValues.includes(optionValue)) {
+        newValues = selectedValues.filter((v) => v !== optionValue);
+      } else {
+        newValues = [...selectedValues, optionValue];
+      }
+      // Always ensure we're passing an array
+      onChange(newValues);
+    };
+
+    return (
+      <div className="space-y-2">
+        {label && (
+          <Label
+            htmlFor={name}
+            className={`text-sm font-medium text-paragrah capitalize ${labelClassName}`}
+          >
+            {label}
+          </Label>
+        )}
+
+        <Popover>
+          <PopoverTrigger
+            className={cn(
+              inputClassName,
+              className,
+              "text-left flex items-center justify-between"
+            )}
+          >
+            {selectedValues.length > 0
+              ? `${selectedValues.length} option(s) selected`
+              : placeholder || "Select..."}
+
+            <ChevronDownIcon className="size-6 opacity-50 text-black" />
+          </PopoverTrigger>
+
+          <PopoverContent className="bg-white p-2">
+            {options?.map((option) => {
+              const isChecked = selectedValues.includes(option.value);
+
+              return (
+                <div
+                  key={option.value}
+                  onClick={() => toggleOption(option.value)}
+                  className="w-full flex items-center space-x-2 mb-2 cursor-pointer"
+                >
+                  <Checkbox
+                    checked={isChecked}
+                    onCheckedChange={() => toggleOption(option.value)}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <span>{option.label}</span>
+                </div>
+              );
+            })}
+          </PopoverContent>
+        </Popover>
+
+        {selectedValues.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {selectedValues.map((val) => {
+              const opt = options.find((o) => o.value === val);
+              return (
+                <div
+                  key={val}
+                  className="px-3 py-1.5 bg-[#1129A00D] rounded-[20px] text-xs font-medium text-body flex items-center gap-1"
+                >
+                  <span>{opt?.label || val}</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newValues = selectedValues.filter((v) => v !== val);
+                      onChange(newValues);
+                    }}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    X
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {error && (
+          <div className="text-red-400 text-xs mt-1">
+            {typeof error === "string" ? error : error.message}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (art) {
-    // keep native fallback for art
     return (
       <div>
         <div
@@ -74,7 +187,7 @@ export const ControlledSelect = ({
             id={name}
             name={name}
             value={value ?? ""}
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             className={`w-full bg-transparent outline-none py-4 px-3`}
           >
             {placeholder && (
@@ -103,7 +216,7 @@ export const ControlledSelect = ({
       {label && (
         <Label
           htmlFor={name}
-          className={`text-sm font-medium text-paragrah capitalize ${labelClassName} `}
+          className={`text-sm font-medium text-paragrah capitalize ${labelClassName}`}
         >
           {label}
         </Label>

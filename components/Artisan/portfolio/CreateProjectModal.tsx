@@ -19,7 +19,7 @@ type Props = {
   onClose: () => void;
   edit?: boolean;
   item?: any;
-  currentUser?:any
+  currentUser?: any;
 };
 
 const fields: Field[] = [
@@ -53,16 +53,29 @@ const fields: Field[] = [
   },
   {
     name: "serviceType",
-    type: "text",
+    type: "multiselect",
     errorMessage: "serviceType is required",
   },
 ];
 
-export const CreateProjectModal = ({ isOpen, onClose, edit, item,currentUser }: Props) => {
+export const CreateProjectModal = ({
+  isOpen,
+  onClose,
+  edit,
+  item,
+  currentUser,
+}: Props) => {
   const { files, setFiles } = useFileUpload(4);
   const { control, handleSubmit, formState, reset } = useDynamicForm(
     fields,
-    {}
+
+    {
+      title: item?.title || "",
+      location: item?.location || "",
+      serviceType: item?.serviceType || [],
+      date: item?.date || "",
+      description: item?.description || "",
+    }
   );
 
   const { getAllCategories } = useCategories();
@@ -85,6 +98,12 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item,currentUser }: 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
 
+    const safeServiceType = Array.isArray(data?.serviceType)
+      ? data.serviceType
+      : typeof data?.serviceType === "string"
+      ? data.serviceType.split(",")
+      : [];
+
     if (!files?.length) {
       toast.error("Please upload at least one image");
       return;
@@ -92,8 +111,9 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item,currentUser }: 
     formData.append("title", data?.title);
     formData.append("description", data?.description);
     formData.append("location", data?.location);
-    formData.append("serviceType", data?.serviceType);
     formData.append("date", data?.date);
+
+    formData.append("serviceType", JSON.stringify(safeServiceType));
 
     files?.forEach((file: File) => {
       formData.append("photos", file);
@@ -163,6 +183,7 @@ export const CreateProjectModal = ({ isOpen, onClose, edit, item,currentUser }: 
               variant="primary"
               placeholder="Select Service Category"
               rules={{ required: false }}
+              multi
             />
             <ControlledInput
               name="date"

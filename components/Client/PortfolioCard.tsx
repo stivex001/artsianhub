@@ -78,12 +78,12 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
           </p>
 
           <div className="flex flex-wrap gap-1">
-            {item?.services?.map((service: any, index: number) => (
+            {item?.serviceType?.map((service: any) => (
               <span
-                key={index}
+                key={service?._id}
                 className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
               >
-                {service}
+                {service?.name}
               </span>
             ))}
           </div>
