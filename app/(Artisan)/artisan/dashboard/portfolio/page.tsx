@@ -5,10 +5,10 @@ import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProject
 import { AddIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { PortfolioCard } from "@/components/Client/PortfolioCard";
+import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
 import { Descriptions } from "@/components/shared/Headings";
 import { useAuthStore } from "@/store/authStore";
 import React, { useState } from "react";
-
 
 const Portfolio = () => {
   const [isModalProjectOpen, setIsModalProjectOpen] = useState(false);
@@ -38,6 +38,14 @@ const Portfolio = () => {
       </div>
 
       <div>
+        {isPending && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <CardSkeletonLoader key={i} />
+            ))}
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {portfolioItems?.map((item) => (
             <PortfolioCard key={item?._id} item={item} showDate />

@@ -1,22 +1,28 @@
 "use client";
 import SidebarMenu from "./SidebarMenu";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import Image from "next/image";
 import Link from "next/link";
-import settings from "@/components/assets/images/Settings.png";
 import { usePathname } from "next/navigation";
 import { adminLinks, artisanLinks } from "./data";
-import logo from "@/components/assets/images/logo.png";
 import { useModalClose } from "@/contexts/SheetCloseModal";
-import { HamburgerIcon } from "../assets/icons/NavigationIcons";
+import { HamburgerIcon, LogoutIcon } from "../assets/icons/NavigationIcons";
+import { BrandIcon } from "../assets/icons/Logo";
+import { useAuthStore } from "@/store/authStore";
+import { toast } from "sonner";
 
 export const MobileNav = () => {
   const pathname = usePathname();
 
   const { isOpen, openModal, closeModal } = useModalClose();
+     const { logout } = useAuthStore();
 
   const isArtisanPage = pathname.startsWith("/artisan");
   const isAdminPage = pathname.startsWith("/admin");
+
+   const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully");
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={openModal}>
@@ -29,35 +35,26 @@ export const MobileNav = () => {
         side="left"
         className="p-0 flex flex-col w-64 !bg-white pt-14 pb-8 h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden"
       >
-        <div className="w-[106px] h-20 mx-auto">
-          <Image
-            src={logo}
-            alt="logo"
-            className="w-full h-full object-cover rounded-[5px]"
-          />
-        </div>
-        <div className="flex-grow overflow-y-auto no-scrollbar  pt-20">
-        <div>
-          {isArtisanPage && (
-            <SidebarMenu links={artisanLinks} pathname={pathname} />
-          )}
-          {isAdminPage && (
-            <SidebarMenu links={adminLinks} pathname={pathname} />
-          )}
-        </div>
-        </div>
-        <Link
-          href="/artisan/dashboard/settings"
-          className="bg-secondary w-[172px] mx-auto rounded-[10px] flex items-center justify-center  py-4 gap-5 text-sm text-white"
-          onClick={closeModal}
-        >
-          <Image
-            src={settings}
-            alt="settings"
-            className="w-5 h-5 object-cover"
-          />
-          Settings
+        <Link href="#" className="mb-5 px-4">
+          <BrandIcon />
         </Link>
+        <div className="flex-grow overflow-y-auto no-scrollbar">
+          <div>
+            {isArtisanPage && (
+              <SidebarMenu links={artisanLinks} pathname={pathname} />
+            )}
+            {isAdminPage && (
+              <SidebarMenu links={adminLinks} pathname={pathname} />
+            )}
+          </div>
+        </div>
+        <div
+          className="cursor-pointer  w-full h-14 rounded-2xl px-5 flex items-center gap-3"
+          onClick={handleLogout}
+        >
+          <LogoutIcon />
+          <span className="text-sm text-body">Log Out</span>
+        </div>
       </SheetContent>
     </Sheet>
   );

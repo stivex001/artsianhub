@@ -1,11 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import SidebarMenu from "./SidebarMenu";
 import { usePathname } from "next/navigation";
 import { adminLinks, artisanLinks } from "./data";
-import settings from "@/components/assets/images/Settings.png";
 import Link from "next/link";
 import { BrandIcon } from "../assets/icons/Logo";
 import { useAuthStore } from "@/store/authStore";
@@ -16,7 +14,7 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   const pathname = usePathname();
-   const { logout, currentUser } = useAuthStore();
+  const { logout } = useAuthStore();
 
   const isArtisanPage = pathname.startsWith("/artisan");
   const isAdminPage = pathname.startsWith("/admin");
@@ -41,9 +39,12 @@ const Sidebar = (props: Props) => {
           )}
         </div>
       </div>
-      <div className="cursor-pointer  w-full h-14 rounded-2xl px-5 flex items-center gap-3" onClick={handleLogout}>
+      <div
+        className="cursor-pointer  w-full h-14 rounded-2xl px-5 flex items-center gap-3"
+        onClick={handleLogout}
+      >
         <LogoutIcon />
-         <span className="text-sm text-body">Log Out</span>
+        <span className="text-sm text-body">Log Out</span>
       </div>
     </aside>
   );
