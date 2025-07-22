@@ -33,7 +33,11 @@ const ProjectDetails = (props: Props) => {
         <ProjectDetailsSkeleton />
       ) : (
         <main className="flex flex-col gap-5">
-          <ArtisanBreadCrumbs />
+          <ArtisanBreadCrumbs
+            title="Projects"
+            url="/artisan/dashboard/portfolio"
+            desc="Project Details"
+          />
           <Wrapper className=" flex flex-col gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {/* Main Image */}

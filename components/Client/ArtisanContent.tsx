@@ -42,7 +42,7 @@ export const ArtisanContent = ({ artisan }: Props) => {
               <h1 className="text-3xl font-bold text-gray-900">
                 {artisan?.name}
               </h1>
-              <p className="text-bodt text-sm mb-2">{artisan?.profession}</p>
+              <p className="text-body text-sm mb-2">{artisan?.profession}</p>
 
               <div className="flex items-center gap-0.5 mb-2">
                 <MapIcon />

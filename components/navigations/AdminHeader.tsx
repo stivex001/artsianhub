@@ -31,42 +31,25 @@ export const AdminHeader = (props: Props) => {
   let title = "";
   let subtitle = "";
 
-  switch (pathname) {
-    case "/artisan/dashboard":
-      title = `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`;
-      subtitle =
-        "Track appointments, update your portfolio, and stay connected with new clients.";
-      break;
+ if (pathname === "/artisan/dashboard") {
+  title = `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`;
+  subtitle =
+    "Track appointments, update your portfolio, and stay connected with new clients.";
+} else if (pathname === "/artisan/dashboard/calender") {
+  title = "Calender";
+} else if (pathname === "/artisan/dashboard/portfolio") {
+  title = "Portfolio";
+} else if (pathname === "/artisan/dashboard/subscription") {
+  title = "Subscription";
+} else if (pathname === "/artisan/dashboard/settings") {
+  title = "Settings";
+} else if (pathname.startsWith("/artisan/dashboard/manage-appointment")) {
+  title = "Manage Appointment";
+} else {
+  title = "Welcome Back!";
+  subtitle = "Let's get things done today.";
+}
 
-    case "/artisan/dashboard/calender":
-      title = "Calender";
-      subtitle = "";
-      break;
-
-    case "/artisan/dashboard/portfolio":
-      title = "Portfolio";
-      subtitle = "";
-      break;
-
-    case "/artisan/dashboard/subscription":
-      title = "Subscription";
-      subtitle = "";
-      break;
-
-    case "/artisan/dashboard/settings":
-      title = "Settings";
-      subtitle = "";
-      break;
-
-    case "/artisan/dashboard/manage-appointment":
-      title = "Manage Appointment";
-      subtitle = "";
-      break;
-
-    default:
-      title = "Welcome Back!";
-      subtitle = "Let's get things done today.";
-  }
 
   return (
     <header

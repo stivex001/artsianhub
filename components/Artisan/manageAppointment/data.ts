@@ -7,7 +7,16 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "Pending",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
+    mapUrl: "/api/placeholder/400/200",
     photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
@@ -19,8 +28,17 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "Completed",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    mapUrl: "/api/placeholder/400/200",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
+    photo:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
   {
@@ -31,9 +49,17 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "No Show (Artisan)",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    mapUrl: "/api/placeholder/400/200",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
-      "",
+    photo: "",
   },
   {
     id: 4,
@@ -43,8 +69,17 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "Accepted",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
+    mapUrl: "/api/placeholder/400/200",
+    photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
   {
@@ -55,8 +90,17 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "Accepted",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    mapUrl: "/api/placeholder/400/200",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
+    photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
   {
@@ -67,20 +111,38 @@ export const sampleData = [
     services: "Plumbing",
     location: "Chesterfield",
     status: "Accepted",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    mapUrl: "/api/placeholder/400/200",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
+    photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
   {
-    id: 4,
+    id: 7,
     clientName: "Desirae George",
     avatar: "👤",
     contact: { email: "chancegouse@email.com", phone: "09070000000" },
     services: "Plumbing",
     location: "Chesterfield",
     status: "Accepted",
+    description: "Need urgent plumbing service for a leaking pipe.",
+    preferredDateTime: "2024-01-02T10:00:00Z",
+    mapUrl: "/api/placeholder/400/200",
+    attachedImages: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
     date: { date: "Jan 2, 2024", time: "10:am" },
-     photo:
+    photo:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
   },
 ];

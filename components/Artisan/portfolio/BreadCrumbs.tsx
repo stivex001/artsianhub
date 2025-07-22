@@ -1,11 +1,16 @@
 "use client";
 import { GoBackIcon } from "@/components/assets/icons/ModalIcon";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-type Props = {};
+type Props = {
+  desc: string;
+  url: string;
+  title: string;
+};
 
-const ArtisanBreadCrumbs = (props: Props) => {
+const ArtisanBreadCrumbs = ({ desc, url,title }: Props) => {
   const router = useRouter();
   return (
     <div className="flex items-center gap-4">
@@ -14,7 +19,8 @@ const ArtisanBreadCrumbs = (props: Props) => {
         <p className="font-medium text-sm text-body">Go Back</p>
       </button>
       <p className="text-[#667185] text-sm font-medium">
-        Projects / <span className="text-primary">Project Details</span>
+        <Link href={url}>{title}</Link> /{" "}
+        <span className="text-primary">{desc}</span>
       </p>
     </div>
   );
