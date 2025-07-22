@@ -27,7 +27,7 @@ const fields: Field[] = [
   },
   {
     name: "serviceCategory",
-    type: "text",
+    type: "multiselect",
     errorMessage: "Kindly select Category",
     isRequired: false,
   },
@@ -68,8 +68,15 @@ export const ServiceDetailsStage = (props: Props) => {
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
 
+     const safeServiceType = Array.isArray(formValues?.serviceCategory)
+      ? formValues.serviceCategory
+      : typeof formValues?.serviceCategory === "string"
+      ? formValues.serviceCategory.split(",")
+      : [];
+
     updateServiceDetails({
       ...formValues,
+      serviceCategory: safeServiceType,
     });
     markStepCompleted("serviceDetails");
     setCurrentStep(3);
@@ -98,6 +105,7 @@ export const ServiceDetailsStage = (props: Props) => {
             variant="primary"
             placeholder="Select Service Category"
             rules={{ required: false }}
+            multi
           />
           <ControlledInput
             name="professionalTitle"

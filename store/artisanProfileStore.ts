@@ -9,7 +9,7 @@ type PersonalInfo = {
 };
 
 type ServiceDetails = {
-  serviceCategory: string;
+  serviceCategory: string[] | string;
   professionalTitle: string;
   skillDescription: string;
 };
@@ -55,7 +55,7 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
     profilePicture: null,
   },
   serviceDetails: {
-    serviceCategory: "",
+    serviceCategory: [],
     professionalTitle: "",
     skillDescription: "",
   },
@@ -102,7 +102,7 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
         profilePicture: null,
       },
       serviceDetails: {
-        serviceCategory: "",
+        serviceCategory: [],
         professionalTitle: "",
         skillDescription: "",
       },

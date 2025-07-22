@@ -153,7 +153,7 @@ export const ControlledSelect = ({
                       const newValues = selectedValues.filter((v) => v !== val);
                       onChange(newValues);
                     }}
-                    className="text-red-500 hover:text-red-700"
+                    className="hover:text-red-700"
                   >
                     X
                   </button>
