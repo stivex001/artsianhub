@@ -55,33 +55,29 @@ export interface UserInfo {
   _id: string;
 }
 
-export interface ArtisanDetails {
-  artisanId: string;
+export interface ArtisanData {
   _id: string;
-  profilePhoto: Media;
-  serviceCategory: string;
-  specialization: string;
-  skillDescription: string;
-  portfolio: {
-    description: string;
-    media: Media;
+  artisanId: string;
+  firstName: string;
+  lastName: string;
+  professionalTitle: string;
+  primaryLocation: string;
+  serviceType: string[];
+  description: string;
+  pricePerHour: number;
+  date: string;
+  photos: {
+    url: string;
+    _id: string;
   }[];
-  servicePricing: number;
-  yearsOfExperience: number;
-  governmentIssuedID: Media;
-  proofOfAddress: Media;
-  professionalCertification: Media;
-  testimonials: Testimonial[];
-  workAvailability: WorkAvailability;
-  serviceArea: ServiceArea;
-  languagesSpoken: string[];
-  termsAccepted: boolean;
-  isProfileComplete: boolean;
-  isApproved: boolean;
-  createdAt: string;
-  updatedAt: string;
-  user: UserInfo;
-  professionalCertifications: any[];
+}
+
+export interface GetSingleArtisan {
+  data: ArtisanData;
+}
+
+export interface ArtisanDetails {
+  data: ArtisanData[];
 }
 
 export interface ArtisanByCategory {
@@ -93,7 +89,7 @@ export interface ArtisanByCategory {
     _id: string;
   };
   profilePhoto: Media;
-  ratings:number[]
+  ratings: number[];
 }
 
 export interface ReviewData {
@@ -151,8 +147,14 @@ export interface AllBookingsCounts {
 
 export const useArtisans = () => {
   const getAllArtisan = () =>
-    useApiQuery<ArtisanDetails[]>(["all_artisans"], {
-      url: `/artisan`,
+    useApiQuery<ArtisanDetails>(["all_artisans"], {
+      url: `/artisans`,
+      method: "GET",
+    });
+
+  const getArtisanById = (id: string) =>
+    useApiQuery<GetSingleArtisan>(["single-artisan"], {
+      url: `/artisans/${id}`,
       method: "GET",
     });
 
@@ -235,6 +237,7 @@ export const useArtisans = () => {
 
   return {
     getAllArtisan,
+    getArtisanById,
     getFilteredByArtisan,
     getSearchByArtisan,
     getArtisanRating,
