@@ -2,7 +2,7 @@ export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const getStatusStyles = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
-        return "bg-orange-100 text-orange-800 border-orange-200";
+        return "bg-[#F3BF5E1A] text-[#FA7319] border-orange-200";
       case "completed":
         return "bg-green-100 text-green-800 border-green-200";
       case "in progress":
@@ -26,7 +26,7 @@ export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusStyles(
+      className={`inline-flex items-center px-2 py-1 rounded-xl text-xs font-medium border ${getStatusStyles(
         status
       )}`}
     >

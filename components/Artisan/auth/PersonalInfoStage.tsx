@@ -29,7 +29,7 @@ const fields: Field[] = [
   {
     name: "gender",
     type: "text",
-    errorMessage: "Kindly select your ender",
+    errorMessage: "Kindly select your gender",
     isRequired: true,
   },
   {

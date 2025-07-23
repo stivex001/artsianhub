@@ -5,6 +5,12 @@ export const gender: GenderOption[] = [
   { id: 3, label: "Other", value: "other" }
 ];
 
+export const reason = [
+  { id: 1, label: "Not Available", value: "not available" },
+  { id: 2, label: "Occupied", value: "occupied" },
+  { id: 3, label: "Other", value: "other" }
+];
+
 export const daysOptions = [
   { value: "Monday", label: "Monday" },
   { value: "Tuesday", label: "Tuesday" },
