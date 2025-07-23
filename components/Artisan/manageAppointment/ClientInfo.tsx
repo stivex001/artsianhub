@@ -3,6 +3,7 @@ import { MapIcon } from "@/components/assets/icons/UsersIcon";
 import Image from "next/image";
 import React, { useState } from "react";
 import { DeclineModal } from "./DeclineModal";
+import { AcceptJobModal } from "./AcceptJobModal";
 
 type Props = {
   appointment: any;
@@ -10,6 +11,7 @@ type Props = {
 
 export const ClientInfo = ({ appointment }: Props) => {
   const [isModalDesclineOpen, setIsModalDeclineOpen] = useState(false);
+  const [isModalAcceptOpen, setIsModalAcceptOpen] = useState(false);
   const closeModal = () => setIsModalDeclineOpen(false);
 
   return (
@@ -34,7 +36,10 @@ export const ClientInfo = ({ appointment }: Props) => {
       </div>
 
       <div className="flex gap-3 w-full">
-        <button className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors">
+        <button
+          onClick={() => setIsModalAcceptOpen(true)}
+          className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+        >
           Accept
         </button>
         <button
@@ -44,6 +49,12 @@ export const ClientInfo = ({ appointment }: Props) => {
           Decline
         </button>
       </div>
+      <AcceptJobModal
+        isOpen={isModalAcceptOpen}
+        onClose={() => setIsModalAcceptOpen(false)}
+        // id={item?._id}
+        // refetch={refetch}
+      />
       <DeclineModal
         isOpen={isModalDesclineOpen}
         onClose={closeModal}
