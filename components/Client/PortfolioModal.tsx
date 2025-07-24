@@ -7,13 +7,7 @@ import { MapIcon } from "../assets/icons/UsersIcon";
 import { BaseModal } from "../shared/BaseModal";
 
 interface PortfolioModalProps {
-  item: {
-    title: string;
-    location: string;
-    description: string;
-    services: string[];
-    images: string[];
-  };
+  item: any;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -23,7 +17,7 @@ export const PortfolioModal = ({
   isOpen,
   onClose,
 }: PortfolioModalProps) => {
-  const images = item?.images || [];
+  const images = item?.photos || [];
 
   return (
     <BaseModal
@@ -41,9 +35,9 @@ export const PortfolioModal = ({
               <h3 className="text-base font-bold text-paragrah ">
                 {item?.title}
               </h3>
-              <button onClick={onClose} className="">
+              {/* <button onClick={onClose} className="">
                 <X />
-              </button>
+              </button> */}
             </div>
 
             <div className="flex items-center mb-5">
@@ -56,7 +50,7 @@ export const PortfolioModal = ({
             <p className="text-[#667185] text-sm mb-5">{item?.description}</p>
 
             <div className="flex flex-wrap gap-1">
-              {item?.services?.map((service, index) => (
+              {item?.services?.map((service: any, index: number) => (
                 <span
                   key={index}
                   className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
@@ -73,7 +67,7 @@ export const PortfolioModal = ({
               {images[0] && (
                 <div className="aspect-video bg-gray-100 rounded-2xl relative overflow-hidden">
                   <Image
-                    src={images[0]}
+                    src={images?.[0]?.url}
                     alt={item.title}
                     fill
                     className="w-full h-full object-cover rounded-xl"
@@ -86,7 +80,7 @@ export const PortfolioModal = ({
                 {images[1] && (
                   <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                     <Image
-                      src={images[1]}
+                      src={images?.[1]?.url}
                       alt={`${item.title} detail 1`}
                       fill
                       className="w-full h-full object-cover rounded-xl"
@@ -98,7 +92,7 @@ export const PortfolioModal = ({
                     {images[2] && (
                       <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                         <Image
-                          src={images[2]}
+                          src={images?.[2]?.url}
                           alt={`${item.title} detail 2`}
                           fill
                           className="w-full h-full object-cover rounded-xl"
@@ -108,7 +102,7 @@ export const PortfolioModal = ({
                     {images[3] && (
                       <div className="bg-gray-100 rounded-2xl relative overflow-hidden">
                         <Image
-                          src={images[3]}
+                          src={images?.[3]?.url}
                           alt={`${item.title} detail 3`}
                           fill
                           className="w-full h-full object-cover rounded-xl"

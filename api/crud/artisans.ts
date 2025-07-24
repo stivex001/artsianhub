@@ -84,6 +84,11 @@ export interface GetSingleArtisan {
   pricePerHour: number;
   date: string;
   profilePicture: string;
+  userId: {
+    _id: string;
+    role: string;
+    email: string;
+  };
 }
 
 export interface ArtisanDetails {

@@ -15,7 +15,7 @@ const Portfolio = () => {
 
   const { currentUser } = useAuthStore();
   const { getArtisanServices } = useServices();
-  const { data, isPending } = getArtisanServices(currentUser?._id as string);
+  const { data, isPending } = getArtisanServices(currentUser?.userId as string);
 
   const closeModal = () => setIsModalProjectOpen(false);
 

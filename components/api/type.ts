@@ -21,6 +21,7 @@ export interface ApiOptions extends Omit<AxiosRequestConfig, "url" | "method"> {
 }
 export interface AuthUser {
   _id: ID;
+  userId: ID;
   createdAt?: string;
   isActive: boolean;
   firstName: string;
