@@ -21,7 +21,7 @@ export const ArtisanCard = ({ artisan }: Props) => {
         <div className="relative h-60 w-full overflow-hidden">
           <Image
             src={artisan?.profilePicture}
-            alt={artisan.name}
+            alt={artisan?.firstName}
             className="w-full h-full object-cover rounded-xl"
             layout="fill"
           />

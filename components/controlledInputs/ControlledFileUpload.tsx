@@ -115,7 +115,7 @@ export const ControlledFileUpload = ({
           onChange={handleFileChange}
         />
 
-        {files.length > 0 && (
+        {files?.length > 0 && (
           <div className="grid grid-cols-3 gap-5 self-end mt-3">
             {files.map((file, index) => (
               <div key={index} className="relative group">

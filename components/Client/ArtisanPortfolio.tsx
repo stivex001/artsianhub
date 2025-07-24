@@ -1,20 +1,38 @@
+"use client";
+
 import React from "react";
-import { mockPortfolioItems } from "./data";
 import { PortfolioCard } from "./PortfolioCard";
+import { useServices } from "@/api/crud/services";
+import { CardSkeletonLoader } from "../loader/CardSkeletonLoader";
 
-type Props = {};
+type Props = {
+  id: any;
+};
 
-export const ArtisanPortfolio = ({}: Props) => {
-  const portfolioItems = mockPortfolioItems;
+export const ArtisanPortfolio = ({ id }: Props) => {
+  const { getArtisanServices } = useServices();
+  const { data, isPending } = getArtisanServices(id as string);
+
+  const portfolioItems = data?.data || [];
 
   return (
     <div className="flex flex-col gap-6">
       <h2 className="text-xl font-bold text-gray-900 mb-2">Portfolio</h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {portfolioItems?.map((item) => (
-          <PortfolioCard key={item.id} item={item} />
-        ))}
+      <div>
+        {isPending && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <CardSkeletonLoader key={i} />
+            ))}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {portfolioItems?.map((item) => (
+            <PortfolioCard key={item?._id} item={item} showDate />
+          ))}
+        </div>
       </div>
 
       {/* Empty State */}

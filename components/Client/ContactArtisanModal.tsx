@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { BaseModal } from "../shared/BaseModal";
 import { X } from "lucide-react";
@@ -5,17 +7,15 @@ import { Field } from "@/schemas/dynamicSchema";
 import ControlledInput from "../controlledInputs/ControlledInput";
 import { CustomButton } from "../clickable/CustomButton";
 import useDynamicForm from "@/hooks/useDynamicForm";
+import { GetSingleArtisan } from "@/api/crud/artisans";
+import { useFileUpload } from "@/hooks/useFileUpload";
+import { FileUpload } from "../controlledInputs/FileUploads";
+import { Label } from "../ui/label";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  item: {
-    title: string;
-    location: string;
-    description: string;
-    services: string[];
-    images: string[];
-  };
+  item: GetSingleArtisan;
 };
 
 const fields: Field[] = [
@@ -40,6 +40,7 @@ const fields: Field[] = [
 ];
 
 export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
+  const { files, setFiles } = useFileUpload(4);
   const { control, handleSubmit, formState, watch, setError, clearErrors } =
     useDynamicForm(fields, {});
 
@@ -55,7 +56,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
       >
         <div>
           <div className="flex justify-between mb-1">
-            <h3 className="text-base font-bold text-paragrah ">{`Contact Claire (${item?.services}) `}</h3>
+            <h3 className="text-base font-bold text-paragrah ">{`Contact Claire (${item?.professionalTitle}) `}</h3>
             <button onClick={onClose} className="">
               <X />
             </button>
@@ -117,10 +118,24 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
                 variant="primary"
                 rules={{ required: true }}
               />
+              <div className="sapce-1">
+                <Label
+                  className={`text-sm font-medium text-paragrah capitalize`}
+                >
+                  Attachment Photos{" "}
+                  <span className="font-medium text-[#667185]">(Optional)</span>
+                </Label>
+
+                <FileUpload
+                  files={files}
+                  onFilesChange={setFiles}
+                  maxFiles={4}
+                />
+              </div>
             </div>
             <div className="flex items-center gap-5 justify-end">
               <CustomButton
-                type="button"         
+                type="button"
                 label="Cancel"
                 onClick={onClose}
                 className="w-fit rounded-xl"

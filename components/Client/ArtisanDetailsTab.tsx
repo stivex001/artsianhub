@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { AboutArtisan } from "./AboutArtisan";
 import { useParams } from "next/navigation";
-import { artisans } from "./data";
 import { ArtisanPortfolio } from "./ArtisanPortfolio";
 import { ArtisanRating } from "./ArtisanRating";
+import { useArtisans } from "@/api/crud/artisans";
 
 type Props = {};
 
@@ -16,7 +16,8 @@ export const ArtisanDetailsTab = (props: Props) => {
 
   const params = useParams();
   const id = params.id;
-  const artisan = artisans?.find((art) => String(art?.id) === String(id));
+    const { getArtisanById } = useArtisans();
+    const { data:artisan, isPending } = getArtisanById(`${id}`);
 
   return (
     <Tabs defaultValue={activeTab} className="flex flex-col gap-6">
@@ -45,7 +46,7 @@ export const ArtisanDetailsTab = (props: Props) => {
         <AboutArtisan artisan={artisan} />
       </TabsContent>
       <TabsContent value="portfolio" className="w-full">
-        <ArtisanPortfolio />
+        <ArtisanPortfolio id={id} />
       </TabsContent>
       <TabsContent value="rating" className="w-full">
         <ArtisanRating />

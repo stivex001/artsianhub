@@ -73,7 +73,17 @@ export interface ArtisanData {
 }
 
 export interface GetSingleArtisan {
-  data: ArtisanData;
+  _id: string;
+  artisanId: string;
+  firstName: string;
+  lastName: string;
+  professionalTitle: string;
+  primaryLocation: string;
+  serviceType: string[];
+  description: string;
+  pricePerHour: number;
+  date: string;
+  profilePicture: string;
 }
 
 export interface ArtisanDetails {
