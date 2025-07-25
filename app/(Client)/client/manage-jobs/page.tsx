@@ -1,4 +1,5 @@
 "use client";
+import { ResuablePagination } from "@/components/shared/ResuablePagination";
 import { TabComponent } from "@/components/shared/TabComponent";
 import Wrapper from "@/components/shared/Wrapper";
 import { Search } from "lucide-react";
@@ -18,6 +19,8 @@ const tabs = [
 const ManageJob = (props: Props) => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pagination = true;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -44,6 +47,15 @@ const ManageJob = (props: Props) => {
           placeholder="Search appointment"
         />
       </div>
+      {pagination && (
+        <ResuablePagination
+          pagination={{
+            currentPage: currentPage,
+            totalPages: 10,
+            onPageChange: setCurrentPage,
+          }}
+        />
+      )}
     </Wrapper>
   );
 };
