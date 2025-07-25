@@ -9,7 +9,7 @@ type Props = {
 const DetailsLayout = ({ children }: Props) => {
   return (
     <div className="">
-      <ClientNav brandlogo />
+      <ClientNav brandlogo className="!bg-white" />
       <div className="mt-24 max-w-7xl mx-auto px-5">
         <div className="min-h-screen flex flex-col gap-4 ">
           <BreadCrumbs />

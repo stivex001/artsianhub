@@ -1,8 +1,9 @@
 "use client";
+import { AppointmentCard } from "@/components/Client/manageJob/AppointmentCard";
 import { ResuablePagination } from "@/components/shared/ResuablePagination";
 import { TabComponent } from "@/components/shared/TabComponent";
 import Wrapper from "@/components/shared/Wrapper";
-import { Search } from "lucide-react";
+import { Search, MapPin } from "lucide-react";
 import React, { useState } from "react";
 
 type Props = {};
@@ -16,6 +17,58 @@ const tabs = [
   { key: "cancelled", label: "Cancelled", count: 4 },
 ];
 
+// Sample appointment data
+const appointments = [
+  {
+    id: 1,
+    title: "Plumbing Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32"
+    },
+    status: "pending"
+  },
+  {
+    id: 2,
+    title: "Plumbing Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32"
+    },
+    status: "inprogress"
+  },
+  {
+    id: 3,
+    title: "Plumbing Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32"
+    },
+    status: "cancelled"
+  },
+  {
+    id: 4,
+    title: "Plumbing Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32"
+    },
+    status: "declined"
+  }
+];
+
+
+
+
+
 const ManageJob = (props: Props) => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,8 +78,17 @@ const ManageJob = (props: Props) => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-    setSearchQuery(query);
   };
+
+  // Filter appointments based on active tab and search query
+  const filteredAppointments = appointments.filter(appointment => {
+    const matchesTab = activeTab === "all" || appointment.status === activeTab;
+    const matchesSearch = searchQuery === "" || 
+      appointment.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      appointment.client.name.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    return matchesTab && matchesSearch;
+  });
 
   return (
     <Wrapper className="flex flex-col gap-4">
@@ -35,18 +97,34 @@ const ManageJob = (props: Props) => {
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
+      
       <div className="flex items-center gap-2 py-2 px-3 lg:w-[320px] border border-gray-300 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
-        <div className=" pointer-events-none">
+        <div className="pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
         </div>
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
-          className=" w-full leading-5 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 "
+          className="w-full leading-5 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400"
           placeholder="Search appointment"
         />
       </div>
+
+      {/* Appointments Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {filteredAppointments.map((appointment) => (
+          <AppointmentCard key={appointment.id} appointment={appointment} />
+        ))}
+      </div>
+
+      {/* Empty State */}
+      {filteredAppointments.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500">No appointments found matching your criteria.</p>
+        </div>
+      )}
+
       {pagination && (
         <ResuablePagination
           pagination={{
