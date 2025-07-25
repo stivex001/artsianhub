@@ -1,4 +1,6 @@
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
+import { useState } from "react";
+import { JobDetailModal } from "./JobDetailModal";
 
 const getStatusConfig = (status: string) => {
   switch (status) {
@@ -42,9 +44,15 @@ const getStatusConfig = (status: string) => {
 
 export const AppointmentCard = ({ appointment }: { appointment: any }) => {
   const statusConfig = getStatusConfig(appointment.status);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="bg-white border border-gray-200 rounded-3xl p-5 hover:shadow-shadowHover transition-shadow">
+    <div
+      onClick={() => setIsModalOpen(true)}
+      className="bg-white border border-gray-200 rounded-3xl p-5 hover:shadow-shadowHover transition-shadow cursor-pointer"
+    >
       {/* Status Badge */}
       <div className="flex justify-between items-start mb-3">
         <span
@@ -64,8 +72,10 @@ export const AppointmentCard = ({ appointment }: { appointment: any }) => {
 
       {/* Location */}
       <div className="flex items-center gap-1 mb-3">
-        <MapIcon  />
-        <span className="text-sm text-body font-medium">{appointment.location}</span>
+        <MapIcon />
+        <span className="text-sm text-body font-medium">
+          {appointment.location}
+        </span>
       </div>
 
       {/* Client */}
@@ -78,8 +88,15 @@ export const AppointmentCard = ({ appointment }: { appointment: any }) => {
               .join("")}
           </span>
         </div>
-        <span className="text-base text-paragrah font-medium">{appointment.client.name}</span>
+        <span className="text-base text-paragrah font-medium">
+          {appointment.client.name}
+        </span>
       </div>
+      <JobDetailModal
+        item={appointment}
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      />
     </div>
   );
 };
