@@ -1,25 +1,20 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import {
-  ChevronDown,
-  User,
-  Settings,
-  CreditCard,
-  LogOut,
-  Briefcase,
-} from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import { useUser } from "@/api/crud/user";
 import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
 import ava from "@/components/assets/images/ava.svg";
 import { UserNav } from "./UserNav";
+import { useRouter } from "next/navigation";
 
 type Props = {
   brandlogo?: boolean;
 };
 
 export const UserProfile = ({ brandlogo }: Props) => {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +38,7 @@ export const UserProfile = ({ brandlogo }: Props) => {
   };
 
   const handleMenuItemClick = (action: string) => {
-    console.log(`Clicked: ${action}`);
+    router.push(`/client/${action}`);
     closeDropdown();
     // Handle navigation or actions here
   };

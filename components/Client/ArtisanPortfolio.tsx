@@ -30,7 +30,7 @@ export const ArtisanPortfolio = ({ id }: Props) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {portfolioItems?.map((item) => (
-            <PortfolioCard key={item?._id} item={item} />
+            <PortfolioCard key={item?._id} item={item} artisanId={id} />
           ))}
         </div>
       </div>

@@ -5,14 +5,13 @@ import { BrandIcon } from "../assets/icons/Logo";
 
 type Props = {
   brandlogo?: boolean;
+  className?: string;
 };
 
-export const ClientNav = ({ brandlogo }: Props) => {
+export const ClientNav = ({ brandlogo, className }: Props) => {
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 ${
-        brandlogo ? "bg-white" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 bg-transparent ${className}`}
     >
       <div className="max-w-7xl mx-auto px-5">
         <div className="flex items-center justify-between h-20">

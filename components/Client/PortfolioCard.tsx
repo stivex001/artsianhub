@@ -3,20 +3,17 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { PortfolioModal } from "./PortfolioModal";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { artisans } from "./data";
+import { usePathname, useRouter } from "next/navigation";
 import { formatDate } from "@/utils/formatDate";
 
 type Props = {
   item: any;
   showDate?: boolean;
+  artisanId?: string;
 };
 
-export const PortfolioCard = ({ item, showDate }: Props) => {
-  const params = useParams();
+export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
   const pathname = usePathname();
-  const id = params.id;
-  const artisan = artisans?.find((art) => String(art?.id) === String(id));
 
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +35,9 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
 
   const handleClick = () => {
     if (isMobile && clientPage) {
-      router.push(`/client/artisan-details/${artisan?.id}/${item?._id}`);
+      router.push(
+        `/client/artisan-details/portfolio-details?artisanId=${artisanId}&id=${item?._id}`
+      );
     } else if (artisanPage) {
       router.push(`/artisan/dashboard/portfolio/${item?._id}`);
     } else {
@@ -67,9 +66,9 @@ export const PortfolioCard = ({ item, showDate }: Props) => {
             {item?.title}
           </h3>
 
-          <div className="flex items-center mb-2">
+          <div className="flex  mb-2">
             <MapIcon />
-            <span className="text-body text-sm font-medium">
+            <span className="w-[90%] text-body text-sm font-medium">
               {item?.location}
             </span>
           </div>

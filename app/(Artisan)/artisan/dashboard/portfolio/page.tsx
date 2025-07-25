@@ -14,12 +14,16 @@ const Portfolio = () => {
   const [isModalProjectOpen, setIsModalProjectOpen] = useState(false);
 
   const { currentUser } = useAuthStore();
-  const { getArtisanServices } = useServices();
-  const { data, isPending } = getArtisanServices(currentUser?.userId as string);
+  const { getMyServices } = useServices();
+  const { data, isPending } = getMyServices();
 
   const closeModal = () => setIsModalProjectOpen(false);
 
+  
+
   const portfolioItems = data?.data || [];
+  console.log("Portfolioitems:", portfolioItems);
+  
 
   return (
     <section className="flex flex-col gap-5">

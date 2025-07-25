@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import { artisans } from "../Client/data";
+import { useArtisans } from "@/api/crud/artisans";
 
 type Props = {};
 
@@ -10,7 +10,8 @@ const BreadCrumbs = (props: Props) => {
   const router = useRouter();
   const params = useParams();
   const id = params.id;
-  const artisan = artisans?.find((art) => String(art?.id) === String(id));
+ const { getArtisanById } = useArtisans();
+   const { data: artisan, isPending } = getArtisanById(`${id}`);
 
   return (
     <nav className="bg-white sticky top-20 z-10">
@@ -27,10 +28,10 @@ const BreadCrumbs = (props: Props) => {
             onClick={() => router.back()}
             className="hover:text-blue-600 transition-colors capitalize"
           >
-            {artisan?.profession}s
+            {artisan?.professionalTitle}
           </button>
           <span>{`>`}</span>
-          <span className="text-gray-900 font-medium">{artisan?.name}</span>
+          <span className="text-gray-900 font-medium">{artisan?.firstName} {artisan?.lastName}</span>
         </div>
       </div>
     </nav>

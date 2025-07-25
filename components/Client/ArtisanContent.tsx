@@ -31,7 +31,6 @@ export const ArtisanContent = ({}: Props) => {
   const { getArtisanById } = useArtisans();
   const { data: artisan, isPending } = getArtisanById(`${id}`);
 
-  console.log("ArtisanDetails:", artisan);
 
   return (
     <div className="my-6">

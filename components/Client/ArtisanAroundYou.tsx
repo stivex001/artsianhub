@@ -11,7 +11,6 @@ export const ArtisanAroundYou = (props: Props) => {
   const { getAllArtisan } = useArtisans();
   const { data, isPending } = getAllArtisan();
   const artisans = data?.data || [];
-  console.log("Artisans_:", artisans);
 
   return (
     <section className="py-10">
