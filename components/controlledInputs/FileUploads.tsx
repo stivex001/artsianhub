@@ -2,17 +2,20 @@
 
 import React from "react";
 import { CameraUpload, FileUploadIcon } from "../assets/icons/ModalIcon";
+import Image from "next/image";
 
 type FileUploadProps = {
   files: File[];
   onFilesChange: (files: File[]) => void;
   maxFiles?: number;
+  mode?: "small" | "large";
 };
 
 export const FileUpload = ({
   files,
   onFilesChange,
   maxFiles = 4,
+  mode = "large",
 }: FileUploadProps) => {
   const handleFiles = (newFiles: File[]) => {
     const updated = [...files, ...newFiles].slice(0, maxFiles);
@@ -42,38 +45,59 @@ export const FileUpload = ({
 
   return (
     <div className="flex flex-col gap-4">
-      {files.length === 0 && (
-        <label
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          className="w-full h-[300px] bg-[#F9F9FB] flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-xl cursor-pointer"
-        >
-          <input
-            type="file"
-            className="hidden"
-            multiple
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-          <div className="space-y-2">
-            <div className="flex justify-center items-center">
-              <FileUploadIcon />
+      {files.length === 0 &&
+        (mode === "large" ? (
+          <label
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            className="w-full h-[300px] bg-[#F9F9FB] flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-xl cursor-pointer"
+          >
+            <input
+              type="file"
+              className="hidden"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            <div className="space-y-2">
+              <div className="flex justify-center items-center">
+                <FileUploadIcon />
+              </div>
+              <p className="text-center text-sm text-gray-500">
+                Drag and drop or{" "}
+                <span className="text-blue-600">Choose file</span> to upload
+              </p>
             </div>
-            <p className="text-center text-sm text-gray-500">
-              Drag and drop or{" "}
-              <span className="text-blue-600">Choose file</span> to upload
-            </p>
-          </div>
-        </label>
-      )}
+          </label>
+        ) : (
+          <label
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            className="h-[150px] border border-dashed border-gray-300 rounded-md flex items-center justify-center cursor-pointer"
+          >
+            <input
+              type="file"
+              className="hidden"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+            <CameraUpload />
+          </label>
+        ))}
 
       {/* Previews */}
-      <div className="grid grid-cols-1 gap-2.5">
+      <div className={`grid  gap-2.5`}>
         {files[0] && (
-          <div className="w-full h-[300px] bg-[#F9F9FB] relative border border-gray-200 rounded-xl overflow-hidden flex items-center justify-center">
-            <img
+          <div
+            className={`${
+              mode === "small" && "hidden"
+            } w-full h-[300px] bg-[#F9F9FB] relative border border-gray-200 rounded-xl overflow-hidden flex items-center justify-center`}
+          >
+            <Image
               src={URL.createObjectURL(files[0])}
               alt="Preview"
+              width={300}
+              height={300}
               className="object-cover w-full h-full"
             />
             <button
@@ -86,15 +110,20 @@ export const FileUpload = ({
           </div>
         )}
 
-        <div className="grid grid-cols-3 gap-2.5">
-          {files.slice(1, 4).map((file, index) => (
+        <div
+          className={`${
+            mode === "small" ? "grid-cols-4" : "grid-cols-3"
+          } grid  gap-2.5`}
+        >
+          {files.slice(mode === "small" ? 0 : 1, 4).map((file, index) => (
             <div
               key={file?.name + index}
               className="h-[150px] relative border border-gray-200 rounded-md overflow-hidden flex items-center justify-center"
             >
-              <img
+              <Image
                 src={URL.createObjectURL(file)}
                 alt="Preview"
+                fill
                 className="object-cover w-full h-full"
               />
               <button

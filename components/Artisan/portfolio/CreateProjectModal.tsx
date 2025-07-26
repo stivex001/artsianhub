@@ -80,10 +80,10 @@ export const CreateProjectModal = ({
 
   const { getAllCategories } = useCategories();
   const { data: category } = getAllCategories();
-  const { createServices, getArtisanServices } = useServices();
+  const { createServices, getMyServices } = useServices();
 
   const { mutate: createSer, isPending } = createServices;
-  const { refetch } = getArtisanServices(currentUser?._id as string);
+  const { refetch } = getMyServices();
 
   const categoryOptions = Array.isArray(category)
     ? category?.map((cat) => ({

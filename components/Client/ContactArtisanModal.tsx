@@ -11,6 +11,8 @@ import { GetSingleArtisan } from "@/api/crud/artisans";
 import { useFileUpload } from "@/hooks/useFileUpload";
 import { FileUpload } from "../controlledInputs/FileUploads";
 import { Label } from "../ui/label";
+import { toast } from "sonner";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {
   isOpen: boolean;
@@ -20,29 +22,75 @@ type Props = {
 
 const fields: Field[] = [
   {
-    name: "email",
-    type: "email",
-    errorMessage: "Email is required",
+    name: "location",
+    type: "text",
+    errorMessage: "location is required",
     isRequired: true,
   },
 
   {
-    name: "password",
+    name: "description",
     type: "text",
-    errorMessage: "Password is required",
+    errorMessage: "description is required",
     isRequired: true,
   },
   {
-    name: "confirmPassword",
-    type: "text",
-    errorMessage: "Password is required",
+    name: "preferredDate",
+    type: "date",
+    errorMessage: "preferredDate is required",
+  },
+  {
+    name: "preferredTime",
+    type: "time",
+    errorMessage: "preferredTime is required",
+  },
+  {
+    name: "email",
+    type: "email",
+    errorMessage: "email is required",
   },
 ];
 
 export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
   const { files, setFiles } = useFileUpload(4);
-  const { control, handleSubmit, formState, watch, setError, clearErrors } =
+  const { control, handleSubmit, formState, reset, setError, clearErrors } =
     useDynamicForm(fields, {});
+
+  const { bookAppointment, getAllBookings } = useAppointments();
+
+  const { mutate: booking, isPending } = bookAppointment();
+  const { refetch } = getAllBookings();
+
+  const onSubmit = async (data: any) => {
+    const formData = new FormData();
+
+    formData.append("location", data?.location);
+    formData.append("description", data?.description);
+    formData.append("preferredDate", data?.preferredDate);
+    formData.append("preferredTime", data?.preferredTime);
+    formData.append("images", data?.images);
+    formData.append("artisanId", item?.userId?._id);
+
+    files?.forEach((file: File) => {
+      formData.append("images", file);
+    });
+
+    try {
+      await booking(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Appointment Booked successfully");
+          refetch();
+          onClose();
+          reset();
+          setFiles([]);
+        },
+        onError: (error: any) => {
+          console.error("Errorcreatingprofile:", error);
+          toast.error(error?.message);
+        },
+      });
+    } catch (error) {}
+  };
 
   return (
     <BaseModal
@@ -67,7 +115,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
           </p>
         </div>
 
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-5 w-full">
               <ControlledInput
@@ -80,7 +128,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
                 rules={{ required: true }}
               />
               <ControlledInput
-                name="location"
+                name="description"
                 control={control}
                 placeholder="Give a short description of the issue or task you’d like help with"
                 type="text"
@@ -91,20 +139,20 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
               />
               <div className="grid grid-cols lg:grid-cols-2 gap-5">
                 <ControlledInput
-                  name="date"
+                  name="preferredDate"
                   control={control}
                   placeholder="Select a convenient date"
                   type="date"
-                  label="Preferred Date and Time"
+                  label="Preferred Date"
                   variant="primary"
                   rules={{ required: true }}
                 />
                 <ControlledInput
-                  name="date"
+                  name="preferredTime"
                   control={control}
                   placeholder="Select a convenient date"
                   type="time"
-                  label="Preferred Date and Time"
+                  label="Preferred Time"
                   variant="primary"
                   rules={{ required: true }}
                 />
@@ -130,6 +178,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
                   files={files}
                   onFilesChange={setFiles}
                   maxFiles={4}
+                  // mode="small"
                 />
               </div>
             </div>
@@ -144,7 +193,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
               <CustomButton
                 type="submit"
                 //   disabled={!isValid}
-                //   isLoading={isPending}
+                  isLoading={isPending}
                 label="Send Request"
                 className="w-fit rounded-xl"
                 variant="primary"

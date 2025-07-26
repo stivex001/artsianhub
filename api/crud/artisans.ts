@@ -107,44 +107,6 @@ export interface ArtisanByCategory {
   ratings: number[];
 }
 
-export interface ReviewData {
-  customerName: string;
-  rating: number;
-  testimonial: string;
-}
-
-export interface Appointemnts {
-  counts: {
-    accepted: number;
-    declined: number;
-    pending: number;
-    total: number;
-    completed: number;
-  };
-}
-
-export interface AppointmentsInfo {
-  status: string;
-  artisanId: string;
-  client: string;
-  clientEmail: string;
-  clientName: string;
-  clientPhoneNumber: string;
-  date: any;
-  description: string;
-  price: number;
-  _id: string;
-}
-
-export interface AllBookings {
-  bookings: AppointmentsInfo[];
-  pagination: {
-    totalPages: number;
-    currentPage: number;
-    totalCount: number;
-  };
-}
-
 export interface AllBookingsCounts {
   appointments: {
     acceptedAppointments: number;
@@ -202,18 +164,6 @@ export const useArtisans = () => {
     );
   };
 
-  const getBookingCount = () =>
-    useApiQuery<Appointemnts>(["total_appointments"], {
-      url: `/booking/counts`,
-      method: "GET",
-    });
-
-  const getAllBookings = () =>
-    useApiQuery<AllBookings>(["all_appointments"], {
-      url: `/booking/view`,
-      method: "GET",
-    });
-
   const getArtisanRating = (id: string) =>
     useApiQuery<Rating>(["artisan_rating"], {
       url: `/artisan-rating/${id}/ratings`,
@@ -226,43 +176,13 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-  const bookAppointment = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/booking/artisan/${id}`,
-      method: "POST",
-    });
-
-  const leaveReview = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/rating/artisans/${id}/testimonials`,
-      method: "POST",
-    });
-
-  const bookingResponse = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/booking/response/${id}`,
-      method: "POST",
-    });
-
-  const approveAndDisapproveDocuments = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/admin/artisan-profile/${id}/credential-status`,
-      method: "PATCH",
-    });
-
   return {
     getAllArtisan,
     getArtisanById,
     getFilteredByArtisan,
     getSearchByArtisan,
     getArtisanRating,
-    bookAppointment,
-    leaveReview,
-    getBookingCount,
-    getAllBookings,
-    bookingResponse,
     getAllArtisanCount,
-    approveAndDisapproveDocuments,
     getArtisanByCatgeory,
   };
 };
