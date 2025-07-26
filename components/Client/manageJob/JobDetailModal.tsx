@@ -15,12 +15,6 @@ type Props = {
 
 export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
   const jobData = item;
-  const pendingStatus = jobData?.status === "pending";
-  const acceptedStatus = jobData?.status === "accepted";
-  const inProgressStatus = jobData?.status === "inprogress";
-  const completedStatus = jobData?.status === "completed";
-  const declineStatus = jobData?.status === "declined";
-  const cancelStatus = jobData?.status === "cancelled";
 
   return (
     <BaseModal
