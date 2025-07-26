@@ -1,6 +1,7 @@
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
 import { useState } from "react";
 import { JobDetailModal } from "./JobDetailModal";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 
 const getStatusConfig = (status: string) => {
   switch (status) {
@@ -53,17 +54,10 @@ export const AppointmentCard = ({ appointment }: { appointment: any }) => {
       onClick={() => setIsModalOpen(true)}
       className="bg-white border border-gray-200 rounded-3xl p-5 hover:shadow-shadowHover transition-shadow cursor-pointer"
     >
-      {/* Status Badge */}
-      <div className="flex justify-between items-start mb-3">
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusConfig.bgColor} ${statusConfig.textColor} ${statusConfig.borderColor} border`}
-        >
-          {statusConfig.label}
-        </span>
-      </div>
+     <StatusBadge status={appointment?.status} />
 
       {/* Title */}
-      <h3 className="text-xl font-bold text-paragrah mb-1">
+      <h3 className="text-xl font-bold text-paragrah mt-3 mb-1">
         {appointment.title}
       </h3>
 

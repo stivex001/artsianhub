@@ -26,7 +26,7 @@ export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 
   return (
     <span
-      className={`inline-flex items-center px-2 py-1 rounded-xl text-xs font-medium border ${getStatusStyles(
+      className={`inline-flex items-center px-2 py-1 rounded-xl text-xs font-medium capitalize border ${getStatusStyles(
         status
       )}`}
     >
