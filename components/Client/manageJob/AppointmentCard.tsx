@@ -3,58 +3,17 @@ import { useState } from "react";
 import { JobDetailModal } from "./JobDetailModal";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 
-const getStatusConfig = (status: string) => {
-  switch (status) {
-    case "pending":
-      return {
-        label: "Pending",
-        bgColor: "bg-orange-50",
-        textColor: "text-orange-600",
-        borderColor: "border-orange-200",
-      };
-    case "inprogress":
-      return {
-        label: "In Progress",
-        bgColor: "bg-blue-50",
-        textColor: "text-blue-600",
-        borderColor: "border-blue-200",
-      };
-    case "cancelled":
-      return {
-        label: "Cancelled (Client)",
-        bgColor: "bg-gray-50",
-        textColor: "text-gray-600",
-        borderColor: "border-gray-200",
-      };
-    case "declined":
-      return {
-        label: "Declined",
-        bgColor: "bg-red-50",
-        textColor: "text-red-600",
-        borderColor: "border-red-200",
-      };
-    default:
-      return {
-        label: status,
-        bgColor: "bg-gray-50",
-        textColor: "text-gray-600",
-        borderColor: "border-gray-200",
-      };
-  }
-};
-
 export const AppointmentCard = ({ appointment }: { appointment: any }) => {
-  const statusConfig = getStatusConfig(appointment.status);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-   const closeModal = () => setIsModalOpen(false);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div
       onClick={() => setIsModalOpen(true)}
       className="bg-white border border-gray-200 rounded-3xl p-5 hover:shadow-shadowHover transition-shadow cursor-pointer"
     >
-     <StatusBadge status={appointment?.status} />
+      <StatusBadge status={appointment?.status} />
 
       {/* Title */}
       <h3 className="text-xl font-bold text-paragrah mt-3 mb-1">

@@ -1,7 +1,8 @@
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
+import { CustomButton } from "@/components/clickable/CustomButton";
 import { BaseModal } from "@/components/shared/BaseModal";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { MapPin, X } from "lucide-react";
+import { renderStars } from "@/utils/RenderRatings";
 import Image from "next/image";
 import React from "react";
 
@@ -11,51 +12,41 @@ type Props = {
   onClose: () => void;
 };
 
-// Sample job data - replace with your actual data structure
-const sampleJobData = {
-  title: "Pipe Leak Repair",
-  status: "Accepted",
-  serviceDate: "Friday June 20, 2025 - 10am - 12pm",
-  location: "Chesterfield",
-  skills: ["Plumbing", "Piping"],
-  description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
-
-I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
-
-Please contact me if you need more details. Thanks!`,
-  attachments: [
-    "/api/placeholder/150/100",
-    "/api/placeholder/150/100",
-    "/api/placeholder/150/100",
-    "/api/placeholder/150/100",
-  ],
-  artisanInfo: {
-    name: "John Smith",
-    avatar: "/api/placeholder/40/40",
-    rating: 4.8,
-    completedJobs: 125,
-  },
-};
-
 export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
-  // Use item data if provided, otherwise use sample data
-  const jobData = item || sampleJobData;
+  const jobData = item;
 
   return (
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      className="p-5 bg-white !rounded-2xl overflow-y-auto no-scrollbar !max-h-[90vh] border-none shadow-none !max-w-[600px]"
+      className=" bg-white !rounded-2xl overflow-y-auto no-scrollbar !max-h-[90vh] border-none shadow-none !max-w-[600px]"
       title="Job Details"
+      footer={
+        <div className=" flex items-center justify-end gap-5">
+          <CustomButton
+            label="Cancel Request"
+            type="button"
+            className="w-fit"
+            onClick={onClose}
+            variant="transparent"
+          />
+          <CustomButton
+            label="Reschedule Request"
+            type="button"
+            className="w-fit"
+            // onClick={() => setIsModalContactOpen(true)}
+          />
+        </div>
+      }
     >
-      <section className="spce-y-6">
+      <section className="px-5 space-y-6">
         <div className="flex flex-col gap-5">
           <div className="w-full flex items-center">
             <label className="w-[20%] text-sm font-medium text-paragrah ">
               Job Title
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData.title}
+              {jobData?.title}
             </p>
           </div>
           <div className="w-full flex items-center">
@@ -70,7 +61,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               Service Date
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData.serviceDate}
+              {jobData?.date}
             </p>
           </div>
           <div className="w-full flex items-center">
@@ -91,8 +82,6 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
             </p>
           </div>
 
-      
-
           {/* Job Description */}
           <div>
             <label className="text-sm font-medium text-paragrah  mb-2">
@@ -104,7 +93,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
           </div>
 
           {/* Attachments */}
-          {jobData.attachments && jobData.attachments.length > 0 && (
+          {jobData?.attachments && jobData?.attachments.length > 0 && (
             <div>
               <label className="text-sm font-medium text-paragrah  mb-2">
                 Attachments
@@ -134,31 +123,46 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
             <label className="text-sm font-medium text-paragrah mb-2">
               Artisan Info
             </label>
-            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-medium">JS</span>
+            <div className="flex items-center gap-4 p-0.5 max-h-[126px]">
+              <div className="w-[120px] h-[120px] bg-[#D9D9D9] rounded-2xl">
+                <Image
+                  src={jobData?.artisanInfo?.avatar}
+                  alt=""
+                  width={100}
+                  height={100}
+                  className="w-full h-full rounded-2xl object-cover"
+                />
               </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">John Smith</p>
-                <p className="text-sm text-gray-600">
-                  ★ 4.8 • 125 jobs completed
+              <div className="">
+                <p className="text-base font-bold text-paragrah">
+                  {jobData?.artisanInfo?.name}
                 </p>
+                <span className="text-body text-sm ">
+                  {jobData?.artisanInfo?.professionalTitle}
+                </span>
+
+                <div className="flex items-center gap-0.5">
+                  <MapIcon />
+                  <span className="text-body text-sm font-medium">
+                    {jobData?.artisanInfo?.primaryLocation}
+                  </span>
+                </div>
+
+                <div className="flex items-center ">
+                  <div className="flex items-center mr-1">
+                    {renderStars(jobData?.rating)}
+                  </div>
+                  <span className="text-sm text-body font-medium">
+                    {jobData?.artisanInfo?.rating}({jobData?.completedJobs})
+                  </span>
+                </div>
+
+                <div className="text-base font-bold text-paragrah ">
+                  ${jobData?.artisanInfo?.pricePerHour}/hr
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            Cancel Request
-          </button>
-          <button className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg transition-colors">
-            Reschedule Request
-          </button>
         </div>
       </section>
     </BaseModal>

@@ -10,6 +10,7 @@ interface BaseModalProps {
   children: React.ReactNode;
   className?: string;
   title?: string;
+  footer?: React.ReactNode;
 }
 
 export const BaseModal = ({
@@ -18,6 +19,7 @@ export const BaseModal = ({
   children,
   className = "",
   title,
+  footer,
 }: BaseModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -26,7 +28,7 @@ export const BaseModal = ({
         className={`p-0 bg-transparent border-none shadow-none ${className}`}
       >
         {title && (
-          <DialogTitle className="flex items-center justify-between ">
+          <DialogTitle className="sticky top-0 z-10 px-5 pt-5 bg-white flex items-center justify-between ">
             <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
             <button
               onClick={onClose}
@@ -36,7 +38,12 @@ export const BaseModal = ({
             </button>
           </DialogTitle>
         )}
-        {children}
+        <div className="">{children}</div>
+        {footer && (
+          <div className="sticky bottom-0 z-10 bg-white p-4">
+            {footer}
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

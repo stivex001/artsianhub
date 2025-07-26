@@ -26,9 +26,31 @@ const appointments = [
     location: "Chesterfield",
     client: {
       name: "Claire Rosalie",
-      avatar: "/api/placeholder/32/32"
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
     },
-    status: "pending"
+    status: "pending",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
   },
   {
     id: 2,
@@ -37,9 +59,30 @@ const appointments = [
     location: "Chesterfield",
     client: {
       name: "Claire Rosalie",
-      avatar: "/api/placeholder/32/32"
+      avatar: "/api/placeholder/32/32",
     },
-    status: "inprogress"
+    status: "inprogress",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
   },
   {
     id: 3,
@@ -48,9 +91,30 @@ const appointments = [
     location: "Chesterfield",
     client: {
       name: "Claire Rosalie",
-      avatar: "/api/placeholder/32/32"
+      avatar: "/api/placeholder/32/32",
     },
-    status: "cancelled"
+    status: "cancelled",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
   },
   {
     id: 4,
@@ -59,15 +123,32 @@ const appointments = [
     location: "Chesterfield",
     client: {
       name: "Claire Rosalie",
-      avatar: "/api/placeholder/32/32"
+      avatar: "/api/placeholder/32/32",
     },
-    status: "declined"
-  }
+    status: "declined",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
+  },
 ];
-
-
-
-
 
 const ManageJob = (props: Props) => {
   const [activeTab, setActiveTab] = useState("all");
@@ -81,12 +162,13 @@ const ManageJob = (props: Props) => {
   };
 
   // Filter appointments based on active tab and search query
-  const filteredAppointments = appointments.filter(appointment => {
+  const filteredAppointments = appointments.filter((appointment) => {
     const matchesTab = activeTab === "all" || appointment.status === activeTab;
-    const matchesSearch = searchQuery === "" || 
+    const matchesSearch =
+      searchQuery === "" ||
       appointment.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       appointment.client.name.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     return matchesTab && matchesSearch;
   });
 
@@ -97,7 +179,7 @@ const ManageJob = (props: Props) => {
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      
+
       <div className="flex items-center gap-2 py-2 px-3 lg:w-[320px] border border-gray-300 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
         <div className="pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
@@ -121,7 +203,9 @@ const ManageJob = (props: Props) => {
       {/* Empty State */}
       {filteredAppointments.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500">No appointments found matching your criteria.</p>
+          <p className="text-gray-500">
+            No appointments found matching your criteria.
+          </p>
         </div>
       )}
 
