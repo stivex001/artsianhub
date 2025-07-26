@@ -148,6 +148,70 @@ I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 
 
 Please contact me if you need more details. Thanks!`,
   },
+  {
+    id: 5,
+    title: "Plumbing Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32",
+    },
+    status: "completed",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
+  },
+  {
+    id: 6,
+    title: "Electrical Repair",
+    date: "Fri Jun 20, 2024 - 8:00",
+    location: "Chesterfield",
+    client: {
+      name: "Claire Rosalie",
+      avatar: "/api/placeholder/32/32",
+    },
+    status: "accepted",
+    attachments: [
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+    ],
+    artisanInfo: {
+      name: "John Smith",
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80",
+      rating: 4.8,
+      completedJobs: 125,
+      professionalTitle: "Plumber",
+      primaryLocation: "Chesterfield",
+      pricePerHour: 5,
+    },
+    description: `Hello. I have a leaking pipe under my kitchen sink that's causing water to spread across the cabinet floor. I'm not sure where the leak is coming from exactly, but it gets worse when I run the tap. I'd like someone to come take a look and fix it as soon as possible. The area is accessible, and I've already cleared the space under the sink. If replacement parts are needed, I'm happy to cover the cost — just let me know what's required after inspection.
+
+I'm located in Chesterfield. I'm available tomorrow morning (June 25th) between 9 AM and 12 PM, or anytime on Wednesday.
+
+Please contact me if you need more details. Thanks!`,
+  },
 ];
 
 const ManageJob = (props: Props) => {

@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { renderStars } from "@/utils/RenderRatings";
 import Image from "next/image";
 import React from "react";
+import { JobActionButtons } from "./JobActionButtons";
 
 type Props = {
   item: any;
@@ -14,6 +15,12 @@ type Props = {
 
 export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
   const jobData = item;
+  const pendingStatus = jobData?.status === "pending";
+  const acceptedStatus = jobData?.status === "accepted";
+  const inProgressStatus = jobData?.status === "inprogress";
+  const completedStatus = jobData?.status === "completed";
+  const declineStatus = jobData?.status === "declined";
+  const cancelStatus = jobData?.status === "cancelled";
 
   return (
     <BaseModal
@@ -22,21 +29,13 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
       className=" bg-white !rounded-2xl overflow-y-auto no-scrollbar !max-h-[90vh] border-none shadow-none !max-w-[600px]"
       title="Job Details"
       footer={
-        <div className=" flex items-center justify-end gap-5">
-          <CustomButton
-            label="Cancel Request"
-            type="button"
-            className="w-fit"
-            onClick={onClose}
-            variant="transparent"
-          />
-          <CustomButton
-            label="Reschedule Request"
-            type="button"
-            className="w-fit"
-            // onClick={() => setIsModalContactOpen(true)}
-          />
-        </div>
+        <JobActionButtons
+          status={jobData?.status}
+          onCancel={() => console.log("Cancel clicked")}
+          onReschedule={() => console.log("Reschedule clicked")}
+          onMarkNoShow={() => console.log("No show clicked")}
+          onMarkCompleted={() => console.log("Completed clicked")}
+        />
       }
     >
       <section className="px-5 space-y-6">
