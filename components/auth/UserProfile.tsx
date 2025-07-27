@@ -1,9 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
-import { useAuthStore } from "@/store/authStore";
 import { useUser } from "@/api/crud/user";
-import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
 import ava from "@/components/assets/images/ava.svg";
 import { UserNav } from "./UserNav";

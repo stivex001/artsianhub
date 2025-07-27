@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import ava from "@/components/assets/images/ava.svg";
 import {
   BillingIcon,
@@ -13,6 +13,7 @@ import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/api/crud/user";
+import AccountSettingsModal from "../Client/AccountSettingsModal";
 
 type UserNavProps = {
   handleMenuItemClick: any;
@@ -24,6 +25,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   const { currentUser, logout } = useAuthStore();
   const { getCurrentUser } = useUser();
   const { data: user } = getCurrentUser();
+  const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
 
   const profilePhoto = user?.data?.profilePicture;
 
@@ -72,7 +74,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
         </button>
 
         <button
-          onClick={() => handleMenuItemClick("account-settings")}
+          onClick={() => setIsSettingModalOpen(true)}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <SettingsIcon />
@@ -98,6 +100,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
           <span className="text-sm text-body">Log Out</span>
         </button>
       </div>
+      <AccountSettingsModal isOpen={isSettingModalOpen} onClose={() => setIsSettingModalOpen(false)} />
     </div>
   );
 };
