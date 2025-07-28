@@ -16,7 +16,7 @@ export const Preference = (props: Props) => {
 
   return (
     <div className="space-y-4">
-      {/* Language Section */}
+      
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-base font-medium text-paragrah mb-2">Language</h3>
