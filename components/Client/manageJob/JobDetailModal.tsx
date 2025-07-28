@@ -6,6 +6,7 @@ import { renderStars } from "@/utils/RenderRatings";
 import Image from "next/image";
 import React from "react";
 import { JobActionButtons } from "./JobActionButtons";
+import { formatDate } from "@/utils/formatDate";
 
 type Props = {
   item: any;
@@ -39,7 +40,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               Job Title
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.title}
+              {jobData?.description}
             </p>
           </div>
           <div className="w-full flex items-center">
@@ -54,7 +55,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               Service Date
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.date}
+              {formatDate(jobData?.preferredDate)} {jobData?.preferredTime}
             </p>
           </div>
           <div className="w-full flex items-center">
@@ -63,7 +64,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
             </label>
             <div className="w-[75%] flex items-center gap-1 text-sm font-medium text-paragrah">
               <MapIcon />
-              <p>{jobData.location}</p>
+              <p>{jobData?.location}</p>
             </div>
           </div>
           <div className="w-full flex items-center">
@@ -71,7 +72,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               Service
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData.serviceDate}
+              {jobData?.serviceDate}
             </p>
           </div>
 
@@ -86,27 +87,25 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
           </div>
 
           {/* Attachments */}
-          {jobData?.attachments && jobData?.attachments.length > 0 && (
+          {jobData?.images && jobData?.images?.length > 0 && (
             <div>
               <label className="text-sm font-medium text-paragrah  mb-2">
                 Attachments
               </label>
               <div className="grid grid-cols-4 gap-2.5">
-                {jobData?.attachments?.map(
-                  (attachment: string, index: number) => (
-                    <div
-                      key={index}
-                      className="aspect-video relative rounded-xl overflow-hidden bg-[#F9F9FB] cursor-pointer hover:opacity-80 transition-opacity"
-                    >
-                      <Image
-                        src={attachment}
-                        alt={`Attachment ${index + 1}`}
-                        fill
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )
-                )}
+                {jobData?.images?.map((attachment: any, index: number) => (
+                  <div
+                    key={attachment?._id}
+                    className="aspect-video relative rounded-xl overflow-hidden bg-[#F9F9FB] cursor-pointer hover:opacity-80 transition-opacity"
+                  >
+                    <Image
+                      src={attachment}
+                      alt={`Attachment ${index + 1}`}
+                      fill
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           )}

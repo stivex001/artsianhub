@@ -46,18 +46,23 @@ export interface Appointemnts {
 export interface AppointmentsInfo {
   status: string;
   artisanId: string;
-  client: string;
-  clientEmail: string;
-  clientName: string;
+  location: string;
+  email: string;
+  clientId: string;
   clientPhoneNumber: string;
-  date: any;
+  preferredDate: any;
+  preferredTime: any;
   description: string;
   price: number;
   _id: string;
+   images: {
+    url: string;
+    _id: string;
+  }[];
 }
 
 export interface AllBookings {
-  bookings: AppointmentsInfo[];
+  data: AppointmentsInfo[];
   pagination: {
     totalPages: number;
     currentPage: number;

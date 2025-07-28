@@ -1,4 +1,5 @@
 "use client";
+import { useAppointments } from "@/api/crud/appointments";
 import { AppointmentCard } from "@/components/Client/manageJob/AppointmentCard";
 import { ResuablePagination } from "@/components/shared/ResuablePagination";
 import { TabComponent } from "@/components/shared/TabComponent";
@@ -220,18 +221,24 @@ const ManageJob = (props: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pagination = true;
 
+  const { getAllBookings } = useAppointments();
+  const { data: booking, isPending } = getAllBookings();
+  const appointments = booking?.data
+
+  console.log(booking, "booking__");
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
   };
 
   // Filter appointments based on active tab and search query
-  const filteredAppointments = appointments.filter((appointment) => {
+  const filteredAppointments = appointments?.filter((appointment) => {
     const matchesTab = activeTab === "all" || appointment.status === activeTab;
     const matchesSearch =
       searchQuery === "" ||
-      appointment.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      appointment.client.name.toLowerCase().includes(searchQuery.toLowerCase());
+      appointment?.description?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+      appointment?.email?.toLowerCase()?.includes(searchQuery?.toLowerCase());
 
     return matchesTab && matchesSearch;
   });
@@ -259,13 +266,13 @@ const ManageJob = (props: Props) => {
 
       {/* Appointments Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {filteredAppointments.map((appointment) => (
-          <AppointmentCard key={appointment.id} appointment={appointment} />
+        {filteredAppointments?.map((appointment) => (
+          <AppointmentCard key={appointment?._id} appointment={appointment} />
         ))}
       </div>
 
       {/* Empty State */}
-      {filteredAppointments.length === 0 && (
+      {filteredAppointments?.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500">
             No appointments found matching your criteria.
