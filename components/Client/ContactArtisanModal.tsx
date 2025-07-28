@@ -68,8 +68,8 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
     formData.append("description", data?.description);
     formData.append("preferredDate", data?.preferredDate);
     formData.append("preferredTime", data?.preferredTime);
-    formData.append("images", data?.images);
     formData.append("artisanId", item?.userId?._id);
+    formData.append("email", data?.email);
 
     files?.forEach((file: File) => {
       formData.append("images", file);
