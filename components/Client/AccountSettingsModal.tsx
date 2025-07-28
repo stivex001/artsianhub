@@ -41,10 +41,10 @@ const AccountSettingsModal = ({ isOpen, onClose }: SettingsProps) => {
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      className="p-0 bg-white border-none shadow-none !max-w-5xl !rounded-2xl overflow-hidden !max-h-[600px]"
+      className="p-0 bg-white border-none shadow-none !max-w-5xl !rounded-2xl overflow-hidden"
       title="Account Settings"
     >
-      <div  className="flex pb-4">
+      <div  className="flex pb-4 min-h-[75vh]">
         <div className="w-64 bg-[#F9F9FB]  rounded-xl p-2  ">
           <nav className="space-y-1">
             {tabs.map((tab) => {
