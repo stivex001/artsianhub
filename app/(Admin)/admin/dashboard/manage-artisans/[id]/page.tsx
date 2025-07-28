@@ -16,13 +16,15 @@ const ArtisanDetails = (props: Props) => {
   const artisanId = params?.id as string;
 
   const { getAllArtisan } = useArtisans();
-  const { data: artisans = [], isLoading, refetch } = getAllArtisan();
+  const { data , isLoading, refetch } = getAllArtisan();
+
+  const artisans = data?.data || [];
 
   const selectedArtisan = artisans?.find(
-    (artisan) => artisan?._id === artisanId
+    (artisan:any) => artisan?._id === artisanId
   );
 
-  const isVerified = selectedArtisan?.user?.isVerified === true;
+  const isVerified =  true;
 
   if (isLoading)
     return <p className="text-white text-center mt-20 ">Loading...</p>;
@@ -58,7 +60,7 @@ const ArtisanDetails = (props: Props) => {
               >
                 {isVerified ? "Verified" : "Pending"}
               </p>
-              {isVerified === false && (
+              {!isVerified && (
                 <>
                   <div className=" h-9 border bg-white" />
                   <p className="bg-[#FFD6D0] text-[#AE2525] rounded-[10px] flex items-center justify-center px-3 py-1">

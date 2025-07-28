@@ -2,9 +2,10 @@
 import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import React from "react";
 import SkeletonLoader from "../shared/SkeletonModal";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 type CountProps = {
@@ -35,7 +36,7 @@ export const Details = ({ title, desc }: DetailsProps) => {
 };
 
 export const General = ({ selectedArtisan }: Props) => {
-  const { getBookingCount } = useArtisans();
+  const { getBookingCount } = useAppointments();
 
   const { data: total_appointments, isLoading } = getBookingCount();
 

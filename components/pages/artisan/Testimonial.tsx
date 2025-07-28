@@ -15,7 +15,7 @@ import { ArtisanDetails } from "@/api/crud/artisans";
 // import "swiper/css/pagination";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 export const Testimonial = ({ selectedArtisan }: Props) => {
@@ -57,7 +57,7 @@ export const Testimonial = ({ selectedArtisan }: Props) => {
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             className="testimonial-swiper"
           >
-            {selectedArtisan?.testimonials?.map((testimonial, index) => (
+            {selectedArtisan?.testimonials?.map((testimonial:any, index:number) => (
               <SwiperSlide key={index}>
                 {({ isActive }) => (
                   <div
@@ -99,7 +99,7 @@ export const Testimonial = ({ selectedArtisan }: Props) => {
                         <div className="bg-primary text-white w-10 h-10 flex items-center justify-center rounded-full text-base font-semibold cursor-pointer">
                           {testimonial?.customerName
                             ?.split(" ")
-                            .map((n) => n[0])
+                            .map((n:any) => n[0])
                             .join("")
                             .toUpperCase()}
                         </div>

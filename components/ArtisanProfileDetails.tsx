@@ -6,7 +6,7 @@ import { ArtisanDetails } from "@/api/crud/artisans";
 import { format } from "date-fns";
 
 type ArtisanProfileProps = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 const ArtisanProfileDetails = ({ selectedArtisan }: ArtisanProfileProps) => {

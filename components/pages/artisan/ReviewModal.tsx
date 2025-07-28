@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArtisanDetails, ReviewData, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
+import { ReviewData, useAppointments } from "@/api/crud/appointments";
 
 type Props = {
   onClose: () => void;
@@ -41,13 +42,12 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
   const [rating, setRating] = useState<number>(0);
   const [ratingError, setRatingError] = useState<string | null>(null);
 
-  const { leaveReview, getAllArtisan, getArtisanRating } = useArtisans();
-  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan?._id}`);
+  const { getAllArtisan, getArtisanRating } = useArtisans();
+  const { leaveReview } = useAppointments();
+  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan}`);
 
   const { refetch } = getAllArtisan();
-  const { refetch: ratingFetch } = getArtisanRating(
-    selectedArtisan?._id as string
-  );
+  const { refetch: ratingFetch } = getArtisanRating('');
 
   const onSubmit = async (data: any) => {
     if (!rating) {

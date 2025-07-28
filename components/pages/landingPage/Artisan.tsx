@@ -13,7 +13,8 @@ export const Artisan = (props: Props) => {
   const router = useRouter();
   const { getAllArtisan } = useArtisans();
 
-  const { data: artisan = [], isLoading } = getAllArtisan();
+  const { data, isLoading } = getAllArtisan();
+  const artisan = data?.data
 
   return (
     <div className="py-14 flex flex-col gap-8 lg:gap-10 ">
@@ -28,7 +29,7 @@ export const Artisan = (props: Props) => {
               <SkeletonLoader type="image" count={3} bgColor="white" />
             </div>
           ) : (
-            artisan?.map((item) => (
+            artisan?.map((item:any) => (
               <div key={item?._id} className="lg:h-[350px]">
                 <div
                   onClick={() =>

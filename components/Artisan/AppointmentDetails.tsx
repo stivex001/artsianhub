@@ -5,6 +5,7 @@ import ActionModal from "../shared/ActionModal";
 import { useArtisans } from "@/api/crud/artisans";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {};
 
@@ -13,7 +14,7 @@ const AppointmentDetails = (props: Props) => {
   const id = params?.id as string;
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { getAllBookings, bookingResponse } = useArtisans();
+  const { getAllBookings, bookingResponse } = useAppointments();
 
   const { data: viewBookings, refetch } = getAllBookings();
   const { mutate, isPending } = bookingResponse(`${id}`);

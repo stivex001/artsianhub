@@ -1,4 +1,5 @@
 "use client";
+import { useAppointments } from "@/api/crud/appointments";
 import { useArtisans } from "@/api/crud/artisans";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import CustomBarChart from "@/components/shared/CustomBarChart";
@@ -38,7 +39,7 @@ const DailyUpdates = (props: Props) => {
   const [dateTo, setDateTo] = React.useState<Date>();
   const [dateFrom, setDateFrom] = React.useState<Date>();
 
-  const { getBookingCount } = useArtisans();
+  const { getBookingCount } = useAppointments();
   
     const { data: total_appointments, isLoading } = getBookingCount();
   

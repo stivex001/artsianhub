@@ -7,7 +7,7 @@ import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import { ReviewModal } from "./ReviewModal";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 export const ArtisanHero = ({ selectedArtisan }: Props) => {

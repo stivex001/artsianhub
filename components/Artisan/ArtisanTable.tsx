@@ -9,7 +9,7 @@ import { DateTimeDisplay } from "@/utils/DateTimeDisplay";
 import { format } from "date-fns";
 
 type Props = {
-  artisans: ArtisanDetails[];
+  artisans: any;
 };
 
 const headers = [
@@ -25,7 +25,7 @@ const headers = [
 const ArtisanTable = ({ artisans }: Props) => {
   const router = useRouter();
 
-  const renderRow = (item: ArtisanDetails) => {
+  const renderRow = (item: any) => {
     const handleRowClick = (id: string) => {
       router.push(`/admin/dashboard/manage-artisans/${id}`);
     };

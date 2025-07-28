@@ -18,13 +18,14 @@ const ArtisanDetails = (props: Props) => {
   const artisanId = params?.id as string;
 
   const { getAllArtisan, getArtisanRating } = useArtisans();
-  const { data: artisans = [], isLoading } = getAllArtisan();
+  const { data, isPending } = getAllArtisan();
+  const artisans = data?.data || [];
 
   const selectedArtisan = artisans?.find(
-    (artisan) => artisan?.user?._id === artisanId
+    (artisan) => artisan?._id === artisanId
   );
 
-  if (isLoading) return <LoadingScreen />;
+  if (isPending) return <LoadingScreen />;
   if (!selectedArtisan)
     return <p className="text-white text-center mt-20">Artisan not found</p>;
 

@@ -42,7 +42,7 @@ const ServiceList = () => {
             <div></div>
           </div>
 
-          {data?.map((cat) => (
+          {(Array.isArray(data) ? data : [])?.map((cat) => (
             <div
               key={cat?._id}
               className="grid grid-cols-[1fr_1fr_1fr_1fr] border-b border-primary items-center px-6 py-2 bg-gray-50 hover:bg-gray-100 transition-colors my-1"
@@ -54,7 +54,7 @@ const ServiceList = () => {
 
               {/* Images */}
               <div className="flex gap-x-5">
-                {cat?.media?.slice(0, 4)?.map((img, i) => (
+                {cat?.media?.slice(0, 4)?.map((img:any, i:number) => (
                   <div
                     key={i}
                     className="w-20 h-20 border rounded-[10px] overflow-hidden"

@@ -7,7 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { ArtisanDetails } from "@/api/crud/artisans";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 export const ServiceReview = ({ selectedArtisan }: Props) => {
@@ -35,7 +35,7 @@ export const ServiceReview = ({ selectedArtisan }: Props) => {
           pagination={{ clickable: true, dynamicBullets: true }}
           className="service-review-swiper "
         >
-          {selectedArtisan?.portfolio?.map((item, index) => (
+          {selectedArtisan?.portfolio?.map((item:any, index:number) => (
             <SwiperSlide key={index}>
               <div className="mb-14 rounded-[10px] overflow-hidden w-80 h-[400px]">
                 <div className="relative w-full h-full">

@@ -4,7 +4,7 @@ import { FaComments } from "react-icons/fa";
 import { ArtisanDetails } from "@/api/crud/artisans";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 export const ArtisanProfile = ({ selectedArtisan }: Props) => {

@@ -9,9 +9,10 @@ import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
 };
 
 const fields: Field[] = [
@@ -59,11 +60,9 @@ const Booking = ({ selectedArtisan }: Props) => {
     clientPhoneNumber: currentUser?.phoneNumber,
   });
 
-  const { bookAppointment } = useArtisans();
+  const { bookAppointment } = useAppointments();
 
-  const { isPending, mutateAsync } = bookAppointment(
-    `${selectedArtisan?.user?._id}`
-  );
+  const { isPending, mutateAsync } = bookAppointment();
 
   const onSubmit = async (data: any) => {
     const payload = {

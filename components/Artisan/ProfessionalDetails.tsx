@@ -5,9 +5,10 @@ import DocumentCard from "./DocumentCard";
 import Image from "next/image";
 import { CustomButton } from "../clickable/CustomButton";
 import { toast } from "sonner";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {
-  selectedArtisan: ArtisanDetails;
+  selectedArtisan: any;
   refetch: () => void;
 };
 
@@ -24,7 +25,7 @@ const ProfessionalDetails = ({ selectedArtisan, refetch }: Props) => {
   const [activeDocType, setActiveDocType] = useState<string | null>(null);
   const [activeDocKey, setActiveDocKey] = useState<string | null>(null);
 
-  const { approveAndDisapproveDocuments } = useArtisans();
+  const { approveAndDisapproveDocuments } = useAppointments();
 
   const { mutate, isPending } = approveAndDisapproveDocuments(
     `${selectedArtisan?._id}`

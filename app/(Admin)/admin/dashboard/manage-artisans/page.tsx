@@ -77,13 +77,13 @@ const ManageArtisans = (props: Props) => {
   const { getAllArtisan, getSearchByArtisan, getFilteredByArtisan } =
     useArtisans();
 
-  const { data: artisans = [], isPending: isAllPending } = getAllArtisan();
+  const { data, isPending: isAllPending } = getAllArtisan();
   const { data: searchedArtisans = [], isPending: isSearchPending } =
     getSearchByArtisan(shouldUseSearch ? params : undefined);
   const { data: filteredArtisans = [], isPending: isFilterPending } =
     getFilteredByArtisan(shouldUseFilter ? params : undefined);
 
-
+const artisans = data?.data ?? [];
   const handlePageChange = (page: number) => {
     console.log(`Changing to page ${page}`);
     setCurrentPage(page);
