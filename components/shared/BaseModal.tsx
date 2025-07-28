@@ -29,7 +29,7 @@ export const BaseModal = ({
       >
         {title && (
           <DialogTitle className="sticky top-0 z-10 px-5 pt-5 bg-white flex items-center justify-between ">
-            <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+            <p className="text-xl font-semibold text-gray-900">{title}</p>
             <button
               onClick={onClose}
               className="w-8 h-8 flex items-center justify-center bg-[#F9F9FB] rounded-[32px] transition-colors"

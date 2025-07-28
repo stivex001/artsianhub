@@ -8,14 +8,16 @@ export interface CurrentUserData {
   lastName: string;
   password: string;
   profilePicture: string;
+  location: string;
+  phoneNumber: string;
 }
 
 export interface CurrentUser {
   access_token?: any;
   firstName: string;
   lastName: string;
-  profile: string;
-  new: string;
+  location: string;
+  phoneNumber: string;
   confirmPassword: string;
   password: string;
   confirm_pass: string;

@@ -107,7 +107,7 @@ export const UserProfile = ({ brandlogo }: Props) => {
       {isDropdownOpen && (
         <UserNav
           handleMenuItemClick={handleMenuItemClick}
-          onClose={() => setIsDropdownOpen(false)}
+          onClose={closeDropdown}
         />
       )}
     </div>
