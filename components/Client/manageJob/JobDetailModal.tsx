@@ -40,7 +40,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               Job Title
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.description}
+              {jobData?.artisanId?.professionalTitle}
             </p>
           </div>
           <div className="w-full flex items-center">
@@ -99,7 +99,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
                     className="aspect-video relative rounded-xl overflow-hidden bg-[#F9F9FB] cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <Image
-                      src={attachment}
+                      src={attachment?.url}
                       alt={`Attachment ${index + 1}`}
                       fill
                       className="w-full h-full object-cover"
@@ -118,7 +118,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
             <div className="flex items-center gap-4 p-0.5 max-h-[126px]">
               <div className="w-[120px] h-[120px] bg-[#D9D9D9] rounded-2xl">
                 <Image
-                  src={jobData?.artisanInfo?.avatar}
+                  src={jobData?.artisanId?.profilePicture}
                   alt=""
                   width={100}
                   height={100}
@@ -127,10 +127,10 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
               </div>
               <div className="">
                 <p className="text-base font-bold text-paragrah">
-                  {jobData?.artisanInfo?.name}
+                  {jobData?.artisanId?.firstName}   {jobData?.artisanId?.lastName}
                 </p>
                 <span className="text-body text-sm ">
-                  {jobData?.artisanInfo?.professionalTitle}
+                  {jobData?.artisanId?.professionalTitle}
                 </span>
 
                 <div className="flex items-center gap-0.5">

@@ -11,7 +11,7 @@ type Props = {};
 
 const tabs = [
   { key: "all", label: "All", count: 156 },
-  { key: "pending", label: "Pending", count: 45 },
+  { key: "Pending", label: "Pending", count: 45 },
   { key: "accepted", label: "Accepted", count: 45 },
   { key: "inprogress", label: "In Progress", count: 23 },
   { key: "completed", label: "Completed", count: 67 },
@@ -221,8 +221,8 @@ const ManageJob = (props: Props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pagination = true;
 
-  const { getAllBookings } = useAppointments();
-  const { data: booking, isPending } = getAllBookings();
+  const { getMyBookings } = useAppointments();
+  const { data: booking, isPending } = getMyBookings();
   const appointments = booking?.data
 
   console.log(booking, "booking__");
@@ -234,7 +234,7 @@ const ManageJob = (props: Props) => {
 
   // Filter appointments based on active tab and search query
   const filteredAppointments = appointments?.filter((appointment) => {
-    const matchesTab = activeTab === "all" || appointment.status === activeTab;
+    const matchesTab = activeTab === "all" || appointment?.status === activeTab;
     const matchesSearch =
       searchQuery === "" ||
       appointment?.description?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||

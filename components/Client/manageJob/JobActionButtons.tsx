@@ -18,7 +18,7 @@ export const JobActionButtons = ({
 }: Props) => {
   const actions: React.ReactNode[] = [];
 
-  if (status === "pending" || status === "accepted") {
+  if (status === "Pending" || status === "accepted") {
     actions.push(
       <CustomButton
         key="cancel"

@@ -13,6 +13,7 @@ import { FileUpload } from "../controlledInputs/FileUploads";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { useAppointments } from "@/api/crud/appointments";
+import { useRouter } from "next/navigation";
 
 type Props = {
   isOpen: boolean;
@@ -52,6 +53,7 @@ const fields: Field[] = [
 ];
 
 export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
+  const router = useRouter()
   const { files, setFiles } = useFileUpload(4);
   const { control, handleSubmit, formState, reset, setError, clearErrors } =
     useDynamicForm(fields, {});
@@ -68,7 +70,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
     formData.append("description", data?.description);
     formData.append("preferredDate", data?.preferredDate);
     formData.append("preferredTime", data?.preferredTime);
-    formData.append("artisanId", item?.userId?._id);
+    formData.append("artisanId", item?._id);
     formData.append("email", data?.email);
 
     files?.forEach((file: File) => {
@@ -83,6 +85,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
           onClose();
           reset();
           setFiles([]);
+          router.push(`/client/manage-jobs`)
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);

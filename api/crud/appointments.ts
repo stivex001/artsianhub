@@ -55,7 +55,29 @@ export interface AppointmentsInfo {
   description: string;
   price: number;
   _id: string;
-   images: {
+  images: {
+    url: string;
+    _id: string;
+  }[];
+}
+
+export interface ReviewInfo {
+  status: string;
+  artisanId: string;
+  location: string;
+  email: string;
+  client: {
+    profilePicture:string
+    firstName:string
+    lastName:string
+  };
+  clientPhoneNumber: string;
+  createdAt: any;
+  preferredTime: any;
+  comment: string;
+  rating: number;
+  _id: string;
+  images: {
     url: string;
     _id: string;
   }[];
@@ -63,6 +85,16 @@ export interface AppointmentsInfo {
 
 export interface AllBookings {
   data: AppointmentsInfo[];
+  pagination: {
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+  };
+}
+
+
+export interface AllReviews {
+  data: ReviewInfo[];
   pagination: {
     totalPages: number;
     currentPage: number;
@@ -98,9 +130,21 @@ export const useAppointments = () => {
       method: "GET",
     });
 
+  const getMyBookings = () =>
+    useApiQuery<AllBookings>(["my_appointments"], {
+      url: `/appointments/me`,
+      method: "GET",
+    });
+
   const getArtisanRating = (id: string) =>
     useApiQuery<Rating>(["artisan_rating"], {
       url: `/artisan-rating/${id}/ratings`,
+      method: "GET",
+    });
+
+  const getArtisanReview = (id: string) =>
+    useApiQuery<AllReviews>(["artisan_review"], {
+      url: `/reviews/artisan/${id}`,
       method: "GET",
     });
 
@@ -142,7 +186,9 @@ export const useAppointments = () => {
     bookAppointment,
     leaveReview,
     getBookingCount,
+    getArtisanReview,
     getAllBookings,
+    getMyBookings,
     bookingResponse,
     getAllArtisanCount,
     approveAndDisapproveDocuments,
