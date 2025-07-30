@@ -8,8 +8,8 @@ import {
   SecurityIcon,
 } from "@/components/assets/icons/LinksIcon";
 import { PersonalInfo } from "@/components/Client/settings/PersonalInfo";
-import { Preference } from "@/components/Client/settings/Preference";
 import ArtisanAccountSetting from "@/components/Artisan/settings/ArtisanAccountSetting";
+import KYC from "@/components/Artisan/settings/KYC";
 
 type Props = {};
 
@@ -29,7 +29,7 @@ const ArtisanSettings = (props: Props) => {
       case "personal":
         return <ArtisanAccountSetting />;
       case "kyc":
-        return <Preference />;
+        return <KYC />;
       case "security":
         return <Security />;
 

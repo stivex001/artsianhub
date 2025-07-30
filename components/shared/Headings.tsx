@@ -19,8 +19,8 @@ export const Headings = ({ title, className }: Props) => {
 export const Descriptions = ({ title, desc, className }: Props) => {
   return (
     <div>
-      <h1 className={`text-xl font-bold text-paragrah ${className}`}>{title}</h1>
-      {desc && <p className="text-sm text-body">{desc}</p>}
+      <h1 className={`text-2xl font-bold text-paragrah ${className}`}>{title}</h1>
+      {desc && <p className="text-sm text-[#667185]">{desc}</p>}
     </div>
   );
 };
