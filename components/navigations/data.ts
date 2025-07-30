@@ -13,7 +13,7 @@ export const artisanLinks = [
   },
 
   {
-    path: "/artisan/dashboard/calendar",
+    path: "/artisan/dashboard/calender",
     label: "Calendar",
     icon: CalenderIcon,
   },
@@ -24,11 +24,11 @@ export const artisanLinks = [
     icon: FolioIcon,
   },
 
-  {
-    path: "/artisan/dashboard/subscription",
-    label: "Subscription",
-    icon: SubIcon,
-  },
+  // {
+  //   path: "/artisan/dashboard/subscription",
+  //   label: "Subscription",
+  //   icon: SubIcon,
+  // },
   {
     path: "/artisan/dashboard/settings",
     label: "Settings",

@@ -17,8 +17,8 @@ const tabs = [
   { id: "personal", label: "Account Settings", icon: ProfileIcon },
   { id: "kyc", label: "KYC", icon: CalenderIcon },
   { id: "security", label: "Password", icon: SecurityIcon },
-  { id: "notification", label: "Notification", icon: SecurityIcon },
-  { id: "billing", label: "Billings & Subscription", icon: SecurityIcon },
+  // { id: "notification", label: "Notification", icon: SecurityIcon },
+  // { id: "billing", label: "Billings & Subscription", icon: SecurityIcon },
 ];
 
 const ArtisanSettings = (props: Props) => {
