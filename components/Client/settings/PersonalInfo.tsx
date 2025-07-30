@@ -4,6 +4,7 @@ import { useUser } from "@/api/crud/user";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ChangeProfilepics } from "@/components/controlledInputs/ChangeProfilepics";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
+import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React, { useState } from "react";
@@ -65,7 +66,6 @@ export const PersonalInfo = (props: Props) => {
         <ChangeProfilepics
           setSelectedFile={setSelectedFile}
           selectedFile={selectedFile}
-          
         />
 
         <div className="grid lg:grid-cols-2 gap-5">
@@ -88,15 +88,10 @@ export const PersonalInfo = (props: Props) => {
             rules={{ required: true }}
           />
         </div>
-        <ControlledInput
+        <ControlledPhoneInput
+          label="Phone Number"
           name="phoneNumber"
           control={control}
-          placeholder=""
-          type="number"
-          label="Phone Number"
-          variant="primary"
-          rules={{ required: true }}
-          art
         />
         <ControlledInput
           name="primaryLocation"

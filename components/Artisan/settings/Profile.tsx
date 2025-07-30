@@ -1,16 +1,16 @@
 "use client";
+import { useUser } from "@/api/crud/user";
 
-import Wrapper from "@/components/shared/Wrapper";
+import { CustomButton } from "@/components/clickable/CustomButton";
+import { ChangeProfilepics } from "@/components/controlledInputs/ChangeProfilepics";
+import ControlledInput from "@/components/controlledInputs/ControlledInput";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
+import { Descriptions } from "@/components/shared/Headings";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
-import React, { useEffect, useState } from "react";
-import ProfilePics from "./ProfilePics";
-import EditProfile from "./EditProfile";
-import { Pencil } from "lucide-react";
-import { useUser } from "@/api/crud/user";
-import { CustomButton } from "@/components/clickable/CustomButton";
-import { toast } from "sonner";
-import { useAuthStore } from "@/store/authStore";
+import React, { useState } from "react";
+import { gender } from "./data";
+import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
 
 type Props = {};
 
@@ -19,13 +19,15 @@ const fields: Field[] = [
     name: "firstName",
     type: "text",
   },
+
   {
     name: "lastName",
     type: "text",
   },
+
   {
-    name: "email",
-    type: "email",
+    name: "gender",
+    type: "text",
   },
   {
     name: "phoneNumber",
@@ -35,137 +37,101 @@ const fields: Field[] = [
     name: "dateOfBirth",
     type: "date",
   },
-  {
-    name: "specialization",
-    type: "text",
-  },
-  {
-    name: "residentialAddress",
-    type: "text",
-  },
-  {
-    name: "gender",
-    type: "text",
-  },
-  {
-    name: "profilePhoto",
-    type: "file",
-  },
 ];
 
-type UserDetails = {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phoneNumber?: string;
-  specialization?: string;
-  residentialAddress?: string;
-  dateOfBirth?: string;
-  gender?: string;
-};
+export const ArtisanPersonalInfo = (props: Props) => {
+  const { getCurrentUser } = useUser();
+  const { data: user } = getCurrentUser();
+  const personalInfo = user?.data;
 
-const Profile = (props: Props) => {
-  const { currentUser } = useAuthStore();
-  const { getCurrentUser, updateArtisanProfile } = useUser();
-  const { data: user, refetch } = getCurrentUser();
-  const userDetails: UserDetails | undefined =
-    typeof user?.user === "object" ? (user?.user as UserDetails) : undefined;
-
-  const [isEditing, setIsEditing] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-
-  const { mutate: updateProfile, isPending } = updateArtisanProfile;
-
-  const { control, handleSubmit, formState, setValue } = useDynamicForm(
+  const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      firstName: currentUser?.firstName || "",
-      lastName: currentUser?.lastName || "",
-      email: currentUser?.email || "",
-      phoneNumber: currentUser?.phoneNumber || "",
-      dateOfBirth: currentUser?.dateOfBirth || "",
-      specialization: currentUser?.specialization || "",
-      residentialAddress: currentUser?.residentialAddress || "",
-      gender: currentUser?.gender || "",
+      firstName: personalInfo?.firstName,
+      lastName: personalInfo?.lastName,
+      city: personalInfo?.location,
+      phoneNumber: personalInfo?.phoneNumber,
     }
   );
 
-  useEffect(() => {
-    if (userDetails) {
-      fields.forEach((field) => {
-        const key = field.name as keyof UserDetails;
-        if (userDetails[key] !== undefined) {
-          setValue(key, userDetails[key] as string);
-        }
-      });
-    }
-  }, [userDetails, setValue]);
+  const handleEditProfileInfo = () => {
+    const formValues = getValues();
 
-  const onSubmit = (data: any) => {
-    const formData = new FormData();
-
-    if (selectedFile) {
-      formData.append("profilePhoto", selectedFile);
-    }
-
-    try {
-      updateProfile(formData, {
-        onSuccess: (response: any) => {
-          console.log(response);
-          toast.success(response?.message);
-          refetch();
-          setIsEditing(false);
-        },
-        onError: (error: any) => {
-          console.error("Errorcreatingprofile:", error);
-          toast.error(error?.message);
-        },
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+    // updatePersonalInfo({
+    //   ...formValues,
+    //   profilePicture: selectedFile ?? personalInfo?.profilePicture ?? null,
+    // });
   };
 
   return (
-    <Wrapper className="py-6 ">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="border-b border-[#5691D1] px-7">
-          <h1 className="text-xl font-semibold pb-4">Profile</h1>
-        </div>
-        <div className="w-full flex justify-between pt-4 pb-24">
-          <ProfilePics
-            user={user}
-            isEditing={isEditing}
+    <form
+      onSubmit={handleSubmit(handleEditProfileInfo)}
+      className="flex flex-col gap-8"
+    >
+      <Descriptions title="Personal Info" desc="Let's get to know you" />
+
+      <div className="flex gap-5">
+        <div className="h-fit">
+          <ChangeProfilepics
             setSelectedFile={setSelectedFile}
             selectedFile={selectedFile}
-            setPreview={setPreview}
-            preview={preview}
+            art
           />
-          <EditProfile control={control} isEditing={isEditing} />
-          <div className=" w-[20%] text-end px-8">
-            {isEditing ? (
-              <CustomButton
-                type="submit"
-                label="Save Changes"
-                className=""
-                isLoading={isPending}
-              />
-            ) : (
-              <button
-                type="button"
-                className="text-primary flex text-end justify-end"
-                onClick={() => setIsEditing(true)}
-              >
-                <Pencil className="size-4" />
-                Edit
-              </button>
-            )}
-          </div>
         </div>
-      </form>
-    </Wrapper>
+        <div className="flex flex-col gap-5">
+          <div className="grid lg:grid-cols-2 gap-5">
+            <ControlledInput
+              name="firstName"
+              control={control}
+              placeholder="Enter first name"
+              type="text"
+              label="First Name"
+              variant="primary"
+              rules={{ required: true }}
+            />
+            <ControlledInput
+              name="lastName"
+              control={control}
+              placeholder="Enter last name"
+              type="text"
+              label="Last Name"
+              variant="primary"
+              rules={{ required: true }}
+            />
+          </div>
+          <ControlledPhoneInput
+            label="Phone Number"
+            name="phoneNumber"
+            control={control}
+          />
+          <ControlledSelect
+            name="gender"
+            label="Select Gender"
+            options={gender}
+            control={control}
+            variant="primary"
+            placeholder="Select gender"
+          />
+
+          <ControlledInput
+            name="dateOfBirth"
+            control={control}
+            placeholder=""
+            type="date"
+            label="Date of Birth"
+            variant="primary"
+          />
+        </div>
+      </div>
+      <div className="w-fit">
+        <CustomButton
+          type="submit"
+          label="Save Changes"
+          className="w-full rounded-[10px]"
+          variant="primary"
+        />
+      </div>
+    </form>
   );
 };
-
-export default Profile;

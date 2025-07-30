@@ -22,34 +22,33 @@ export const AdminHeader = (props: Props) => {
 
   const { currentUser } = useAuthStore();
 
-  const { getAllNotifications } = useNotification();
+  // const { getAllNotifications } = useNotification();
 
-  const { data } = getAllNotifications();
-  const notificationData = data?.notifications || [];
-  const pagination = data?.pagination || { totalPages: 0, totalCount: 0 };
+  // const { data } = getAllNotifications();
+  // const notificationData = data?.notifications || [];
+  // const pagination = data?.pagination || { totalPages: 0, totalCount: 0 };
 
   let title = "";
   let subtitle = "";
 
- if (pathname === "/artisan/dashboard") {
-  title = `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`;
-  subtitle =
-    "Track appointments, update your portfolio, and stay connected with new clients.";
-} else if (pathname === "/artisan/dashboard/calender") {
-  title = "Calender";
-} else if (pathname === "/artisan/dashboard/portfolio") {
-  title = "Portfolio";
-} else if (pathname === "/artisan/dashboard/subscription") {
-  title = "Subscription";
-} else if (pathname === "/artisan/dashboard/settings") {
-  title = "Settings";
-} else if (pathname.startsWith("/artisan/dashboard/manage-appointment")) {
-  title = "Manage Appointment";
-} else {
-  title = "Welcome Back!";
-  subtitle = "Let's get things done today.";
-}
-
+  if (pathname === "/artisan/dashboard") {
+    title = `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`;
+    subtitle =
+      "Track appointments, update your portfolio, and stay connected with new clients.";
+  } else if (pathname === "/artisan/dashboard/calender") {
+    title = "Calender";
+  } else if (pathname === "/artisan/dashboard/portfolio") {
+    title = "Portfolio";
+  } else if (pathname === "/artisan/dashboard/subscription") {
+    title = "Subscription";
+  } else if (pathname === "/artisan/dashboard/settings") {
+    title = "Settings";
+  } else if (pathname.startsWith("/artisan/dashboard/manage-appointment")) {
+    title = "Manage Appointment";
+  } else {
+    title = "Welcome Back!";
+    subtitle = "Let's get things done today.";
+  }
 
   return (
     <header
@@ -70,14 +69,14 @@ export const AdminHeader = (props: Props) => {
           {/* <span className="absolute -top-3 rigth-1 text-[#AE2525] font-semibold text-base">
             {notificationData?.length}
           </span> */}
-          {openNotification && (
+          {/* {openNotification && (
             <NotificationModal
               onClose={() => setOpenNotification(false)}
               notifications={notificationData}
               total={pagination?.totalCount}
               unread={pagination?.totalCount}
             />
-          )}
+          )} */}
         </button>
 
         <UserProfile />

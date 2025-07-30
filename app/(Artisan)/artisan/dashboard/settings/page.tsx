@@ -1,53 +1,69 @@
-import { Descriptions } from "@/components/shared/Headings";
-import React from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Profile from "@/components/Artisan/settings/Profile";
-import KYC from "@/components/Artisan/settings/KYC";
+"use client";
+import React, { useState } from "react";
 import Security from "@/components/Artisan/settings/Security";
+import Wrapper from "@/components/shared/Wrapper";
+import { ProfileIcon } from "@/components/assets/icons/UsersIcon";
+import {
+  CalenderIcon,
+  SecurityIcon,
+} from "@/components/assets/icons/LinksIcon";
+import { PersonalInfo } from "@/components/Client/settings/PersonalInfo";
+import { Preference } from "@/components/Client/settings/Preference";
+import ArtisanAccountSetting from "@/components/Artisan/settings/ArtisanAccountSetting";
 
 type Props = {};
 
-const Settings = (props: Props) => {
+const tabs = [
+  { id: "personal", label: "Account Settings", icon: ProfileIcon },
+  { id: "kyc", label: "KYC", icon: CalenderIcon },
+  { id: "security", label: "Password", icon: SecurityIcon },
+  { id: "notification", label: "Notification", icon: SecurityIcon },
+  { id: "billing", label: "Billings & Subscription", icon: SecurityIcon },
+];
+
+const ArtisanSettings = (props: Props) => {
+  const [activeTab, setActiveTab] = useState("personal");
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "personal":
+        return <ArtisanAccountSetting />;
+      case "kyc":
+        return <Preference />;
+      case "security":
+        return <Security />;
+
+      default:
+        return <PersonalInfo />;
+    }
+  };
+
   return (
-    <section className="flex flex-col gap-[30px]">
-      <div className="flex flex-col gap-4">
-        <Descriptions title="Settings" />
-        <Tabs defaultValue="Profile" className="w-full flex justify-start">
-          <TabsList className="w-full justify-start  bg-secondary h-14 rounded-[10px] mb-5">
-            <div className="flex items-center gap-12">
-              <TabsTrigger
-                value="Profile"
-                className="data-[state=active]:bg-white data-[state=active]:text-black text-white text-sm py-4 px-12"
+    <Wrapper className="flex gap-5">
+      <section className="w-[23%]  pr-5 border-r border-[#E4E5EA] min-h-[80vh]">
+        <nav className="space-y-1">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`w-full  flex items-center gap-3 px-4 py-[14px] rounded-2xl text-left transition-colors ${
+                  activeTab === tab.id
+                    ? "bg-[#1129A01A] text-primary"
+                    : "text-body hover:bg-gray-100"
+                }`}
               >
-                Profile
-              </TabsTrigger>
-              <TabsTrigger
-                value="kyc"
-                className="data-[state=active]:bg-white data-[state=active]:text-black text-white text-sm py-4 px-12"
-              >
-                KYC
-              </TabsTrigger>
-              <TabsTrigger
-                value="Security"
-                className="data-[state=active]:bg-white data-[state=active]:text-black text-white text-sm py-4 px-12"
-              >
-                Security
-              </TabsTrigger>
-            </div>
-          </TabsList>
-          <TabsContent value="Profile">
-            <Profile />
-          </TabsContent>
-          <TabsContent value="kyc">
-            <KYC />
-          </TabsContent>
-          <TabsContent value="Security">
-            <Security />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </section>
+                {/* <Icon /> */}
+                <span className="font-medium text-sm">{tab.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </section>
+      <div className="w-[77%]">{renderTabContent()}</div>
+    </Wrapper>
   );
 };
 
-export default Settings;
+export default ArtisanSettings;
