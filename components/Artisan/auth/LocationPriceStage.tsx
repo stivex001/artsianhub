@@ -53,8 +53,6 @@ export const LocationPriceStage = (props: Props) => {
     fields,
     {}
   );
-  console.log(serviceDetails, "serviceDetails");
-  
 
   const { isValid } = formState;
 
@@ -76,7 +74,10 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("dateOfBirth", personalInfo?.dateOfBirth);
       formData.append("professionalTitle", serviceDetails?.professionalTitle);
       formData.append("skillDescription", serviceDetails?.skillDescription);
-      formData.append("serviceCategory", JSON.stringify(serviceDetails?.serviceCategory));
+      formData.append(
+        "serviceCategory",
+        JSON.stringify(serviceDetails?.serviceCategory)
+      );
       formData.append("primaryLocation", data?.primaryLocation);
       formData.append("workDistanceKm", data?.workDistanceKm);
       formData.append("pricePerHour", data?.pricePerHour);

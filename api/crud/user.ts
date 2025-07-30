@@ -10,6 +10,12 @@ export interface CurrentUserData {
   profilePicture: string;
   location: string;
   phoneNumber: string;
+  serviceCategory:any
+  professionalTitle:string
+  skillDescription:string
+  primaryLocation:string
+  workDistanceKm:number
+  pricePerHour:number
 }
 
 export interface CurrentUser {
