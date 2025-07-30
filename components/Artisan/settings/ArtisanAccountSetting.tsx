@@ -3,9 +3,9 @@ import { Descriptions } from "@/components/shared/Headings";
 import { TabComponent } from "@/components/shared/TabComponent";
 import React, { useState } from "react";
 import { ArtisanPersonalInfo } from "./Profile";
-import Security from "./Security";
 import { ArtisanServiceInfo } from "./ArtisanServiceInfo";
 import { ArtisanLocationPriceInfo } from "./ArtisanLocationPriceInfo";
+import { WorkingHours } from "./WorkingHours";
 
 type Props = {};
 
@@ -32,7 +32,7 @@ const ArtisanAccountSetting = (props: Props) => {
       case "location":
         return <ArtisanLocationPriceInfo />;
       case "working":
-        return <Security />;
+        return <WorkingHours />;
       default:
         return null;
     }
