@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { ResuablePagination } from "./ResuablePagination";
 import { useRouter } from "next/navigation";
 
-// Types
+
 interface TableColumn<T = any> {
   key: string;
   header: string;
@@ -14,10 +14,11 @@ interface TableColumn<T = any> {
 
 interface TableProps<T = any> {
   columns: TableColumn<T>[];
-  data: T[];
+  data: any;
   searchable?: boolean;
   searchPlaceholder?: string;
-  onSearch?: (query: string) => void;
+  setSearchQuery: (query: string) => void;
+  searchQuery:string,
   pagination?: {
     currentPage: number;
     totalPages: number;
@@ -34,19 +35,18 @@ export const ReusableTable: React.FC<TableProps> = ({
   data,
   searchable = false,
   searchPlaceholder = "Search...",
-  onSearch,
+  setSearchQuery,
+  searchQuery,
   pagination,
   className = "",
   emptyMessage = "No data available",
   url,
 }) => {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = React.useState("");
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-    onSearch?.(query);
   };
 
   return (
@@ -86,32 +86,32 @@ export const ReusableTable: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data.length === 0 ? (
+            {data?.length === 0 ? (
               <tr>
                 <td
-                  colSpan={columns.length}
+                  colSpan={columns?.length}
                   className="px-6 py-12 text-center text-gray-500"
                 >
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              data.map((row, index) => (
+              data?.map((row:any, index:number) => (
                 <tr
                   key={index}
                   className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                 >
-                  {columns.map((column) => (
+                  {columns?.map((column) => (
                     <td
-                      key={column.key}
+                      key={column?.key}
                       className={`px-3 py-4 whitespace-nowrap text-sm text-body ${
-                        column.className || ""
+                        column?.className || ""
                       }`}
-                      onClick={() => router.push(`${url}/${row.id}`)}
+                      onClick={() => router.push(`${url}/${row?._id}`)}
                     >
-                      {column.render
-                        ? column.render(row[column.key], row)
-                        : row[column.key]}
+                      {column?.render
+                        ? column?.render(row[column?.key], row)
+                        : row[column?.key]}
                     </td>
                   ))}
                 </tr>

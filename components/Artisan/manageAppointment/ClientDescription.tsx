@@ -1,5 +1,6 @@
 import { MapImage } from "@/components/assets/icons/MapIcon";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import React from "react";
 
@@ -13,7 +14,7 @@ export const ClientDescription = ({ appointment }: Props) => {
       {/* Job Status */}
       <div>
         <h3 className="text-base font-bold text-body mb-2">Job Status</h3>
-        <StatusBadge status={appointment?.status ?? ""} />
+        <StatusBadge status={appointment?.status} />
       </div>
 
       {/* Job Description */}
@@ -30,7 +31,9 @@ export const ClientDescription = ({ appointment }: Props) => {
         <h3 className="text-base font-bold text-paragrah mb-2">
           Preferred Date and Time
         </h3>
-        <p className="text-body text-sm">{appointment?.preferredDateTime}</p>
+        <p className="text-body text-sm">
+          {formatDate(appointment?.preferredDate)}. {appointment?.preferredTime}
+        </p>
       </div>
 
       {/* Location */}
@@ -55,16 +58,15 @@ export const ClientDescription = ({ appointment }: Props) => {
           Attached Images
         </h3>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
-          {appointment?.attachedImages.map((image:any, index:number) => (
+          {appointment?.images?.map((image: any, index: number) => (
             <div
-              key={index}
-              className="aspect-square bg-gray-200 rounded-xl overflow-hidden"
+              key={image?._id}
+              className="h-[150px] relative bg-gray-200 rounded-xl overflow-hidden"
             >
               <Image
-                src={image}
+                src={image?.url}
                 alt={`Attachment ${index + 1}`}
-                width={200}
-                height={200}
+                fill
                 className="w-full h-full object-cover hover:scale-105 transition-transform cursor-pointer rounded-xl"
               />
             </div>

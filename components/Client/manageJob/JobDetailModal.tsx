@@ -110,7 +110,6 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
             </div>
           )}
 
-          {/* Artisan Info */}
           <div>
             <label className="text-sm font-medium text-paragrah mb-2">
               Artisan Info

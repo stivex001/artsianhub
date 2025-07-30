@@ -18,8 +18,8 @@ export const ClientInfo = ({ appointment }: Props) => {
     <div className="lg:w-80  flex flex-col">
       <div className="w-full h-[300px] rounded-2xl overflow-hidden mb-4">
         <Image
-          src={appointment?.photo ?? ""}
-          alt={appointment?.clientName ?? ""}
+          src={appointment?.clientId?.profilePicture}
+          alt={appointment?.clientId?.firstName}
           className="w-full h-full object-cover"
           width={320}
           height={300}
@@ -27,12 +27,14 @@ export const ClientInfo = ({ appointment }: Props) => {
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mb-2">
-        {appointment?.clientName}
+        {appointment?.clientId?.firstName} {appointment?.clientId?.lastName}
       </h2>
 
-      <div className="flex items-center text-gray-600 mb-4">
+      <div className="flex text-gray-600 mb-4">
         <MapIcon />
-        <span className="text-sm">{appointment?.location}</span>
+        <span className="w-[90%] text-body text-sm leading-relaxed whitespace-pre-line">
+          {appointment?.location}
+        </span>
       </div>
 
       <div className="flex gap-3 w-full">

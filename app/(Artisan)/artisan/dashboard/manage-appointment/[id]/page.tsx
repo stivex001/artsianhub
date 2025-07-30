@@ -6,13 +6,17 @@ import { useParams } from "next/navigation";
 import { sampleData } from "@/components/Artisan/manageAppointment/data";
 import { ClientInfo } from "@/components/Artisan/manageAppointment/ClientInfo";
 import { ClientDescription } from "@/components/Artisan/manageAppointment/ClientDescription";
+import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {};
 
 const AppointmentDetails = ({}: Props) => {
   const params = useParams();
   const id = params.id;
-  const appointment = sampleData?.find((art) => String(art?.id) === String(id));
+
+  const { getSingleBooking } = useAppointments();
+  const { data: booking, isPending } = getSingleBooking(`${id}`);
+  const appointment = booking?.data;
 
   return (
     <main className="flex flex-col gap-5">

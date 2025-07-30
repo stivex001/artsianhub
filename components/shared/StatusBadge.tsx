@@ -1,6 +1,6 @@
 export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
   const getStatusStyles = (status: string) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case "pending":
         return "bg-[#F3BF5E1A] text-[#FA7319] border-orange-200";
       case "completed":

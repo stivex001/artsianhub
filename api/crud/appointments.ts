@@ -67,9 +67,9 @@ export interface ReviewInfo {
   location: string;
   email: string;
   client: {
-    profilePicture:string
-    firstName:string
-    lastName:string
+    profilePicture: string;
+    firstName: string;
+    lastName: string;
   };
   clientPhoneNumber: string;
   createdAt: any;
@@ -83,6 +83,15 @@ export interface ReviewInfo {
   }[];
 }
 
+export interface SingleBooking {
+  data: AppointmentsInfo;
+  pagination: {
+    totalPages: number;
+    currentPage: number;
+    totalCount: number;
+  };
+}
+
 export interface AllBookings {
   data: AppointmentsInfo[];
   pagination: {
@@ -91,7 +100,6 @@ export interface AllBookings {
     totalCount: number;
   };
 }
-
 
 export interface AllReviews {
   data: ReviewInfo[];
@@ -133,6 +141,12 @@ export const useAppointments = () => {
   const getMyBookings = () =>
     useApiQuery<AllBookings>(["my_appointments"], {
       url: `/appointments/me`,
+      method: "GET",
+    });
+
+  const getSingleBooking = (id: string) =>
+    useApiQuery<SingleBooking>(["single_appointment"], {
+      url: `/appointments/${id}`,
       method: "GET",
     });
 
@@ -189,6 +203,7 @@ export const useAppointments = () => {
     getArtisanReview,
     getAllBookings,
     getMyBookings,
+    getSingleBooking,
     bookingResponse,
     getAllArtisanCount,
     approveAndDisapproveDocuments,
