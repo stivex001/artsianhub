@@ -18,6 +18,9 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
   const [isModalAcceptOpen, setIsModalAcceptOpen] = useState(false);
   const closeModal = () => setIsModalDeclineOpen(false);
 
+  const status = appointment?.status;
+  console.log(status, "shshhshdh");
+
   if (isPending) return <ClientInfoSkeleton />;
 
   return (
@@ -44,15 +47,29 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
       </div>
 
       <div className="flex gap-3 w-full">
-        <button
-          onClick={() => setIsModalAcceptOpen(true)}
-          className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
-        >
-          Accept
-        </button>
+        {(status === "Pending" || status === "Declined") && (
+          <button
+            onClick={() => setIsModalAcceptOpen(true)}
+            className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+          >
+            Accept
+          </button>
+        )}
+
+        {status === "Accepted" && (
+          <button
+            onClick={() => setIsModalAcceptOpen(true)}
+            className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+          >
+            Start
+          </button>
+        )}
+
         <button
           onClick={() => setIsModalDeclineOpen(true)}
-          className="flex-1 bg-white text-gray-700 py-3 px-6 rounded-xl font-medium border border-gray-300 hover:bg-gray-50 transition-colors"
+          className={`flex-1 ${
+            status === "Accepted" ? "bg-error text-white hover:bg-error/70" : "bg-white text-gray-700 hover:bg-gray-50"
+          }  py-3 px-6 rounded-xl font-medium border border-gray-300  transition-colors`}
         >
           Decline
         </button>
@@ -62,6 +79,7 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
         onClose={() => setIsModalAcceptOpen(false)}
         id={id}
         refetch={refetch}
+        status={status === "Accepted" ? "Inprogress" : "Accepted"}
       />
       <DeclineModal
         isOpen={isModalDesclineOpen}

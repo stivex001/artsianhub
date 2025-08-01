@@ -31,7 +31,7 @@ export const JobActionButtons = ({
     );
   }
 
-  if (status === "accepted") {
+  if (status === "Accepted") {
     actions.push(
       <CustomButton
         key="reschedule"
@@ -43,7 +43,7 @@ export const JobActionButtons = ({
     );
   }
 
-   if (status === "declined" || status === "cancelled") {
+   if (status === "Declined" || status === "cancelled") {
     actions.push(
       <CustomButton
         key="reschedule"

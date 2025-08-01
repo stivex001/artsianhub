@@ -17,7 +17,9 @@ export const ArtisanDetailsTab = (props: Props) => {
   const params = useParams();
   const id = params.id;
   const { getArtisanById } = useArtisans();
-  const { data: artisan, isPending } = getArtisanById(`${id}`);
+  const { data, isPending } = getArtisanById(`${id}`);
+
+    const artisan = data?.data;
 
   return (
     <Tabs defaultValue={activeTab} className="flex flex-col gap-6">

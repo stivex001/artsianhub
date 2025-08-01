@@ -1,4 +1,7 @@
+"use client";
+import { useArtisans } from "@/api/crud/artisans";
 import { renderStars } from "@/utils/RenderRatings";
+import { useParams } from "next/navigation";
 import React from "react";
 
 // Mock data - replace with actual data
@@ -14,19 +17,24 @@ const mockRatingData = {
   },
 };
 
-
-
 type Props = {};
 
 export const RatingOverview = (props: Props) => {
-  const ratingData = mockRatingData;
+  const params = useParams();
+  const id = params.id;
+  const { getArtisanById } = useArtisans();
+  const { data, isPending } = getArtisanById(`${id}`);
+
+  const artisan = data?.data;
+  const ratingData = artisan;
 
   const getRatingPercentage = (rating: number) => {
-    const count =
-      ratingData.ratingBreakdown[
-        rating as keyof typeof ratingData.ratingBreakdown
-      ];
-    return (count / ratingData.totalRatings) * 100;
+    const count = ratingData?.ratingBreakdown?.[rating] || 0;
+    const totalReviews =
+      typeof ratingData?.totalReviews === "number"
+        ? ratingData.totalReviews
+        : 0;
+    return totalReviews > 0 ? (count / totalReviews) * 100 : 0;
   };
 
   return (
@@ -40,10 +48,10 @@ export const RatingOverview = (props: Props) => {
             {ratingData?.averageRating}
           </div>
           <div className="mb-2">
-            {renderStars(Math.floor(ratingData.averageRating), "md")}
+            {renderStars(Math.floor(ratingData?.averageRating ?? 0), "md")}
           </div>
           <div className="text-body text-sm font-medium">
-            {ratingData.totalRatings} Ratings
+            {ratingData?.totalReviews} Ratings
           </div>
         </div>
 
@@ -69,11 +77,7 @@ export const RatingOverview = (props: Props) => {
                 />
               </div>
               <div className="text-sm text-gray-600 w-8">
-                {
-                  ratingData.ratingBreakdown[
-                    rating as keyof typeof ratingData.ratingBreakdown
-                  ]
-                }
+                {ratingData?.totalReviews}
               </div>
             </div>
           ))}

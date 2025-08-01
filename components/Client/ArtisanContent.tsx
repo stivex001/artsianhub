@@ -7,6 +7,7 @@ import { ContactArtisanModal } from "./ContactArtisanModal";
 import { useParams } from "next/navigation";
 import { useArtisans } from "@/api/crud/artisans";
 import Image from "next/image";
+import { Star } from "lucide-react";
 
 type Props = {};
 
@@ -29,7 +30,8 @@ export const ArtisanContent = ({}: Props) => {
   const closeModal = () => setIsModalContactOpen(false);
 
   const { getArtisanById } = useArtisans();
-  const { data: artisan, isPending } = getArtisanById(`${id}`);
+  const { data, isPending } = getArtisanById(`${id}`);
+  const artisan = data?.data;
 
 
   return (
@@ -66,14 +68,12 @@ export const ArtisanContent = ({}: Props) => {
                 </span>
               </div>
 
-              {/* <div className="flex items-center mb-2">
-                <div className="flex items-center mr-1">
-                  {renderStars(artisan?.rating)}
-                </div>
+              <div className="flex items-center mb-2">
+                <Star size={14} className="text-yellow-400 fill-current" />
                 <span className="text-sm text-body font-medium">
-                  {artisan?.rating}({artisan?.reviews})
+                  {artisan?.averageRating}({artisan?.totalReviews})
                 </span>
-              </div> */}
+              </div>
 
               <div className="text-base font-bold text-paragrah mb-5">
                 ${artisan?.pricePerHour}/hr
@@ -86,9 +86,9 @@ export const ArtisanContent = ({}: Props) => {
               />
             </div>
           </div>
-          {artisan && (
+          {data && (
             <ContactArtisanModal
-              item={artisan}
+              item={data}
               isOpen={isModalContactOpen}
               onClose={closeModal}
             />

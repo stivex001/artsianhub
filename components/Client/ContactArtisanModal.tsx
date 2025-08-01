@@ -70,7 +70,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
     formData.append("description", data?.description);
     formData.append("preferredDate", data?.preferredDate);
     formData.append("preferredTime", data?.preferredTime);
-    formData.append("artisanId", item?._id);
+    formData.append("artisanId", item?.data?._id);
     formData.append("email", data?.email);
 
     files?.forEach((file: File) => {
@@ -107,7 +107,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
       >
         <div>
           <div className="flex justify-between mb-1">
-            <h3 className="text-base font-bold text-paragrah ">{`Contact Claire (${item?.professionalTitle}) `}</h3>
+            <h3 className="text-base font-bold text-paragrah ">{`Contact Claire (${item?.data?.professionalTitle}) `}</h3>
             <button onClick={onClose} className="">
               <X />
             </button>

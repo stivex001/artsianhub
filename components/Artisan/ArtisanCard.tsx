@@ -23,7 +23,7 @@ export const ArtisanCard = ({ artisan }: Props) => {
             src={artisan?.profilePicture}
             alt={artisan?.firstName}
             className="w-full h-full object-cover rounded-xl"
-            layout="fill"
+            fill
           />
         </div>
         {/* Availability Badge */}
@@ -44,10 +44,10 @@ export const ArtisanCard = ({ artisan }: Props) => {
           </h3>
           <div className="flex items-center gap-1 ml-2">
             <Star size={14} className="text-yellow-400 fill-current" />
-            {/* <span className="text-sm font-medium text-gray-700">
-              {artisan?.rating?.toFixed(1)}
-            </span> */}
-            <span className="text-sm text-gray-500">({artisan?.reviews})</span>
+            <span className="text-sm font-medium text-gray-700">
+              {artisan?.averageRating}
+            </span>
+            <span className="text-sm text-gray-500">({artisan?.totalReviews})</span>
           </div>
         </div>
 

@@ -12,6 +12,7 @@ type AcceptModalProps = {
   onClose: () => void;
   id?: any;
   refetch: () => void;
+  status: string;
 };
 
 export const AcceptJobModal = ({
@@ -19,6 +20,7 @@ export const AcceptJobModal = ({
   onClose,
   id,
   refetch,
+  status = "Accepted",
 }: AcceptModalProps) => {
   const router = useRouter();
   const { updateBookingResponse } = useAppointments();
@@ -33,7 +35,7 @@ export const AcceptJobModal = ({
     }
 
     const payload = {
-      status: "Accepted",
+      status,
     };
 
     try {
@@ -43,7 +45,7 @@ export const AcceptJobModal = ({
           toast.success(response?.message);
           refetch();
           onClose();
-          router.push("/artisan/dashboard/manage-appointment");
+          // router.push("/artisan/dashboard/manage-appointment");
         },
         onError: (error: any) => {
           toast.error(error?.message || "Something went wrong");
@@ -59,7 +61,9 @@ export const AcceptJobModal = ({
     <CustomModal isOpen={isOpen} onClose={onClose} icon={<ConfirmIcon />}>
       <div>
         <h1 className="font-bold text-xl text-paragrah mb-1">
-          Accept This Appointment?
+          {status === "Accepted"
+            ? "Accept This Appointment?"
+            : "Are You Ready to Start This Job?"}
         </h1>
         <p className="text-sm text-body">
           Confirm that you’re available for this job at the requested date,
