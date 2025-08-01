@@ -1,4 +1,5 @@
 import { MapImage } from "@/components/assets/icons/MapIcon";
+import { ClientDescriptionSkeleton } from "@/components/loader/ClientInfoSkeleton";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
@@ -6,9 +7,12 @@ import React from "react";
 
 type Props = {
   appointment: any;
+  isPending: boolean;
 };
 
-export const ClientDescription = ({ appointment }: Props) => {
+export const ClientDescription = ({ appointment, isPending }: Props) => {
+  if (isPending) return <ClientDescriptionSkeleton />;
+
   return (
     <div className="flex-1  space-y-6">
       {/* Job Status */}

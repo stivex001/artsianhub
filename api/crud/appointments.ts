@@ -183,11 +183,12 @@ export const useAppointments = () => {
       method: "POST",
     });
 
-  const bookingResponse = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/booking/response/${id}`,
-      method: "POST",
-    });
+const updateBookingResponse = <T = any>(id: string) =>
+  useApiMutation<AuthResponse, T>({
+    url: `/appointments/${id}`,
+    method: "PUT",
+  });
+
 
   const approveAndDisapproveDocuments = (id: string) =>
     useApiMutation<AuthResponse, FormData>({
@@ -204,7 +205,7 @@ export const useAppointments = () => {
     getAllBookings,
     getMyBookings,
     getSingleBooking,
-    bookingResponse,
+    updateBookingResponse,
     getAllArtisanCount,
     approveAndDisapproveDocuments,
   };

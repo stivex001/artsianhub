@@ -1,7 +1,6 @@
 "use client";
 
 import { useAppointments } from "@/api/crud/appointments";
-import { sampleData } from "@/components/Artisan/manageAppointment/data";
 import { Descriptions } from "@/components/shared/Headings";
 import { ReusableTable } from "@/components/shared/ResuableTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -129,7 +128,7 @@ const ManageAppointment = (props: Props) => {
         />
         <ReusableTable
           columns={columns}
-          data={filteredAppointments}
+          data={filteredAppointments ?? []}
           searchable={true}
           searchPlaceholder="Search appointment"
           searchQuery={searchQuery}
@@ -140,6 +139,7 @@ const ManageAppointment = (props: Props) => {
             onPageChange: setCurrentPage,
           }}
           url="/artisan/dashboard/manage-appointment"
+          loading={isPending}
         />
       </Wrapper>
     </section>

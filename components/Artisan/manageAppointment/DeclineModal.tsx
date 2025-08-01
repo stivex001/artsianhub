@@ -9,12 +9,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { reason } from "../settings/data";
+import { useAppointments } from "@/api/crud/appointments";
 
 type DeclineModalProps = {
   isOpen: boolean;
   onClose: () => void;
   id?: any;
-  refetch?: () => void;
+  refetch: () => void;
 };
 
 const fields: Field[] = [
@@ -33,35 +34,42 @@ export const DeclineModal = ({
   refetch,
 }: DeclineModalProps) => {
   const router = useRouter();
-  const { deleteService } = useServices();
+  const { updateBookingResponse } = useAppointments();
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {}
   );
 
-  const { mutate: deleteSer, isPending } = deleteService(`${id}`);
+  const { isValid } = formState;
 
-  const onSubmit = async () => {
+  const { isPending: updatePending, mutate: updateRes } = updateBookingResponse(
+    `${id}`
+  );
+
+  const onSubmit = async (data: any) => {
     if (!id) {
       toast.error("Invalid Service selected");
       return;
     }
 
-    await deleteSer(
-      { id: id },
-      {
-        onSuccess: (response: any) => {
-          console.log(response, "res");
-          toast.success(response?.message);
-          // refetch();
-          onClose();
-        },
-        onError: (error: any) => {
-          toast.error(error?.message);
-        },
-      }
-    );
+    const payload = {
+      ...data,
+      status: "Declined",
+    };
+
+    await updateRes(payload, {
+      onSuccess: (response: any) => {
+        console.log(response, "res");
+        toast.success(response?.message);
+        refetch();
+        onClose();
+        router.push("/artisan/dashboard/manage-appointment");
+      },
+      onError: (error: any) => {
+        toast.error(error?.message);
+      },
+    });
   };
 
   return (
@@ -81,7 +89,7 @@ export const DeclineModal = ({
         className="flex flex-col gap-4 mt-4"
       >
         <ControlledSelect
-          name="gender"
+          name="reason"
           label="Reason for Declining"
           options={reason}
           control={control}
@@ -98,8 +106,8 @@ export const DeclineModal = ({
           />
           <CustomButton
             type="submit"
-            //   disabled={!isValid}
-            isLoading={isPending}
+            disabled={!isValid}
+            isLoading={updatePending}
             label={`Decline Job`}
             className="flex-1 rounded-xl bg-error hover:bg-error/90"
             variant="primary"

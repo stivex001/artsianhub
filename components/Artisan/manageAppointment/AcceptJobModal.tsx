@@ -1,3 +1,4 @@
+import { useAppointments } from "@/api/crud/appointments";
 import { useServices } from "@/api/crud/services";
 import { ConfirmIcon, DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
@@ -10,7 +11,7 @@ type AcceptModalProps = {
   isOpen: boolean;
   onClose: () => void;
   id?: any;
-  refetch?: () => void;
+  refetch: () => void;
 };
 
 export const AcceptJobModal = ({
@@ -20,31 +21,38 @@ export const AcceptJobModal = ({
   refetch,
 }: AcceptModalProps) => {
   const router = useRouter();
-  const { deleteService } = useServices();
+  const { updateBookingResponse } = useAppointments();
 
-  const { mutate: deleteSer, isPending } = deleteService(`${id}`);
+  const { isPending: updatePending, mutate: updateRes } =
+    updateBookingResponse<{ status: string }>(`${id}`);
 
-  const onSubmit = async () => {
+  const handleBookingResponse = async () => {
     if (!id) {
       toast.error("Invalid Service selected");
       return;
     }
 
-    await deleteSer(
-      { id: id },
-      {
+    const payload = {
+      status: "Accepted",
+    };
+
+    try {
+      await updateRes(payload, {
         onSuccess: (response: any) => {
           console.log(response, "res");
           toast.success(response?.message);
-          // refetch();
+          refetch();
           onClose();
           router.push("/artisan/dashboard/manage-appointment");
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.message || "Something went wrong");
         },
-      }
-    );
+      });
+    } catch (error) {
+      console.error("Update error:", error);
+      toast.error("Failed to accept appointment");
+    }
   };
 
   return (
@@ -68,12 +76,11 @@ export const AcceptJobModal = ({
         />
         <CustomButton
           type="button"
-          //   disabled={!isValid}
-          isLoading={isPending}
+          isLoading={updatePending}
           label={`Accept Job`}
           className="flex-1 rounded-xl bg-primary hover:bg-primary/90"
           variant="primary"
-          onClick={onSubmit}
+          onClick={handleBookingResponse}
         />
       </div>
     </CustomModal>

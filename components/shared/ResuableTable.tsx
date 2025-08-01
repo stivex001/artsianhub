@@ -1,8 +1,8 @@
 import React from "react";
-import { ChevronLeft, ChevronRight, Search } from "lucide-react";
-import { ResuablePagination } from "./ResuablePagination";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { Skeleton } from "@/components/ui/skeleton"; // shadcn
+import { ResuablePagination } from "./ResuablePagination";
 
 interface TableColumn<T = any> {
   key: string;
@@ -14,11 +14,12 @@ interface TableColumn<T = any> {
 
 interface TableProps<T = any> {
   columns: TableColumn<T>[];
-  data: any;
+  data: T[];
+  loading?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
   setSearchQuery: (query: string) => void;
-  searchQuery:string,
+  searchQuery: string;
   pagination?: {
     currentPage: number;
     totalPages: number;
@@ -29,10 +30,10 @@ interface TableProps<T = any> {
   url?: string;
 }
 
-// Main Table Component
 export const ReusableTable: React.FC<TableProps> = ({
   columns,
   data,
+  loading = false,
   searchable = false,
   searchPlaceholder = "Search...",
   setSearchQuery,
@@ -44,32 +45,28 @@ export const ReusableTable: React.FC<TableProps> = ({
 }) => {
   const router = useRouter();
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
   };
 
   return (
-    <div className={` ${className}`}>
+    <div className={`${className}`}>
       {searchable && (
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2 py-2 px-3 lg:w-[320px] border border-gray-300 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
-            <div className=" pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
+            <Search className="h-5 w-5 text-gray-400" />
             <input
               type="text"
               value={searchQuery}
               onChange={handleSearchChange}
-              className=" w-full leading-5 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 "
+              className="w-full leading-5 placeholder-gray-500 focus:outline-none"
               placeholder={searchPlaceholder}
             />
           </div>
-          {/* <div>filter</div> */}
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto no-scrollbar">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50 sticky top-0 z-10 shadow-sm">
             <tr>
@@ -86,32 +83,50 @@ export const ReusableTable: React.FC<TableProps> = ({
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data?.length === 0 ? (
+            {loading ? (
+              Array.from({ length: 5 }).map((_, rowIndex) => (
+                <tr key={rowIndex}>
+                  {columns.map((col, colIndex) => {
+                    const key = col.key.toLowerCase();
+                    const isAvatar = key.includes("avatar") || key.includes("image") || key.includes("photo");
+                    return (
+                      <td key={colIndex} className="px-3 py-4">
+                        {isAvatar ? (
+                          <Skeleton className="h-10 w-10 rounded-full" />
+                        ) : (
+                          <Skeleton className="h-4 w-full rounded" />
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            ) : data?.length === 0 ? (
               <tr>
                 <td
-                  colSpan={columns?.length}
+                  colSpan={columns.length}
                   className="px-6 py-12 text-center text-gray-500"
                 >
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              data?.map((row:any, index:number) => (
+              data.map((row: any, index: number) => (
                 <tr
                   key={index}
                   className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
                 >
-                  {columns?.map((column) => (
+                  {columns.map((column) => (
                     <td
-                      key={column?.key}
+                      key={column.key}
                       className={`px-3 py-4 whitespace-nowrap text-sm text-body ${
-                        column?.className || ""
+                        column.className || ""
                       }`}
                       onClick={() => router.push(`${url}/${row?._id}`)}
                     >
-                      {column?.render
-                        ? column?.render(row[column?.key], row)
-                        : row[column?.key]}
+                      {column.render
+                        ? column.render(row[column.key], row)
+                        : row[column.key]}
                     </td>
                   ))}
                 </tr>
@@ -121,7 +136,9 @@ export const ReusableTable: React.FC<TableProps> = ({
         </table>
       </div>
 
-      {pagination && <ResuablePagination pagination={pagination} />}
+      {!loading && data?.length > 10 && (
+        <ResuablePagination pagination={pagination} />
+      )}
     </div>
   );
 };

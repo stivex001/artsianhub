@@ -4,15 +4,21 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { DeclineModal } from "./DeclineModal";
 import { AcceptJobModal } from "./AcceptJobModal";
+import { ClientInfoSkeleton } from "@/components/loader/ClientInfoSkeleton";
 
 type Props = {
   appointment: any;
+  isPending: boolean;
+  refetch: any;
+  id: any;
 };
 
-export const ClientInfo = ({ appointment }: Props) => {
+export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
   const [isModalDesclineOpen, setIsModalDeclineOpen] = useState(false);
   const [isModalAcceptOpen, setIsModalAcceptOpen] = useState(false);
   const closeModal = () => setIsModalDeclineOpen(false);
+
+  if (isPending) return <ClientInfoSkeleton />;
 
   return (
     <div className="lg:w-80  flex flex-col">
@@ -54,14 +60,14 @@ export const ClientInfo = ({ appointment }: Props) => {
       <AcceptJobModal
         isOpen={isModalAcceptOpen}
         onClose={() => setIsModalAcceptOpen(false)}
-        // id={item?._id}
-        // refetch={refetch}
+        id={id}
+        refetch={refetch}
       />
       <DeclineModal
         isOpen={isModalDesclineOpen}
         onClose={closeModal}
-        // id={item?._id}
-        // refetch={refetch}
+        id={id}
+        refetch={refetch}
       />
     </div>
   );
