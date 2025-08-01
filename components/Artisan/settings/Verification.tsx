@@ -5,7 +5,6 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useKYCStore } from "@/store/kycStore";
 import React, { useEffect } from "react";
-import { steps } from "./KYC";
 import CreatableSelect from "@/components/controlledInputs/CreatableSelect";
 
 type Props = {};
@@ -118,13 +117,13 @@ const Verification = (props: Props) => {
             />
           )}
 
-          {currentStep < steps.length - 1 && (
+          {/* {currentStep < steps.length - 1 && (
             <CustomButton
               type="submit"
               label="Next"
               className="bg-secondary text-white w-[100px]"
             />
-          )}
+          )} */}
         </div>
       </form>
     </div>

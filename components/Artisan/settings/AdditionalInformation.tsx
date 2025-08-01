@@ -8,7 +8,6 @@ import { useKYCStore } from "@/store/kycStore";
 import React, { useEffect } from "react";
 import { daysOptions } from "./data";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { steps } from "./KYC";
 import CreatableSelectComponent from "@/components/controlledInputs/CreatableSelect";
 import CustomLocation from "@/components/controlledInputs/CustomLocation";
 import Location from "@/components/controlledInputs/Location";
@@ -169,13 +168,13 @@ const AdditionalInformation = (props: Props) => {
             />
           )}
 
-          {currentStep < steps.length - 1 && (
+          {/* {currentStep < steps.length - 1 && (
             <CustomButton
               type="submit"
               label="Next"
               className="bg-secondary text-white w-[100px]"
             />
-          )}
+          )} */}
         </div>
       </form>
     </div>
