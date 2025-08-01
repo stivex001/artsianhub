@@ -6,7 +6,6 @@ import KYC from "@/components/Artisan/settings/KYC";
 import Security from "@/components/Artisan/settings/Security";
 
 type Props = {};
-
 const Settings = (props: Props) => {
   return (
     <section className="flex flex-col gap-[30px]">
