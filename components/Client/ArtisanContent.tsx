@@ -33,7 +33,6 @@ export const ArtisanContent = ({}: Props) => {
   const { data, isPending } = getArtisanById(`${id}`);
   const artisan = data?.data;
 
-
   return (
     <div className="my-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -44,9 +43,9 @@ export const ArtisanContent = ({}: Props) => {
               {artisan?.profilePicture && (
                 <Image
                   src={artisan?.profilePicture}
-                  alt={artisan?.firstName ?? "Artisan Profile"}
+                  alt={"Artisan Profile"}
                   className="w-full h-full object-cover rounded-2xl"
-                  layout="fill"
+                  fill
                   // width={300}
                   // height={400}
                 />

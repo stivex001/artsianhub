@@ -23,10 +23,10 @@ export const ReviewDetails = ({ reviewData }: Props) => {
                 <div className="w-10 h-10 rounded-full bg-gray-100 flex-shrink-0 overflow-hidden">
                   <Image
                     src={review?.client?.profilePicture}
-                    alt={review?.client?.firstName}
+                    alt="client"
                     width={40}
                     height={40}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
                 <div>

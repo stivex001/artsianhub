@@ -102,7 +102,11 @@ export interface AllBookings {
 }
 
 export interface AllReviews {
-  data: ReviewInfo[];
+  data: {
+    reviews: ReviewInfo[];
+    totalReviews: number;
+    ratings:any
+  };
   pagination: {
     totalPages: number;
     currentPage: number;
@@ -183,12 +187,11 @@ export const useAppointments = () => {
       method: "POST",
     });
 
-const updateBookingResponse = <T = any>(id: string) =>
-  useApiMutation<AuthResponse, T>({
-    url: `/appointments/${id}`,
-    method: "PUT",
-  });
-
+  const updateBookingResponse = <T = any>(id: string) =>
+    useApiMutation<AuthResponse, T>({
+      url: `/appointments/${id}`,
+      method: "PUT",
+    });
 
   const approveAndDisapproveDocuments = (id: string) =>
     useApiMutation<AuthResponse, FormData>({
