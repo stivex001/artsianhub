@@ -1,3 +1,4 @@
+"use client";
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
 import { useState } from "react";
 import { JobDetailModal } from "./JobDetailModal";
@@ -6,11 +7,11 @@ import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 
 type AppointmentProps = {
-  appointment:any
-  refetch:() => void
-}
+  appointment: any;
+  refetch: () => void;
+};
 
-export const AppointmentCard = ({ appointment, refetch }:AppointmentProps) => {
+export const AppointmentCard = ({ appointment, refetch }: AppointmentProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);

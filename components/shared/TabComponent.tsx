@@ -1,3 +1,5 @@
+"use client";
+
 interface TabProps {
   tabs: Array<{
     key: string;
