@@ -1,21 +1,27 @@
+"use client";
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
-import { CustomButton } from "@/components/clickable/CustomButton";
 import { BaseModal } from "@/components/shared/BaseModal";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { renderStars } from "@/utils/RenderRatings";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { JobActionButtons } from "./JobActionButtons";
 import { formatDate } from "@/utils/formatDate";
+import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal";
 
 type Props = {
   item: any;
   isOpen: boolean;
   onClose: () => void;
+  refetch: () => void;
 };
 
-export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
+export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
   const jobData = item;
+  const [isModalCancelOpen, setIsModalCanceleOpen] = useState(false);
+
+  const handleCancelAppointment = () => {
+    setIsModalCanceleOpen(true);
+  };
 
   return (
     <BaseModal
@@ -26,7 +32,7 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
       footer={
         <JobActionButtons
           status={jobData?.status}
-          onCancel={() => console.log("Cancel clicked")}
+          onCancel={handleCancelAppointment}
           onReschedule={() => console.log("Reschedule clicked")}
           onMarkNoShow={() => console.log("No show clicked")}
           onMarkCompleted={() => console.log("Completed clicked")}
@@ -164,6 +170,16 @@ export const JobDetailModal = ({ isOpen, onClose, item }: Props) => {
           </div>
         </div>
       </section>
+      <CancelModal
+        isOpen={isModalCancelOpen}
+        onClose={() => {
+          setIsModalCanceleOpen(false);
+          onClose();
+        }}
+        id={item?._id}
+        refetch={refetch}
+        user="Client"
+      />
     </BaseModal>
   );
 };

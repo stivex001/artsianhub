@@ -5,7 +5,12 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 
-export const AppointmentCard = ({ appointment }: { appointment: any }) => {
+type AppointmentProps = {
+  appointment:any
+  refetch:() => void
+}
+
+export const AppointmentCard = ({ appointment, refetch }:AppointmentProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);
@@ -36,7 +41,7 @@ export const AppointmentCard = ({ appointment }: { appointment: any }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+        <div className="w-8 h-8 bg-gray-100 rounded-full object-cover flex items-center justify-center">
           <Image
             src={appointment?.artisanId?.profilePicture}
             alt="artisan"
@@ -53,6 +58,7 @@ export const AppointmentCard = ({ appointment }: { appointment: any }) => {
         item={appointment}
         isOpen={isModalOpen}
         onClose={closeModal}
+        refetch={refetch}
       />
     </div>
   );

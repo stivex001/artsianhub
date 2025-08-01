@@ -12,25 +12,21 @@ type Props = {};
 const tabs = [
   { key: "all", label: "All", count: 156 },
   { key: "Pending", label: "Pending", count: 45 },
-  { key: "accepted", label: "Accepted", count: 45 },
-  { key: "inprogress", label: "In Progress", count: 23 },
-  { key: "completed", label: "Completed", count: 67 },
-  { key: "cancelled", label: "Cancelled", count: 4 },
+  { key: "Accepted", label: "Accepted", count: 45 },
+  { key: "In Progress", label: "In Progress", count: 23 },
+  { key: "Completed", label: "Completed", count: 67 },
+  { key: "Cancelled (Client)", label: "Cancelled (Me)", count: 4 },
+  { key: "Cancelled (Artisan)", label: "Cancelled (Artisan)", count: 4 },
 ];
-
-
 
 const ManageJob = (props: Props) => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const pagination = true;
 
   const { getMyBookings } = useAppointments();
-  const { data: booking, isPending } = getMyBookings();
-  const appointments = booking?.data
-
-  console.log(booking, "booking__");
+  const { data: booking, isPending, refetch } = getMyBookings();
+  const appointments = booking?.data;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -42,7 +38,9 @@ const ManageJob = (props: Props) => {
     const matchesTab = activeTab === "all" || appointment?.status === activeTab;
     const matchesSearch =
       searchQuery === "" ||
-      appointment?.description?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+      appointment?.description
+        ?.toLowerCase()
+        ?.includes(searchQuery?.toLowerCase()) ||
       appointment?.email?.toLowerCase()?.includes(searchQuery?.toLowerCase());
 
     return matchesTab && matchesSearch;
@@ -72,7 +70,11 @@ const ManageJob = (props: Props) => {
       {/* Appointments Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {filteredAppointments?.map((appointment) => (
-          <AppointmentCard key={appointment?._id} appointment={appointment} />
+          <AppointmentCard
+            key={appointment?._id}
+            appointment={appointment}
+            refetch={refetch}
+          />
         ))}
       </div>
 
@@ -85,7 +87,7 @@ const ManageJob = (props: Props) => {
         </div>
       )}
 
-      {pagination && (
+      {filteredAppointments && filteredAppointments?.length > 10 && (
         <ResuablePagination
           pagination={{
             currentPage: currentPage,
