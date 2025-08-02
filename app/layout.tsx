@@ -6,6 +6,7 @@ import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
+import ScrollToTop from "@/components/navigations/ScrollToTop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -81,6 +82,7 @@ export default function RootLayout({
         <ModalCloseProvider>
           <body className={` ${satoshi.variable} antialiased`}>
             <Toaster position="top-center" />
+            <ScrollToTop />
             {children}
           </body>
         </ModalCloseProvider>

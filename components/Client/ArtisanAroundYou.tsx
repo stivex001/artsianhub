@@ -22,10 +22,10 @@ export const ArtisanAroundYou = (props: Props) => {
             </h2>
             <p className="text-body text-sm font-medium">Plumbers in London</p>
           </div>
-          <button className="flex items-center gap-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+          {/* <button className="flex items-center gap-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
             <FilterIcon />
             <span className="text-gray-700 font-medium">Filter</span>
-          </button>
+          </button> */}
         </div>
 
         <div>

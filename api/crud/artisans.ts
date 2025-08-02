@@ -92,8 +92,7 @@ export interface GetSingleArtisan {
       role: string;
       email: string;
     };
-    ratingBreakdown: any
-    
+    ratingBreakdown: any;
   };
 }
 
@@ -136,7 +135,7 @@ export const useArtisans = () => {
     });
 
   const getArtisanById = (id: string) =>
-    useApiQuery<GetSingleArtisan>(["single-artisan"], {
+    useApiQuery<GetSingleArtisan>(["single-artisan", id], {
       url: `/artisans/${id}`,
       method: "GET",
     });

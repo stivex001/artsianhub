@@ -11,18 +11,20 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  scroll-padding-top: 250px;
   scrollbar-width: 0px;
 }
 
+.landing-scroll {
+  scroll-padding-top: 250px;
+}
+
 :root {
-  --font-satoshi: 'SatoshiVariable', sans-serif;
+  --font-satoshi: "SatoshiVariable", sans-serif;
 }
 
 body {
   font-family: var(--font-satoshi);
 }
-
 
 .no-scrollbar::-webkit-scrollbar {
   display: none !important; /* Chrome, Safari */

@@ -6,8 +6,6 @@ import logo from "@/components/assets/images/artilogo.svg";
 import { useAuthStore } from "@/store/authStore";
 import UserDesc from "../UserDesc";
 import { CustomButton } from "../clickable/CustomButton";
-import { BarMenuIcon } from "../assets/icons/SvgIcons";
-import { X } from "lucide-react";
 import { MobileHeader } from "./MobileHeader";
 
 type Props = {};
@@ -23,7 +21,6 @@ export const navLinks: NavLink[] = [
 ];
 
 export const Header = (props: Props) => {
-  const { currentUser } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
 
@@ -32,7 +29,7 @@ export const Header = (props: Props) => {
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
-    setIsMenuOpen(false); 
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -74,73 +71,26 @@ export const Header = (props: Props) => {
             </button>
           ))}
 
-          {currentUser ? (
-            <div className="flex items-center gap-2.5 sm:gap-8 lg:gap-14">
-              <UserDesc />
-            </div>
-          ) : (
-            <div className="flex items-center gap-4">
-              <CustomButton
-                variant="transparent"
-                className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
-              >
-                <Link href="/auth/login">Login</Link>
-              </CustomButton>
-              <CustomButton>
-                <Link href="/auth/onboarding" className="font-light">
-                  Sign Up
-                </Link>
-              </CustomButton>
-            </div>
-          )}
+          <div className="flex items-center gap-4">
+            <CustomButton
+              variant="transparent"
+              className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
+            >
+              <Link href="/auth/login">Login</Link>
+            </CustomButton>
+            <CustomButton>
+              <Link href="/auth/onboarding" className="font-light">
+                Sign Up
+              </Link>
+            </CustomButton>
+          </div>
         </div>
 
         <MobileHeader
           handleScrollTo={handleScrollTo}
           activeSection={activeSection}
         />
-
-        {/* <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={24} /> : <BarMenuIcon />}
-          </button>
-        </div> */}
       </div>
-
-      {/* Mobile Nav Menu */}
-      {/* {isMenuOpen && (
-        <div className="md:hidden mt-3 flex flex-col items-start gap-4 bg-white px-4 py-8 rounded-lg shadow-md z-[999]">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleScrollTo(link.id)}
-              className={`text-sm font-medium ${
-                activeSection === link.id
-                  ? "text-[#2C3E50] font-semibold"
-                  : "text-gray-600"
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
-
-          {!currentUser && (
-            <div className="flex flex-col gap-2 mt-2 w-full">
-              <CustomButton
-                variant="transparent"
-                className="w-full border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
-              >
-                <Link href="/auth/login">Login</Link>
-              </CustomButton>
-              <CustomButton className="w-full">
-                <Link href="/auth/onboarding" className="font-light">
-                  Sign Up
-                </Link>
-              </CustomButton>
-            </div>
-          )}
-        </div>
-      )} */}
     </header>
   );
 };

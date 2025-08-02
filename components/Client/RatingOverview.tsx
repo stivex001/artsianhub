@@ -4,25 +4,12 @@ import { renderStars } from "@/utils/RenderRatings";
 import { useParams } from "next/navigation";
 import React from "react";
 
-// Mock data - replace with actual data
-const mockRatingData = {
-  averageRating: 4.7,
-  totalRatings: 267,
-  ratingBreakdown: {
-    5: 180,
-    4: 60,
-    3: 15,
-    2: 8,
-    1: 4,
-  },
-};
-
 type Props = {
-  ratings:any
-  totalReview:any
+  ratings: any;
+  totalReview: any;
 };
 
-export const RatingOverview = ({ratings,totalReview}: Props) => {
+export const RatingOverview = ({ ratings, totalReview }: Props) => {
   const params = useParams();
   const id = params.id;
   const { getArtisanById } = useArtisans();
@@ -33,10 +20,7 @@ export const RatingOverview = ({ratings,totalReview}: Props) => {
 
   const getRatingPercentage = (rating: number) => {
     const count = ratingData?.[rating] || 0;
-    const totalReviews =
-      typeof totalReview === "number"
-        ? totalReview
-        : 0;
+    const totalReviews = typeof totalReview === "number" ? totalReview : 0;
     return totalReviews > 0 ? (count / totalReviews) * 100 : 0;
   };
 
@@ -80,7 +64,7 @@ export const RatingOverview = ({ratings,totalReview}: Props) => {
                 />
               </div>
               <div className="text-sm text-gray-600 w-8">
-                {totalReview}
+                {ratingData?.[rating] || 0}
               </div>
             </div>
           ))}

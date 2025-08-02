@@ -155,13 +155,13 @@ export const useAppointments = () => {
     });
 
   const getArtisanRating = (id: string) =>
-    useApiQuery<Rating>(["artisan_rating"], {
+    useApiQuery<Rating>(["artisan_rating", id], {
       url: `/artisan-rating/${id}/ratings`,
       method: "GET",
     });
 
   const getArtisanReview = (id: string) =>
-    useApiQuery<AllReviews>(["artisan_review"], {
+    useApiQuery<AllReviews>(["artisan_review", id], {
       url: `/reviews/artisan/${id}`,
       method: "GET",
     });

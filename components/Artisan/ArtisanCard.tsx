@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import {  Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { MapIcon } from "../assets/icons/UsersIcon";
 import { useRouter } from "next/navigation";
 
@@ -18,14 +18,22 @@ export const ArtisanCard = ({ artisan }: Props) => {
       className="bg-white rounded-3xl pt-2 px-2 pb-5 hover:shadow-shadowHover transition overflow-hidden text-left cursor-pointer"
     >
       <div className="relative mb-3">
-        <div className="relative h-60 w-full overflow-hidden">
-          <Image
-            src={artisan?.profilePicture}
-            alt={artisan?.firstName}
-            className="w-full h-full object-cover rounded-xl"
-            fill
-          />
+        <div className="relative h-60 w-full overflow-hidden rounded-xl">
+          {artisan?.profilePicture ? (
+            <Image
+              src={artisan.profilePicture}
+              alt={artisan?.firstName || "Artisan"}
+              className="w-full h-full object-cover rounded-xl"
+              fill
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-600">
+              {artisan?.firstName?.charAt(0)?.toUpperCase()}
+              {artisan?.lastName?.charAt(0)?.toUpperCase()}
+            </div>
+          )}
         </div>
+
         {/* Availability Badge */}
         <div className="absolute top-3 right-3">
           <span
@@ -47,7 +55,9 @@ export const ArtisanCard = ({ artisan }: Props) => {
             <span className="text-sm font-medium text-gray-700">
               {artisan?.averageRating}
             </span>
-            <span className="text-sm text-gray-500">({artisan?.totalReviews})</span>
+            <span className="text-sm text-gray-500">
+              ({artisan?.totalReviews})
+            </span>
           </div>
         </div>
 

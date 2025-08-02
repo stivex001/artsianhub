@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { X } from "lucide-react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface BaseModalProps {
   isOpen: boolean;
@@ -27,7 +28,7 @@ export const BaseModal = ({
         onClick={(e) => e.stopPropagation()}
         className={`p-0 bg-transparent border-none shadow-none ${className}`}
       >
-        {title && (
+        {title ? (
           <DialogTitle className="sticky top-0 z-10 px-5 pt-5 bg-white flex items-center justify-between ">
             <p className="text-xl font-semibold text-gray-900">{title}</p>
             <button
@@ -37,12 +38,14 @@ export const BaseModal = ({
               <X className="h-5 w-5 text-paragrah" />
             </button>
           </DialogTitle>
+        ) : (
+          <DialogTitle>
+            <VisuallyHidden>Modal</VisuallyHidden>
+          </DialogTitle>
         )}
         <div className="">{children}</div>
         {footer && (
-          <div className="sticky bottom-0 z-10 bg-white p-4">
-            {footer}
-          </div>
+          <div className="sticky bottom-0 z-10 bg-white p-4">{footer}</div>
         )}
       </DialogContent>
     </Dialog>

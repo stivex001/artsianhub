@@ -105,7 +105,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
             placeholder={placeholder}
             onChange={onChange}
             onBlur={onBlur}
-            value={value}
+            value={value ?? ""}
             ref={ref}
             className={`${inputClassName} h-auto resize-none py-2`}
             maxLength={maxLength}
@@ -122,7 +122,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
               placeholder={placeholder}
               onChange={onChange}
               onBlur={onBlur}
-              value={value}
+              value={value ?? ""}
               ref={ref}
               className={inputClassName}
               {...props}

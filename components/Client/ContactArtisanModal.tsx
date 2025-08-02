@@ -107,7 +107,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
       >
         <div>
           <div className="flex justify-between mb-1">
-            <h3 className="text-base font-bold text-paragrah ">{`Contact Claire (${item?.data?.professionalTitle}) `}</h3>
+            <h3 className="text-base font-bold text-paragrah ">{`Contact ${item?.data?.firstName} (${item?.data?.professionalTitle}) `}</h3>
             <button onClick={onClose} className="">
               <X />
             </button>

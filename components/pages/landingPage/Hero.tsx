@@ -59,7 +59,7 @@ export const Hero = (props: Props) => {
         </div>
 
         <PopularService setSearchTerm={setSearchTerm} />
-        <TrustedBy />
+        {/* <TrustedBy /> */}
       </div>
     </section>
   );
