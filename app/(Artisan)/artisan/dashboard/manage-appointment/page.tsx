@@ -56,7 +56,7 @@ const columns = [
     render: (value: any,row: any) => (
       <div>
         <div className="text-sm text-gray-900">{row?.email}</div>
-        <div className="text-sm text-gray-500">{row?.clientId?.phoneNumber}</div>
+        {/* <div className="text-sm text-gray-500">{row?.clientId?.phoneNumber}</div> */}
       </div>
     ),
   },

@@ -1,3 +1,4 @@
+"use client"
 import { LogoIcon } from "@/components/assets/icons/SvgIcons";
 import Link from "next/link";
 import { UserProfile } from "../auth/UserProfile";

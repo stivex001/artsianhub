@@ -1,5 +1,4 @@
 import { ClientNav } from "@/components/Client/ClientNav";
-import BreadCrumbs from "@/components/navigations/BreadCrumbs";
 import { Descriptions } from "@/components/shared/Headings";
 import React, { ReactNode } from "react";
 

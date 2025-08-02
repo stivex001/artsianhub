@@ -140,7 +140,7 @@ const Login = (props: Props) => {
               isLoading={isPending}
             />
 
-            <GoogleAuth />
+            {/* <GoogleAuth /> */}
 
             <Link
               href={"/auth/onboarding"}
