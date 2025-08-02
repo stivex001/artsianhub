@@ -66,9 +66,9 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
             {item?.title}
           </h3>
 
-          <div className="flex  mb-2">
+          <div className="flex items-center mb-2">
             <MapIcon />
-            <span className="w-[90%] text-body text-sm font-medium">
+            <span className="w-[90%] text-body text-sm font-medium line-clamp-1">
               {item?.location}
             </span>
           </div>
