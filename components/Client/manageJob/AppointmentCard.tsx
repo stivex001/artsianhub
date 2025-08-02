@@ -5,26 +5,21 @@ import { JobDetailModal } from "./JobDetailModal";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
-import { AppointmentCardSkeleter } from "./AppointmentCardSkeleter";
 
 type AppointmentProps = {
   appointment: any;
   refetch: () => void;
-  isLoading: boolean;
 };
 
 export const AppointmentCard = ({
   appointment,
   refetch,
-  isLoading,
 }: AppointmentProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);
 
-  if (isLoading) {
-    return <AppointmentCardSkeleter />;
-  }
+  
 
   return (
     <div

@@ -1,6 +1,7 @@
 "use client";
 import { useAppointments } from "@/api/crud/appointments";
 import { AppointmentCard } from "@/components/Client/manageJob/AppointmentCard";
+import { AppointmentCardSkeleter } from "@/components/Client/manageJob/AppointmentCardSkeleter";
 import { ResuablePagination } from "@/components/shared/ResuablePagination";
 import { TabComponent } from "@/components/shared/TabComponent";
 import Wrapper from "@/components/shared/Wrapper";
@@ -32,7 +33,6 @@ const ManageJob = (props: Props) => {
     const query = e.target.value;
     setSearchQuery(query);
   };
-
 
   const filteredAppointments = appointments?.filter((appointment) => {
     const matchesTab = activeTab === "all" || appointment?.status === activeTab;
@@ -68,14 +68,17 @@ const ManageJob = (props: Props) => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {filteredAppointments?.map((appointment) => (
-          <AppointmentCard
-            key={appointment?._id}
-            appointment={appointment}
-            refetch={refetch}
-            isLoading={isPending}
-          />
-        ))}
+        {isPending ? (
+          <AppointmentCardSkeleter />
+        ) : (
+          filteredAppointments?.map((appointment) => (
+            <AppointmentCard
+              key={appointment?._id}
+              appointment={appointment}
+              refetch={refetch}
+            />
+          ))
+        )}
       </div>
 
       {/* Empty State */}

@@ -104,7 +104,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
           </div>
 
           {/* Attachments */}
-          {jobData?.images && jobData?.images?.length > 0 && (
+          {jobData?.images && jobData?.images?.length > 0 ? (
             <div>
               <label className="text-sm font-medium text-paragrah  mb-2">
                 Attachments
@@ -125,6 +125,11 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
                 ))}
               </div>
             </div>
+          ) : (
+            <div className="flex items-center justify-center mt-5">
+              {" "}
+              There are no images Attched
+            </div>
           )}
 
           <div>
@@ -133,13 +138,20 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
             </label>
             <div className="flex items-center gap-4 p-0.5 max-h-[126px]">
               <div className="w-[120px] h-[120px] bg-[#D9D9D9] rounded-2xl">
-                <Image
-                  src={jobData?.artisanId?.profilePicture}
-                  alt=""
-                  width={100}
-                  height={100}
-                  className="w-full h-full rounded-2xl object-cover"
-                />
+                {jobData?.artisanId?.profilePicture ? (
+                  <Image
+                    src={jobData?.artisanId?.profilePicture}
+                    alt=""
+                    width={100}
+                    height={100}
+                    className="w-full h-full rounded-2xl object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-base font-bold text-gray-600">
+                    {jobData?.artisanId?.firstName?.charAt(0)?.toUpperCase()}
+                    {jobData?.artisanId?.lastName?.charAt(0)?.toUpperCase()}
+                  </div>
+                )}
               </div>
               <div className="">
                 <p className="text-base font-bold text-paragrah">
