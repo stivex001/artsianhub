@@ -1,33 +1,15 @@
 import Wrapper from "@/components/shared/Wrapper";
 import React from "react";
-import image1 from "@/components/assets/images/buy.png";
-import image2 from "@/components/assets/images/bar.png";
-import image3 from "@/components/assets/images/makup.png";
-import image4 from "@/components/assets/images/Interiorlogo.png";
-import image5 from "@/components/assets/images/iMac.png";
-import image6 from "@/components/assets/images/Drawing.png";
-import image7 from "@/components/assets/images/Hammer.png";
-import image8 from "@/components/assets/images/cart.png";
-import Image from "next/image";
 
 type Props = {};
-
-const data = [
-  { id: 1, icon: image1, desc: "Fashion & Textile Artisans" },
-  { id: 2, icon: image2, desc: "Food & Culinary Artisans" },
-  { id: 3, icon: image3, desc: "Beauty & Personal Care Artisans" },
-  { id: 4, icon: image4, desc: "Home & Interior Artisans" },
-  { id: 5, icon: image5, desc: "Digital & Creative Artisans" },
-  { id: 6, icon: image6, desc: "Visual & Performing Arts Artisans" },
-  { id: 7, icon: image7, desc: "Craft & Handmade Goods Artisans" },
-  { id: 8, icon: image8, desc: "Skilled Trades & Repair Artisans" },
-];
 
 const AboutUs = (props: Props) => {
   return (
     <main>
       <section className="w-full lg:w-9/12 lg:mx-auto relative bg-hero bg-cover bg-top bg-no-repeat aspect-[3/2] h-[65vh] rounded-[40px] flex flex-col items-center justify-center ">
-        <h1 className="text-white text-left text-5xl lg:text-8xl font-semibold">MENSAYHUB</h1>
+        <h1 className="text-white text-left text-5xl lg:text-8xl font-semibold">
+          MENSAYHUB
+        </h1>
       </section>
       <div className="w-fit bg-white mx-auto h-[105px] flex items-center justify-center px-7 rounded-[40px] -mt-10 z-40 sticky shadow-dropShadow ">
         <h1 className="text-primary font-semibold text-3xl lg:text-4xl ">
@@ -64,22 +46,6 @@ const AboutUs = (props: Props) => {
             project management, quality assurance, and a seamless platform for
             finding and collaborating with skilled professionals.
           </p>
-          <div className="flex items-center gap-8 px-1 lg:pl-16">
-            {data.map((item) => (
-              <div key={item.id} className="flex flex-col items-center gap-6">
-                <Image
-                  src={item.icon}
-                  alt="icon"
-                  width={50}
-                  height={50}
-                  className=""
-                />
-                <p className="text-sm text-center font-[300] text-primary">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
         </Wrapper>
       </div>
     </main>
