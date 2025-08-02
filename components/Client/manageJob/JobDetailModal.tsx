@@ -78,7 +78,18 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
               Service
             </label>
             <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.serviceDate}
+              {jobData?.serviceCategories?.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {jobData?.serviceCategories?.map((service: any) => (
+                    <span
+                      key={service?._id}
+                      className="px-3 py-2 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
+                    >
+                      {service?.name}
+                    </span>
+                  ))}
+                </div>
+              )}
             </p>
           </div>
 

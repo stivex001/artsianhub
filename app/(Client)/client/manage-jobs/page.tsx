@@ -33,7 +33,7 @@ const ManageJob = (props: Props) => {
     setSearchQuery(query);
   };
 
-  // Filter appointments based on active tab and search query
+
   const filteredAppointments = appointments?.filter((appointment) => {
     const matchesTab = activeTab === "all" || appointment?.status === activeTab;
     const matchesSearch =
@@ -73,6 +73,7 @@ const ManageJob = (props: Props) => {
             key={appointment?._id}
             appointment={appointment}
             refetch={refetch}
+            isLoading={isPending}
           />
         ))}
       </div>
