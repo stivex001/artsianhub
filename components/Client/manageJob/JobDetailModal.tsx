@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import { JobActionButtons } from "./JobActionButtons";
 import { formatDate } from "@/utils/formatDate";
 import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal";
+import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
 
 type Props = {
   item: any;
@@ -18,9 +19,14 @@ type Props = {
 export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
   const jobData = item;
   const [isModalCancelOpen, setIsModalCanceleOpen] = useState(false);
+  const [isModalReScheduleOpen, setIsModalRescheduleOpen] = useState(false);
 
   const handleCancelAppointment = () => {
     setIsModalCanceleOpen(true);
+  };
+
+  const handleRescheduleAppointment = () => {
+    setIsModalRescheduleOpen(true);
   };
 
   return (
@@ -33,7 +39,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         <JobActionButtons
           status={jobData?.status}
           onCancel={handleCancelAppointment}
-          onReschedule={() => console.log("Reschedule clicked")}
+          onReschedule={handleRescheduleAppointment}
           onMarkNoShow={() => console.log("No show clicked")}
           onMarkCompleted={() => console.log("Completed clicked")}
         />
@@ -202,6 +208,16 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         id={item?._id}
         refetch={refetch}
         user="Client"
+      />
+
+      <RescheduleModal
+        isOpen={isModalReScheduleOpen}
+        onClose={() => {
+          setIsModalRescheduleOpen(false);
+          onClose();
+        }}
+        id={item?._id}
+        refetch={refetch}
       />
     </BaseModal>
   );

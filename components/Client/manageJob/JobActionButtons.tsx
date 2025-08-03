@@ -18,14 +18,14 @@ export const JobActionButtons = ({
 }: Props) => {
   const actions: React.ReactNode[] = [];
 
-  if (status === "Pending" || status === "accepted") {
+  if (status === "Pending" || status === "Accepted") {
     actions.push(
       <CustomButton
         key="cancel"
         label="Cancel Request"
         type="button"
         className="w-fit"
-        variant={status === "accepted" ? "transparent" : "primary"}
+        variant={status === "Accepted" ? "transparent" : "primary"}
         onClick={onCancel}
       />
     );

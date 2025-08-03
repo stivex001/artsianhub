@@ -11,15 +11,10 @@ type AppointmentProps = {
   refetch: () => void;
 };
 
-export const AppointmentCard = ({
-  appointment,
-  refetch,
-}: AppointmentProps) => {
+export const AppointmentCard = ({ appointment, refetch }: AppointmentProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => setIsModalOpen(false);
-
-  
 
   return (
     <div
