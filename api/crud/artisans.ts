@@ -78,6 +78,10 @@ export interface GetSingleArtisan {
     artisanId: string;
     firstName: string;
     lastName: string;
+    gender: string;
+    dateOfBirth: string;
+    location: string;
+    phoneNumber: string;
     professionalTitle: string;
     primaryLocation: string;
     serviceType: string[];
@@ -134,6 +138,12 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+     const getMyProfile = () =>
+    useApiQuery<GetSingleArtisan>(["my-profile"], {
+      url: `/artisans/me`,
+      method: "GET",
+    });
+
   const getArtisanById = (id: string) =>
     useApiQuery<GetSingleArtisan>(["single-artisan", id], {
       url: `/artisans/${id}`,
@@ -181,6 +191,15 @@ export const useArtisans = () => {
       method: "GET",
     });
 
+  const updateArtisanProfile = <T = any>(id: string) =>
+    useApiMutation<AuthResponse, T>({
+      url: `/artisans/${id}`,
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
   return {
     getAllArtisan,
     getArtisanById,
@@ -189,5 +208,7 @@ export const useArtisans = () => {
     getArtisanRating,
     getAllArtisanCount,
     getArtisanByCatgeory,
+    updateArtisanProfile,
+    getMyProfile
   };
 };

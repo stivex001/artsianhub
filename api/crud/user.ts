@@ -3,19 +3,23 @@ import { useApiMutation } from "@/hooks/useApiMutation";
 import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface CurrentUserData {
+  _id: string;
+  userId: string;
   email: string;
   firstName: string;
   lastName: string;
+  gender: string;
+  dateOfBirth: string;
   password: string;
   profilePicture: string;
   location: string;
   phoneNumber: string;
-  serviceCategory:any
-  professionalTitle:string
-  skillDescription:string
-  primaryLocation:string
-  workDistanceKm:number
-  pricePerHour:number
+  serviceCategory: any;
+  professionalTitle: string;
+  skillDescription: string;
+  primaryLocation: string;
+  workDistanceKm: number;
+  pricePerHour: number;
 }
 
 export interface CurrentUser {
@@ -67,17 +71,8 @@ export const useUser = () => {
     },
   });
 
-  const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({
-    url: "/artisan/profile",
-    method: "PUT",
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
   return {
     getCurrentUser,
-    updateArtisanProfile,
     createArtisanProfile,
     createClientProfile,
   };

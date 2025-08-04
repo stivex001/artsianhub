@@ -9,6 +9,8 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
 import { useCategories } from "@/api/crud/categories";
+import { useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -30,7 +32,7 @@ const fields: Field[] = [
 
 export const ArtisanServiceInfo = (props: Props) => {
   const { getCurrentUser } = useUser();
-  const { data: user } = getCurrentUser();
+  const { data: user, refetch } = getCurrentUser();
   const personalInfo = user?.data;
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
@@ -54,13 +56,34 @@ export const ArtisanServiceInfo = (props: Props) => {
       }))
     : [];
 
-  const handleEditProfileInfo = () => {
-    const formValues = getValues();
+  const { updateArtisanProfile } = useArtisans();
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
+    `${personalInfo?.userId}`
+  );
 
-    // updatePersonalInfo({
-    //   ...formValues,
-    //   profilePicture: selectedFile ?? personalInfo?.profilePicture ?? null,
-    // });
+  const handleEditProfileInfo = async (data: any) => {
+    const formData = new FormData();
+
+    try {
+      // Append form values
+      formData.append("professionalTitle", data.professionalTitle);
+      formData.append("skillDescription", data.skillDescription);
+      formData.append("serviceCategory", data.serviceCategory);
+
+      updatePersonalInfo(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile Updated Successfully");
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Update Profile Error:", error);
+        },
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected Error:", error);
+    }
   };
 
   return (
@@ -104,6 +127,7 @@ export const ArtisanServiceInfo = (props: Props) => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          isLoading={isPending}
         />
       </div>
     </form>

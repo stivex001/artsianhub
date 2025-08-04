@@ -5,22 +5,31 @@ import { useUser } from "@/api/crud/user";
 import Image from "next/image";
 import ava from "@/components/assets/images/ava.svg";
 import { UserNav } from "./UserNav";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useArtisans } from "@/api/crud/artisans";
 
 type Props = {
   brandlogo?: boolean;
 };
 
 export const UserProfile = ({ brandlogo }: Props) => {
+  const pathname = usePathname();
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // const { currentUser } = useAuthStore();
   const { getCurrentUser } = useUser();
+  const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
+  const { data: profile } = getMyProfile();
 
-  const profilePhoto = user?.data?.profilePicture;
+  const isArtisanPage = pathname.startsWith("artisan");
+
+  const personalInfo = profile?.data;
+  const profilePhoto = isArtisanPage
+    ? personalInfo?.profilePicture
+    : user?.data?.profilePicture;
 
   // const initials = getUserInitials(
   //   currentUser?.firstName,

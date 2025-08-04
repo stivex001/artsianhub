@@ -11,6 +11,8 @@ import { Field } from "@/schemas/dynamicSchema";
 import React, { useState } from "react";
 import { gender } from "./data";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
+import { useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -42,26 +44,58 @@ const fields: Field[] = [
 export const ArtisanPersonalInfo = (props: Props) => {
   const { getCurrentUser } = useUser();
   const { data: user } = getCurrentUser();
-  const personalInfo = user?.data;
+  const { updateArtisanProfile, getMyProfile } = useArtisans();
+  const { data: profile, refetch } = getMyProfile();
+  const personalInfo = profile?.data;
+
+  console.log(personalInfo, "p_info")
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { control, handleSubmit, formState, getValues } = useDynamicForm(
-    fields,
-    {
-      firstName: personalInfo?.firstName,
-      lastName: personalInfo?.lastName,
-      city: personalInfo?.location,
-      phoneNumber: personalInfo?.phoneNumber,
-    }
+  const { control, handleSubmit } = useDynamicForm(fields, {
+    firstName: personalInfo?.firstName,
+    lastName: personalInfo?.lastName,
+    gender: personalInfo?.gender,
+    dateOfBirth: personalInfo?.dateOfBirth,
+    city: personalInfo?.location,
+    phoneNumber: personalInfo?.phoneNumber,
+  });
+
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
+    `${personalInfo?.userId?._id}`
   );
 
-  const handleEditProfileInfo = () => {
-    const formValues = getValues();
+  const handleEditProfileInfo = async (data: any) => {
+    const formData = new FormData();
 
-    // updatePersonalInfo({
-    //   ...formValues,
-    //   profilePicture: selectedFile ?? personalInfo?.profilePicture ?? null,
-    // });
+    try {
+      // Append form values
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("gender", data.gender);
+      formData.append("phoneNumber", data.phoneNumber);
+      formData.append("dateOfBirth", data.dateOfBirth);
+
+      // Append image file or fallback to current profilePicture
+      if (selectedFile) {
+        formData.append("profilePicture", selectedFile);
+      } else if (personalInfo?.profilePicture) {
+        formData.append("profilePicture", personalInfo.profilePicture);
+      }
+
+      updatePersonalInfo(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile Updated Successfully");
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Update Profile Error:", error);
+        },
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected Error:", error);
+    }
   };
 
   return (
@@ -76,6 +110,7 @@ export const ArtisanPersonalInfo = (props: Props) => {
           <ChangeProfilepics
             setSelectedFile={setSelectedFile}
             selectedFile={selectedFile}
+            profileImageUrl={personalInfo?.profilePicture}
             art
           />
         </div>
@@ -130,6 +165,7 @@ export const ArtisanPersonalInfo = (props: Props) => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          isLoading={isPending}
         />
       </div>
     </form>
