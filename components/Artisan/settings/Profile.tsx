@@ -48,7 +48,6 @@ export const ArtisanPersonalInfo = (props: Props) => {
   const { data: profile, refetch } = getMyProfile();
   const personalInfo = profile?.data;
 
-  console.log(personalInfo, "p_info")
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { control, handleSubmit } = useDynamicForm(fields, {

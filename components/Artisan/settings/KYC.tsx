@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Descriptions } from "@/components/shared/Headings";
 import { DocsUploader } from "@/components/controlledInputs/DocsUploader";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
 
 interface UploadedFiles {
   governmentId1: File | null;
@@ -20,6 +22,10 @@ const KYC = () => {
     customerRef: null,
   });
 
+  const { updateArtisanKyc, getMyProfile } = useArtisans();
+  const { data: profile, refetch } = getMyProfile();
+  const { mutate: kycUpdate, isPending } = updateArtisanKyc;
+
   const handleFileUpload =
     (category: keyof UploadedFiles) => (file: File | null) => {
       setUploadedFiles((prev) => ({
@@ -29,9 +35,29 @@ const KYC = () => {
     };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Uploaded files:", uploadedFiles);
+    e.preventDefault(); // prevent page reload
+
+    const formData = new FormData();
+
+    if (uploadedFiles.governmentId1)
+      formData.append("govtIdFront", uploadedFiles.governmentId1);
+    if (uploadedFiles.governmentId2)
+      formData.append("govtIdBack", uploadedFiles.governmentId2);
+    if (uploadedFiles.professionalCert)
+      formData.append("certification", uploadedFiles.professionalCert);
+    if (uploadedFiles.customerRef)
+      formData.append("customerReference", uploadedFiles.customerRef);
+
+    kycUpdate(formData, {
+      onSuccess: (response: any) => {
+        toast.success(response?.message || "KYC Uploaded Successfully");
+        refetch();
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "Something went wrong");
+        console.error("KYC Upload Error:", error);
+      },
+    });
   };
 
   return (
@@ -42,38 +68,34 @@ const KYC = () => {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Government-Issued ID (First) */}
         <DocsUploader
-          title="Government-Issued ID"
+          title="Government-Issued ID Front"
           description="For identity verification"
-          acceptedTypes=".svg,.png,.jpg,.jpeg,.gif"
+          acceptedTypes=".png,.jpg,.jpeg,.pdf"
           maxSize={10}
           onFileUpload={handleFileUpload("governmentId1")}
         />
 
-        {/* Professional Certifications */}
         <DocsUploader
-          title="Professional Certifications"
-          description="For identity verification"
-          acceptedTypes=".svg,.png,.jpg,.jpeg,.gif"
-          maxSize={10}
-          onFileUpload={handleFileUpload("professionalCert")}
-        />
-
-        {/* Government-Issued ID (Second) */}
-        <DocsUploader
-          title="Government-Issued ID"
-          description="Recent utility bill or official correspondence"
-          acceptedTypes=".svg,.png,.jpg,.jpeg,.gif"
+          title="Government-Issued ID Back"
+          description="Back of ID or utility bill"
+          acceptedTypes=".png,.jpg,.jpeg,.pdf"
           maxSize={10}
           onFileUpload={handleFileUpload("governmentId2")}
         />
 
-        {/* Customer References */}
+        <DocsUploader
+          title="Professional Certifications"
+          description="Certificates or licenses (if any)"
+          acceptedTypes=".png,.jpg,.jpeg,.pdf"
+          maxSize={10}
+          onFileUpload={handleFileUpload("professionalCert")}
+        />
+
         <DocsUploader
           title="Customer References"
-          description="If applicable"
-          acceptedTypes=".svg,.png,.jpg,.jpeg,.gif"
+          description="Testimonial or past client proof"
+          acceptedTypes=".png,.jpg,.jpeg,.pdf"
           maxSize={10}
           onFileUpload={handleFileUpload("customerRef")}
         />
@@ -85,6 +107,7 @@ const KYC = () => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          isLoading={isPending}
         />
       </div>
     </form>

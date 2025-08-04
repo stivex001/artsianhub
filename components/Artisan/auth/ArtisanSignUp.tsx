@@ -232,7 +232,6 @@ const ArtisanSignUp = (props: Props) => {
               options={gender}
               control={control}
               variant="primary"
-              art
             />
           </div>
         </div>

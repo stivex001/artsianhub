@@ -138,7 +138,7 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-     const getMyProfile = () =>
+  const getMyProfile = () =>
     useApiQuery<GetSingleArtisan>(["my-profile"], {
       url: `/artisans/me`,
       method: "GET",
@@ -200,6 +200,15 @@ export const useArtisans = () => {
       },
     });
 
+  const updateArtisanKyc =  
+    useApiMutation<AuthResponse, FormData>({
+      url: `/artisans/kyc`,
+      method: "PUT",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
   return {
     getAllArtisan,
     getArtisanById,
@@ -209,6 +218,7 @@ export const useArtisans = () => {
     getAllArtisanCount,
     getArtisanByCatgeory,
     updateArtisanProfile,
-    getMyProfile
+    getMyProfile,
+    updateArtisanKyc
   };
 };
