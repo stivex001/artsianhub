@@ -35,7 +35,7 @@ const KYC = () => {
     };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault(); 
 
     const formData = new FormData();
 

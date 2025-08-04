@@ -8,6 +8,8 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
 import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
+import { useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -28,11 +30,11 @@ const fields: Field[] = [
 ];
 
 export const ArtisanLocationPriceInfo = (props: Props) => {
-  const { getCurrentUser } = useUser();
-  const { data: user } = getCurrentUser();
-  const personalInfo = user?.data;
+  const { updateArtisanProfile, getMyProfile } = useArtisans();
+  const { data: profile, refetch } = getMyProfile();
+  const personalInfo = profile?.data;
 
-  const { control, handleSubmit, formState, getValues } = useDynamicForm(
+  const { control, handleSubmit } = useDynamicForm(
     fields,
     {
       primaryLocation: personalInfo?.primaryLocation,
@@ -41,13 +43,33 @@ export const ArtisanLocationPriceInfo = (props: Props) => {
     }
   );
 
-  const handleEditProfileInfo = () => {
-    const formValues = getValues();
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
+    `${personalInfo?.userId?._id}`
+  );
 
-    // updatePersonalInfo({
-    //   ...formValues,
-    //   profilePicture: selectedFile ?? personalInfo?.profilePicture ?? null,
-    // });
+  const handleEditProfileInfo = async (data: any) => {
+    const formData = new FormData();
+
+    try {
+      // Append form values
+      formData.append("primaryLocation", data.primaryLocation);
+      formData.append("workDistanceKm", data.workDistanceKm);
+      formData.append("pricePerHour", data.pricePerHour);
+
+      updatePersonalInfo(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile Updated Successfully");
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Update Profile Error:", error);
+        },
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected Error:", error);
+    }
   };
 
   return (
@@ -69,14 +91,7 @@ export const ArtisanLocationPriceInfo = (props: Props) => {
           label="Primary Location"
           variant="primary"
         />
-        <ControlledInput
-          name="professionalTitle"
-          control={control}
-          placeholder="Add professional title"
-          type="text"
-          label="Professional title"
-          variant="primary"
-        />
+
         <ControlledRangeSelector
           name="workDistanceKm"
           label="Travel Distance"
@@ -102,6 +117,7 @@ export const ArtisanLocationPriceInfo = (props: Props) => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          isLoading={isPending}
         />
       </div>
     </form>

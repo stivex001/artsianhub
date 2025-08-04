@@ -75,8 +75,8 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("professionalTitle", serviceDetails?.professionalTitle);
       formData.append("skillDescription", serviceDetails?.skillDescription);
       formData.append(
-        "serviceCategory",
-        JSON.stringify(serviceDetails?.serviceCategory)
+        "serviceCategories",
+        JSON.stringify(serviceDetails?.serviceCategories)
       );
       formData.append("primaryLocation", data?.primaryLocation);
       formData.append("workDistanceKm", data?.workDistanceKm);

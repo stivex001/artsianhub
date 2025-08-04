@@ -25,20 +25,20 @@ const fields: Field[] = [
     type: "text",
   },
   {
-    name: "serviceCategory",
+    name: "serviceCategories",
     type: "multiselect",
   },
 ];
 
 export const ArtisanServiceInfo = (props: Props) => {
-  const { getCurrentUser } = useUser();
-  const { data: user, refetch } = getCurrentUser();
-  const personalInfo = user?.data;
+  const { updateArtisanProfile, getMyProfile } = useArtisans();
+  const { data: profile, refetch } = getMyProfile();
+  const personalInfo = profile?.data;
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      serviceCategory: personalInfo?.serviceCategory,
+      serviceCategories: personalInfo?.serviceCategories,
       professionalTitle: personalInfo?.professionalTitle,
       skillDescription: personalInfo?.skillDescription,
     }
@@ -56,19 +56,25 @@ export const ArtisanServiceInfo = (props: Props) => {
       }))
     : [];
 
-  const { updateArtisanProfile } = useArtisans();
   const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
-    `${personalInfo?.userId}`
+    `${personalInfo?.userId?._id}`
   );
 
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();
 
+     const safeServicategory = Array.isArray(data?.serviceType)
+      ? data.serviceCategories
+      : typeof data?.serviceCategories === "string"
+      ? data.serviceCategories.split(",")
+      : [];
+
     try {
       // Append form values
       formData.append("professionalTitle", data.professionalTitle);
       formData.append("skillDescription", data.skillDescription);
-      formData.append("serviceCategory", data.serviceCategory);
+
+    formData.append("serviceCategories", JSON.stringify(safeServicategory))
 
       updatePersonalInfo(formData, {
         onSuccess: (response: any) => {
@@ -95,7 +101,7 @@ export const ArtisanServiceInfo = (props: Props) => {
 
       <div className="flex flex-col gap-5">
         <ControlledSelect
-          name="serviceCategory"
+          name="serviceCategories"
           label="Service Category"
           options={categoryOptions}
           control={control}

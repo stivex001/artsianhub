@@ -83,10 +83,13 @@ export interface GetSingleArtisan {
     location: string;
     phoneNumber: string;
     professionalTitle: string;
+    skillDescription: string;
     primaryLocation: string;
     serviceType: string[];
+    serviceCategories: string[];
     description: string;
     pricePerHour: number;
+    workDistanceKm: number;
     date: string;
     profilePicture: string;
     totalReviews: string;
@@ -203,7 +206,7 @@ export const useArtisans = () => {
   const updateArtisanKyc =  
     useApiMutation<AuthResponse, FormData>({
       url: `/artisans/kyc`,
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "multipart/form-data",
       },

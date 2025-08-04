@@ -42,12 +42,9 @@ const fields: Field[] = [
 ];
 
 export const ArtisanPersonalInfo = (props: Props) => {
-  const { getCurrentUser } = useUser();
-  const { data: user } = getCurrentUser();
   const { updateArtisanProfile, getMyProfile } = useArtisans();
   const { data: profile, refetch } = getMyProfile();
   const personalInfo = profile?.data;
-
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { control, handleSubmit } = useDynamicForm(fields, {

@@ -26,7 +26,7 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
-    name: "serviceCategory",
+    name: "serviceCategories",
     type: "multiselect",
     errorMessage: "Kindly select Category",
     isRequired: false,
@@ -57,7 +57,7 @@ export const ServiceDetailsStage = (props: Props) => {
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      serviceCategory: serviceDetails.serviceCategory,
+      serviceCategories: serviceDetails.serviceCategories,
       professionalTitle: serviceDetails.professionalTitle,
       skillDescription: serviceDetails.skillDescription,
     }
@@ -68,15 +68,15 @@ export const ServiceDetailsStage = (props: Props) => {
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
 
-     const safeServiceType = Array.isArray(formValues?.serviceCategory)
-      ? formValues.serviceCategory
-      : typeof formValues?.serviceCategory === "string"
-      ? formValues.serviceCategory.split(",")
+     const safeServiceType = Array.isArray(formValues?.serviceCategories)
+      ? formValues.serviceCategories
+      : typeof formValues?.serviceCategories === "string"
+      ? formValues.serviceCategories.split(",")
       : [];
 
     updateServiceDetails({
       ...formValues,
-      serviceCategory: safeServiceType,
+      serviceCategories: safeServiceType,
     });
     markStepCompleted("serviceDetails");
     setCurrentStep(3);
@@ -98,7 +98,7 @@ export const ServiceDetailsStage = (props: Props) => {
       >
         <div className="flex flex-col gap-5">
           <ControlledSelect
-            name="serviceCategory"
+            name="serviceCategories"
             label="Service Category"
             options={categoryOptions}
             control={control}
