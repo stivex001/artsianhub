@@ -14,17 +14,20 @@ type Props = {
 };
 
 export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
-  const [isModalDesclineOpen, setIsModalDeclineOpen] = useState(false);
+  const [isModalDeclineOpen, setIsModalDeclineOpen] = useState(false);
   const [isModalAcceptOpen, setIsModalAcceptOpen] = useState(false);
-  const closeModal = () => setIsModalDeclineOpen(false);
+  const [isModalCompleteOpen, setIsModalCompleteOpen] = useState(false);
 
   const status = appointment?.status;
-  console.log(status, "shshhshdh");
+
+  const isCancelled =
+    status === "Cancelled (Client)" || status === "Cancelled (Artisan)";
+  const inProgress = status === "Accepted";
 
   if (isPending) return <ClientInfoSkeleton />;
 
   return (
-    <div className="lg:w-80  flex flex-col">
+    <div className="lg:w-80 flex flex-col">
       <div className="w-full h-[300px] rounded-2xl overflow-hidden mb-4">
         <Image
           src={appointment?.clientId?.profilePicture}
@@ -46,34 +49,46 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
         </span>
       </div>
 
-      <div className="flex gap-3 w-full">
-        {(status === "Pending" || status === "Declined") && (
-          <button
-            onClick={() => setIsModalAcceptOpen(true)}
-            className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
-          >
-            Accept
-          </button>
-        )}
+      {!isCancelled && (
+        <div className="flex gap-3 w-full">
+          {(status === "Pending" ||
+            status === "Declined" ||
+            status === "Rescheduled") && (
+            <button
+              onClick={() => setIsModalAcceptOpen(true)}
+              className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+            >
+              Accept
+            </button>
+          )}
 
-        {status === "Accepted" && (
-          <button
-            onClick={() => setIsModalAcceptOpen(true)}
-            className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+          <div
+            className={`${
+              inProgress ? "flex flex-col gap-2" : "flex gap-3"
+            } w-full`}
           >
-            Start
-          </button>
-        )}
+            {status === "Accepted" && (
+              <button
+                onClick={() => setIsModalCompleteOpen(true)}
+                className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
+              >
+                Mark as Completed
+              </button>
+            )}
+            <button
+              onClick={() => setIsModalDeclineOpen(true)}
+              className={`flex-1 ${
+                status === "Accepted"
+                  ? "bg-primary text-white hover:bg-primary/70"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+              } py-3 px-6 rounded-xl font-medium border border-gray-300 transition-colors`}
+            >
+              Decline
+            </button>
+          </div>
+        </div>
+      )}
 
-        <button
-          onClick={() => setIsModalDeclineOpen(true)}
-          className={`flex-1 ${
-            status === "Accepted" ? "bg-error text-white hover:bg-error/70" : "bg-white text-gray-700 hover:bg-gray-50"
-          }  py-3 px-6 rounded-xl font-medium border border-gray-300  transition-colors`}
-        >
-          Decline
-        </button>
-      </div>
       <AcceptJobModal
         isOpen={isModalAcceptOpen}
         onClose={() => setIsModalAcceptOpen(false)}
@@ -81,9 +96,18 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
         refetch={refetch}
         status={status === "Accepted" ? "Inprogress" : "Accepted"}
       />
+
+      <AcceptJobModal
+        isOpen={isModalCompleteOpen}
+        onClose={() => setIsModalCompleteOpen(false)}
+        id={id}
+        refetch={refetch}
+        status={"Completed"}
+      />
+
       <DeclineModal
-        isOpen={isModalDesclineOpen}
-        onClose={closeModal}
+        isOpen={isModalDeclineOpen}
+        onClose={() => setIsModalDeclineOpen(false)}
         id={id}
         refetch={refetch}
       />

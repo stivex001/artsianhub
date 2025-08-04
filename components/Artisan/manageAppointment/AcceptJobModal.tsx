@@ -63,11 +63,14 @@ export const AcceptJobModal = ({
         <h1 className="font-bold text-xl text-paragrah mb-1">
           {status === "Accepted"
             ? "Accept This Appointment?"
+            : status === "Completed"
+            ? "Job Completed?"
             : "Are You Ready to Start This Job?"}
         </h1>
         <p className="text-sm text-body">
-          Confirm that you’re available for this job at the requested date,
-          time, and location. The customer will be notified once you accept.
+          {status === "Pending" &&
+            "Confirm that you’re available for this job at the requested date, time, and location. The customer will be notified once you accept."}
+          {status === "Completed" && "Confirm that you have completed this job"}
         </p>
       </div>
       <div className="w-full flex items-center gap-5 ">
@@ -81,7 +84,7 @@ export const AcceptJobModal = ({
         <CustomButton
           type="button"
           isLoading={updatePending}
-          label={`Accept Job`}
+          label={`${status === "Completed" ? "Complete Job" : "Accept Job"} `}
           className="flex-1 rounded-xl bg-primary hover:bg-primary/90"
           variant="primary"
           onClick={handleBookingResponse}

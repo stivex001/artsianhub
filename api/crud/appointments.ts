@@ -149,7 +149,7 @@ export const useAppointments = () => {
     });
 
   const getSingleBooking = (id: string) =>
-    useApiQuery<SingleBooking>(["single_appointment"], {
+    useApiQuery<SingleBooking>(["single_appointment", id], {
       url: `/appointments/${id}`,
       method: "GET",
     });

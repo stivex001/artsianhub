@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "../ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface ReusableModalProps {
   isOpen: boolean;
@@ -31,6 +32,9 @@ export const CustomModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="lg:max-w-md text-center bg-white rounded-[20px]">
+        <DialogTitle>
+          <VisuallyHidden>Modal</VisuallyHidden>
+        </DialogTitle>
         {icon && <div className="mx-auto mb-5">{Icon}</div>}
 
         <div className="space-y-5">{children}</div>
