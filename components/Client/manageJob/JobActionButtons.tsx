@@ -7,6 +7,7 @@ type Props = {
   onReschedule?: () => void;
   onMarkNoShow?: () => void;
   onMarkCompleted?: () => void;
+  onReview?: () => void;
 };
 
 export const JobActionButtons = ({
@@ -15,6 +16,7 @@ export const JobActionButtons = ({
   onReschedule,
   onMarkNoShow,
   onMarkCompleted,
+  onReview
 }: Props) => {
   const actions: React.ReactNode[] = [];
 
@@ -93,7 +95,7 @@ export const JobActionButtons = ({
         type="button"
         className="w-fit"
         variant="primary"
-        onClick={onMarkCompleted}
+        onClick={onReview}
       />
     );
     

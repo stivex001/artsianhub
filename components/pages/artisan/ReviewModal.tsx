@@ -44,7 +44,7 @@ export const ReviewModal = ({ onClose, selectedArtisan }: Props) => {
 
   const { getAllArtisan, getArtisanRating } = useArtisans();
   const { leaveReview } = useAppointments();
-  const { isPending, mutateAsync } = leaveReview(`${selectedArtisan}`);
+  const { isPending, mutateAsync } = leaveReview;
 
   const { refetch } = getAllArtisan();
   const { refetch: ratingFetch } = getArtisanRating('');

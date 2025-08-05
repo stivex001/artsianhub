@@ -8,6 +8,7 @@ import { JobActionButtons } from "./JobActionButtons";
 import { formatDate } from "@/utils/formatDate";
 import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal";
 import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
+import { ReviewModal } from "@/components/Artisan/manageAppointment/ReviewModal";
 
 type Props = {
   item: any;
@@ -20,6 +21,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
   const jobData = item;
   const [isModalCancelOpen, setIsModalCanceleOpen] = useState(false);
   const [isModalReScheduleOpen, setIsModalRescheduleOpen] = useState(false);
+  const [isModalReviewOpen, setIsModalReviewOpen] = useState(false);
 
   const handleCancelAppointment = () => {
     setIsModalCanceleOpen(true);
@@ -27,6 +29,10 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
 
   const handleRescheduleAppointment = () => {
     setIsModalRescheduleOpen(true);
+  };
+
+  const handleReviewAppointment = () => {
+    setIsModalReviewOpen(true);
   };
 
   return (
@@ -42,6 +48,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
           onReschedule={handleRescheduleAppointment}
           onMarkNoShow={() => console.log("No show clicked")}
           onMarkCompleted={() => console.log("Completed clicked")}
+          onReview={handleReviewAppointment}
         />
       }
     >
@@ -218,6 +225,16 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         }}
         id={item?._id}
         refetch={refetch}
+      />
+      <ReviewModal
+        isOpen={isModalReviewOpen}
+        onClose={() => {
+          setIsModalReviewOpen(false);
+          onClose();
+        }}
+        id={item?._id}
+        artisanId={jobData?.artisanId?._id}
+        name={`${jobData?.artisanId?.firstName} ${jobData?.artisanId?.lastName}`}
       />
     </BaseModal>
   );

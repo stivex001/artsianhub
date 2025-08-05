@@ -78,6 +78,7 @@ export interface GetSingleArtisan {
     artisanId: string;
     firstName: string;
     lastName: string;
+    email: string;
     gender: string;
     dateOfBirth: string;
     location: string;

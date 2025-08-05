@@ -105,7 +105,7 @@ export interface AllReviews {
   data: {
     reviews: ReviewInfo[];
     totalReviews: number;
-    ratings:any
+    ratings: any;
   };
   pagination: {
     totalPages: number;
@@ -181,11 +181,10 @@ export const useAppointments = () => {
       },
     });
 
-  const leaveReview = (id: string) =>
-    useApiMutation<AuthResponse, FormData>({
-      url: `/rating/artisans/${id}/testimonials`,
-      method: "POST",
-    });
+  const leaveReview = useApiMutation<AuthResponse, FormData>({
+    url: `/reviews`,
+    method: "POST",
+  });
 
   const updateBookingResponse = <T = any>(id: string) =>
     useApiMutation<AuthResponse, T>({

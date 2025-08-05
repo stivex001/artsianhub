@@ -11,9 +11,10 @@ import {
 } from "../assets/icons/UsersIcon";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/api/crud/user";
 import { useModalStore } from "@/store/useModalStore";
+import { useArtisans } from "@/api/crud/artisans";
 
 type UserNavProps = {
   handleMenuItemClick: any;
@@ -21,13 +22,23 @@ type UserNavProps = {
 };
 
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
+  const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, logout } = useAuthStore();
+  const isArtisanPage = pathname.startsWith("/artisan");
+
+  const { logout } = useAuthStore();
   const { getCurrentUser } = useUser();
+  const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
+  const { data: profile } = getMyProfile();
   const { openSettings } = useModalStore();
 
-  const profilePhoto = user?.data?.profilePicture;
+  const personalInfo = profile?.data;
+  const profilePhoto = isArtisanPage
+    ? personalInfo?.profilePicture
+    : user?.data?.profilePicture;
+
+  const currentUser = isArtisanPage ? personalInfo : user?.data;
 
   const handleLogout = () => {
     logout();
@@ -103,7 +114,6 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
           <span className="text-sm text-body">Log Out</span>
         </button>
       </div>
-      
     </div>
   );
 };

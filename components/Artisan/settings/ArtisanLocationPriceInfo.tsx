@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@/api/crud/user";
 
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";

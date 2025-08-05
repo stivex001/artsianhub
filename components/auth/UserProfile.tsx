@@ -18,13 +18,13 @@ export const UserProfile = ({ brandlogo }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // const { currentUser } = useAuthStore();
+
   const { getCurrentUser } = useUser();
   const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
   const { data: profile } = getMyProfile();
 
-  const isArtisanPage = pathname.startsWith("artisan");
+  const isArtisanPage = pathname.startsWith("/artisan");
 
   const personalInfo = profile?.data;
   const profilePhoto = isArtisanPage
