@@ -38,5 +38,5 @@ jobs:
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             docker login registry.digitalocean.com -u ${{ secrets.DOCR_USERNAME }} -p ${{ secrets.DOCR_ACCESS_TOKEN }}
-            docker-compose pull Frontend
-            docker-compose up -d Frontend
+            docker-compose pull frontend
+            docker-compose up -d frontend
