@@ -194,9 +194,9 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-  const updateArtisanProfile = <T = any>(id: string) =>
-    useApiMutation<AuthResponse, T>({
-      url: `/artisans/${id}`,
+  const updateArtisanProfile =
+    useApiMutation<AuthResponse, FormData>({
+      url: `/artisans`,
       method: "PUT",
       headers: {
         "Content-Type": "multipart/form-data",

@@ -56,9 +56,7 @@ export const ArtisanPersonalInfo = (props: Props) => {
     phoneNumber: personalInfo?.phoneNumber,
   });
 
-  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
-    `${personalInfo?.userId?._id}`
-  );
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
 
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();

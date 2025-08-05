@@ -56,14 +56,12 @@ export const ArtisanServiceInfo = (props: Props) => {
       }))
     : [];
 
-  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
-    `${personalInfo?.userId?._id}`
-  );
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
 
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();
 
-     const safeServicategory = Array.isArray(data?.serviceType)
+    const safeServicategory = Array.isArray(data?.serviceType)
       ? data.serviceCategories
       : typeof data?.serviceCategories === "string"
       ? data.serviceCategories.split(",")
@@ -74,7 +72,7 @@ export const ArtisanServiceInfo = (props: Props) => {
       formData.append("professionalTitle", data.professionalTitle);
       formData.append("skillDescription", data.skillDescription);
 
-    formData.append("serviceCategories", JSON.stringify(safeServicategory))
+      formData.append("serviceCategories", JSON.stringify(safeServicategory));
 
       updatePersonalInfo(formData, {
         onSuccess: (response: any) => {

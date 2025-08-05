@@ -34,18 +34,13 @@ export const ArtisanLocationPriceInfo = (props: Props) => {
   const { data: profile, refetch } = getMyProfile();
   const personalInfo = profile?.data;
 
-  const { control, handleSubmit } = useDynamicForm(
-    fields,
-    {
-      primaryLocation: personalInfo?.primaryLocation,
-      workDistanceKm: personalInfo?.workDistanceKm,
-      pricePerHour: personalInfo?.pricePerHour,
-    }
-  );
+  const { control, handleSubmit } = useDynamicForm(fields, {
+    primaryLocation: personalInfo?.primaryLocation,
+    workDistanceKm: personalInfo?.workDistanceKm,
+    pricePerHour: personalInfo?.pricePerHour,
+  });
 
-  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile(
-    `${personalInfo?.userId?._id}`
-  );
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
 
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();
