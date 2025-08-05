@@ -55,7 +55,7 @@ export const JobActionButtons = ({
     );
   }
 
-  if (status === "inprogress") {
+  if (status === "Cancelled (Client)") {
     actions.push(
       <CustomButton
         key="no-show"
@@ -66,7 +66,7 @@ export const JobActionButtons = ({
         onClick={onMarkNoShow}
       />,
       <CustomButton
-        key="complete"
+        key="Complete"
         label="Mark as Completed"
         type="button"
         className="w-fit"
@@ -77,7 +77,7 @@ export const JobActionButtons = ({
     
   }
 
-   if (status === "completed") {
+   if (status === "Completed") {
     actions.push(
       <CustomButton
         key="rebook"

@@ -1,6 +1,5 @@
 import { useAppointments } from "@/api/crud/appointments";
-import { useServices } from "@/api/crud/services";
-import { ConfirmIcon, DeleteIcon } from "@/components/assets/icons/ModalIcon";
+import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { CustomModal } from "@/components/modals/CustomModal";
 import { useRouter } from "next/navigation";
