@@ -42,7 +42,7 @@ jobs:
             git pull origin main
             npm install --legacy-peer-deps
             npm run build
-            pm2 start npm --name "frontend" -- start
+            pm2 reload frontend || pm2 start npm --name "frontend" -- start
             # docker-compose pull frontend
             # docker-compose up -d frontend
 
