@@ -8,7 +8,7 @@ export const useAuth = () => {
   });
 
   const loginUser = useApiMutation<AuthResponse, FormData>({
-    url: "https://artisanshub.org/api/auth/login",
+    url: "/auth/login",
     method: "POST",
   });
 
