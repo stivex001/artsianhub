@@ -69,7 +69,8 @@ export const ReviewModal = ({
         onClose();
       },
       onError: (error: any) => {
-        toast.error(error?.message);
+        console.log(error, "err_reviw")
+        toast.error(error?.data?.error);
       },
     });
   };
