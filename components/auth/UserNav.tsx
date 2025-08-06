@@ -28,17 +28,20 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
 
   const { logout } = useAuthStore();
   const { getCurrentUser } = useUser();
-  const { getMyProfile } = useArtisans();
+  // const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
-  const { data: profile } = getMyProfile();
+  // const { data: profile } = getMyProfile();
   const { openSettings } = useModalStore();
 
-  const personalInfo = profile?.data;
-  const profilePhoto = isArtisanPage
-    ? personalInfo?.profilePicture
-    : user?.data?.profilePicture;
+  // const personalInfo = profile?.data;
+  // const profilePhoto = isArtisanPage
+  //   ? personalInfo?.profilePicture
+  //   : user?.data?.profilePicture;
 
-  const currentUser = isArtisanPage ? personalInfo : user?.data;
+  // const currentUser = isArtisanPage ? personalInfo : user?.data;
+
+  const profilePhoto = user?.data?.profilePicture
+  const currentUser = user?.data
 
   const handleLogout = () => {
     logout();

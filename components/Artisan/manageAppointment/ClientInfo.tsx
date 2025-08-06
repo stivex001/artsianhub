@@ -67,7 +67,7 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
               inProgress ? "flex flex-col gap-2" : "flex gap-3"
             } w-full`}
           >
-            {status === "Accepted" && (
+            {status === "In Progress" && (
               <button
                 onClick={() => setIsModalCompleteOpen(true)}
                 className="flex-1 bg-primary text-white py-3 px-6 rounded-xl font-medium hover:bg-blue-700 transition-colors"
@@ -94,7 +94,7 @@ export const ClientInfo = ({ appointment, isPending, refetch, id }: Props) => {
         onClose={() => setIsModalAcceptOpen(false)}
         id={id}
         refetch={refetch}
-        status={status === "Accepted" ? "Inprogress" : "Accepted"}
+        status={status === "Accepted" ? "In Progress" : "Accepted"}
       />
 
       <AcceptJobModal
