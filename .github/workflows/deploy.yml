@@ -40,3 +40,7 @@ jobs:
             docker login registry.digitalocean.com -u ${{ secrets.DOCR_USERNAME }} -p ${{ secrets.DOCR_ACCESS_TOKEN }}
             docker-compose pull frontend
             docker-compose up -d frontend
+            cd Frontend
+            git pull origin main
+            npm install
+            npm run build
