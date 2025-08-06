@@ -156,7 +156,7 @@ const ClientSignUp = ({ role }: Props) => {
           variant="primary"
         />
 
-        <GoogleAuth />
+        {/* <GoogleAuth /> */}
 
         <Link
           href={"/auth/login"}
