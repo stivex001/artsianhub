@@ -9,6 +9,7 @@ import { formatDate } from "@/utils/formatDate";
 import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal";
 import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
 import { ReviewModal } from "@/components/Artisan/manageAppointment/ReviewModal";
+import { ContactArtisanModal } from "../ContactArtisanModal";
 
 type Props = {
   item: any;
@@ -22,6 +23,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
   const [isModalCancelOpen, setIsModalCanceleOpen] = useState(false);
   const [isModalReScheduleOpen, setIsModalRescheduleOpen] = useState(false);
   const [isModalReviewOpen, setIsModalReviewOpen] = useState(false);
+  const [isModalRebookOpen, setIsModalRebookOpen] = useState(false);
 
   const handleCancelAppointment = () => {
     setIsModalCanceleOpen(true);
@@ -33,6 +35,10 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
 
   const handleReviewAppointment = () => {
     setIsModalReviewOpen(true);
+  };
+
+  const handleRebookAppointment = () => {
+    setIsModalRebookOpen(true);
   };
 
   return (
@@ -49,6 +55,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
           onMarkNoShow={() => console.log("No show clicked")}
           onMarkCompleted={() => console.log("Completed clicked")}
           onReview={handleReviewAppointment}
+          onRebook={handleRebookAppointment}
         />
       }
     >
@@ -66,8 +73,10 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
             <label className="w-[20%] text-sm font-medium text-paragrah ">
               Status
             </label>
-
-            <StatusBadge status={jobData?.status} />
+            <div className="flex items-center gap-3">
+              <StatusBadge status={jobData?.status} />
+              {jobData?.reason && <span>“{jobData?.reason}”</span>}
+            </div>
           </div>
           <div className="w-full flex items-center">
             <label className="w-[20%] text-sm font-medium text-paragrah ">
@@ -235,6 +244,15 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         id={item?._id}
         artisanId={jobData?.artisanId?._id}
         name={`${jobData?.artisanId?.firstName} ${jobData?.artisanId?.lastName}`}
+      />
+      <ContactArtisanModal
+        isOpen={isModalRebookOpen}
+        onClose={() => {
+          setIsModalReviewOpen(false);
+          onClose();
+        }}
+        item={jobData}
+        mode="rebook"
       />
     </BaseModal>
   );

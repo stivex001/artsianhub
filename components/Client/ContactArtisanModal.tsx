@@ -18,7 +18,8 @@ import { useRouter } from "next/navigation";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  item: GetSingleArtisan;
+  item: GetSingleArtisan | any;
+  mode?: string;
 };
 
 const fields: Field[] = [
@@ -52,8 +53,8 @@ const fields: Field[] = [
   },
 ];
 
-export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
-  const router = useRouter()
+export const ContactArtisanModal = ({ item, isOpen, onClose, mode }: Props) => {
+  const router = useRouter();
   const { files, setFiles } = useFileUpload(4);
   const { control, handleSubmit, formState, reset, setError, clearErrors } =
     useDynamicForm(fields, {});
@@ -70,7 +71,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
     formData.append("description", data?.description);
     formData.append("preferredDate", data?.preferredDate);
     formData.append("preferredTime", data?.preferredTime);
-    formData.append("artisanId", item?.data?._id);
+    formData.append("artisanId", mode === "rebook" ?  item?.artisanId?._id : item?.data?._id);
     formData.append("email", data?.email);
 
     files?.forEach((file: File) => {
@@ -85,7 +86,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
           onClose();
           reset();
           setFiles([]);
-          router.push(`/client/manage-jobs`)
+          router.push(`/client/manage-jobs`);
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);
@@ -107,7 +108,12 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
       >
         <div>
           <div className="flex justify-between mb-1">
-            <h3 className="text-base font-bold text-paragrah ">{`Contact ${item?.data?.firstName} (${item?.data?.professionalTitle}) `}</h3>
+            {mode === "rebook" ? (
+              <h3 className="text-base font-bold text-paragrah ">{`Rebook ${item?.artisanId?.firstName} (${item?.artisanId?.professionalTitle}) `}</h3>
+            ) : (
+              <h3 className="text-base font-bold text-paragrah ">{`Contact ${item?.data?.firstName} (${item?.data?.professionalTitle}) `}</h3>
+            )}
+
             <button onClick={onClose} className="">
               <X />
             </button>
@@ -196,8 +202,10 @@ export const ContactArtisanModal = ({ item, isOpen, onClose }: Props) => {
               <CustomButton
                 type="submit"
                 //   disabled={!isValid}
-                  isLoading={isPending}
-                label="Send Request"
+                isLoading={isPending}
+                label={
+                  mode === "rebook" ? "Continue to Confirm" : "Send Request"
+                }
                 className="w-fit rounded-xl"
                 variant="primary"
               />

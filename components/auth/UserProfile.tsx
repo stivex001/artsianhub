@@ -20,16 +20,18 @@ export const UserProfile = ({ brandlogo }: Props) => {
 
 
   const { getCurrentUser } = useUser();
-  const { getMyProfile } = useArtisans();
+  // const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
-  const { data: profile } = getMyProfile();
+  // const { data: profile } = getMyProfile();
 
-  const isArtisanPage = pathname.startsWith("/artisan");
+  // const isArtisanPage = pathname.startsWith("/artisan");
 
-  const personalInfo = profile?.data;
-  const profilePhoto = isArtisanPage
-    ? personalInfo?.profilePicture
-    : user?.data?.profilePicture;
+  // const personalInfo = profile?.data;
+  // const profilePhoto = isArtisanPage
+  //   ? personalInfo?.profilePicture
+  //   : user?.data?.profilePicture;
+
+  const profilePhoto = user?.data?.profilePicture
 
   // const initials = getUserInitials(
   //   currentUser?.firstName,

@@ -8,6 +8,7 @@ type Props = {
   onMarkNoShow?: () => void;
   onMarkCompleted?: () => void;
   onReview?: () => void;
+  onRebook?: () => void;
 };
 
 export const JobActionButtons = ({
@@ -16,7 +17,8 @@ export const JobActionButtons = ({
   onReschedule,
   onMarkNoShow,
   onMarkCompleted,
-  onReview
+  onReview,
+  onRebook,
 }: Props) => {
   const actions: React.ReactNode[] = [];
 
@@ -45,7 +47,7 @@ export const JobActionButtons = ({
     );
   }
 
-   if (status === "Declined" || status === "cancelled") {
+  if (status === "Declined" || status === "cancelled") {
     actions.push(
       <CustomButton
         key="reschedule"
@@ -57,7 +59,7 @@ export const JobActionButtons = ({
     );
   }
 
-  if (status === "Cancelled (Client)") {
+  if (status === "In Progress") {
     actions.push(
       <CustomButton
         key="no-show"
@@ -76,10 +78,22 @@ export const JobActionButtons = ({
         onClick={onMarkCompleted}
       />
     );
-    
   }
 
-   if (status === "Completed") {
+  if (status === "Cancelled (Client)") {
+    actions.push(
+      <CustomButton
+        key="Complete"
+        label="Rebook Artisan"
+        type="button"
+        className="w-fit"
+        variant="primary"
+        onClick={onRebook}
+      />
+    );
+  }
+
+  if (status === "Completed") {
     actions.push(
       <CustomButton
         key="rebook"
@@ -98,12 +112,7 @@ export const JobActionButtons = ({
         onClick={onReview}
       />
     );
-    
   }
 
-  return (
-    <div className="flex items-center justify-end gap-5">
-      {actions}
-    </div>
-  );
+  return <div className="flex items-center justify-end gap-5">{actions}</div>;
 };
