@@ -86,13 +86,12 @@ const Login = (props: Props) => {
           }
         },
         onError: (error: any) => {
-          console.log(error, "error");
-          toast.error(error?.data?.error || "Login failed");
+          console.log(error, "error_loging");
+          toast.error(error?.message || "Login failed");
         },
       });
     } catch (error) {
       console.log("An error occurred: ", error);
-      toast.error("An unexpected error occurred.");
     }
   };
 
