@@ -3,22 +3,22 @@ import { useApiMutation } from "@/hooks/useApiMutation";
 
 export const useAuth = () => {
   const registerUser = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/register ",
+    url: "/api/auth/register ",
     method: "POST",
   });
 
   const loginUser = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/login ",
+    url: "/api/auth/login ",
     method: "POST",
   });
 
   const verifyOTP = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/verify-otp",
+    url: "/api/auth/verify-otp",
     method: "POST",
   });
 
   const resendOTP = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/resend-otp",
+    url: "/api/auth/resend-otp",
     method: "POST",
   });
 
