@@ -99,7 +99,6 @@ const ManageAppointment = (props: Props) => {
   const { getMyBookings } = useAppointments();
   const { data: booking, isPending } = getMyBookings();
   const appointments = booking?.data;
-  console.log(appointments, "booking__hdhdh");
 
   const filteredAppointments = appointments?.filter((appointment) => {
     const matchesTab = activeTab === "all" || appointment?.status === activeTab;
