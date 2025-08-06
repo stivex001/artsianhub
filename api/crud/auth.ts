@@ -8,7 +8,7 @@ export const useAuth = () => {
   });
 
   const loginUser = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/login ",
+    url: `${process.env.NEXT_PUBLIC_MENSAYHUB_URL}/auth/login`,
     method: "POST",
   });
 
