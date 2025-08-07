@@ -101,7 +101,7 @@ const OtpContent = ({}: Props) => {
     <AuthLayout
       authImg={loginAuth}
       title="Where Great Work Meets Real Opportunities"
-      desc="Whether you're booking help or offering your skills, MensayHub is your trusted space to connect, work, and grow."
+      desc="Whether you're booking help or offering your skills, Artisanshub is your trusted space to connect, work, and grow."
     >
       <div className="flex flex-col gap-10">
         <BackNavigation />
