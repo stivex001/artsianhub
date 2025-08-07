@@ -48,7 +48,7 @@ export const handleAuthenticationError = (error: any) => {
 
 export const handleForbiddenError = (error: any) => {
   if (error.status === 403) {
-    toast.error("Forbidden error", error?.message);
+    console.error("Forbidden error", error?.message);
   }
 };
 

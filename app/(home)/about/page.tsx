@@ -25,7 +25,7 @@ const AboutUs = (props: Props) => {
             MENSAYHUB
           </h1>
           <p className="max-w-2xl px-5 lg:px-0 lg:max-w-[838px] mx-auto text-center text-xl lg:text-2xl font-semibold text-primary">
-            {/* MensayHub connects customers with reliable, skilled artisans,
+            {/* Artisanshubconnects customers with reliable, skilled artisans,
             promoting local craftsmanship and supporting small businesses. We
             vet artisans for quality and excellence, providing a seamless
             experience for customers. Our goal is to build lasting relationships
@@ -42,7 +42,7 @@ const AboutUs = (props: Props) => {
           </h2>
 
           <p className="px-2 lg:px-0 max-w-[838px] mx-auto text-center text-xl lg:text-2xl font-semibold text-primary">
-            MensayHub offers a range of services, including artisan connection,
+            Artisanshuboffers a range of services, including artisan connection,
             project management, quality assurance, and a seamless platform for
             finding and collaborating with skilled professionals.
           </p>

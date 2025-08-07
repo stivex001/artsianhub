@@ -50,9 +50,15 @@ const Footer = (props: Props) => {
             {socialLinks?.map((social) => {
               const Icon = social.icon;
               return (
-                <Link key={social.href} href={social.href} target="_blank">
+                <a
+                  key={social.href}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.href}
+                >
                   <Icon />
-                </Link>
+                </a>
               );
             })}
           </div>

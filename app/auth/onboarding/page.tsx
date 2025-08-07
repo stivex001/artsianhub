@@ -41,7 +41,7 @@ const Onboarding = () => {
             Welcome to ArtisanHub
           </h1>
           <p className="text-sm text-body">
-            To help you get started, choose if you'd like to join MensayHubas a
+            To help you get started, choose if you'd like to join ArtisanHub as a
             creative or a hirer.
           </p>
         </div>

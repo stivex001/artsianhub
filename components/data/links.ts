@@ -97,25 +97,26 @@ export const useNavigationLinks = () => {
   const socialLinks = [
     {
       icon: FacebookIcon,
-      href: "www.facebook.com",
+      href: "https://www.facebook.com/profile.php?id=61578356903295&mibextid=ZbWKwL",
     },
     {
       icon: Instagram,
-      href: "www.instagram.com",
+      href: "https://www.instagram.com/artisanscommunity?igsh=YzljYTk1ODg3Zg==",
     },
     {
       icon: Twitter,
-      href: "www.x.com",
+      href: "https://www.x.com",
     },
     {
       icon: Linkdln,
-      href: "www.linkdln.com",
+      href: "https://www.linkedin.com",
     },
     {
       icon: Youtube,
-      href: "www.youtube.com",
+      href: "https://www.youtube.com",
     },
   ];
+
   return {
     customerLinks,
     artisansLinks,
