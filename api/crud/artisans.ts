@@ -135,10 +135,37 @@ export interface AllBookingsCounts {
   };
 }
 
+export interface ArtisanMetrics {
+  accepted: number;
+  completed: number;
+  declined: number;
+  total: number;
+  revenue:number
+}
+
+export interface ArtisanDashboard {
+  data: {
+    metrics: ArtisanMetrics;
+    checkList: {
+      addedPayment: boolean;
+      addedPortfolio: boolean;
+      setWorkingDays: boolean;
+      verifyIdentity: boolean;
+    };
+    recentAppointments: [];
+  };
+}
+
 export const useArtisans = () => {
   const getAllArtisan = () =>
     useApiQuery<ArtisanDetails>(["all_artisans"], {
       url: `/artisans`,
+      method: "GET",
+    });
+
+  const getArtisanDashboard = () =>
+    useApiQuery<ArtisanDashboard>(["all_artisans_counts"], {
+      url: `/artisans/dashboard`,
       method: "GET",
     });
 
@@ -195,23 +222,21 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-  const updateArtisanProfile =
-    useApiMutation<AuthResponse, FormData>({
-      url: `/artisans`,
-      method: "PUT",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  const updateArtisanProfile = useApiMutation<AuthResponse, FormData>({
+    url: `/artisans`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
-  const updateArtisanKyc =  
-    useApiMutation<AuthResponse, FormData>({
-      url: `/artisans/kyc`,
-      method: "PATCH",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+  const updateArtisanKyc = useApiMutation<AuthResponse, FormData>({
+    url: `/artisans/kyc`,
+    method: "PATCH",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return {
     getAllArtisan,
@@ -221,8 +246,9 @@ export const useArtisans = () => {
     getArtisanRating,
     getAllArtisanCount,
     getArtisanByCatgeory,
-    updateArtisanProfile,
+    getArtisanDashboard,
     getMyProfile,
-    updateArtisanKyc
+    updateArtisanProfile,
+    updateArtisanKyc,
   };
 };

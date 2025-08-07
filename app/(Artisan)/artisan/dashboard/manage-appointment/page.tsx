@@ -41,11 +41,14 @@ const columns = [
           ) : (
             <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
               {row?.clientId?.firstName?.charAt(0)}
+              {row?.clientId?.lastName?.charAt(0)}
             </div>
           )}
         </div>
         <div className="">
-          <div className="text-sm  text-body">{row?.clientId?.firstName} {row?.clientId?.lastName}</div>
+          <div className="text-sm  text-body">
+            {row?.clientId?.firstName} {row?.clientId?.lastName}
+          </div>
         </div>
       </div>
     ),
@@ -53,7 +56,7 @@ const columns = [
   {
     key: "contact",
     header: "Contact",
-    render: (value: any,row: any) => (
+    render: (value: any, row: any) => (
       <div>
         <div className="text-sm text-gray-900">{row?.email}</div>
         {/* <div className="text-sm text-gray-500">{row?.clientId?.phoneNumber}</div> */}
@@ -62,9 +65,11 @@ const columns = [
   },
   {
     key: "services",
-    header: "Services",
-    render: (value: any, row:any) => (
-      <span className="text-sm text-gray-900 line-clamp-1">{row?.description}</span>
+    header: "Job Description",
+    render: (value: any, row: any) => (
+      <span className="text-sm text-gray-900 line-clamp-1">
+        {row?.description}
+      </span>
     ),
   },
   {
@@ -82,9 +87,11 @@ const columns = [
   {
     key: "date",
     header: "Date",
-    render: (value: any, row:any) => (
+    render: (value: any, row: any) => (
       <div>
-        <div className="text-sm text-gray-900">{formatDate(row?.preferredDate) }</div>
+        <div className="text-sm text-gray-900">
+          {formatDate(row?.preferredDate)}
+        </div>
         <div className="text-sm text-gray-500">{row?.preferredTime}</div>
       </div>
     ),

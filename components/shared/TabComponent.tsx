@@ -17,7 +17,7 @@ export const TabComponent: React.FC<TabProps> = ({
 }) => {
   return (
     <div className="bg-[#F9F9FB] p-1 rounded-2xl w-fit">
-      <nav className="flex overflow-x-auto">
+      <nav className="flex flex-wrap overflow-x-auto">
         {tabs.map((tab) => (
           <button
             key={tab.key}

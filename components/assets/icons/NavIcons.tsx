@@ -267,3 +267,15 @@ export const CalenderIconUi = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const CategoriesIcon = () => (
+  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+  </svg>
+);
+
+export const HowItWorksIcon = () => (
+  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm0 17a1.5 1.5 0 111.5-1.5A1.502 1.502 0 0112 19zm1.4-4.75a1 1 0 00-.4.8v.45h-2v-.45a2.967 2.967 0 011.2-2.4 4.538 4.538 0 001.1-1.1 1.948 1.948 0 10-3.3-1.95H8.5a4 4 0 117.3 2.7 6.017 6.017 0 01-1.4 1.55z" />
+  </svg>
+);
