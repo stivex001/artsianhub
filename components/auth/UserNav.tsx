@@ -71,13 +71,13 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
       </div>
 
       <div className="my-2">
-        <button
+        {/* <button
           onClick={() => handleMenuItemClick("profile")}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <ProfileIcon />
           <span className="text-sm text-body">Profile</span>
-        </button>
+        </button> */}
 
         <button
           onClick={() => handleMenuItemClick("manage-jobs")}
@@ -98,13 +98,13 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
           <span className="text-sm text-body">Account Settings</span>
         </button>
 
-        <button
+        {/* <button
           onClick={() => handleMenuItemClick("billing-payments")}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <BillingIcon />
           <span className="text-sm text-body">Billing & Payments</span>
-        </button>
+        </button> */}
 
         {/* Divider */}
         <div className="my-2 border-t border-gray-100"></div>

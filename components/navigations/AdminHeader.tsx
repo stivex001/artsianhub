@@ -8,19 +8,25 @@ import { BackArrowIcon } from "../assets/icons/NavigationIcons";
 import { usePathname, useRouter } from "next/navigation";
 import { useNotification } from "@/api/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
-import { UserProfile } from "../auth/UserProfile";
+import ava from "@/components/assets/images/ava.svg";
 import { useAuthStore } from "@/store/authStore";
+import Image from "next/image";
+import { useArtisans } from "@/api/crud/artisans";
 
 type Props = {};
 
 export const AdminHeader = (props: Props) => {
   const router = useRouter();
   const pathname = usePathname();
-  const showBackArrow = /\/manage-appointment\/[^/]+$/.test(pathname);
 
   const [openNotification, setOpenNotification] = useState(false);
 
   const { currentUser } = useAuthStore();
+  const { getMyProfile } = useArtisans();
+  const { data: profile } = getMyProfile();
+
+  const personalInfo = profile?.data;
+  const profilePhoto = personalInfo?.profilePicture;
 
   // const { getAllNotifications } = useNotification();
 
@@ -79,7 +85,15 @@ export const AdminHeader = (props: Props) => {
           )} */}
         </button>
 
-        <UserProfile />
+        <div className="w-10 h-10">
+          <Image
+            src={profilePhoto || ava}
+            alt={`avatar`}
+            width={40}
+            height={40}
+            className="w-full h-full object-cover rounded-full"
+          />
+        </div>
       </div>
     </header>
   );

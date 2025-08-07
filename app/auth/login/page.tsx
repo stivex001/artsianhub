@@ -87,7 +87,7 @@ const Login = (props: Props) => {
         },
         onError: (error: any) => {
           console.log(error, "error_loging");
-          toast.error(error?.message || "Login failed");
+          toast.error(error?.data?.error || "Login failed");
         },
       });
     } catch (error) {

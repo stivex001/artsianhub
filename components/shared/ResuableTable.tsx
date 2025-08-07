@@ -18,8 +18,8 @@ interface TableProps<T = any> {
   loading?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
-  setSearchQuery: (query: string) => void;
-  searchQuery: string;
+  setSearchQuery?: (query: string) => void;
+  searchQuery?: string;
   pagination?: {
     currentPage: number;
     totalPages: number;
@@ -36,7 +36,7 @@ export const ReusableTable: React.FC<TableProps> = ({
   loading = false,
   searchable = false,
   searchPlaceholder = "Search...",
-  setSearchQuery,
+  setSearchQuery = () => {},
   searchQuery,
   pagination,
   className = "",
@@ -88,7 +88,10 @@ export const ReusableTable: React.FC<TableProps> = ({
                 <tr key={rowIndex}>
                   {columns.map((col, colIndex) => {
                     const key = col.key.toLowerCase();
-                    const isAvatar = key.includes("avatar") || key.includes("image") || key.includes("photo");
+                    const isAvatar =
+                      key.includes("avatar") ||
+                      key.includes("image") ||
+                      key.includes("photo");
                     return (
                       <td key={colIndex} className="px-3 py-4">
                         {isAvatar ? (
