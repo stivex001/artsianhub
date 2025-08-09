@@ -56,7 +56,7 @@ export const useUser = () => {
     });
 
   const createArtisanProfile = useApiMutation<AuthResponse, FormData>({
-    url: "/artisan",
+    url: "/artisans",
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
@@ -64,7 +64,7 @@ export const useUser = () => {
   });
 
   const createClientProfile = useApiMutation<AuthResponse, FormData>({
-    url: "/client",
+    url: "/clients",
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
