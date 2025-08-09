@@ -1,9 +1,10 @@
 import React, { Suspense } from "react";
 import RegisterContent from "@/components/Artisan/auth/RegisterContent";
+import { Loader } from "@/components/Loader";
 
 const Register = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <RegisterContent />
     </Suspense>
   );
