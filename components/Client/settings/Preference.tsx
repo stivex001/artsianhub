@@ -21,7 +21,7 @@ export const Preference = (props: Props) => {
         <div>
           <h3 className="text-base font-medium text-paragrah mb-2">Language</h3>
           <p className="text-sm text-[#667185]">
-            Pick the language you're most comfortable using on ArtisanHub.
+            Pick the language you're most comfortable using on ArtisansHub.
           </p>
         </div>
         <div className="w-28">

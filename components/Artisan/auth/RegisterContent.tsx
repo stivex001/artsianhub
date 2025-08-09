@@ -16,7 +16,7 @@ const RegisterContent = () => {
     <AuthLayout
       authImg={client ? custauth : artisanauth}
       title={
-        client ? "Welcome to ArtisanHub" : "Join ArtisanHub and Get Connected"
+        client ? "Welcome to ArtisansHub" : "Join ArtisansHub and Get Connected"
       }
       desc={
         client

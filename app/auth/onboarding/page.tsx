@@ -38,10 +38,10 @@ const Onboarding = () => {
       <div className="max-w-3xl mx-auto px-4 py-16 ">
         <div className="text-center mb-10">
           <h1 className="md:text-4xl text-2xl font-[900] text-paragrah mb-1">
-            Welcome to ArtisanHub
+            Welcome to ArtisansHub
           </h1>
           <p className="text-sm text-body">
-            To help you get started, choose if you'd like to join ArtisanHub as a
+            To help you get started, choose if you'd like to join ArtisansHub as a
             creative or a hirer.
           </p>
         </div>
