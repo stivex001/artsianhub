@@ -36,13 +36,15 @@ function isAxiosError(error: unknown): error is AxiosError {
 
 export const handleNetworkError = (error: any) => {
   if (error?.status === 0 || error?.message?.includes("network error")) {
-    toast.error("Network error", error?.message);
+    // toast.error("Network error", error?.message);
+    console.error("Network error", error?.message);
   }
 };
 
 export const handleAuthenticationError = (error: any) => {
   if (error.status === 401) {
     toast.error("Not Authenticated Kindly Login", error?.message);
+
   }
 };
 

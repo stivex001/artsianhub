@@ -92,12 +92,12 @@ const ClientSignUp = ({ role }: Props) => {
           router.push(`/auth/otp?email=${data.email}&&role=${role}`);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
         },
       });
-    } catch (error:any) {
-      console.log("Anerroroccurred ", error?.data);
-        toast.error(error?.data?.error);
+    } catch (error: any) {
+      console.log("Anerroroccurred ", error?.data?.error);
+      // toast.error(error?.data?.error);
     }
   };
 
