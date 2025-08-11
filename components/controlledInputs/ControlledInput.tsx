@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useController, Control } from "react-hook-form";
+import { useController, Control, RegisterOptions } from "react-hook-form";
 import { cn } from "../../lib/utils";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -13,7 +13,7 @@ type ControlledInputProps = {
   name: string;
   label: string;
   control?: Control<any>;
-  rules?: { required: boolean; pattern?: RegExp; maxLength?: number };
+  rules?: RegisterOptions
   placeholder?: string;
   type?: string;
   method?: string;
