@@ -13,7 +13,7 @@ type ControlledInputProps = {
   name: string;
   label: string;
   control?: Control<any>;
-  rules?: RegisterOptions
+  rules?: RegisterOptions;
   placeholder?: string;
   type?: string;
   method?: string;
@@ -61,11 +61,11 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   });
 
   const baseStyles =
-    "w-full h-[44px]  px-4 border rounded-[10px] outline-none text-body placeholder:text-[#98A2B3] placeholder:font-normal font-semibold";
+    "w-full h-[44px] px-4 border rounded-[10px] outline-none text-body placeholder:text-[#98A2B3] placeholder:font-normal font-semibold";
 
   const styles = {
     normal: "border-white bg-white h-14",
-    primary: "border-[#E4E5EA] ",
+    primary: "border-[#E4E5EA]",
     secondary: "border-bordergray bg-white h-14 focus:border-primary",
     tertiary:
       "border border-black text-[#9694A4] focus:border-primary focus:ring-0",
@@ -88,6 +88,41 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
     setShowPassword((prev) => !prev);
   };
 
+  // Format value for display
+  const formatValue = () => {
+    if (!value) return "";
+
+    if (type === "date") {
+      if (typeof value === "string") {
+        return value.includes("T") ? value.split("T")[0] : value;
+      }
+      return "";
+    }
+
+    if (type === "datetime-local") {
+      const dateObj = new Date(value);
+      if (isNaN(dateObj.getTime())) return "";
+      return dateObj.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
+    }
+
+    return value ?? "";
+  };
+
+  // Handle changes
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (type === "date") {
+      const dateString = e.target.value; // already YYYY-MM-DD from input
+      onChange(dateString || "");
+    } else if (type === "datetime-local") {
+      const dateTimeString = e.target.value;
+      onChange(dateTimeString ? new Date(dateTimeString).toISOString() : "");
+    } else {
+      onChange(e);
+    }
+  };
+
   return (
     <div className="space-y-1">
       <Label
@@ -103,9 +138,9 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
             id={name}
             name={name}
             placeholder={placeholder}
-            onChange={onChange}
+            onChange={handleChange}
             onBlur={onBlur}
-            value={value ?? ""}
+            value={formatValue()}
             ref={ref}
             className={`${inputClassName} h-auto resize-none py-2`}
             maxLength={maxLength}
@@ -120,9 +155,9 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
               name={name}
               type={type === "password" && showPassword ? "text" : type}
               placeholder={placeholder}
-              onChange={onChange}
+              onChange={handleChange}
               onBlur={onBlur}
-              value={value ?? ""}
+              value={formatValue()}
               ref={ref}
               className={inputClassName}
               {...props}
@@ -148,7 +183,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
       {error && (
         <div className="flex items-center gap-1 mt-1">
           <ErrorIcon />
-          <p className=" text-xs text-red-500 capitalize">{error.message}</p>
+          <p className="text-xs text-red-500 capitalize">{error.message}</p>
         </div>
       )}
     </div>

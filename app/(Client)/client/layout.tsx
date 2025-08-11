@@ -7,8 +7,7 @@ type Props = {
 
 const ClientLayout = ({ children }: Props) => {
   return (
-    // <ProtectedRoutes allowedRoles={["client"]}>{children}</ProtectedRoutes>
-    <div>{children}</div>
+    <ProtectedRoutes allowedRoles={["client"]}>{children}</ProtectedRoutes>
   );
 };
 

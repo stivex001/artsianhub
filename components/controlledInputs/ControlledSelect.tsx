@@ -47,7 +47,7 @@ export const ControlledSelect = ({
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
+    const handleClickOutside = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setOpen(false)
       }
@@ -76,7 +76,9 @@ export const ControlledSelect = ({
       : typeof value === "string"
       ? value.split(",").filter(Boolean)
       : []
-    : value ? [value] : []
+    : value
+    ? [value]
+    : []
 
   const toggleOption = (val: string) => {
     if (multi) {
@@ -98,7 +100,9 @@ export const ControlledSelect = ({
   return (
     <div className="space-y-2">
       {label && (
-        <Label className={cn("text-sm font-medium", labelClassName)}>{label}</Label>
+        <Label className={cn("text-sm font-medium", labelClassName)}>
+          {label}
+        </Label>
       )}
 
       <div className={cn("relative", className)} ref={dropdownRef}>
@@ -141,14 +145,15 @@ export const ControlledSelect = ({
                       "flex items-center space-x-2 mb-2",
                       !multi && "hover:bg-gray-100 px-2 py-1 rounded"
                     )}
-                    onClick={() => toggleOption(opt.value)}
+                    onClick={() => {
+                      if (!multi) toggleOption(opt.value)
+                    }}
                   >
                     {multi ? (
                       <>
                         <Checkbox
                           checked={checked}
                           onCheckedChange={() => toggleOption(opt.value)}
-                          onClick={(e) => e.stopPropagation()}
                         />
                         <span>{opt.label}</span>
                       </>

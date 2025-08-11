@@ -1,54 +1,41 @@
+// components/auth/ProtectedRoute.tsx
 "use client";
 
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { useRouter } from "next/navigation";
-import { ReactNode, useEffect, useMemo } from "react";
-import { toast } from "sonner";
 
 type Props = {
-  children: ReactNode;
-  allowedRoles: Array<"admin" | "artisan" | "client">;
+  allowedRoles: string[];
+  children: React.ReactNode;
 };
 
-const ProtectedRoutes = ({ children, allowedRoles }: Props) => {
+export default function ProtectedRoute({ allowedRoles, children }: Props) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { accessToken, currentUser } = useAuthStore();
 
-  const userRole = useMemo(() => {
-    if (currentUser?.role === "admin") return "admin";
-    if (currentUser?.role === "artisan") return "artisan";
-    if (currentUser?.role === "client") return "client";
-    return null;
-  }, [currentUser]);
+  const role = currentUser?.role;
 
   useEffect(() => {
-    if (!currentUser || !accessToken) {
-      // toast.error("You are not Authenticated, kindly login");
-      router.replace("/auth/login");
+    if (!accessToken) {
+      const fullPath = `${pathname}${
+        searchParams.toString() ? `?${searchParams.toString()}` : ""
+      }`;
+      router.replace(`/auth/login?redirect=${encodeURIComponent(fullPath)}`);
       return;
     }
 
-    if (!userRole || !allowedRoles.includes(userRole)) {
-      toast.error("You are not authorized to access this page.");
-      router.replace("/auth/login");
-      return;
+    if (role && !allowedRoles.includes(role)) {
+      router.replace("/403");
     }
+  }, [accessToken, role, pathname, searchParams, router, allowedRoles]);
 
-    // Optional: redirect to specific dashboard if needed
-    if (userRole === "artisan") {
-      router.replace("/artisan/dashboard");
-    } else if (userRole === "admin") {
-      router.replace("/admin/dashboard");
-    } else if (userRole === "client") {
-      router.replace("/client");
-    }
-  }, [userRole, currentUser, accessToken, allowedRoles, router]);
-
-  // Optional: Show nothing or loading state while verifying
-  if (!currentUser || !userRole || !allowedRoles.includes(userRole))
+ 
+  if (!accessToken || (role && !allowedRoles.includes(role))) {
     return null;
+  }
 
   return <>{children}</>;
-};
-
-export default ProtectedRoutes;
+}

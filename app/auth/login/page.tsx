@@ -9,11 +9,10 @@ import React, { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import loginAuth from "@/components/assets/images/Login.png";
 import AuthLayout from "@/components/Artisan/auth/AuthLayout";
 import { AuthTitle } from "@/components/auth/AuthTitle";
-import { GoogleAuth } from "@/components/Artisan/auth/GoogleAuth";
 
 type Props = {};
 
@@ -34,28 +33,38 @@ const fields: Field[] = [
 
 const Login = (props: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  const { isValid } = formState;
 
   const { setAccessToken, accessToken, setCurrentUser, currentUser } =
     useAuthStore();
 
-  useEffect(() => {
-    if (accessToken && currentUser) {
-      if (currentUser?.role === "admin") {
-        router.replace("/admin/dashboard");
-      } else if (currentUser?.role === "artisan") {
-        router.replace("/artisan/dashboard");
-      } else if (currentUser?.role === "client") {
-        router.replace("/client");
-      }
-    }
-  }, [accessToken, currentUser, router]);
-
-  const { isValid } = formState;
-
   const { loginUser } = useAuth();
-
   const { isPending, mutateAsync } = loginUser;
+
+  // Role-based fallback redirect
+  const redirectByRole = (role: string) => {
+    if (role === "admin") {
+      router.replace("/admin/dashboard");
+    } else if (role === "artisan") {
+      router.replace("/artisan/dashboard");
+    } else if (role === "client") {
+      router.replace("/client");
+    } else {
+      toast.error("Role not recognized. Please contact support.");
+      router.replace("/auth/login");
+    }
+  };
+
+  // If already logged in and no redirect param, send them to role dashboard
+  useEffect(() => {
+    if (accessToken && currentUser && !redirect) {
+      redirectByRole(currentUser.role);
+    }
+  }, [accessToken, currentUser, redirect]);
 
   const onSubmit = async (data: any) => {
     try {
@@ -67,26 +76,19 @@ const Login = (props: Props) => {
           if (token && user) {
             setAccessToken(token);
             setCurrentUser(user);
-
             toast.success(response?.message);
 
-            // Redirect based on role
-            if (user?.role === "admin") {
-              router.push("/admin/dashboard");
-            } else if (user?.role === "artisan") {
-              router.push("/artisan/dashboard");
-            } else if (user?.role === "client") {
-              router.push("/client");
+            if (redirect) {
+              router.push(redirect); // Send back to original page
             } else {
-              toast.error("Role not recognized. Please contact support.");
-              router.push("/auth/login");
+              redirectByRole(user.role); // Fallback to role dashboard
             }
           } else {
             toast.error("Invalid login response.");
           }
         },
         onError: (error: any) => {
-          console.log(error, "error_loging");
+          console.log(error, "error_logging");
           toast.error(error?.data?.error || "Login failed");
         },
       });
@@ -138,15 +140,12 @@ const Login = (props: Props) => {
               disabled={!isValid}
               isLoading={isPending}
             />
-
-            {/* <GoogleAuth /> */}
-
             <Link
               href={"/auth/onboarding"}
-              className="text-sm  text-paragrah flex items-center justify-center mt-6 "
+              className="text-sm text-paragrah flex items-center justify-center mt-6"
             >
-              Don’t have an account?{" "}
-              <span className="text-primary ml-1 font-medium">Sign Up</span>{" "}
+              Don’t have an account?
+              <span className="text-primary ml-1 font-medium">Sign Up</span>
             </Link>
           </div>
         </form>
