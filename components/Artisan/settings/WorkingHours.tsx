@@ -1,10 +1,13 @@
+"use client";
+
 import { Descriptions } from "@/components/shared/Headings";
-import { ChevronDown } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { days, timeOptions } from "./data";
+import { days } from "./data";
 import { TimeDropdown } from "./TimeDropdown";
 import { ToggleSwitch } from "./ToggleSwitch";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { useArtisans } from "@/api/crud/artisans";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -24,17 +27,78 @@ export interface WorkingSchedule {
   sunday: DaySchedule;
 }
 
-export const WorkingHours = (props: Props) => {
-  const [schedule, setSchedule] = useState<WorkingSchedule>({
-    monday: { enabled: true, startTime: "09:00am", endTime: "10:00am" },
-    tuesday: { enabled: true, startTime: "09:00am", endTime: "10:00am" },
-    wednesday: { enabled: true, startTime: "09:00am", endTime: "10:00am" },
-    thursday: { enabled: true, startTime: "09:00am", endTime: "10:00am" },
-    friday: { enabled: true, startTime: "09:00am", endTime: "10:00am" },
-    saturday: { enabled: false, startTime: "Select", endTime: "Select" },
-    sunday: { enabled: false, startTime: "Select", endTime: "Select" },
-  });
+function convertTo12Hour(time24: string): string {
+  if (!time24 || time24 === "Select") return "Select";
+  const [h, m] = time24.split(":").map(Number);
+  const suffix = h >= 12 ? "pm" : "am";
+  const hour12 = h % 12 || 12;
+  return `${hour12.toString().padStart(2, "0")}:${m
+    .toString()
+    .padStart(2, "0")}${suffix}`;
+}
 
+function convertTo24Hour(time12: string): string {
+  if (!time12 || time12 === "Select") return "";
+  const match = time12.match(/^(\d{1,2}):(\d{2})(am|pm)$/i);
+  if (!match) return "";
+  let [_, h, m, suffix] = match;
+  let hour = parseInt(h, 10);
+  if (suffix.toLowerCase() === "pm" && hour !== 12) hour += 12;
+  if (suffix.toLowerCase() === "am" && hour === 12) hour = 0;
+  return `${hour.toString().padStart(2, "0")}:${m}`;
+}
+
+export const WorkingHours = (props: Props) => {
+  const { updateArtisanProfile, getMyProfile } = useArtisans();
+  const { data: profile, refetch } = getMyProfile();
+  const personalInfo = profile?.data;
+
+  const initialSchedule: WorkingSchedule = (() => {
+    const wdah = personalInfo?.workingDaysAndHours;
+
+    const defaultSchedule: WorkingSchedule = {
+      monday: { enabled: false, startTime: "Select", endTime: "Select" },
+      tuesday: { enabled: false, startTime: "Select", endTime: "Select" },
+      wednesday: { enabled: false, startTime: "Select", endTime: "Select" },
+      thursday: { enabled: false, startTime: "Select", endTime: "Select" },
+      friday: { enabled: false, startTime: "Select", endTime: "Select" },
+      saturday: { enabled: false, startTime: "Select", endTime: "Select" },
+      sunday: { enabled: false, startTime: "Select", endTime: "Select" },
+    };
+
+    if (!wdah) return defaultSchedule;
+
+    const parseArray = (arr: any[]) => {
+      const scheduleFromBackend = { ...defaultSchedule };
+      arr.forEach((dayObj: any) => {
+        const dayKey = dayObj.day.toLowerCase() as keyof WorkingSchedule;
+        scheduleFromBackend[dayKey] = {
+          enabled: true,
+          startTime: convertTo12Hour(dayObj.startTime),
+          endTime: convertTo12Hour(dayObj.endTime),
+        };
+      });
+      return scheduleFromBackend;
+    };
+
+    if (typeof wdah === "string") {
+      try {
+        const parsed = JSON.parse(wdah);
+        if (Array.isArray(parsed)) return parseArray(parsed);
+      } catch {
+        console.warn("Invalid workingDaysAndHours string from backend");
+      }
+      return defaultSchedule;
+    }
+
+    if (Array.isArray(wdah)) {
+      return parseArray(wdah);
+    }
+
+    return defaultSchedule;
+  })();
+
+  const [schedule, setSchedule] = useState<WorkingSchedule>(initialSchedule);
   const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
   const toggleDay = (day: keyof WorkingSchedule) => {
@@ -75,8 +139,47 @@ export const WorkingHours = (props: Props) => {
     }
   }, [dropdownOpen]);
 
+  const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
+
+  const handleEditProfileInfo = async () => {
+    const formData = new FormData();
+
+    try {
+      // Transform schedule to backend format
+      const formatted = Object.entries(schedule)
+        .filter(([_, value]) => value.enabled)
+        .map(([day, value]) => ({
+          day: day.charAt(0).toUpperCase() + day.slice(1),
+          startTime: convertTo24Hour(value.startTime),
+          endTime: convertTo24Hour(value.endTime),
+        }));
+
+      formData.append("workingDaysAndHours", JSON.stringify(formatted));
+
+      updatePersonalInfo(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile Updated Successfully");
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Update Profile Error:", error);
+        },
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected Error:", error);
+    }
+  };
+
   return (
-    <form className="flex flex-col gap-8">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleEditProfileInfo();
+      }}
+      className="flex flex-col gap-8"
+    >
       <Descriptions
         title="Working Days and Hours"
         desc="Let users know your schedule."
@@ -139,6 +242,8 @@ export const WorkingHours = (props: Props) => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          disabled={isPending}
+          isLoading={isPending}
         />
       </div>
     </form>

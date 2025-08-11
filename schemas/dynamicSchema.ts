@@ -62,14 +62,16 @@ const createSchema = (fields: Field[]) => {
         break;
       case "date":
         schemaField = z
-          .union([z.string(), z.date(), z.null()]) // Allow null values
-          .optional() // Optional if not required
+          .string({ message: `${field?.name} is required` })
+          .transform((val) => {
+            // If it's an ISO date (contains "T"), extract only YYYY-MM-DD
+            if (val && val.includes("T")) {
+              return val.split("T")[0];
+            }
+            return val;
+          })
           .refine(
-            (val) =>
-              val === null || // Allow null
-              (typeof val === "string"
-                ? /^\d{4}-\d{2}-\d{2}$/.test(val) // Validate string format
-                : val instanceof Date), // Validate Date object
+            (val) => /^\d{4}-\d{2}-\d{2}$/.test(val),
             field.errorMessage || "Invalid date format (YYYY-MM-DD)"
           );
         break;

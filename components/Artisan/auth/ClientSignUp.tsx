@@ -6,13 +6,14 @@ import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GoogleAuth } from "./GoogleAuth";
 import { useAuthStore } from "@/store/authStore";
+import { PasswordRequirements } from "@/components/controlledInputs/PasswordRequirements";
 
 type Props = {
   role: any;
@@ -44,6 +45,7 @@ const ClientSignUp = ({ role }: Props) => {
   const { setAccessToken } = useAuthStore();
   const { control, handleSubmit, formState, watch, setError, clearErrors } =
     useDynamicForm<AuthUser>(fields, {});
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const password = watch("password");
   const confirmPassword = watch("confirmPassword");
@@ -68,6 +70,11 @@ const ClientSignUp = ({ role }: Props) => {
   }, [confirmPassword, password, setError, clearErrors]);
 
   const onSubmit = async (data: any) => {
+    if (!termsAccepted) {
+      toast.error("You must accept the Terms and Privacy Policy.");
+      return;
+    }
+
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         message: "Passwords do not match",
@@ -92,7 +99,8 @@ const ClientSignUp = ({ role }: Props) => {
           router.push(`/auth/otp?email=${data.email}&&role=${role}`);
         },
         onError: (error: any) => {
-          toast.error(error?.data?.error);
+          console.log(error, "err_rr");
+          toast.error(error?.message);
         },
       });
     } catch (error: any) {
@@ -121,8 +129,15 @@ const ClientSignUp = ({ role }: Props) => {
             type="password"
             label="Password"
             variant="primary"
-            rules={{ required: true }}
+            rules={{
+              required: { value: true, message: "Password is required" },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
+                message: "Password must meet all requirements",
+              },
+            }}
           />
+          <PasswordRequirements password={password} />
           <ControlledInput
             name="confirmPassword"
             control={control}
@@ -134,7 +149,10 @@ const ClientSignUp = ({ role }: Props) => {
           />
         </div>
         <div className="flex items-center gap-3 my-1">
-          <Checkbox />
+          <Checkbox
+            checked={termsAccepted}
+            onCheckedChange={(val) => setTermsAccepted(Boolean(val))}
+          />
           <p className="text-sm text-paragrah">
             I agree to the{" "}
             <Link href="#" className="font-medium text-btnprimary">
@@ -149,7 +167,7 @@ const ClientSignUp = ({ role }: Props) => {
 
         <CustomButton
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || !termsAccepted}
           isLoading={isPending}
           label="Create My Account"
           className="w-full rounded-[10px]"
