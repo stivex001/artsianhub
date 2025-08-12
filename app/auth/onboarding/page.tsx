@@ -41,8 +41,8 @@ const Onboarding = () => {
             Welcome to ArtisansHub
           </h1>
           <p className="text-sm text-body">
-            To help you get started, choose if you'd like to join ArtisansHub as a
-            creative or a hirer.
+            To help you get started, choose if you'd like to join ArtisansHub as
+            a creative or a hirer.
           </p>
         </div>
 
@@ -62,12 +62,12 @@ const Onboarding = () => {
                 <Image src={hire} alt="hire" />
               </div>
               <h3 className="text-base font-bold text-gray-900 mb-1">
-                I want to hire artisans
+                Find an Artisan
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Looking for someone to fix something, build, repair, sew, or
-                install? We'll help you find skilled artisans near you — fast,
-                affordable, and reliable
+                Your project deserves the best craftsmanship. Search for
+                trusted, skilled artisans near you Compare prices and reviews
+                Book quickly and securely Get quality work, on time
               </p>
             </div>
           </div>
@@ -86,11 +86,13 @@ const Onboarding = () => {
                 <Image src={artisan} alt="hire" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-1">
-                I'm an artisan
+                Work as an Artisan...start Getting Jobs
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Have a skill you want to earn from? Whether you fix, build,
-                clean, sew, or paint — this is the place for you.
+                Have a skill to share? We&apos;ll connect you to customers who need
+                you. Create your free profile and showcase your work Get matched
+                with local job requests Set your own prices and schedule Earn
+                more and grow your reputation
               </p>
             </div>
           </div>
