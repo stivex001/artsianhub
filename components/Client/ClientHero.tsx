@@ -3,9 +3,13 @@ import hero from "@/components/assets/images/clienthero.jpg";
 import Image from "next/image";
 import { SearchArtisan } from "./SearchArtisan";
 
-type Props = {};
+type Props = {
+  onSearch:any
+  isLoading:boolean
+  onClear:any
+};
 
-export const ClientHero = (props: Props) => {
+export const ClientHero = ({onSearch,isLoading,onClear}: Props) => {
   return (
     <section className=" lg:h-[60vh] px-5 py-24 sm:py-32 relative overflow-hidden">
       <div className="absolute inset-0 z-0 ">
@@ -28,7 +32,7 @@ export const ClientHero = (props: Props) => {
             Get access to skilled professionals for your home or office needs.
           </p>
 
-          <SearchArtisan />
+          <SearchArtisan onSearch={onSearch} isLoading={isLoading} onClear={onClear} />
         </div>
       </div>
     </section>

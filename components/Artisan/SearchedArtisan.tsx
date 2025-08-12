@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { CustomButton } from "../clickable/CustomButton";
 import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";

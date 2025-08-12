@@ -141,7 +141,7 @@ export interface ArtisanMetrics {
   completed: number;
   declined: number;
   total: number;
-  revenue:number
+  revenue: number;
 }
 
 export interface ArtisanDashboard {
@@ -196,18 +196,19 @@ export const useArtisans = () => {
       params,
     });
 
-  const getArtisanByCatgeory = (params?: Record<string, any>) => {
-    const enabled = Boolean(params?.categoryId);
-    return useApiQuery<ArtisanByCategory[]>(
-      ["all_filtered_artisans", params],
+  const getArtisanByCategory = (params?: {
+    category?: string;
+    location?: string;
+  }) => {
+    const enabled = Boolean(params?.category && params?.location);
+    return useApiQuery<ArtisanDetails>(
+      ["filtered_artisans", params],
       {
-        url: `/artisan-services/filter-artisan-service-by-category`,
+        url: `/artisans/search`,
         method: "GET",
         params,
       },
-      {
-        enabled,
-      }
+      { enabled }
     );
   };
 
@@ -246,7 +247,7 @@ export const useArtisans = () => {
     getSearchByArtisan,
     getArtisanRating,
     getAllArtisanCount,
-    getArtisanByCatgeory,
+    getArtisanByCategory,
     getArtisanDashboard,
     getMyProfile,
     updateArtisanProfile,
