@@ -95,7 +95,7 @@ export const LocationPriceStage = (props: Props) => {
           resetProfile();
         },
         onError: (error: any) => {
-          toast.error(error?.message || "Something went wrong");
+          toast.error(error?.data?.error || "Something went wrong");
           console.error("Create Profile Error:", error);
         },
       });
