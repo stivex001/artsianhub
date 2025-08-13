@@ -10,6 +10,7 @@ import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal"
 import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
 import { ReviewModal } from "@/components/Artisan/manageAppointment/ReviewModal";
 import { ContactArtisanModal } from "../ContactArtisanModal";
+import { useNotification } from "@/api/crud/notification";
 
 type Props = {
   item: any;
@@ -24,6 +25,9 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
   const [isModalReScheduleOpen, setIsModalRescheduleOpen] = useState(false);
   const [isModalReviewOpen, setIsModalReviewOpen] = useState(false);
   const [isModalRebookOpen, setIsModalRebookOpen] = useState(false);
+
+  const { getAllNotifications } = useNotification();
+  const { refetch: notifyRefecth } = getAllNotifications();
 
   const handleCancelAppointment = () => {
     setIsModalCanceleOpen(true);
@@ -223,6 +227,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         }}
         id={item?._id}
         refetch={refetch}
+        notifyRefecth={notifyRefecth}
         user="Client"
       />
 
@@ -234,6 +239,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         }}
         id={item?._id}
         refetch={refetch}
+        notifyRefecth={notifyRefecth}
       />
       <ReviewModal
         isOpen={isModalReviewOpen}
@@ -244,6 +250,7 @@ export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
         id={item?._id}
         artisanId={jobData?.artisanId?._id}
         name={`${jobData?.artisanId?.firstName} ${jobData?.artisanId?.lastName}`}
+        notifyRefecth={notifyRefecth}
       />
       <ContactArtisanModal
         isOpen={isModalRebookOpen}

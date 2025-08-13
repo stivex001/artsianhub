@@ -14,6 +14,7 @@ import { Label } from "../ui/label";
 import { toast } from "sonner";
 import { useAppointments } from "@/api/crud/appointments";
 import { useRouter } from "next/navigation";
+import { useNotification } from "@/api/crud/notification";
 
 type Props = {
   isOpen: boolean;
@@ -60,6 +61,8 @@ export const ContactArtisanModal = ({ item, isOpen, onClose, mode }: Props) => {
     useDynamicForm(fields, {});
 
   const { bookAppointment, getAllBookings } = useAppointments();
+  const { getAllNotifications } = useNotification();
+  const { refetch: notifyRefecth } = getAllNotifications();
 
   const { mutate: booking, isPending } = bookAppointment();
   const { refetch } = getAllBookings();
@@ -71,7 +74,10 @@ export const ContactArtisanModal = ({ item, isOpen, onClose, mode }: Props) => {
     formData.append("description", data?.description);
     formData.append("preferredDate", data?.preferredDate);
     formData.append("preferredTime", data?.preferredTime);
-    formData.append("artisanId", mode === "rebook" ?  item?.artisanId?._id : item?.data?._id);
+    formData.append(
+      "artisanId",
+      mode === "rebook" ? item?.artisanId?._id : item?.data?._id
+    );
     formData.append("email", data?.email);
 
     files?.forEach((file: File) => {
@@ -83,6 +89,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose, mode }: Props) => {
         onSuccess: (response: any) => {
           toast.success(response?.message || "Appointment Booked successfully");
           refetch();
+          notifyRefecth();
           onClose();
           reset();
           setFiles([]);

@@ -3,38 +3,43 @@ import { useApiMutation } from "@/hooks/useApiMutation";
 import { useApiQuery } from "@/hooks/useApiQuery";
 
 export interface NotificationData {
-  email: string;
-  name: string;
+  title: string;
+  user: string;
   message: string;
-  mode: string;
-  phone: string;
+  read: boolean;
   _id: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface NotificationResponse {
-  notifications:NotificationData[]
-  pagination: {
-    totalPages: number;
-    currentPage: number;
-    totalCount: number;
-  }
+  data: {
+    notifications: NotificationData[];
+    totalNotification: number;
+  };
 }
 
 export const useNotification = () => {
   const getAllNotifications = () =>
     useApiQuery<NotificationResponse>(["notification"], {
-      url: `/notification`,
+      url: `/notifications`,
       method: "GET",
     });
 
-  const archiveNotification = useApiMutation<AuthResponse, FormData>({
-    url: "/notification/archive",
-    method: "POST",
+  const markAllNotification = useApiMutation<AuthResponse, any>({
+    url: "/notifications/mark-all-read-notification",
+    method: "PUT",
   });
+
+  const markAllSingleNotification = (id: string) =>
+    useApiMutation<AuthResponse, any>({
+      url: `/notifications/mark-read-notification/${id}`,
+      method: "PUT",
+    });
 
   return {
     getAllNotifications,
-    archiveNotification,
+    markAllNotification,
+    markAllSingleNotification,
   };
 };

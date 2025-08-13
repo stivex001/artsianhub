@@ -5,7 +5,6 @@ import { ReviewIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { CustomModal } from "@/components/modals/CustomModal";
-import { BaseModal } from "@/components/shared/BaseModal";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { Star, X } from "lucide-react";
@@ -18,6 +17,7 @@ type ReviewModalProps = {
   id?: any;
   name: string;
   artisanId: any;
+  notifyRefecth: () => void;
 };
 
 const fields: Field[] = [
@@ -35,6 +35,7 @@ export const ReviewModal = ({
   id,
   name,
   artisanId,
+  notifyRefecth,
 }: ReviewModalProps) => {
   const { leaveReview, getArtisanReview } = useAppointments();
   const [rating, setRating] = useState<number>(0);
@@ -66,10 +67,11 @@ export const ReviewModal = ({
         console.log(response, "res");
         toast.success(response?.message);
         refetch();
+        notifyRefecth();
         onClose();
       },
       onError: (error: any) => {
-        console.log(error, "err_reviw")
+        console.log(error, "err_reviw");
         toast.error(error?.data?.error);
       },
     });
