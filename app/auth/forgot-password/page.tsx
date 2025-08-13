@@ -31,37 +31,28 @@ const ForgotPassword = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
 
-  const { setCurrentUser, currentUser } = useAuthStore();
+  const { forgotPassword } = useAuth();
 
   const { isValid } = formState;
 
-  const { loginUser } = useAuth();
-
-  const { isPending, mutateAsync } = loginUser;
+  const { isPending, mutateAsync } = forgotPassword;
 
   const onSubmit = async (data: any) => {
-    router.push(`/auth/otp`);
-    // try {
-    //   await mutateAsync(data, {
-    //     onSuccess: (response: any) => {
-    //       const user = response?.user;
-
-    //       if (user) {
-    //         setCurrentUser(user);
-    //         toast.success(response?.message);
-    //       } else {
-    //         toast.error("Invalid login response.");
-    //       }
-    //     },
-    //     onError: (error: any) => {
-    //       console.log(error, "error");
-    //       toast.error(error?.data?.error || "Login failed");
-    //     },
-    //   });
-    // } catch (error) {
-    //   console.log("An error occurred: ", error);
-    //   toast.error("An unexpected error occurred.");
-    // }
+    try {
+      await mutateAsync(data, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message);
+          router.push(`/auth/verify-email?email=${encodeURIComponent(data?.email)}`);
+        },
+        onError: (error: any) => {
+          console.log(error, "error");
+          toast.error(error?.data?.error || "Login failed");
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+      toast.error("An unexpected error occurred.");
+    }
   };
 
   return (

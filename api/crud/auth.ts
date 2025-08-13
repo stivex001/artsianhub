@@ -23,12 +23,17 @@ export const useAuth = () => {
   });
 
   const changePassword = useApiMutation<AuthResponse, FormData>({
-    url: "/changepassword",
+    url: "/auth/change-password",
     method: "POST",
   });
 
-  const updatePassword = useApiMutation<AuthResponse, FormData>({
-    url: "/updatepassword",
+   const forgotPassword = useApiMutation<AuthResponse, FormData>({
+    url: "/auth/forget-password",
+    method: "POST",
+  });
+
+  const resetPassword = useApiMutation<AuthResponse, FormData>({
+    url: "/auth/reset-password",
     method: "POST",
   });
 
@@ -42,8 +47,9 @@ export const useAuth = () => {
     registerUser,
     verifyOTP,
     resendOTP,
-    updatePassword,
+    resetPassword,
     changePassword,
+    forgotPassword,
     updateProfile,
   };
 };
