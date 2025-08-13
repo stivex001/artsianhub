@@ -26,7 +26,7 @@ const OtpContent = ({}: Props) => {
   const email = params.get("email");
   const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
-  const [timeLeft, setTimeLeft] = useState(15 * 60);
+  const [timeLeft, setTimeLeft] = useState(3 * 60); // 3 minutes
 
   React.useEffect(() => {
     if (timeLeft <= 0) return;
@@ -63,7 +63,7 @@ const OtpContent = ({}: Props) => {
         },
         onError: (error: any) => {
           toast.error(error?.message);
-          console.log(error, "errorodod")
+          console.log(error, "errorodod");
         },
       });
     } catch (error) {
@@ -86,7 +86,7 @@ const OtpContent = ({}: Props) => {
       await resendOtp(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
-          setTimeLeft(15 * 60);
+          setTimeLeft(3 * 60); // reset to 3 minutes on resend
         },
         onError: (error: any) => {
           toast.error(error?.message);

@@ -1,32 +1,51 @@
 "use client";
-import React, { Suspense, useState } from "react";
+
+import AuthLayout from "@/components/Artisan/auth/AuthLayout";
+import React, { useState } from "react";
+import loginAuth from "@/components/assets/images/Login.png";
+import { AuthTitle } from "@/components/auth/AuthTitle";
+import { BackNavigation } from "@/components/shared/BackNavigation";
 import {
   InputOTP,
   InputOTPGroup,
+  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { CustomButton } from "@/components/clickable/CustomButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
-import { CheckCircle, Loader2 } from "lucide-react";
+import { CustomButton } from "@/components/clickable/CustomButton";
+import { Spinner } from "@/components/shared/Spinner";
+import { ContactSupport } from "@/components/Artisan/auth/ContactSupport";
 
 type Props = {};
 
-const OTPPage = (props: Props) => {
-  const router = useRouter();
+const OtpPage = ({}: Props) => {
   const params = useSearchParams();
   const email = params.get("email");
-  const isClient = params.get("isClient");
-  const isArtisan = params.get("isArtisan");
-  const isAdmin = params.get("isAdmin");
-
+  const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [timeLeft, setTimeLeft] = useState(3 * 60); // 3 minutes
+
+  React.useEffect(() => {
+    if (timeLeft <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${min.toString().padStart(2, "0")}:${sec
+      .toString()
+      .padStart(2, "0")}`;
+  };
 
   const { verifyOTP, resendOTP } = useAuth();
-
   const { isPending: verifyPending, mutateAsync: verifyOtp } = verifyOTP;
   const { isPending: resendPending, mutateAsync: resendOtp } = resendOTP;
 
@@ -38,13 +57,12 @@ const OTPPage = (props: Props) => {
     try {
       await verifyOtp(payload, {
         onSuccess: (response: any) => {
-          console.log(response, "res_");
-          setSuccessMessage(response?.message);
-          setShowSuccessModal(true);
-          // router.push(`/`);
+          toast.success(response?.message);
+          router.push(`/auth/reset-password?email=${email}`);
         },
         onError: (error: any) => {
           toast.error(error?.message);
+          console.log(error, "errorodod");
         },
       });
     } catch (error) {
@@ -54,9 +72,7 @@ const OTPPage = (props: Props) => {
 
   const handleOtpChange = (value: string) => {
     setOtpValue(value);
-
-    // Automatically submit when OTP is complete
-    if (value.length === 4) {
+    if (value.length === 6) {
       submit(value);
     }
   };
@@ -68,9 +84,8 @@ const OTPPage = (props: Props) => {
     try {
       await resendOtp(payload, {
         onSuccess: (response: any) => {
-          console.log(response, "res_");
           toast.success(response?.message);
-          router.push(`/`);
+          setTimeLeft(3 * 60); // reset to 3 minutes on resend
         },
         onError: (error: any) => {
           toast.error(error?.message);
@@ -81,85 +96,73 @@ const OTPPage = (props: Props) => {
     }
   };
 
-  const handleSuccessModalAction = () => {
-    if (isClient) {
-      router.push("/");
-    } else if (isArtisan) {
-      router.push("/auth/login");
-    } else if (isAdmin) {
-      router.push("/auth/login");
-    }
-    setShowSuccessModal(false);
-  };
-
-  if (verifyPending) {
-    return (
-      <div>
-        <div className="flex flex-col items-center justify-center h-[60vh]">
-          <Loader2 className="h-16 w-16 animate-spin text-white" />
-          <p className="text-white mt-4 text-lg">Verifying OTP...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      {showSuccessModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-[10px] text-center max-w-sm w-full">
-            <div className="flex justify-center mb-4">
-              <CheckCircle className="h-16 w-16 text-green-500" />
-            </div>
-            <h2 className="text-2xl font-bold text-blue-600 mb-4">
-              OTP Verified
-            </h2>
-            <p className="text-gray-600 mb-6">{successMessage}</p>
-
-            <div className="space-y-4">
-              <CustomButton
-                label={
-                  isClient ? "Proceed" : "Complete registration by Siginin in"
-                }
-                onClick={handleSuccessModalAction}
-                className="w-full rounded-[10px]"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="flex flex-col items-center justify-center">
-        <h1 className="text-white text-3xl font-semibold mb-2">Enter Code</h1>
-        <p className="text-white text-base font-semibold">
-          We sent a code to {email}
-        </p>
-        <form action="" className="my-6">
-          <InputOTP value={otpValue} onChange={handleOtpChange} maxLength={4}>
-            <InputOTPGroup className="gap-2.5 rounded-[10px]">
-              <InputOTPSlot index={0} />
-              <InputOTPSlot index={1} />
-              <InputOTPSlot index={2} />
-              <InputOTPSlot index={3} />
+    <AuthLayout
+      authImg={loginAuth}
+      title="Where Great Work Meets Real Opportunities"
+      desc="Whether you're booking help or offering your skills, Artisanshub is your trusted space to connect, work, and grow."
+    >
+      <div className="flex flex-col gap-10">
+        <BackNavigation />
+        <AuthTitle
+          title="Enter OTP"
+          desc="Enter the 6 digit code sent to your email address"
+        />
+        <form onSubmit={() => submit(otpValue)} className="space-y-6">
+          <InputOTP value={otpValue} onChange={handleOtpChange} maxLength={6}>
+            <InputOTPGroup className="gap-1 lg:gap-4 rounded-[10px]">
+              {[0, 1, 2].map((index) => (
+                <InputOTPSlot
+                  key={index}
+                  className="border border-[#E4E5EA] bg-white"
+                  index={index}
+                />
+              ))}
+              <InputOTPSeparator className="text-[#EBEBEB] hidden md:block" />
+              {[3, 4, 5].map((index) => (
+                <InputOTPSlot
+                  key={index}
+                  className="border border-[#E4E5EA] bg-white"
+                  index={index}
+                />
+              ))}
             </InputOTPGroup>
           </InputOTP>
+          <p className="text-sm">
+            {timeLeft > 0 ? (
+              <>
+                Code expires in{" "}
+                <span className="text-primary font-medium">
+                  {formatTime(timeLeft)}
+                </span>
+              </>
+            ) : (
+              <span className="text-red-500 font-medium">Code expired</span>
+            )}
+          </p>
+
           <CustomButton
-            label="Don’t get a code? Click to resend"
-            type={"button"}
-            onClick={handleResendOtp}
-            isLoading={resendPending}
-            className="text-base !bg-transparent text-white font-semibold flex items-center justify-center my-6 "
+            label="Verify"
+            type="submit"
+            disabled={timeLeft <= 0}
+            isLoading={verifyPending}
+            className="w-full font-medium "
           />
+          <p className="text-sm">
+            Don’t get a code?{" "}
+            <span
+              className="text-paragrah font-medium cursor-pointer"
+              onClick={handleResendOtp}
+            >
+              {resendPending ? <Spinner /> : "Resend Code"}
+            </span>
+          </p>
         </form>
-        {/* <CustomButton
-          type="button"
-          label="Proceed to Profile Setup"
-          className="w-full rounded-[10px]"
-          onClick={() => router.push(`/artisan/dashboard`)}
-        /> */}
+
+        <ContactSupport className="!justify-start" />
       </div>
-    </Suspense>
+    </AuthLayout>
   );
 };
 
-export default OTPPage;
+export default OtpPage;

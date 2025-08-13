@@ -100,7 +100,7 @@ const ClientSignUp = ({ role }: Props) => {
         },
         onError: (error: any) => {
           console.log(error, "err_rr");
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
         },
       });
     } catch (error: any) {
