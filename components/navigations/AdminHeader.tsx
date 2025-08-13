@@ -28,11 +28,15 @@ export const AdminHeader = (props: Props) => {
   const personalInfo = profile?.data;
   const profilePhoto = personalInfo?.profilePicture;
 
-  // const { getAllNotifications } = useNotification();
+  const { getAllNotifications } = useNotification();
 
-  // const { data } = getAllNotifications();
-  // const notificationData = data?.notifications || [];
-  // const pagination = data?.pagination || { totalPages: 0, totalCount: 0 };
+  const { data:notify, isPending } = getAllNotifications();
+ 
+  
+  const notificationData = notify?.data?.notifications || [];
+  const total = notify?.data?.totalNotification ;
+  const unreadNotifications = notificationData?.filter((n) => !n?.read);
+  const unreadCount = unreadNotifications?.length;
 
   let title = "";
   let subtitle = "";
@@ -67,23 +71,23 @@ export const AdminHeader = (props: Props) => {
       </div>
 
       <div className="flex items-center gap-2.5">
-        <button
+        <div
           onClick={() => setOpenNotification((prev) => !prev)}
-          className="relative"
+          className="relative cursor-pointer"
         >
           <NotificationIcon />
-          {/* <span className="absolute -top-3 rigth-1 text-[#AE2525] font-semibold text-base">
-            {notificationData?.length}
-          </span> */}
-          {/* {openNotification && (
+          <span className="absolute -top-2 right-1 text-[#AE2525] font-semibold text-base">
+            {unreadCount}
+          </span>
+          {openNotification && (
             <NotificationModal
               onClose={() => setOpenNotification(false)}
               notifications={notificationData}
-              total={pagination?.totalCount}
-              unread={pagination?.totalCount}
+              total={total}
+
             />
-          )} */}
-        </button>
+          )}
+        </div>
 
         <div className="w-10 h-10">
           <Image

@@ -15,6 +15,7 @@ type ScheduleModalProps = {
   onClose: () => void;
   id?: any;
   refetch: () => void;
+  notifyRefecth: () => void;
 };
 
 const fields: Field[] = [
@@ -42,6 +43,7 @@ export const RescheduleModal = ({
   onClose,
   id,
   refetch,
+  notifyRefecth,
 }: ScheduleModalProps) => {
   const { updateBookingResponse } = useAppointments();
 
@@ -67,8 +69,8 @@ export const RescheduleModal = ({
       status: `Rescheduled`,
       reschedule: {
         newDate: data.newDate,
-        newTime: data.newTime
-      }
+        newTime: data.newTime,
+      },
     };
 
     await updateRes(payload, {
@@ -76,6 +78,7 @@ export const RescheduleModal = ({
         console.log(response, "res");
         toast.success(response?.message);
         refetch();
+        notifyRefecth();
         onClose();
       },
       onError: (error: any) => {
@@ -98,7 +101,10 @@ export const RescheduleModal = ({
             <h3 className="text-base font-bold text-paragrah ">
               Reschedule Request
             </h3>
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center bg-[#F9F9FB] rounded-[32px] transition-colors">
+            <button
+              onClick={onClose}
+              className="w-8 h-8 flex items-center justify-center bg-[#F9F9FB] rounded-[32px] transition-colors"
+            >
               <X />
             </button>
           </div>

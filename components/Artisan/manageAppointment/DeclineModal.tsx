@@ -10,6 +10,7 @@ import React from "react";
 import { toast } from "sonner";
 import { reason } from "../settings/data";
 import { useAppointments } from "@/api/crud/appointments";
+import { useNotification } from "@/api/crud/notification";
 
 type DeclineModalProps = {
   isOpen: boolean;
@@ -35,6 +36,8 @@ export const DeclineModal = ({
 }: DeclineModalProps) => {
   const router = useRouter();
   const { updateBookingResponse } = useAppointments();
+  const { getAllNotifications } = useNotification();
+  const { refetch: notifyRefecth } = getAllNotifications();
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
@@ -63,6 +66,7 @@ export const DeclineModal = ({
         console.log(response, "res");
         toast.success(response?.message);
         refetch();
+        notifyRefecth();
         onClose();
         router.push("/artisan/dashboard/manage-appointment");
       },

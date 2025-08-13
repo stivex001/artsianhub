@@ -1,4 +1,5 @@
 import { useAppointments } from "@/api/crud/appointments";
+import { useNotification } from "@/api/crud/notification";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { CustomModal } from "@/components/modals/CustomModal";
@@ -23,6 +24,8 @@ export const AcceptJobModal = ({
 }: AcceptModalProps) => {
   const router = useRouter();
   const { updateBookingResponse } = useAppointments();
+  const { getAllNotifications } = useNotification();
+  const { refetch: notifyRefecth } = getAllNotifications();
 
   const { isPending: updatePending, mutate: updateRes } =
     updateBookingResponse<{ status: string }>(`${id}`);
@@ -43,6 +46,7 @@ export const AcceptJobModal = ({
           console.log(response, "res");
           toast.success(response?.message);
           refetch();
+          notifyRefecth();
           onClose();
           // router.push("/artisan/dashboard/manage-appointment");
         },
