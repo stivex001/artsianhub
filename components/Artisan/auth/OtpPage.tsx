@@ -45,8 +45,8 @@ const OtpPage = ({}: Props) => {
       .padStart(2, "0")}`;
   };
 
-  const { verifyOTP, resendOTP } = useAuth();
-  const { isPending: verifyPending, mutateAsync: verifyOtp } = verifyOTP;
+  const { verifyResetPasswordOTP, resendOTP } = useAuth();
+  const { isPending: verifyPending, mutateAsync: verifyOtp } = verifyResetPasswordOTP;
   const { isPending: resendPending, mutateAsync: resendOtp } = resendOTP;
 
   const submit = async (otp: string) => {
