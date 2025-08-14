@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@/api/crud/user";
 
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
@@ -38,7 +37,8 @@ export const ArtisanServiceInfo = (props: Props) => {
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      serviceCategories: personalInfo?.serviceCategories,
+      serviceCategories:
+        personalInfo?.serviceCategories?.map((cat: any) => cat?._id) || [],
       professionalTitle: personalInfo?.professionalTitle,
       skillDescription: personalInfo?.skillDescription,
     }
@@ -61,7 +61,7 @@ export const ArtisanServiceInfo = (props: Props) => {
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();
 
-    const safeServicategory = Array.isArray(data?.serviceType)
+    const safeServiceCategory = Array.isArray(data?.serviceCategories)
       ? data.serviceCategories
       : typeof data?.serviceCategories === "string"
       ? data.serviceCategories.split(",")
@@ -72,7 +72,7 @@ export const ArtisanServiceInfo = (props: Props) => {
       formData.append("professionalTitle", data.professionalTitle);
       formData.append("skillDescription", data.skillDescription);
 
-      formData.append("serviceCategories", JSON.stringify(safeServicategory));
+      formData.append("serviceCategories", JSON.stringify(safeServiceCategory));
 
       updatePersonalInfo(formData, {
         onSuccess: (response: any) => {
