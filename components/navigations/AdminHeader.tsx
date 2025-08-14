@@ -30,11 +30,10 @@ export const AdminHeader = (props: Props) => {
 
   const { getAllNotifications } = useNotification();
 
-  const { data:notify, isPending } = getAllNotifications();
- 
-  
+  const { data: notify, isPending } = getAllNotifications();
+
   const notificationData = notify?.data?.notifications || [];
-  const total = notify?.data?.totalNotification ;
+  const total = notify?.data?.totalNotification;
   const unreadNotifications = notificationData?.filter((n) => !n?.read);
   const unreadCount = unreadNotifications?.length;
 
@@ -76,15 +75,17 @@ export const AdminHeader = (props: Props) => {
           className="relative cursor-pointer"
         >
           <NotificationIcon />
-          <span className="absolute -top-2 right-1 text-[#AE2525] font-semibold text-base">
-            {unreadCount}
-          </span>
+          {unreadCount > 0 && (
+            <span className="absolute -top-2 right-1 text-[#AE2525] font-semibold text-base">
+              {unreadCount}
+            </span>
+          )}
+
           {openNotification && (
             <NotificationModal
               onClose={() => setOpenNotification(false)}
               notifications={notificationData}
               total={total}
-
             />
           )}
         </div>
