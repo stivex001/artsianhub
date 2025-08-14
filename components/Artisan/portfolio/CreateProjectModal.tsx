@@ -72,7 +72,7 @@ export const CreateProjectModal = ({
     {
       title: item?.title || "",
       location: item?.location || "",
-      serviceType: item?.serviceType || [],
+      serviceType: item?.serviceType?.map((cat: any) => cat?._id) || [],
       date: item?.date || "",
       description: item?.description || "",
     }
@@ -98,7 +98,7 @@ export const CreateProjectModal = ({
   const onSubmit = async (data: any) => {
     const formData = new FormData();
 
-    const safeServiceType = Array.isArray(data?.serviceType)
+    const safeServiceCategory = Array.isArray(data?.serviceType)
       ? data.serviceType
       : typeof data?.serviceType === "string"
       ? data.serviceType.split(",")
@@ -113,7 +113,7 @@ export const CreateProjectModal = ({
     formData.append("location", data?.location);
     formData.append("date", data?.date);
 
-    formData.append("serviceType", JSON.stringify(safeServiceType));
+    formData.append("serviceType", JSON.stringify(safeServiceCategory));
 
     files?.forEach((file: File) => {
       formData.append("photos", file);

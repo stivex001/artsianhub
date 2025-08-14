@@ -12,6 +12,7 @@ import {
   Watchmakers,
 } from "@/components/assets/icons/FeaturedIcons";
 import carpenter from "@/components/assets/images/carpenter.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -43,6 +44,12 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Skilled = (props: Props) => {
+
+    const router = useRouter();
+    const handleButtonClick = () => {
+      router.push("/auth/login");
+    };
+
   return (
     <section className="py-20 px-4 bg-white">
       <FeaturedCard
@@ -53,7 +60,7 @@ export const Skilled = (props: Props) => {
         backgroundColor="#F4F5F6"
         borderColor="#4B5563"
         buttonText="Explore Skilled Trades & Repair Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
       />
     </section>
   );
