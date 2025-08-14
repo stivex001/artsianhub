@@ -30,7 +30,6 @@ export const ClientNav = ({ brandlogo, className }: Props) => {
     >
       <div className="max-w-7xl mx-auto px-5">
         <div className="flex items-center justify-between h-20">
-          
           <Link href="/client" className="">
             {brandlogo ? <BrandIcon /> : <LogoIcon />}
           </Link>
@@ -40,9 +39,12 @@ export const ClientNav = ({ brandlogo, className }: Props) => {
               className="relative cursor-pointer bg-white rounded-full"
             >
               <NotificationIcon />
-              <span className="absolute top-0 right-3 text-[#AE2525] font-semibold text-base">
-                {unreadCount}
-              </span>
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-3 text-[#AE2525] font-semibold text-base">
+                  {unreadCount}
+                </span>
+              )}
+
               {openNotification && (
                 <NotificationModal
                   onClose={() => setOpenNotification(false)}
