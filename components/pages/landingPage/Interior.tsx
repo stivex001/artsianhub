@@ -10,6 +10,7 @@ import {
   Upholsterers,
 } from "@/components/assets/icons/FeaturedIcons";
 import int from "@/components/assets/images/int.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -47,6 +48,11 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Interior = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
       <FeaturedCard
@@ -57,7 +63,7 @@ export const Interior = (props: Props) => {
         backgroundColor="#ECFDF5"
         borderColor="#059669"
         buttonText="Explore Home & Interior Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
       />
     </section>
   );

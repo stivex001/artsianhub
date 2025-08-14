@@ -8,6 +8,7 @@ import {
   Soap,
 } from "@/components/assets/icons/FeaturedIcons";
 import beuty from "@/components/assets/images/beuty.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -40,6 +41,12 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Beauty = (props: Props) => {
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
       <FeaturedCard
@@ -50,7 +57,7 @@ export const Beauty = (props: Props) => {
         backgroundColor="#FDF2F8"
         borderColor="#DB2777"
         buttonText="Explore Beauty & Personal Care Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
         order
       />
     </section>

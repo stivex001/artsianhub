@@ -8,6 +8,7 @@ import {
   UX,
 } from "@/components/assets/icons/FeaturedIcons";
 import digital from "@/components/assets/images/digital.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -39,6 +40,11 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Digital = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
       <FeaturedCard
@@ -49,7 +55,7 @@ export const Digital = (props: Props) => {
         backgroundColor="#EFF6FF"
         borderColor="#2563EB"
         buttonText="Explore Digital & Creative Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
         order
       />
     </section>

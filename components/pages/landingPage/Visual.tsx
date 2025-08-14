@@ -9,6 +9,7 @@ import {
   Tattoo,
 } from "@/components/assets/icons/FeaturedIcons";
 import visual from "@/components/assets/images/visual.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -46,6 +47,11 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Visual = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <section className="py-20 px-4 bg-white">
       <FeaturedCard
@@ -56,7 +62,7 @@ export const Visual = (props: Props) => {
         backgroundColor="#FAF5FF"
         borderColor="#9333EA"
         buttonText="Explore Visual & Performing Arts Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
       />
     </section>
   );

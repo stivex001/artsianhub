@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import React from "react";
 import { Users, CheckCircle, DollarSign, Shield } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Feature {
   id: string;
@@ -51,6 +52,12 @@ const StartEarning: React.FC<StartEarningProps> = ({
   onPrimaryClick = () => console.log("Primary button clicked"),
   onSecondaryClick = () => console.log("Secondary button clicked"),
 }) => {
+  const router = useRouter();
+  
+  const handleButtonClick = () => {
+    router.push("/auth/signup?role=artisan");
+  };
+
   return (
     <section className={`bg-textdeep py-20 px-4 text-center`}>
       <div className="max-w-3xl mx-auto">
@@ -74,7 +81,7 @@ const StartEarning: React.FC<StartEarningProps> = ({
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <button
-              onClick={onPrimaryClick}
+              onClick={handleButtonClick}
               className="px-8 py-3 bg-darkBlue hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800"
             >
               {primaryButtonText}
