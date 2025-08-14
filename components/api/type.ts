@@ -34,6 +34,7 @@ export interface AuthUser {
   email: string;
   profilePicture: string;
   password: string;
+  newPassword:string;
   confirmPassword: string;
   role: string;
   isArtisan: boolean;
