@@ -67,7 +67,7 @@ export const useNavigationLinks = () => {
     },
     {
       label: "Contact",
-      href: "#",
+      href: "/contact-us",
     },
   ];
 
