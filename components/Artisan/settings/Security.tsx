@@ -34,7 +34,7 @@ const fields: Field[] = [
 ];
 
 const Security = (props: Props) => {
-  const { control, handleSubmit, formState, setError, watch, clearErrors } =
+  const { control, handleSubmit, formState, setError, watch, clearErrors, reset } =
     useDynamicForm<AuthUser>(fields, {});
 
   const { changePassword } = useAuth();
@@ -74,6 +74,7 @@ const Security = (props: Props) => {
       await mutateAsync(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
+          reset()
         },
         onError: (error: any) => {
           console.log(error, "error");
