@@ -48,7 +48,7 @@ export const Beauty = (props: Props) => {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Beauty & Personal Care Artisans"
         subtitle="Beauty, skincare, and personal care artisans bring creativity and care to help you look and feel your best."

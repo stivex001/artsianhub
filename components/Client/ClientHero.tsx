@@ -1,5 +1,5 @@
 import React from "react";
-import hero from "@/components/assets/images/clienthero.jpg";
+import hero from "@/components/assets/images/hero2.jpg";
 import Image from "next/image";
 import { SearchArtisan } from "./SearchArtisan";
 
@@ -11,13 +11,13 @@ type Props = {
 
 export const ClientHero = ({onSearch,isLoading,onClear}: Props) => {
   return (
-    <section className=" lg:h-[60vh] px-5 py-24 sm:py-32 relative overflow-hidden">
+    <section className=" lg:h-[70vh] px-5 py-24 sm:py-32 relative overflow-hidden">
       <div className="absolute inset-0 z-0 ">
         <div className="w-full h-full  bg-gradient-to-r from-black/70 to-black/50">
           <Image
             src={hero}
             alt="Construction worker"
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover "
           />
         </div>
         <div className="absolute inset-0 bg-[#0000004D]"></div>

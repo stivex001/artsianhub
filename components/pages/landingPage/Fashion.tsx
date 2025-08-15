@@ -45,7 +45,7 @@ export const Fashion = (props: Props) => {
   };
 
   return (
-    <section id="categories" className="py-20 px-4 bg-white">
+    <section id="categories" className="py-20  bg-white">
       <FeaturedCard
         title="Fashion & Textile Artisans"
         subtitle="Explore top-tier fashion and textile artisans who specialize in custom designs, alterations, and more."

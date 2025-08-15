@@ -36,7 +36,7 @@ export const FeaturedCard: React.FC<FeaturedCardProps> = ({
 }) => {
   return (
     <div
-      className={`lg:rounded-[40px] border-b py-24 max-w-7xl mx-auto`}
+      className={`lg:rounded-[40px] border-b py-24 px-4 max-w-7xl mx-auto`}
       style={{ borderColor: borderColor, backgroundColor: backgroundColor }}
     >
       <div

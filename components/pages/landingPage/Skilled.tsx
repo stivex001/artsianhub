@@ -51,7 +51,7 @@ export const Skilled = (props: Props) => {
     };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Skilled Trades & Repair Artisans"
         subtitle="Get skilled home repairs and services from expert tradespeople—plumbers, electricians, and mechanics."

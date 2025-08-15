@@ -46,7 +46,7 @@ export const Digital = (props: Props) => {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Digital & Creative Artisans"
         subtitle="From branding to web design, our digital artisans specialize in creating engaging and functional online experiences."

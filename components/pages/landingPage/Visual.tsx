@@ -53,7 +53,7 @@ export const Visual = (props: Props) => {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Visual & Performing Arts Artisans"
         subtitle="Custom artwork, sculpture, photography, and tattoo artistry, all created by talented and passionate artists."
