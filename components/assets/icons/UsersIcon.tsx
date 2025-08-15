@@ -159,3 +159,67 @@ export const ProfileCheckIcon = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 )
+
+export const CommunityPeople = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={49}
+    height={49}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} x={0.504} y={0.398} fill="#C3CDFF" rx={12} />
+    <path
+      stroke="#02198B"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M28.504 33.398v-2a4 4 0 0 0-4-4h-6a4 4 0 0 0-4 4v2M21.504 23.398a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM34.504 33.397v-2a4 4 0 0 0-3-3.87M28.504 15.527a4 4 0 0 1 0 7.75"
+    />
+  </svg>
+)
+
+export const AwardIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={49}
+    height={49}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} x={0.164} y={0.398} fill="#C3CDFF" rx={12} />
+    <path
+      stroke="#02198B"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M24.164 26.398a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"
+    />
+    <path
+      stroke="#02198B"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="m27.641 25.29 1.523 9.11-5-3-5 3 1.523-9.11"
+    />
+  </svg>
+)
+
+export const PassionIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={49}
+    height={49}
+    fill="none"
+    {...props}
+  >
+    <rect width={48} height={48} x={0.824} y={0.398} fill="#C3CDFF" rx={12} />
+    <path
+      stroke="#02198B"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M31.824 26.398c1.49-1.46 3-3.21 3-5.5a5.5 5.5 0 0 0-5.5-5.5c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2a5.5 5.5 0 0 0-5.5 5.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7Z"
+    />
+  </svg>
+)

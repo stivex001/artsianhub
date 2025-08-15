@@ -15,7 +15,7 @@ import React from "react";
 
 type Props = {};
 
-const categories = [
+export const categories = [
   {
     icon: FashionIcon,
     title: "Fashion & Textile",
@@ -46,7 +46,7 @@ const categories = [
   },
   {
     icon: CraftIcon,
-    title: "Craft & Handmade",
+    title: "Craft & Handmade Goods Artisans",
   },
 ];
 
