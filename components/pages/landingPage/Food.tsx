@@ -54,7 +54,7 @@ export const Food = (props: Props) => {
     router.push("/auth/login");
   };
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Food & Culinary Artisans"
         subtitle="Bring flavor to your events or home with our skilled food artisans who specialize in culinary creations."

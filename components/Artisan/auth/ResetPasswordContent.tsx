@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import loginAuth from "@/components/assets/images/Login.png";
 import AuthLayout from "./AuthLayout";
 import { BackNavigation } from "@/components/shared/BackNavigation";
@@ -13,13 +13,20 @@ import { toast } from "sonner";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ContactSupport } from "./ContactSupport";
+import { AuthUser } from "@/components/api/type";
+import { PasswordRequirements } from "@/components/controlledInputs/PasswordRequirements";
 
 type Props = {};
 
 const fields: Field[] = [
-  
   {
     name: "newPassword",
+    type: "text",
+    errorMessage: "Password is required",
+    isRequired: true,
+  },
+  {
+    name: "confirmNewPassword",
     type: "text",
     errorMessage: "Password is required",
     isRequired: true,
@@ -31,15 +38,39 @@ const ResetPasswordContent = (props: Props) => {
   const email = params.get("email");
   const router = useRouter();
 
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  const { control, handleSubmit, formState, watch, setError, clearErrors } =
+    useDynamicForm<AuthUser>(fields, {});
+
+  const password = watch("newPassword");
+  const confirmPassword = watch("confirmPassword");
 
   const { resetPassword } = useAuth();
 
   const { isValid } = formState;
 
+  useEffect(() => {
+    if (confirmPassword) {
+      if (confirmPassword !== password) {
+        setError("confirmPassword", {
+          type: "manual",
+          message: "Passwords do not match",
+        });
+      } else {
+        clearErrors("confirmPassword");
+      }
+    }
+  }, [confirmPassword, password, setError, clearErrors]);
+
   const { isPending, mutateAsync } = resetPassword;
 
   const onSubmit = async (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", {
+        message: "Passwords do not match",
+      });
+      return;
+    }
+
     const payload = {
       ...data,
       email,
@@ -81,7 +112,23 @@ const ResetPasswordContent = (props: Props) => {
                 control={control}
                 placeholder="Password"
                 type="password"
-                label="Password"
+                label="New Password"
+                variant="primary"
+                rules={{
+                  required: { value: true, message: "Password is required" },
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/,
+                    message: "Password must meet all requirements",
+                  },
+                }}
+              />
+              <PasswordRequirements password={password} />
+              <ControlledInput
+                name="confirmNewPassword"
+                control={control}
+                placeholder="Confirm password"
+                type="password"
+                label="Confirm Password"
                 variant="primary"
                 rules={{ required: true }}
               />

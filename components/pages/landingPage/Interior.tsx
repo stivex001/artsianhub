@@ -54,7 +54,7 @@ export const Interior = (props: Props) => {
   };
 
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Home & Interior Artisans"
         subtitle="Transform your living space with custom woodwork,furniture, and unique home art from skilled artisans."
