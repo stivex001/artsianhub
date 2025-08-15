@@ -1,156 +1,194 @@
 "use client";
 
-import { useContactUs } from "@/api/crud/contact";
-import { CustomButton } from "@/components/clickable/CustomButton";
-import ControlledInput from "@/components/controlledInputs/ControlledInput";
-import { AuthLayout } from "@/components/pages/auth/AuthLayout";
-import useDynamicForm from "@/hooks/useDynamicForm";
-import { Field } from "@/schemas/dynamicSchema";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { toast } from "sonner";
-
-const fields: Field[] = [
-  {
-    name: "name",
-    type: "text",
-    errorMessage: "Name is required",
-    isRequired: true,
-  },
-  {
-    name: "email",
-    type: "email",
-    errorMessage: "Email is required",
-    isRequired: true,
-  },
-  {
-    name: "phone",
-    type: "text",
-    errorMessage: "Phone Number is required",
-    isRequired: true,
-  },
-  {
-    name: "message",
-    type: "text",
-    errorMessage: "Message is required",
-    isRequired: true,
-  },
-];
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Clock } from "lucide-react";
+import { LeftContent } from "@/components/contact-us/LeftContent";
 
 const ContactUs = () => {
-  const router = useRouter();
-  const { control, handleSubmit } = useDynamicForm(fields, {});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    message: "",
+    communicationMode: "Email",
+  });
 
-  const { createContactUs } = useContactUs();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { isPending, mutateAsync } = createContactUs;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-  const onSubmit = async (data: any) => {
-    const payload = {
-      ...data,
-      mode: "email",
-    };
+  const handleRadioChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      communicationMode: value,
+    }));
+  };
 
-    try {
-      await mutateAsync(payload, {
-        onSuccess: (response: any) => {
-          toast.success(response?.message);
-          router.push("/");
-        },
-        onError: (error: any) => {
-          toast.error(error?.message);
-        },
-      });
-    } catch (error) {
-      console.log("An error occurred: ", error);
-    }
+  const handleSubmit = async () => {
+    setIsLoading(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      console.log("Form submitted:", formData);
+      setIsLoading(false);
+      // Reset form or show success message
+    }, 2000);
   };
 
   return (
-    <div className="">
-      <h1 className="text-3xl lg:text-8xl text-primary font-semibold flex items-center justify-center py-8 mt-24">
-        Contact Us
-      </h1>
-      <AuthLayout
-        className="!-mt-7"
-        title="Get in Touch"
-        desc="We welcome your questions and look forward  to providing a swift response."
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-10/12 lg:w-8/12 mx-auto pt-16"
-        >
-          <div className="flex flex-col  gap-3 mb-14">
-            <h1 className="font-semibold text-primary text-2xl text-center ">
+    <main className="bg-[#F9FAFB]">
+      <div className="max-w-5xl px-4 lg:px-0 mx-auto lg:py-20 space-y-14">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+            Contact Us
+          </h1>
+          <p className="text-[#4B5563] text-lg">
+            We&apos;d love to hear from you. Get in touch with us.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <LeftContent />
+          {/* Right Side - Contact Form */}
+          <div className="bg-white rounded-2xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Send us a Message
-            </h1>
-          </div>
-          <div className="flex flex-col gap-8">
-            <ControlledInput
-              name="name"
-              control={control}
-              placeholder="Enter Email"
-              type="text"
-              label="Name"
-              variant="primary"
-              rules={{ required: true }}
-              className="shadow-dropShadow bg-white border-none"
-              labelClassName="text-[#D8D8D9] font-semibold"
-              art
-            />
-            <ControlledInput
-              name="email"
-              control={control}
-              placeholder=""
-              type="email"
-              label="Email"
-              variant="primary"
-              rules={{ required: true }}
-              className="shadow-dropShadow bg-white border-none"
-              labelClassName="text-[#D8D8D9] font-semibold"
-              art
-            />
-            <div className="">
-              <ControlledInput
-                name="phone"
-                control={control}
-                placeholder=""
-                type="text"
-                label="Mobile"
-                variant="primary"
-                rules={{ required: true }}
-                className="shadow-dropShadow bg-white border-none"
-                labelClassName="text-[#D8D8D9] font-semibold"
-                art
-              />
+            </h2>
+
+            <div className="space-y-6">
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Your full name"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="your.email@example.com"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="mobile"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Mobile
+                </label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                  placeholder="+44 123 456 7890"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="Tell us how we can help you..."
+                  rows={5}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Preferred mode of Communication
+                </label>
+                <div className="flex space-x-6">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="communicationMode"
+                      value="Email"
+                      checked={formData.communicationMode === "Email"}
+                      onChange={(e) => handleRadioChange(e.target.value)}
+                      className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Email</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="communicationMode"
+                      value="Mobile"
+                      checked={formData.communicationMode === "Mobile"}
+                      onChange={(e) => handleRadioChange(e.target.value)}
+                      className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Mobile</span>
+                  </label>
+                </div>
+              </div>
+
+              <button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className="w-full bg-primary hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                    Submitting...
+                  </div>
+                ) : (
+                  "Submit"
+                )}
+              </button>
             </div>
-            <ControlledInput
-              name="message"
-              control={control}
-              placeholder=""
-              type="textarea"
-              label="Message"
-              variant="primary"
-              rules={{ required: true }}
-              className="shadow-dropShadow bg-white border-none"
-              labelClassName="text-[#D8D8D9] font-semibold"
-              art
-              isTextArea={true}
-              rows={5}
-              cols={40}
-            />
           </div>
-          <div className="my-9">
-            <CustomButton
-              type="submit"
-              label="Submit"
-              className="w-full rounded-[10px] h-10 font-[300]"
-              isLoading={isPending}
-            />
-          </div>
-        </form>
-      </AuthLayout>
-    </div>
+        </div>
+      </div>
+    </main>
   );
 };
 
