@@ -55,7 +55,7 @@ export const useNavigationLinks = () => {
   const aboutLinks = [
     {
       label: "About Us",
-      href: "#",
+      href: "/about",
     },
     {
       label: "Careers",

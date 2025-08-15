@@ -39,9 +39,9 @@ const Footer = (props: Props) => {
     >
       <Container className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-12">
         <div className="space-y-6">
-          <div>
+          <Link href="/">
             <Image src={footerbg} alt="" />
-          </div>
+          </Link>
           <h3 className="text-base text-placeholderText">
             Connecting skilled artisans with customers worldwide. Discover,
             hire, and collaborate with the best in the craft industry.
