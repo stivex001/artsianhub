@@ -176,7 +176,7 @@ export const LocationPriceStage = (props: Props) => {
       >
         <div>
           <h1 className="text-paragrah font-bold text-xl">
-            Welcome to MensayHub, {firstName}!
+            Welcome to ArtisansHub, {firstName}!
           </h1>
           <p className="text-sm text-body">
             Your profile is now live. Start receiving job requests, managing
