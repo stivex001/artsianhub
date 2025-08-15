@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ava from "@/components/assets/images/ava.svg";
 import {
   BillingIcon,
@@ -24,24 +24,22 @@ type UserNavProps = {
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  const isArtisanPage = pathname.startsWith("/artisan");
+  const [isMobile, setIsMobile] = useState(false);
 
   const { logout } = useAuthStore();
   const { getCurrentUser } = useUser();
-  // const { getMyProfile } = useArtisans();
   const { data: user } = getCurrentUser();
-  // const { data: profile } = getMyProfile();
   const { openSettings } = useModalStore();
 
-  // const personalInfo = profile?.data;
-  // const profilePhoto = isArtisanPage
-  //   ? personalInfo?.profilePicture
-  //   : user?.data?.profilePicture;
+  useEffect(() => {
+    const checkScreenSize = () => setIsMobile(window.innerWidth < 768);
+    checkScreenSize(); // run on mount
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
-  // const currentUser = isArtisanPage ? personalInfo : user?.data;
-
-  const profilePhoto = user?.data?.profilePicture
-  const currentUser = user?.data
+  const profilePhoto = user?.data?.profilePicture;
+  const currentUser = user?.data;
 
   const handleLogout = () => {
     logout();
@@ -89,7 +87,11 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
 
         <button
           onClick={() => {
-            openSettings();
+            if (isMobile) {
+              router.push("/client/settings");
+            } else {
+              openSettings();
+            }
             onClose();
           }}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
