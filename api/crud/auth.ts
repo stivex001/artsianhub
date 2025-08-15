@@ -18,7 +18,7 @@ export const useAuth = () => {
   });
 
     const verifyResetPasswordOTP = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/verify-reset-password-otp",
+    url: "/auth/verify-otp",
     method: "POST",
   });
 
