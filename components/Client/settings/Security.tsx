@@ -1,9 +1,12 @@
 import { CustomButton } from "@/components/clickable/CustomButton";
-import React from "react";
+import React, { useState } from "react";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 type Props = {};
 
 export const Security = (props: Props) => {
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -15,7 +18,11 @@ export const Security = (props: Props) => {
             Update your password regularly to keep your account secure
           </p>
         </div>
-        <CustomButton label="Change Password" variant="transparent" />
+        <CustomButton
+          onClick={() => setIsChangePasswordOpen(true)}
+          label="Change Password"
+          variant="transparent"
+        />
       </div>
       <div className="flex items-center justify-between">
         <div>
@@ -40,6 +47,10 @@ export const Security = (props: Props) => {
         </div>
         <CustomButton label="Delete Account" variant="danger" />
       </div>
+      <ChangePasswordModal
+        isOpen={isChangePasswordOpen}
+        onClose={() => setIsChangePasswordOpen(false)}
+      />
     </div>
   );
 };

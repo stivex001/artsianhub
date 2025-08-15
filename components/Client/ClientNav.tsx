@@ -40,7 +40,7 @@ export const ClientNav = ({ brandlogo, className }: Props) => {
             >
               <NotificationIcon />
               {unreadCount > 0 && (
-                <span className="absolute top-0 right-3 text-[#AE2525] font-semibold text-base">
+                <span className="absolute -top-1 right-2 text-[#AE2525] font-semibold text-base">
                   {unreadCount}
                 </span>
               )}
