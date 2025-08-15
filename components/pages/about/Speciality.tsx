@@ -10,15 +10,15 @@ export const Speciality = (props: Props) => {
   const router = useRouter();
 
   return (
-    <Wrapper className="p-12 border cursor-pointer border-[#E5E7EB]">
+    <Wrapper className="lg:p-12  border cursor-pointer border-[#E5E7EB]">
       <div className="flex flex-col gap-6">
-        <p className="text-[#4B5563] text-xl ">What we specialize in</p>
-        <p className="text-[#374151] text-lg ">
+        <p className="text-[#4B5563] text-xl text-center  ">What we specialize in</p>
+        <p className="text-[#374151] text-lg text-center lg:text-left ">
           ArtisansHub offers a range of services, including artisan connection,
           project management, quality assurance, and a seamless platform for
           finding and collaborating with skilled professionals.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-6 md:gap-y-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-6 md:gap-y-8">
           {categories.map((category, index) => {
             const Icon = category.icon;
             return (

@@ -10,7 +10,7 @@ type Props = {};
 const AboutUs = (props: Props) => {
   return (
     <main className=" bg-[#F9FAFB]">
-      <div className="max-w-5xl mx-auto py-20 space-y-16">
+      <div className="max-w-5xl px-4 lg:px-0 mx-auto lg:py-20 space-y-16 mb-16">
         <AboutHero />
         <AboutDetails />
         <Speciality />
