@@ -2,6 +2,7 @@ import {
   FacebookIcon,
   Instagram,
   Linkdln,
+  TikTok,
   Twitter,
   Youtube,
 } from "../assets/icons/SocialIcons";
@@ -55,7 +56,7 @@ export const useNavigationLinks = () => {
   const aboutLinks = [
     {
       label: "About Us",
-      href: "/about",
+      href: "/home/about",
     },
     {
       label: "Careers",
@@ -67,7 +68,7 @@ export const useNavigationLinks = () => {
     },
     {
       label: "Contact",
-      href: "/contact-us",
+      href: "/home/contact-us",
     },
   ];
 
@@ -102,6 +103,10 @@ export const useNavigationLinks = () => {
     {
       icon: Instagram,
       href: "https://www.instagram.com/artisanscommunity?igsh=YzljYTk1ODg3Zg==",
+    },
+    {
+      icon: TikTok,
+      href: "https://www.tiktok.com/@artisanscommunity?_t=ZN-8yvnwsfDvz4&_r=1",
     },
     {
       icon: Twitter,

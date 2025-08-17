@@ -45,7 +45,7 @@ const ContactUs = () => {
 
   return (
     <main className="bg-[#F9FAFB]">
-      <div className="max-w-5xl px-4 lg:px-0 mx-auto py-10 lg:py-20 space-y-14">
+      <div className="max-w-5xl px-4 lg:px-0 mx-auto py-10  space-y-14">
         <div className="text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-primary mb-4">
             Contact Us

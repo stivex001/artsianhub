@@ -1,5 +1,5 @@
-import * as React from "react"
-import { SVGProps } from "react"
+import * as React from "react";
+import { SVGProps } from "react";
 export const FacebookIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,7 @@ export const FacebookIcon = (props: SVGProps<SVGSVGElement>) => (
       d="M15 1.666h-2.5a4.167 4.167 0 0 0-4.166 4.167v2.5h-2.5v3.333h2.5v6.667h3.333v-6.667h2.5L15 8.333h-3.333v-2.5a.833.833 0 0 1 .833-.834H15V1.666Z"
     />
   </svg>
-)
+);
 
 export const Instagram = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -41,7 +41,7 @@ export const Instagram = (props: SVGProps<SVGSVGElement>) => (
       d="M13.333 9.475a3.334 3.334 0 1 1-6.595.978 3.334 3.334 0 0 1 6.595-.978ZM14.584 5.416h.008"
     />
   </svg>
-)
+);
 
 export const Twitter = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -59,7 +59,7 @@ export const Twitter = (props: SVGProps<SVGSVGElement>) => (
       d="M18.333 3.333s-.583 1.75-1.666 2.833c1.333 8.333-7.834 14.417-15 9.667 1.833.083 3.666-.5 5-1.667-4.167-1.25-6.25-6.167-4.167-10C4.333 6.333 7.167 7.583 10 7.499 9.25 4 13.333 2 15.833 4.333c.917 0 2.5-1 2.5-1Z"
     />
   </svg>
-)
+);
 
 export const Linkdln = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -77,7 +77,7 @@ export const Linkdln = (props: SVGProps<SVGSVGElement>) => (
       d="M13.334 6.666a5 5 0 0 1 5 5v5.833H15v-5.833a1.667 1.667 0 0 0-3.333 0v5.833H8.334v-5.833a5 5 0 0 1 5-5ZM5 7.5H1.667v10H5v-10ZM3.333 5a1.667 1.667 0 1 0 0-3.334 1.667 1.667 0 0 0 0 3.333Z"
     />
   </svg>
-)
+);
 
 export const Youtube = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -102,4 +102,23 @@ export const Youtube = (props: SVGProps<SVGSVGElement>) => (
       d="M8.334 12.5 12.5 10 8.334 7.5v5Z"
     />
   </svg>
-)
+);
+
+export const TikTok = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    viewBox="0 0 20 20"
+    {...props}
+  >
+    <path
+      stroke="#9CA3AF"
+      strokeWidth={1.667}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M10 2.5v8.25a2.5 2.5 0 1 1-2.5-2.5c.27 0 .53.02.78.07v2.02a1.72 1.72 0 1 0 1.72 1.72V2.5h2.5c.2 2.02 1.78 3.6 3.8 3.8V8.4a6.2 6.2 0 0 1-3.8-1.32"
+    />
+  </svg>
+);
