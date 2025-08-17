@@ -105,7 +105,13 @@ export const NotificationModal = ({
     <div
       ref={modalRef}
       onClick={(e) => e.stopPropagation()}
-      className="absolute top-12 right-0 bg-white rounded-[10px] shadow-lg w-[350px] md:w-[400px] border border-blue-300 z-50 animate-fade-in"
+      className="
+    absolute top-12 -right-20 lg:right-4 
+    bg-white rounded-[10px] shadow-lg 
+    w-[90vw] max-w-sm sm:max-w-md 
+    border border-blue-300 
+    z-50 animate-fade-in
+  "
     >
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-blue-300">
