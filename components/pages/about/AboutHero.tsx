@@ -5,7 +5,7 @@ type Props = {};
 
 export const AboutHero = (props: Props) => {
   return (
-    <section className="relative h-80 flex items-center justify-center overflow-hidden">
+    <section className="relative h-80 pt-3 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src="/hero.jpg"

@@ -62,7 +62,7 @@ const OtpContent = ({}: Props) => {
           router.push(`/auth/profile-setup?role=${role}`);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
           console.log(error, "errorodod");
         },
       });
@@ -89,7 +89,7 @@ const OtpContent = ({}: Props) => {
           setTimeLeft(3 * 60); // reset to 3 minutes on resend
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
         },
       });
     } catch (error) {

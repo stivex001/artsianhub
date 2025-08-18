@@ -5,7 +5,7 @@ import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useAuth } from "@/api/crud/auth";
 import { toast } from "sonner";
@@ -13,6 +13,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import loginAuth from "@/components/assets/images/Login.png";
 import AuthLayout from "@/components/Artisan/auth/AuthLayout";
 import { AuthTitle } from "@/components/auth/AuthTitle";
+import { CustomModal } from "@/components/modals/CustomModal";
+import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 
 type Props = {};
 
@@ -36,14 +38,17 @@ const LoginContent = (props: Props) => {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
 
+  const [openVerify, setOpenVerify] = useState(false);
+
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
   const { isValid } = formState;
 
   const { setAccessToken, accessToken, setCurrentUser, currentUser } =
     useAuthStore();
 
-  const { loginUser } = useAuth();
+  const { loginUser, resendOTP } = useAuth();
   const { isPending, mutateAsync } = loginUser;
+  const { isPending: resendPending, mutateAsync: resendOtp } = resendOTP;
 
   // Role-based fallback redirect
   const redirectByRole = (role: string) => {
@@ -70,6 +75,8 @@ const LoginContent = (props: Props) => {
     try {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
+          console.log(response, "res_hfhhf");
+
           const token = response?.token;
           const user = response?.user;
 
@@ -89,7 +96,33 @@ const LoginContent = (props: Props) => {
         },
         onError: (error: any) => {
           console.log(error, "error_logging");
+          if (
+            error?.status === 403 ||
+            error?.data?.error === "User account not verified yet"
+          ) {
+            toast.error("resend otp for me");
+            setOpenVerify(true);
+          }
           toast.error(error?.data?.error || "Login failed");
+        },
+      });
+    } catch (error) {
+      console.log("An error occurred: ", error);
+    }
+  };
+
+  const handleVerifyAccount = async (data: any) => {
+    const payload = new FormData();
+    payload.append("email", data.email || "");
+
+    try {
+      await resendOtp(payload, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message);
+          router.push(`/auth/otp?email=${data.email}`);
+        },
+        onError: (error: any) => {
+          toast.error(error?.data?.error);
         },
       });
     } catch (error) {
@@ -150,6 +183,31 @@ const LoginContent = (props: Props) => {
           </div>
         </form>
       </div>
+      <CustomModal
+        isOpen={openVerify}
+        onClose={() => setOpenVerify(false)}
+        icon={<ConfirmIcon />}
+      >
+        <div className="text-center">
+          <h1 className="text-lg font-bold text-paragrah">
+            Account Not Verified
+          </h1>
+          <p className="text-sm text-body mt-2">
+            Your account has not been verified yet. Click the button below to
+            receive a new verification code.
+          </p>
+        </div>
+        <CustomButton
+          type="button"
+          label="Resend Verification Code"
+          className="w-full rounded-xl mt-4"
+          variant="primary"
+          onClick={() =>
+            handleVerifyAccount({ email: control._formValues.email })
+          }
+          isLoading={resendPending}
+        />
+      </CustomModal>
     </AuthLayout>
   );
 };
