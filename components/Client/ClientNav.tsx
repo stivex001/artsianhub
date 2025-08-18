@@ -8,6 +8,7 @@ import { NotificationIcon } from "../assets/icons/NavIcons";
 import { useNotification } from "@/api/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
 import hub from "@/components/assets/images/nw.png";
+import hubn from "@/components/assets/images/n.png";
 import Image from "next/image";
 
 type Props = {
@@ -32,9 +33,15 @@ export const ClientNav = ({ brandlogo, className }: Props) => {
     >
       <div className="max-w-7xl mx-auto px-5 py-5">
         <div className="flex items-center justify-between h-20">
-          <Link href="/client" className="w-36 h-16">
-            <Image src={hub} alt="hub" className="w-full h-full" />
-          </Link>
+          {brandlogo ? (
+            <Link href="/client" className="w-36 ">
+              <Image src={hubn} alt="hub" className="w-full h-full" />
+            </Link>
+          ) : (
+            <Link href="/client" className="w-36 h-16">
+              <Image src={hub} alt="hub" className="w-full h-full" />
+            </Link>
+          )}
           <div className="flex items-center gap-2.5">
             <div
               onClick={() => setOpenNotification((prev) => !prev)}
