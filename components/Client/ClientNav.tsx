@@ -7,7 +7,7 @@ import { useState } from "react";
 import { NotificationIcon } from "../assets/icons/NavIcons";
 import { useNotification } from "@/api/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
-import hub from "@/components/assets/images/hub.png";
+import hub from "@/components/assets/images/nw.png";
 import Image from "next/image";
 
 type Props = {
@@ -30,11 +30,10 @@ export const ClientNav = ({ brandlogo, className }: Props) => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 bg-transparent ${className}`}
     >
-      <div className="max-w-7xl mx-auto px-5">
+      <div className="max-w-7xl mx-auto px-5 py-5">
         <div className="flex items-center justify-between h-20">
-          <Link href="/client" className="w-12 h-12">
-            {brandlogo ? <BrandIcon /> : <BrandIcon />}
-            {/* <Image src={hub} alt="hub" className="w-full h-full" /> */}
+          <Link href="/client" className="w-36 h-16">
+            <Image src={hub} alt="hub" className="w-full h-full" />
           </Link>
           <div className="flex items-center gap-2.5">
             <div

@@ -3,6 +3,7 @@ import Image, { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import { LogoIcon } from "@/components/assets/icons/SvgIcons";
+import logo from "@/components/assets/images/nw.png";
 
 type Props = {
   children: ReactNode;
@@ -21,8 +22,13 @@ const AuthLayout = ({ children, authImg, title, desc }: Props) => {
           className="absolute inset-0 w-full h-full object-cover rounded-3xl"
           priority
         />
-        <Link href="/" className="absolute top-8 left-8">
-          <LogoIcon />
+        <Link href="/" className="absolute top-8 left-8 w-36 h-20">
+          {/* <LogoIcon /> */}
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full h-full object-cover "
+          />
         </Link>
         <div className="max-w-xl text-white z-10">
           <h1 className=" font-[900] text-4xl mb-2">{title}</h1>

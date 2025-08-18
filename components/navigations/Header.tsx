@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import logo from "@/components/assets/images/artilogo.svg";
+import logo from "@/components/assets/images/n.png";
 import { useAuthStore } from "@/store/authStore";
 import UserDesc from "../UserDesc";
 import { CustomButton } from "../clickable/CustomButton";
@@ -54,8 +54,8 @@ export const Header = (props: Props) => {
   return (
     <header className="bg-white h-24 w-full">
       <div className="max-w-6xl mx-auto flex items-center justify-between py-5 px-4">
-        <Link href="/" onClick={() => handleScrollTo("home")} className="">
-          <Image src={logo} alt="logo" className="w-full h-full object-cover" />
+        <Link href="/" onClick={() => handleScrollTo("home")} className="w-40 h-20 -mt-2">
+          <Image src={logo} alt="logo" className="w-full h-full object-cover " />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
