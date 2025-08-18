@@ -2,7 +2,6 @@
 import Image, { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import { LogoIcon } from "@/components/assets/icons/SvgIcons";
 import logo from "@/components/assets/images/nw.png";
 
 type Props = {

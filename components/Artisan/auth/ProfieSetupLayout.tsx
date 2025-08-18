@@ -2,22 +2,31 @@
 
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import { BrandIcon } from "@/components/assets/icons/Logo";
+import logo from "@/components/assets/images/n.png";
 import { ProfileStageCheck } from "./ProfileStageCheck";
+import Image from "next/image";
 
 type Props = {
   children: ReactNode;
   title: string;
   desc: string;
   art?: boolean;
+  role: string;
 };
 
-const ProfileSetupLayout = ({ children, title, desc, art }: Props) => {
+const ProfileSetupLayout = ({ children, title, desc, art, role }: Props) => {
   return (
     <div className="lg:px-6 py-6  flex h-screen overflow-hidden">
       <div className="hidden lg:flex flex-col justify-center bg-[#f9f9fb]  lg:w-1/2 relative rounded-3xl p-8 z-10">
-        <Link href="/" className="absolute top-8 left-8">
-          <BrandIcon />
+        <Link
+          href={role === "client" ? "/client" : "/artisan/dashboard"}
+          className="absolute top-8 left-8 w-36 h-20"
+        >
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full h-full object-cover "
+          />
         </Link>
         <div className="max-w-xl text-paragrah z-10">
           <h1 className=" font-[900] text-4xl mb-2">{title}</h1>

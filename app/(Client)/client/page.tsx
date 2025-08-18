@@ -7,12 +7,15 @@ import { ArtisanAroundYou } from "@/components/Client/ArtisanAroundYou";
 import AccountSettingsModal from "@/components/Client/AccountSettingsModal";
 import { useModalStore } from "@/store/useModalStore";
 import { useArtisans } from "@/api/crud/artisans";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useAuthStore } from "@/store/authStore";
+import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 
 type Props = {};
 
 const ClientPage = (props: Props) => {
   const { isSettingsOpen, closeSettings } = useModalStore();
+  const [openIncompleteProfile, setOpenIncompleteProfile] = useState(false);
   const [filters, setFilters] = useState<{
     category?: string;
     location?: string;
@@ -21,6 +24,7 @@ const ClientPage = (props: Props) => {
     location: "",
   });
 
+  const { currentUser } = useAuthStore();
   const { getArtisanByCategory, getAllArtisan } = useArtisans();
 
   const { data: allData, isPending: allPending } = getAllArtisan();
@@ -34,17 +38,34 @@ const ClientPage = (props: Props) => {
   const artisansToShow = showingFiltered ? filteredArtisans : allArtisans;
   const loading = showingFiltered ? filteredPending : allPending;
 
+  useEffect(() => {
+    if (currentUser?.isVerified) {
+      const isProfileIncomplete =
+        !currentUser.firstName || !currentUser.lastName;
+      if (isProfileIncomplete) {
+        setOpenIncompleteProfile(true);
+      }
+    }
+  }, [currentUser]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <ClientNav />
       <ClientHero
-        onSearch={(category:string, location:string) => setFilters({ category, location })}
+        onSearch={(category: string, location: string) =>
+          setFilters({ category, location })
+        }
         onClear={() => setFilters({ category: "", location: "" })}
         isLoading={loading}
       />
       <ArtisanAroundYou artisans={artisansToShow} isPending={loading} />
       <AccountSettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
       <Footer />
+      <IncompleteProfileModal
+        isOpen={openIncompleteProfile}
+        onClose={() => setOpenIncompleteProfile(false)}
+        role={currentUser?.role || "client"}
+      />
     </div>
   );
 };

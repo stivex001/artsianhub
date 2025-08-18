@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import logo from "@/components/assets/images/n.png";
-import { useAuthStore } from "@/store/authStore";
-import UserDesc from "../UserDesc";
 import { CustomButton } from "../clickable/CustomButton";
 import { MobileHeader } from "./MobileHeader";
 
