@@ -39,6 +39,7 @@ export interface AuthUser {
   role: string;
   isArtisan: boolean;
   isAdmin: boolean;
+  isVerified: boolean;
   isClient: boolean;
   artisanId: ID;
 }

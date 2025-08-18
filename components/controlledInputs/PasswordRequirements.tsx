@@ -44,7 +44,7 @@ export const PasswordRequirements: React.FC<PasswordRequirementsProps> = ({
                 transition={{ duration: 0.2 }}
               />
             </AnimatePresence>
-            <span className={passed ? "text-primary" : "text-gray-500"}>
+            <span className={passed ? "text-paragrah text-sm font-medium" : "text-gray-500"}>
               {rule.label}
             </span>
           </motion.div>

@@ -95,6 +95,7 @@ export const ClientProfileSetup = (props: Props) => {
 
   return (
     <ProfileSetupLayout
+      role="client"
       title="Let’s Personalize Your Experience"
       desc="Add a few details to help us connect you with the right artisans near you. This only takes a minute."
     >

@@ -1,8 +1,6 @@
 "use client";
-import { LogoIcon } from "@/components/assets/icons/SvgIcons";
 import Link from "next/link";
 import { UserProfile } from "../auth/UserProfile";
-import { BrandIcon } from "../assets/icons/Logo";
 import { useState } from "react";
 import { NotificationIcon } from "../assets/icons/NavIcons";
 import { useNotification } from "@/api/crud/notification";

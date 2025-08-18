@@ -26,6 +26,7 @@ export const ArtisanProfileSetup = (props: Props) => {
 
   return (
     <ProfileSetupLayout
+      role="artisan"
       art
       title="Setup Your Artisan Profile"
       desc="Help customers discover your services by telling us about your skills, service location, and experience. Build trust and start getting booked."

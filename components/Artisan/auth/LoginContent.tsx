@@ -39,6 +39,7 @@ const LoginContent = (props: Props) => {
   const redirect = searchParams.get("redirect");
 
   const [openVerify, setOpenVerify] = useState(false);
+  const [unverifiedRole, setUnverifiedRole] = useState<string | null>(null);
 
   const { control, handleSubmit, formState } = useDynamicForm(fields, {});
   const { isValid } = formState;
@@ -75,8 +76,6 @@ const LoginContent = (props: Props) => {
     try {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
-          console.log(response, "res_hfhhf");
-
           const token = response?.token;
           const user = response?.user;
 
@@ -100,7 +99,8 @@ const LoginContent = (props: Props) => {
             error?.status === 403 ||
             error?.data?.error === "User account not verified yet"
           ) {
-            toast.error("resend otp for me");
+            const role = error?.data?.user?.role;
+            if (role) setUnverifiedRole(role);
             setOpenVerify(true);
           }
           toast.error(error?.data?.error || "Login failed");
@@ -119,7 +119,7 @@ const LoginContent = (props: Props) => {
       await resendOtp(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
-          router.push(`/auth/otp?email=${data.email}`);
+          router.push(`/auth/otp?email=${data.email}&&role=${data.role || ""}`);
         },
         onError: (error: any) => {
           toast.error(error?.data?.error);
@@ -203,7 +203,10 @@ const LoginContent = (props: Props) => {
           className="w-full rounded-xl mt-4"
           variant="primary"
           onClick={() =>
-            handleVerifyAccount({ email: control._formValues.email })
+            handleVerifyAccount({
+              email: control._formValues.email,
+              role: unverifiedRole,
+            })
           }
           isLoading={resendPending}
         />

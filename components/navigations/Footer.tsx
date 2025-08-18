@@ -6,7 +6,7 @@ import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import footerbg from "@/components/assets/images/footerbg.svg";
+import footerbg from "@/components/assets/images/nw.png";
 import Link from "next/link";
 
 type Props = {};
@@ -39,8 +39,8 @@ const Footer = (props: Props) => {
     >
       <Container className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-12">
         <div className="space-y-6">
-          <Link href="/">
-            <Image src={footerbg} alt="" />
+          <Link href="/" className="">
+            <Image src={footerbg} alt="our logo" className="w-36 h-20" />
           </Link>
           <h3 className="text-base text-placeholderText">
             Connecting skilled artisans with customers worldwide. Discover,
