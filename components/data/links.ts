@@ -79,15 +79,15 @@ export const useNavigationLinks = () => {
     },
     {
       label: "FAQ",
-      href: "#",
+      href: "/home/faq",
     },
     {
       label: "Privacy Policy",
-      href: "#",
+      href: "/home/privacy",
     },
     {
       label: "Terms of Service",
-      href: "#",
+      href: "/home/terms",
     },
     {
       label: "Accessibilty",
