@@ -5,7 +5,6 @@ import SidebarMenu from "./SidebarMenu";
 import { usePathname } from "next/navigation";
 import { adminLinks, artisanLinks } from "./data";
 import Link from "next/link";
-import { BrandIcon } from "../assets/icons/Logo";
 import logo from "@/components/assets/images/n.png";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
