@@ -47,7 +47,7 @@ const ManageJob = (props: Props) => {
   });
 
   return (
-    <Wrapper className="flex flex-col gap-4">
+    <Wrapper className="flex flex-col gap-4 ">
       <TabComponent
         tabs={tabs}
         activeTab={activeTab}

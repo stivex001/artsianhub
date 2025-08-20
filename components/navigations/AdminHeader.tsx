@@ -64,7 +64,7 @@ export const AdminHeader = (props: Props) => {
       className={`bg-[#f9f9fb] w-full sticky top-0 left-0 z-50 flex items-center py-5 px-4 lg:px-8 justify-between`}
     >
       <MobileNav />
-      <div>
+      <div className="hidden lg:block">
         <p className="font-[900] text-paragrah text-2xl">{title}</p>
         <span className="text-sm text-body">{subtitle}</span>
       </div>

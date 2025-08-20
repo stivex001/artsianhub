@@ -60,7 +60,7 @@ const LoginContent = (props: Props) => {
     } else if (role === "client") {
       router.replace("/client");
     } else {
-      toast.error("Role not recognized. Please contact support.");
+      console.log("Role not recognized. Please contact support.");
       router.replace("/auth/login");
     }
   };

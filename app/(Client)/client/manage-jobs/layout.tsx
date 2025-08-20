@@ -10,7 +10,7 @@ const ManageJobLayout = ({ children }: Props) => {
   return (
     <div className="bg-[#f9f9fb]">
       <ClientNav brandlogo className="!bg-[#f9f9fb]" />
-      <div className="pt-24 max-w-7xl mx-auto px-5">
+      <div className="pt-28 max-w-7xl mx-auto px-5">
         <div className="min-h-screen flex flex-col gap-5 ">
           <Descriptions
             title="Manage Jobs"

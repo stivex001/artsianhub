@@ -58,7 +58,11 @@ const ClientPage = (props: Props) => {
         onClear={() => setFilters({ category: "", location: "" })}
         isLoading={loading}
       />
-      <ArtisanAroundYou artisans={artisansToShow} isPending={loading} />
+      <ArtisanAroundYou
+        artisans={artisansToShow}
+        isPending={loading}
+        filters={filters}
+      />
       <AccountSettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
       <Footer />
       <IncompleteProfileModal

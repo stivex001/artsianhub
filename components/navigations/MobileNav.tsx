@@ -6,20 +6,21 @@ import { usePathname } from "next/navigation";
 import { adminLinks, artisanLinks } from "./data";
 import { useModalClose } from "@/contexts/SheetCloseModal";
 import { HamburgerIcon, LogoutIcon } from "../assets/icons/NavigationIcons";
-import { BrandIcon } from "../assets/icons/Logo";
+import logo from "@/components/assets/images/n.png";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
+import Image from "next/image";
 
 export const MobileNav = () => {
   const pathname = usePathname();
 
   const { isOpen, openModal, closeModal } = useModalClose();
-     const { logout } = useAuthStore();
+  const { logout } = useAuthStore();
 
   const isArtisanPage = pathname.startsWith("/artisan");
   const isAdminPage = pathname.startsWith("/admin");
 
-   const handleLogout = () => {
+  const handleLogout = () => {
     logout();
     toast.success("Logged out successfully");
   };
@@ -35,8 +36,12 @@ export const MobileNav = () => {
         side="left"
         className="p-0 flex flex-col w-64 !bg-white pt-14 pb-8 h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden"
       >
-        <Link href="#" className="mb-5 px-4">
-          <BrandIcon />
+        <Link href="#" className="mb-5 px-4 w-40 h-16">
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full h-full object-cover "
+          />
         </Link>
         <div className="flex-grow overflow-y-auto no-scrollbar">
           <div>
