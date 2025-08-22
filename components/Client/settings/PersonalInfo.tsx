@@ -8,6 +8,7 @@ import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPh
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -33,8 +34,8 @@ const fields: Field[] = [
 ];
 
 export const PersonalInfo = (props: Props) => {
-  const { getCurrentUser } = useUser();
-  const { data: user } = getCurrentUser();
+  const { getCurrentUser, updateClientProfile } = useUser();
+  const { data: user, refetch } = getCurrentUser();
   const personalInfo = user?.data;
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -43,18 +44,43 @@ export const PersonalInfo = (props: Props) => {
     {
       firstName: personalInfo?.firstName,
       lastName: personalInfo?.lastName,
-      city: personalInfo?.location,
+      city: personalInfo?.city,
       phoneNumber: personalInfo?.phoneNumber,
     }
   );
 
-  const handleEditProfileInfo = () => {
-    const formValues = getValues();
+  const { mutate: updatePersonalInfo, isPending } = updateClientProfile;
 
-    // updatePersonalInfo({
-    //   ...formValues,
-    //   profilePicture: selectedFile ?? personalInfo?.profilePicture ?? null,
-    // });
+  const handleEditProfileInfo = async (data: any) => {
+    const formData = new FormData();
+
+    try {
+      formData.append("firstName", data.firstName);
+      formData.append("lastName", data.lastName);
+      formData.append("city", data.city);
+      formData.append("phoneNumber", data.phoneNumber);
+
+      // Append image file or fallback to current profilePicture
+      if (selectedFile) {
+        formData.append("profilePicture", selectedFile);
+      } else if (personalInfo?.profilePicture) {
+        formData.append("profilePicture", personalInfo.profilePicture);
+      }
+
+      updatePersonalInfo(formData, {
+        onSuccess: (response: any) => {
+          toast.success(response?.message || "Profile Updated Successfully");
+          refetch();
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Something went wrong");
+          console.error("Update Profile Error:", error);
+        },
+      });
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected Error:", error);
+    }
   };
 
   return (
@@ -66,6 +92,7 @@ export const PersonalInfo = (props: Props) => {
         <ChangeProfilepics
           setSelectedFile={setSelectedFile}
           selectedFile={selectedFile}
+          profileImageUrl={personalInfo?.profilePicture}
         />
 
         <div className="grid lg:grid-cols-2 gap-5">
@@ -94,7 +121,7 @@ export const PersonalInfo = (props: Props) => {
           control={control}
         />
         <ControlledInput
-          name="primaryLocation"
+          name="city"
           control={control}
           placeholder="Enter your location or region"
           type="text"
@@ -109,6 +136,7 @@ export const PersonalInfo = (props: Props) => {
           label="Save Changes"
           className="w-full rounded-[10px]"
           variant="primary"
+          isLoading={isPending}
         />
       </div>
     </form>

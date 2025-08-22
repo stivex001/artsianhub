@@ -13,6 +13,7 @@ export interface CurrentUserData {
   password: string;
   profilePicture: string;
   location: string;
+  city: string;
   phoneNumber: string;
   serviceCategory: any;
   professionalTitle: string;
@@ -71,9 +72,18 @@ export const useUser = () => {
     },
   });
 
+    const updateClientProfile = useApiMutation<AuthResponse, FormData>({
+    url: `/clients`,
+    method: "PUT",
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
   return {
     getCurrentUser,
     createArtisanProfile,
     createClientProfile,
+    updateClientProfile
   };
 };
