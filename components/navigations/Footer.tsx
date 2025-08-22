@@ -73,10 +73,10 @@ const Footer = (props: Props) => {
           © 2025 ArtisansHub.org. All rights reserved.
         </p>
         <div className="flex flex-col md:flex-row lg:items-center gap-x-6 gap-y-5">
-          <Link href="#" className="text-sm text-[#9CA3AF]">
+          <Link href="/home/privacy" className="text-sm text-[#9CA3AF]">
             Privacy Policy
           </Link>
-          <Link href="#" className="text-sm text-[#9CA3AF]">
+          <Link href="/home/terms" className="text-sm text-[#9CA3AF]">
             Terms of Service
           </Link>
           <Link href="#" className="text-sm text-[#9CA3AF]">
