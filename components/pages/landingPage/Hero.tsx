@@ -37,9 +37,8 @@ export const Hero = (props: Props) => {
             project
           </h1>
           <p className="text-bordergrey text-lg  max-w-2xl mx-auto leading-relaxed">
-            Connect with talented artisans who deliver quality craftsmanship.
-            From custom clothing to home repairs, find the right professional
-            for any project.
+            Find the right artisan for your everyday needs — fast, affordable,
+            and reliable craftsmanship at your fingertips.
           </p>
         </div>
 

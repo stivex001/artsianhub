@@ -30,8 +30,8 @@ const ClientSettings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Top Tabs */}
+    <div className="min-h-screen bg-white py-8">
+  
       <div className="flex overflow-x-auto border-b border-gray-200">
         {tabs.map((tab) => {
           const Icon = tab.icon;
