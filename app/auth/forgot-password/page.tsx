@@ -42,16 +42,17 @@ const ForgotPassword = (props: Props) => {
       await mutateAsync(data, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
-          router.push(`/auth/verify-email?email=${encodeURIComponent(data?.email)}`);
+          router.push(
+            `/auth/verify-email?email=${encodeURIComponent(data?.email)}`
+          );
         },
         onError: (error: any) => {
           console.log(error, "error");
-          toast.error(error?.data?.error || "Login failed");
+          toast.error(error?.data?.message);
         },
       });
     } catch (error) {
       console.log("An error occurred: ", error);
-      toast.error("An unexpected error occurred.");
     }
   };
 
