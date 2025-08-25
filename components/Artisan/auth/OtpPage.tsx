@@ -61,7 +61,7 @@ const OtpPage = ({}: Props) => {
           router.push(`/auth/reset-password?email=${email}`);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
           console.log(error, "errorodod");
         },
       });
