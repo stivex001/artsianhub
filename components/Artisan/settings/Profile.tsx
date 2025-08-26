@@ -8,7 +8,7 @@ import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect
 import { Descriptions } from "@/components/shared/Headings";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gender } from "./data";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
 import { useArtisans } from "@/api/crud/artisans";
@@ -47,14 +47,27 @@ export const ArtisanPersonalInfo = (props: Props) => {
   const personalInfo = profile?.data;
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { control, handleSubmit } = useDynamicForm(fields, {
-    firstName: personalInfo?.firstName,
-    lastName: personalInfo?.lastName,
-    gender: personalInfo?.gender,
-    dateOfBirth: personalInfo?.dateOfBirth,
-    city: personalInfo?.location,
-    phoneNumber: personalInfo?.phoneNumber,
+  const { control, handleSubmit,reset } = useDynamicForm(fields, {
+    firstName: "",
+    lastName: "",
+    gender: "",
+    dateOfBirth: "",
+    city: "",
+    phoneNumber: "",
   });
+
+   useEffect(() => {
+      if (personalInfo) {
+        reset({
+          firstName: personalInfo?.firstName || "",
+          lastName: personalInfo?.lastName || "",
+          gender: personalInfo?.gender || "",
+          dateOfBirth: personalInfo?.dateOfBirth || "",
+          city: personalInfo?.location || "",
+          phoneNumber: personalInfo?.phoneNumber || "",
+        });
+      }
+    }, [personalInfo, reset]);
 
   const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
 
@@ -62,14 +75,14 @@ export const ArtisanPersonalInfo = (props: Props) => {
     const formData = new FormData();
 
     try {
-      // Append form values
+    
       formData.append("firstName", data.firstName);
       formData.append("lastName", data.lastName);
       formData.append("gender", data.gender);
       formData.append("phoneNumber", data.phoneNumber);
       formData.append("dateOfBirth", data.dateOfBirth);
 
-      // Append image file or fallback to current profilePicture
+     
       if (selectedFile) {
         formData.append("profilePicture", selectedFile);
       } else if (personalInfo?.profilePicture) {

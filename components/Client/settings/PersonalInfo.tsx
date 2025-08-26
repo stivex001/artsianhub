@@ -1,53 +1,48 @@
 "use client";
 import { useUser } from "@/api/crud/user";
-
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ChangeProfilepics } from "@/components/controlledInputs/ChangeProfilepics";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { FormSkeletonLoader } from "@/components/loader/FormSkeletonLoader";
 
 type Props = {};
 
 const fields: Field[] = [
-  {
-    name: "firstName",
-    type: "text",
-  },
-
-  {
-    name: "lastName",
-    type: "text",
-  },
-
-  {
-    name: "city",
-    type: "text",
-  },
-  {
-    name: "phoneNumber",
-    type: "text",
-  },
+  { name: "firstName", type: "text" },
+  { name: "lastName", type: "text" },
+  { name: "city", type: "text" },
+  { name: "phoneNumber", type: "text" },
 ];
 
 export const PersonalInfo = (props: Props) => {
   const { getCurrentUser, updateClientProfile } = useUser();
-  const { data: user, refetch } = getCurrentUser();
+  const { data: user, refetch, isLoading } = getCurrentUser();
   const personalInfo = user?.data;
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { control, handleSubmit, formState, getValues } = useDynamicForm(
-    fields,
-    {
-      firstName: personalInfo?.firstName,
-      lastName: personalInfo?.lastName,
-      city: personalInfo?.city,
-      phoneNumber: personalInfo?.phoneNumber,
+
+  const { control, handleSubmit, reset } = useDynamicForm(fields, {
+    firstName: "",
+    lastName: "",
+    city: "",
+    phoneNumber: "",
+  });
+
+  useEffect(() => {
+    if (personalInfo) {
+      reset({
+        firstName: personalInfo.firstName || "",
+        lastName: personalInfo.lastName || "",
+        city: personalInfo.city || "",
+        phoneNumber: personalInfo.phoneNumber || "",
+      });
     }
-  );
+  }, [personalInfo, reset]);
 
   const { mutate: updatePersonalInfo, isPending } = updateClientProfile;
 
@@ -60,7 +55,6 @@ export const PersonalInfo = (props: Props) => {
       formData.append("city", data.city);
       formData.append("phoneNumber", data.phoneNumber);
 
-      // Append image file or fallback to current profilePicture
       if (selectedFile) {
         formData.append("profilePicture", selectedFile);
       } else if (personalInfo?.profilePicture) {
@@ -82,6 +76,10 @@ export const PersonalInfo = (props: Props) => {
       console.error("Unexpected Error:", error);
     }
   };
+
+  if (isLoading) {
+    return <FormSkeletonLoader />;
+  }
 
   return (
     <form

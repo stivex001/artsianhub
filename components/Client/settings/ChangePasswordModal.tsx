@@ -102,7 +102,7 @@ const ChangePasswordModal = ({ isOpen, onClose }: Props) => {
     <BaseModal
       isOpen={isOpen}
       onClose={onClose}
-      className="p-8 bg-white border-none shadow-none !max-w-xl !rounded-2xl overflow-hidden "
+      className="lg:p-8 bg-white border-none shadow-none !max-w-xl !rounded-2xl overflow-hidden "
       title="Change Password"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10 px-4 pb-4 min-h-[50vh]">
