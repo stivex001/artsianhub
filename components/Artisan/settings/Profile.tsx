@@ -31,10 +31,10 @@ const fields: Field[] = [
     name: "gender",
     type: "text",
   },
-  {
-    name: "phoneNumber",
-    type: "text",
-  },
+  // {
+  //   name: "phoneNumber",
+  //   type: "string",
+  // },
   {
     name: "dateOfBirth",
     type: "date",
@@ -79,7 +79,7 @@ export const ArtisanPersonalInfo = (props: Props) => {
       formData.append("firstName", data.firstName);
       formData.append("lastName", data.lastName);
       formData.append("gender", data.gender);
-      formData.append("phoneNumber", data.phoneNumber);
+      // formData.append("phoneNumber", data.phoneNumber);
       formData.append("dateOfBirth", data.dateOfBirth);
 
      
@@ -142,11 +142,11 @@ export const ArtisanPersonalInfo = (props: Props) => {
               rules={{ required: true }}
             />
           </div>
-          <ControlledPhoneInput
+          {/* <ControlledPhoneInput
             label="Phone Number"
             name="phoneNumber"
             control={control}
-          />
+          /> */}
           <ControlledSelect
             name="gender"
             label="Select Gender"
