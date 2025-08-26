@@ -1,6 +1,8 @@
+"use client"
 import React from "react"
 import { CameraIcon, NoImageIcon } from "../assets/icons/SvgIcons"
 import Image from "next/image"
+import { toast } from "sonner"
 
 type ChangeProfileProps = {
   setSelectedFile: (value: File) => void
@@ -20,6 +22,11 @@ export const ChangeProfilepics = ({
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      const maxSize = 3 * 1024 * 1024 // 3MB in bytes
+      if (file.size > maxSize) {
+        toast.error("File size cannot be more than 3MB")
+        return
+      }
       setSelectedFile(file)
     }
   }
@@ -83,7 +90,7 @@ export const ChangeProfilepics = ({
       </div>
 
       {art && (
-        <p className="text-xs text-[#667185]">250x250 Min size / 5 MB Max</p>
+        <p className="text-xs text-[#667185]">250x250 Min size / 3 MB Max</p>
       )}
     </div>
   )

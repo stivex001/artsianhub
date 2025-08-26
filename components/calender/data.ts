@@ -1,113 +1,94 @@
 // Sample appointments data
 export interface Appointment {
-  id: string;
+  id: string | number;
   title: string;
   startTime: string;
   endTime: string;
   location: string;
-  day: number; // 0-6 (Monday to Sunday)
-  color: string;
+  date: string;
 }
 
 export const appointments: Appointment[] = [
   {
-    id: "1",
+    id: 1,
     title: "Pipe Leak Repair",
-    startTime: "6:00am",
-    endTime: "7am",
+    startTime: "6:00AM",
+    endTime: "7:00AM",
     location: "Matlock",
-    day: 0, // Monday
-    color: "bg-orange-100 border-orange-200",
+    date: "2025-08-25", // Monday
   },
   {
-    id: "2",
+    id: 2,
     title: "Pipe Leak Repair",
-    startTime: "6:00am",
-    endTime: "7am",
+    startTime: "6:00AM",
+    endTime: "7:00AM",
     location: "Sheffield",
-    day: 2, // Wednesday
-    color: "bg-blue-100 border-blue-200",
+    date: "2025-08-27", // Wednesday
   },
   {
-    id: "3",
+    id: 3,
     title: "Pipe Leak Repair",
-    startTime: "7:00am",
-    endTime: "8:30am",
+    startTime: "7:00AM",
+    endTime: "8:30AM",
     location: "Chesterfield",
-    day: 1, // Tuesday
-    color: "bg-gray-100 border-gray-200",
+    date: "2025-08-26", // Tuesday
   },
   {
-    id: "4",
+    id: 4,
     title: "Pipe Leak Repair",
-    startTime: "7:00am",
-    endTime: "9:00am",
+    startTime: "7:00AM",
+    endTime: "9:00AM",
     location: "Chesterfield",
-    day: 4, // Friday
-    color: "bg-green-100 border-green-200",
+    date: "2025-08-29", // Friday
   },
   {
-    id: "5",
+    id: 5,
     title: "Pipe Leak Repair",
-    startTime: "9:00am",
-    endTime: "10am",
+    startTime: "8:00AM",
+    endTime: "8:30AM",
     location: "Clay",
-    day: 0, // Monday
-    color: "bg-orange-100 border-orange-200",
+    date: "2025-08-30", // Saturday
   },
   {
-    id: "6",
+    id: 6,
     title: "Pipe Leak Repair",
-    startTime: "9:00am",
-    endTime: "10am",
+    startTime: "8:30AM",
+    endTime: "9:00AM",
     location: "Matlock",
-    day: 2, // Wednesday
-    color: "bg-blue-100 border-blue-200",
+    date: "2025-08-30", // Saturday
   },
   {
-    id: "7",
+    id: 7,
     title: "Pipe Leak Repair",
-    startTime: "8:00am",
-    endTime: "8:30am",
+    startTime: "9:00AM",
+    endTime: "10:00AM",
     location: "Clay",
-    day: 5, // Saturday
-    color: "bg-green-100 border-green-200",
+    date: "2025-08-25", // Monday
   },
+
   {
-    id: "8",
+    id: 8,
     title: "Pipe Leak Repair",
-    startTime: "8:30am",
-    endTime: "9:00am",
+    date: "2025-08-29",
+    startTime: "9:00AM",
+    endTime: "10:00AM",
     location: "Matlock",
-    day: 5, // Saturday
-    color: "bg-green-100 border-green-200",
   },
   {
-    id: "9",
+    id: 9,
     title: "Pipe Leak Repair",
-    startTime: "9:00am",
-    endTime: "10am",
+    date: "2025-09-02",
+    startTime: "2:00PM",
+    endTime: "5:00PM",
     location: "Chesterfield",
-    day: 1, // Tuesday
-    color: "bg-red-100 border-red-200",
   },
   {
-    id: "10",
+    id: 10,
     title: "Pipe Leak Repair",
-    startTime: "9:00am",
-    endTime: "10am",
+    date: "2025-09-01",
+    startTime: "9:00AM",
+    endTime: "10:00AM",
     location: "Cross",
-    day: 2, // Wednesday
-    color: "bg-green-100 border-green-200",
-  },
-  {
-    id: "11",
-    title: "Pipe Leak Repair",
-    startTime: "9:00am",
-    endTime: "10am",
-    location: "Chesterfield",
-    day: 0, // Monday
-    color: "bg-red-100 border-red-200",
   },
 ];
 
@@ -132,17 +113,17 @@ export const timeSlots = [
 
 export const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
- export const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+export const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];

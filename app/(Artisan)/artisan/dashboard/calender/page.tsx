@@ -1,15 +1,11 @@
 "use client";
-import { appointments, monthNames, timeSlots } from "@/components/calender/data";
+import CalendarToolbar from "@/components/Artisan/Schedule/CalendarToolbar";
+import { appointments, timeSlots } from "@/components/calender/data";
 import { DaysHeader } from "@/components/calender/DaysHeader";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
-import {
-  Search,
-  ChevronLeft,
-  ChevronRight,
-  ChevronDown,
-} from "lucide-react";
 import React, { useState } from "react";
+import { getLocationStyles } from "@/utils/colorUtils";
 
 type Props = {};
 
@@ -24,48 +20,23 @@ const Calendar = (props: Props) => {
     setCurrentDate(newDate);
   };
 
-  const getAppointmentsForDay = (dayIndex: number) => {
-    return appointments?.filter((apt) => apt?.day === dayIndex);
+  // helper: return date string YYYY-MM-DD
+  const toDateString = (date: Date) => date.toISOString().split("T")[0];
+
+  // given dayIndex, return actual Date of that column
+  const getDayDate = (dayIndex: number) => {
+    const dayDate = new Date(currentDate);
+    const startOfWeek = currentDate.getDate() - currentDate.getDay(); // Sunday=0
+    dayDate.setDate(startOfWeek + dayIndex);
+    return dayDate;
   };
 
-  const getLocationColor = (location: string) => {
-    const colors = {
-      Matlock: "text-gray-600",
-      Sheffield: "text-blue-600",
-      Chesterfield: "text-red-600",
-      Clay: "text-orange-600",
-      Cross: "text-green-600",
-    };
-    return colors[location as keyof typeof colors] || "text-gray-600";
-  };
-
-  const getLocationDot = (location: string) => {
-    const colors = {
-      Matlock: "bg-gray-500",
-      Sheffield: "bg-blue-500",
-      Chesterfield: "bg-red-500",
-      Clay: "bg-orange-500",
-      Cross: "bg-green-500",
-    };
-    return colors[location as keyof typeof colors] || "bg-gray-500";
-  };
-
-  const timeToPosition = (time: string) => {
-    const hour = parseInt(time.replace(/[^\d]/g, ""));
-    const isPM = time.toLowerCase().includes("pm");
-    let hour24 = hour;
-
-    if (isPM && hour !== 12) hour24 += 12;
-    if (!isPM && hour === 12) hour24 = 0;
-
-    // Position relative to 6AM start (6AM = 0, 7AM = 1, etc.)
-    return (hour24 - 6) * 60; // 60px per hour
-  };
-
-  const calculateDuration = (startTime: string, endTime: string) => {
-    const start = timeToPosition(startTime);
-    const end = timeToPosition(endTime);
-    return end - start;
+  // get appointments for a specific date+time
+  const getAppointmentsForSlot = (date: Date, time: string) => {
+    const dateStr = toDateString(date);
+    return appointments.filter(
+      (apt) => apt.date === dateStr && apt.startTime.startsWith(time)
+    );
   };
 
   return (
@@ -75,134 +46,64 @@ const Calendar = (props: Props) => {
         desc="View and manage all your upcoming appointments in one place. Stay organized and never miss a job."
       />
 
-      <Wrapper className="">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-5">
-            <button className="px-4 py-2 border border-[#E4E5EA] text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-              Today
-            </button>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => navigateWeek("prev")}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-
-              <h2 className="text-xl font-bold text-paragrah">
-                {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-              </h2>
-
-              <button
-                onClick={() => navigateWeek("next")}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Search */}
-            <div className="flex items-center gap-2 py-2 px-3 w-80 border border-gray-300 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
-              <Search className="h-5 w-5 text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full leading-5 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400"
-                placeholder="Search appointment"
-              />
-            </div>
-
-            {/* View Type Dropdown */}
-            <div className="relative">
-              <button className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
-                <span>{viewType}</span>
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
-        </div>
+      <Wrapper>
+        <CalendarToolbar
+          currentDate={currentDate}
+          viewType={viewType}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          onNavigate={navigateWeek}
+          onToday={() => setCurrentDate(new Date())}
+        />
 
         {/* Calendar Grid */}
-        <div className="  overflow-hidden">
+        <div className="overflow-hidden">
           <DaysHeader currentDate={currentDate} />
 
-          {/* Time Slots and Appointments */}
-          <div className="grid grid-cols-8">
-            {/* Time Column */}
-            <div className="">
-              {timeSlots?.map((time, index) => (
-                <div
-                  key={time}
-                  className="h-16 p-2  text-sm text-gray-600 font-medium"
-                >
-                  {time}
-                </div>
-              ))}
-            </div>
-
-            {/* Day Columns */}
-            {Array.from({ length: 7 }, (_, dayIndex) => (
-              <div key={dayIndex} className="relative border-l border-gray-200">
-                {/* Time Slot Backgrounds */}
-                {timeSlots?.map((time, slotIndex) => (
-                  <div
-                    key={`${dayIndex}-${slotIndex}`}
-                    className={`h-16 border-b border-gray-100 ${
-                      dayIndex === 1 ? "bg-blue-50" : ""
-                    }`}
-                  />
-                ))}
-
-                {/* Appointments */}
-                {getAppointmentsForDay(dayIndex)?.map(
-                  (appointment, aptIndex) => {
-                    const topPosition = timeToPosition(appointment.startTime);
-                    const height = calculateDuration(
-                      appointment.startTime,
-                      appointment.endTime
-                    );
-
-                    return (
-                      <div
-                        key={`${appointment?.id}-${aptIndex}`}
-                        className={`absolute left-1 right-1 p-2 rounded border ${appointment.color} cursor-pointer hover:shadow-sm transition-shadow`}
-                        style={{
-                          top: `${topPosition}px`,
-                          height: `${Math.max(height, 40)}px`,
-                          zIndex: 10,
-                        }}
-                      >
-                        <div className="text-xs font-medium text-gray-800 mb-1">
-                          {appointment?.title}
-                        </div>
-                        <div className="text-xs text-gray-600 mb-1">
-                          {appointment?.startTime} - {appointment?.endTime}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div
-                            className={`w-2 h-2 rounded-full ${getLocationDot(
-                              appointment?.location
-                            )}`}
-                          ></div>
-                          <span
-                            className={`text-xs ${getLocationColor(
-                              appointment?.location
-                            )}`}
-                          >
-                            {appointment?.location}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
+          {/* Rows = timeslots */}
+          {timeSlots.map((time) => (
+            <div key={time} className="grid grid-cols-8 border-b border-gray-100">
+              {/* Time column */}
+              <div className="h-20 p-2 text-sm text-gray-600 font-medium border-r">
+                {time}
               </div>
-            ))}
-          </div>
+
+              {/* Day columns */}
+              {Array.from({ length: 7 }, (_, dayIndex) => {
+                const dayDate = getDayDate(dayIndex);
+                const slotAppointments = getAppointmentsForSlot(dayDate, time);
+
+                return (
+                  <div
+                    key={dayIndex}
+                    className="h-20 p-1 border-r relative"
+                  >
+                    {slotAppointments.map((appointment, idx) => {
+                      const styles = getLocationStyles(appointment.location);
+
+                      return (
+                        <div
+                          key={`${appointment.id}-${idx}`}
+                          className={`mb-1 p-1 rounded text-xs cursor-pointer ${styles.bg} ${styles.border}`}
+                        >
+                          <div className="font-medium">{appointment.title}</div>
+                          <div>
+                            {appointment.startTime} - {appointment.endTime}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <div className={`w-2 h-2 rounded-full ${styles.dot}`} />
+                            <span className={styles.text}>
+                              {appointment.location}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </Wrapper>
     </div>
