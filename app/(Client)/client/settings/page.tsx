@@ -30,7 +30,7 @@ const ClientSettings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8">
+    <div className="min-h-screen bg-white py-5">
   
       <div className="flex overflow-x-auto border-b border-gray-200">
         {tabs.map((tab) => {
@@ -39,7 +39,7 @@ const ClientSettings = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-2 py-3 whitespace-nowrap border-b-2 transition-colors ${
                 activeTab === tab.id
                   ? "border-primary text-primary font-medium"
                   : "border-transparent text-gray-600 hover:text-primary"
