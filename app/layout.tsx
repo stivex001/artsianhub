@@ -35,7 +35,7 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ARTISANHUB",
+  title: "ARTISANSHUB",
   description: "Artisanshub",
 };
 
@@ -49,13 +49,13 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="UTF-8" />
-        <meta name="description" content="ARTISANHUB" />
-        <meta property="og:title" content="ARTISANHUB" />
-        <meta property="og:description" content="ARTISANHUB" />
+        <meta name="description" content="ARTISANSHUB" />
+        <meta property="og:title" content="ARTISANSHUB" />
+        <meta property="og:description" content="ARTISANSHUB" />
         <meta property="og:image" content="/images/og-image.png" />
         <meta property="og:url" content="https://artisanshub.org/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="keywords" content="ARTISANHUB ecommerce" />
+        <meta name="keywords" content="ARTISANSHUB ecommerce" />
         <link rel="icon" href="/images/darklogo.svg" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="canonical" href="https://artisanshub.org/" />
