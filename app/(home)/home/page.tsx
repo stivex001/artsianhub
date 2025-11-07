@@ -1,4 +1,5 @@
 import { Beauty } from "@/components/pages/landingPage/Beauty";
+import { Creative } from "@/components/pages/landingPage/Creative";
 import { Digital } from "@/components/pages/landingPage/Digital";
 import { Fashion } from "@/components/pages/landingPage/Fashion";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
@@ -20,14 +21,15 @@ const Home = (props: Props) => {
     <div className="">
       <Hero />
       <FindPerfectArtisan />
-      <FeaturesArtisan />
-      <Fashion />
-      <Food />
-      <Interior />
-      <Beauty />
-      <Visual />
+      {/* <FeaturesArtisan /> */}
+      {/* <Fashion /> */}
+      {/* <Food /> */}
+      {/* <Interior /> */}
+      {/* <Beauty /> */}
+      <Creative />
       <Digital />
       <Skilled />
+      {/* <Visual /> */}
       <HowItWorks />
       <StartEarning />
       <Review />

@@ -48,7 +48,7 @@ const LoginContent = (props: Props) => {
     useAuthStore();
 
   const { loginUser, resendOTP } = useAuth();
-  const { isPending, mutateAsync } = loginUser;
+  const { isPending, mutateAsync} = loginUser;
   const { isPending: resendPending, mutateAsync: resendOtp } = resendOTP;
 
   // Role-based fallback redirect
