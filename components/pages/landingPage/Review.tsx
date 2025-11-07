@@ -30,21 +30,21 @@ interface ReviewProps {
 const defaultTestimonials: Testimonial[] = [
   {
     id: "1",
-    name: "Sarah Johnson",
-    role: "Interior Designer",
+    name: "Hope Motunrayo",
+    role: "Content Creator",
     avatar:
       "https://images.unsplash.com/photo-1494790108755-2616b612b5bb?w=64&h=64&fit=crop&crop=face",
     testimonial:
-      "I found an incredible custom furniture maker on ArtisansHub. The quality of work exceeded my expectations, and the process was seamless from start to finish.",
+      "My experience with ArtisansHub has been incredible. As a content creator, I’ve gained access to genuine clients and consistent projects through the platform. It’s a brilliant initiative helping creatives like me showcase our skills and build sustainable careers.",
   },
   {
     id: "2",
-    name: "Michael Chen",
-    role: "Custom Tailor",
+    name: "Stephen Adeyemo",
+    role: "Software Engineer",
     avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face",
+      "https://artisanshub.org/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdk6wshewb%2Fimage%2Fupload%2Fv1756226320%2Fmenseyhub_profile_pictures%2Fflnlhnyulh2rkjkba9gz.jpg&w=1920&q=75",
     testimonial:
-      "As a freelance tailor, ArtisansHub has completely transformed my business. I'm reaching more clients than ever before and growing my portfolio.",
+      " I’ve found several jobs through ArtisansHub, and the experience has been smooth every time. The clients are genuine, communication is easy, and payments are fair. I’m glad I joined!",
   },
   {
     id: "3",
@@ -53,7 +53,7 @@ const defaultTestimonials: Testimonial[] = [
     avatar:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
     testimonial:
-      "The platform makes it so easy to find specialized skills. I needed a blacksmith for a restoration project, and within days I was connected with the perfect artisan.",
+      " Shoutout to ArtisansHub for making my life easier!  I got connected to a really skilled artisan who did an amazing job. Love how easy it was to use the platform definitely recommending it to everyone I know.",
   },
   {
     id: "4",
@@ -66,12 +66,12 @@ const defaultTestimonials: Testimonial[] = [
   },
   {
     id: "5",
-    name: "Lisa Thompson",
-    role: "Event Planner",
+    name: "SAMUEL FOLASAYO",
+    role: "𝐓𝐞𝐜𝐡𝐧𝐢𝐜𝐚𝐥 𝐏𝐫𝐨𝐝𝐮𝐜𝐭 𝐌𝐚𝐧𝐚𝐠𝐞𝐫",
     avatar:
-      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=64&h=64&fit=crop&crop=face",
+      "https://artisanshub.org/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdk6wshewb%2Fimage%2Fupload%2Fv1756617528%2Fmenseyhub_profile_pictures%2Fht5yk1cnbsjf2e0eijfs.jpg&w=1920&q=75",
     testimonial:
-      "Finding specialized artisans for unique event pieces used to be a challenge. ArtisansHub made it effortless, and the quality of work is consistently outstanding.",
+      " ArtisansHub really helped me find a trustworthy artisan when I needed one urgently. Great service, fast response, and excellent work. Highly recommend",
   },
 ];
 

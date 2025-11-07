@@ -69,9 +69,9 @@ export const ArtisanCard = ({ artisan }: Props) => {
         </div>
 
         {/* Hourly Rate */}
-        <div className="text-base font-bold text-body">
+        {/* <div className="text-base font-bold text-body">
           ${artisan?.pricePerHour}/hr
-        </div>
+        </div> */}
       </div>
     </div>
   );

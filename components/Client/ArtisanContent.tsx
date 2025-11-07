@@ -65,9 +65,9 @@ export const ArtisanContent = ({}: Props) => {
                   </span>
                 </div>
 
-                <div className="text-base font-bold text-paragrah mb-5">
+                {/* <div className="text-base font-bold text-paragrah mb-5">
                   ${artisan?.pricePerHour}/hr
-                </div>
+                </div> */}
                 <CustomButton
                   label="Contact Artisan"
                   type="button"

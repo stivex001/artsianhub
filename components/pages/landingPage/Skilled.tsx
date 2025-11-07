@@ -53,8 +53,8 @@ export const Skilled = (props: Props) => {
   return (
     <section className="py-20 bg-white">
       <FeaturedCard
-        title="Skilled Trades & Repair Artisans"
-        subtitle="Get skilled home repairs and services from expert tradespeople—plumbers, electricians, and mechanics."
+        title="Pro Artisans"
+        subtitle="Get skilled home repairs and services from expert trades people—plumbers, electricians, and mechanics."
         categories={defaultCategories}
         featuredImage={carpenter}
         backgroundColor="#F4F5F6"
