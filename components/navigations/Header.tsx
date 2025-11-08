@@ -14,8 +14,11 @@ type NavLink = {
 };
 
 export const navLinks: NavLink[] = [
-  { id: "categories", label: "Categories" },
-  { id: "howitworks", label: "How It Works" },
+  { id: "home", label: "Home " },
+  { id: "findArtisan", label: "Find Artisans" },
+  { id: "categories", label: "About" },
+  { id: "categories", label: "eStore " },
+  { id: "howitworks", label: " Learn Skills" },
 ];
 
 export const Header = (props: Props) => {
@@ -52,8 +55,16 @@ export const Header = (props: Props) => {
   return (
     <header className="bg-white h-24 w-full">
       <div className="max-w-6xl mx-auto flex items-center justify-between py-5 px-4">
-        <Link href="/" onClick={() => handleScrollTo("home")} className="w-40 h-20 -mt-2">
-          <Image src={logo} alt="logo" className="w-full h-full object-cover " />
+        <Link
+          href="/"
+          onClick={() => handleScrollTo("home")}
+          className="w-40 h-20 -mt-2"
+        >
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full h-full object-cover "
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
@@ -68,20 +79,19 @@ export const Header = (props: Props) => {
               {link.label}
             </button>
           ))}
-
-          <div className="flex items-center gap-4">
-            <CustomButton
-              variant="transparent"
-              className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
-            >
-              <Link href="/auth/login">Login</Link>
-            </CustomButton>
-            <CustomButton>
-              <Link href="/auth/onboarding" className="font-light">
-                Sign Up
-              </Link>
-            </CustomButton>
-          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <CustomButton
+            variant="transparent"
+            className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
+          >
+            <Link href="/auth/login">Login</Link>
+          </CustomButton>
+          <CustomButton>
+            <Link href="/auth/onboarding" className="font-light">
+              Sign Up
+            </Link>
+          </CustomButton>
         </div>
 
         <MobileHeader

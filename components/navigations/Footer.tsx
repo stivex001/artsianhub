@@ -9,9 +9,7 @@ import Image from "next/image";
 import footerbg from "@/components/assets/images/nw.png";
 import Link from "next/link";
 
-type Props = {};
-
-const Footer = (props: Props) => {
+const Footer = () => {
   const pathname = usePathname();
   const {
     customerLinks,
