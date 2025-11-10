@@ -11,14 +11,15 @@ type Props = {};
 type NavLink = {
   id: string;
   label: string;
+  href?: string;
 };
 
 export const navLinks: NavLink[] = [
-  { id: "home", label: "Home " },
+  { id: "home", label: "Home", href: "/" },
   { id: "findArtisan", label: "Find Artisans" },
-  { id: "categories", label: "About" },
-  { id: "categories", label: "eStore " },
-  { id: "howitworks", label: " Learn Skills" },
+  { id: "about", label: "About", href: "/home/about" },
+  { id: "estore", label: "eStore", href: "/estore" },
+  { id: "learn", label: "Learn Skills", href: "/learn" },
 ];
 
 export const Header = (props: Props) => {
@@ -68,17 +69,36 @@ export const Header = (props: Props) => {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleScrollTo(link.id)}
-              className={`transition text-lightp font-medium text-base hover:text-primary ${
-                activeSection === link.id && "text-primary"
-              }`}
-            >
-              {link.label}
-            </button>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+            const baseClasses =
+              "transition text-lightp font-medium text-base hover:text-primary";
+            const activeClasses = isActive ? "text-primary" : "";
+
+            if (link.href) {
+              // handle url navigation
+              return (
+                <Link
+                  key={link.id}
+                  href={link.href}
+                  className={`${baseClasses} ${activeClasses}`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              );
+            }
+
+            return (
+              <button
+                key={link.id}
+                onClick={() => handleScrollTo(link.id)}
+                className={`${baseClasses} ${activeClasses}`}
+              >
+                {link.label}
+              </button>
+            );
+          })}
         </div>
         <div className="flex items-center gap-4">
           <CustomButton

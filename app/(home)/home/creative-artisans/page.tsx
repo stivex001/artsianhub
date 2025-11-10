@@ -4,8 +4,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BrushIcon, CalendarIcon } from "lucide-react";
-import { ScissorsIcon } from "@/components/assets/icons/FeaturedIcons";
+import { ScissorsIcon, WeaverIcon } from "@/components/assets/icons/FeaturedIcons";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
+import tailor from "@/components/assets/images/tailor.png";
+import { CustomButton } from "@/components/clickable/CustomButton";
 
 const subCategories = [
   {
@@ -37,7 +39,7 @@ const subCategories = [
     title: "Make-up Artists",
     description:
       "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <CalendarIcon />,
+    icon: <WeaverIcon />,
     link: "/creative/event-planners",
   },
   {
@@ -45,45 +47,37 @@ const subCategories = [
     title: "Chefs",
     description:
       "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <CalendarIcon />,
+    icon: <WeaverIcon />,
     link: "/creative/event-planners",
   },
 ];
 
 export default function CreativeArtisansPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative h-80 pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
+    <div className="min-h-screen bg-white ">
+      <section className="relative h-[70vh] pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
         <div className="absolute inset-0">
           <Image
-            src="/hero.jpg"
+            src={tailor}
             alt="Industrial welding with sparks and machinery"
             className="w-full h-full object-cover object-top"
             fill
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2563EB] via-blue-600 to-[#1E40AF] opacity-80"></div>
-        <div className="relative z-10 max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-4">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-80"></div>
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-white mb-4 text-center">
             Meet the Creative Minds Shaping Everyday Beauty
           </h1>
-          <p className="text-white mb-6">
+          <p className="text-white mb-6 text-center">
             From barbers and tailors to event planners, explore skilled artisans
             who turn imagination into art and bring style to life.
           </p>
-          <Button asChild>
-            <a href="#categories">Find an Artisan</a>
-          </Button>
+          <a href="#categories" className="flex items-center justify-center">
+            <CustomButton label="Find an Artisan">Find an Artisan</CustomButton>
+          </a>
         </div>
-        {/* <div className="mt-10 md:mt-0">
-          <Image
-            src={creativeHero}
-            alt="Creative Artisans"
-            className="rounded-2xl w-full max-w-md"
-          />
-        </div> */}
       </section>
 
       {/* Subcategory Section */}
@@ -162,7 +156,7 @@ export default function CreativeArtisansPage() {
       </section>
 
       {/* Call To Action */}
-      <section className="py-20 px-6 md:px-20 bg-blue-600 text-white text-center rounded-t-3xl">
+      <section className="py-20 px-6 md:px-20 bg-primary text-white text-center ">
         <h2 className="text-3xl font-semibold mb-4">
           Ready to collaborate with top artisans?
         </h2>
@@ -174,7 +168,7 @@ export default function CreativeArtisansPage() {
           className="bg-white text-blue-600 hover:bg-gray-100"
           asChild
         >
-          <Link href="/auth/login">Join Now</Link>
+          <Link href="/auth/signup?role=client">Join Now</Link>
         </Button>
       </section>
     </div>
