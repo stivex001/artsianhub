@@ -38,7 +38,7 @@ const defaultCategories: CategoryItem[] = [
 export const Creative = () => {
   const router = useRouter();
   const handleButtonClick = () => {
-    router.push("/auth/login");
+    router.push("/home/creative-artisans");
   };
   return (
     <section className="py-20 bg-white">

@@ -46,24 +46,7 @@ const defaultTestimonials: Testimonial[] = [
     testimonial:
       " I’ve found several jobs through ArtisansHub, and the experience has been smooth every time. The clients are genuine, communication is easy, and payments are fair. I’m glad I joined!",
   },
-  {
-    id: "3",
-    name: "Emma Rodriguez",
-    role: "Heritage Home Owner",
-    avatar:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face",
-    testimonial:
-      " Shoutout to ArtisansHub for making my life easier!  I got connected to a really skilled artisan who did an amazing job. Love how easy it was to use the platform definitely recommending it to everyone I know.",
-  },
-  {
-    id: "4",
-    name: "David Park",
-    role: "Leather Craftsman",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face",
-    testimonial:
-      "ArtisansHub gave me the exposure I needed to take my leather crafting business to the next level. The platform is intuitive and the community is supportive.",
-  },
+
   {
     id: "5",
     name: "SAMUEL FOLASAYO",
