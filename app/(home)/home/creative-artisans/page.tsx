@@ -75,7 +75,7 @@ export default function CreativeArtisansPage() {
             who turn imagination into art and bring style to life.
           </p>
           <a href="#categories" className="flex items-center justify-center">
-            <CustomButton label="Find an Artisan">Find an Artisan</CustomButton>
+            <CustomButton label="Find an Artisan" />
           </a>
         </div>
       </section>

@@ -44,11 +44,10 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Skilled = (props: Props) => {
-
-    const router = useRouter();
-    const handleButtonClick = () => {
-      router.push("/auth/login");
-    };
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/home/skilled-artisans");
+  };
 
   return (
     <section className="py-20 bg-white">

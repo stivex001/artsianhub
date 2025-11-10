@@ -63,7 +63,7 @@ export default function DigitalArtisansPage() {
             creating engaging and functional online experiences.
           </p>
           <a href="#categories" className="flex items-center justify-center">
-            <CustomButton label="Find an Artisan">Find an Artisan</CustomButton>
+            <CustomButton label="Find an Artisan" />
           </a>
         </div>
       </section>
