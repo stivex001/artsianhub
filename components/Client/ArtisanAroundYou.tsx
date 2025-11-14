@@ -9,7 +9,7 @@ type Props = {
   artisans: any[];
   isPending: boolean;
   filters?: {
-    q?: string;
+    category?: string;
     location?: string;
   };
   page: number;
@@ -33,7 +33,7 @@ export const ArtisanAroundYou = ({
   onLimitChange,
   onSortChange,
 }: Props) => {
-  const hasFilters = filters?.q && filters?.location;
+  const hasFilters = filters?.category && filters?.location;
   const totalPages = Math.ceil(total / limit);
   const showEmptyState = !isPending && artisans.length === 0;
 
