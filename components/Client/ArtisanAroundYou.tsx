@@ -50,7 +50,7 @@ export const ArtisanAroundYou = ({
 
             {hasFilters && (
               <p className="text-body text-sm font-medium capitalize">
-                {`${filters?.q} in ${filters?.location}`}
+                {`${filters?.category} in ${filters?.location}`}
               </p>
             )}
           </div>
