@@ -63,7 +63,7 @@ export const ArtisanPersonalInfo = (props: Props) => {
           lastName: personalInfo?.lastName || "",
           gender: personalInfo?.gender || "",
           dateOfBirth: personalInfo?.dateOfBirth || "",
-          city: personalInfo?.location || "",
+          city: personalInfo?.city || "",
           phoneNumber: personalInfo?.phoneNumber || "",
         });
       }
