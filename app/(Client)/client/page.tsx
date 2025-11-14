@@ -11,11 +11,15 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 
-type Props = {};
-
-const ClientPage = (props: Props) => {
+const ClientPage = () => {
   const { isSettingsOpen, closeSettings } = useModalStore();
   const [openIncompleteProfile, setOpenIncompleteProfile] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [sort, setSort] = useState("relevance");
+
+  const { currentUser } = useAuthStore();
+
   const [filters, setFilters] = useState<{
     category?: string;
     location?: string;
@@ -23,13 +27,26 @@ const ClientPage = (props: Props) => {
     category: "",
     location: "",
   });
-
-  const { currentUser } = useAuthStore();
   const { getArtisanByCategory, getAllArtisan } = useArtisans();
+
+  useEffect(() => {
+    if (currentUser?.city) {
+      setFilters((prev) => ({
+        ...prev,
+        location: currentUser.city,
+      }));
+    }
+  }, [currentUser]);
 
   const { data: allData, isPending: allPending } = getAllArtisan();
   const { data: filteredData, isPending: filteredPending } =
-    getArtisanByCategory(filters);
+    getArtisanByCategory({
+      category: filters.category,
+      city: filters.location,
+      page,
+      limit,
+      sort,
+    });
 
   const allArtisans = allData?.data || [];
   const filteredArtisans = filteredData?.data || [];
@@ -48,10 +65,19 @@ const ClientPage = (props: Props) => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [limit, sort]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <ClientNav />
       <ClientHero
+        defaultLocation={filters.location}
         onSearch={(category: string, location: string) =>
           setFilters({ category, location })
         }
@@ -62,7 +88,15 @@ const ClientPage = (props: Props) => {
         artisans={artisansToShow}
         isPending={loading}
         filters={filters}
+        page={page}
+        limit={limit}
+        sort={sort}
+        total={showingFiltered ? filteredData?.total : allData?.total}
+        onPageChange={setPage}
+        onLimitChange={setLimit}
+        onSortChange={setSort}
       />
+
       <AccountSettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
       <Footer />
       <IncompleteProfileModal

@@ -7,9 +7,15 @@ type Props = {
   onSearch: any;
   isLoading: boolean;
   onClear: any;
+  defaultLocation?: string;
 };
 
-export const ClientHero = ({ onSearch, isLoading, onClear }: Props) => {
+export const ClientHero = ({
+  onSearch,
+  isLoading,
+  onClear,
+  defaultLocation,
+}: Props) => {
   return (
     <section className="min-h-[80vh] lg:h-[70vh] px-5 flex justify-center items-center relative overflow-hidden">
       <div className="absolute inset-0 z-0 ">
@@ -37,6 +43,7 @@ export const ClientHero = ({ onSearch, isLoading, onClear }: Props) => {
             onSearch={onSearch}
             isLoading={isLoading}
             onClear={onClear}
+            defaultLocation={defaultLocation}
           />
         </div>
       </div>
