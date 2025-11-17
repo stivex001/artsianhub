@@ -23,16 +23,19 @@ export const useLocation = () => {
     });
 
   const getCountryStates = (countryCode: string) =>
-    useApiQuery<CountryDetails>(["all_country_state"], {
+    useApiQuery<CountryDetails>(["all_country_state", countryCode], {
       url: `/locations/states?countryCode=${countryCode}`,
       method: "GET",
     });
 
   const getCountryStatesCity = (countryCode: string, stateCode: string) =>
-    useApiQuery<CountryDetails>(["all_country_state_city"], {
-      url: `/locations/cities?countryCode=${countryCode}&stateCode=${stateCode}`,
-      method: "GET",
-    });
+    useApiQuery<CountryDetails>(
+      ["all_country_state_city", countryCode, stateCode],
+      {
+        url: `/locations/cities?countryCode=${countryCode}&stateCode=${stateCode}`,
+        method: "GET",
+      }
+    );
 
   return {
     getAllCountries,

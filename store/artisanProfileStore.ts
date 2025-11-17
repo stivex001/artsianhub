@@ -16,6 +16,9 @@ type ServiceDetails = {
 
 type LocationPriceDetails = {
   primaryLocation: string;
+  country: string;
+  state: string;
+  city: string;
   pricePerHour: number;
   workDistanceKm: number;
 };
@@ -61,6 +64,9 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
   },
   locationPriceDetails: {
     primaryLocation: "",
+    country: "",
+    state: "",
+    city: "",
     pricePerHour: 1,
     workDistanceKm: 1,
   },
@@ -108,6 +114,9 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
       },
       locationPriceDetails: {
         primaryLocation: "",
+        country: "",
+        state: "",
+        city: "",
         pricePerHour: 1,
         workDistanceKm: 1,
       },

@@ -30,6 +30,8 @@ export interface AuthUser {
   dateOfBirth: string;
   specialization: string;
   city: string;
+  state: string;
+  country: string;
   residentialAddress: string;
   gender: string;
   email: string;

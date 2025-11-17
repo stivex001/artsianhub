@@ -93,8 +93,8 @@ export const ControlledSelect = ({
     }
   }
 
-  const filteredOptions = options.filter((opt) =>
-    opt.label.toLowerCase().includes(search.toLowerCase())
+  const filteredOptions = options?.filter((opt) =>
+    opt?.label?.toLowerCase()?.includes(search.toLowerCase())
   )
 
   return (
@@ -135,8 +135,8 @@ export const ControlledSelect = ({
               </div>
             )}
 
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((opt) => {
+            {filteredOptions?.length > 0 ? (
+              filteredOptions?.map((opt) => {
                 const checked = selectedValues.includes(opt.value)
                 return (
                   <div
@@ -155,10 +155,10 @@ export const ControlledSelect = ({
                           checked={checked}
                           onCheckedChange={() => toggleOption(opt.value)}
                         />
-                        <span>{opt.label}</span>
+                        <span>{opt?.label}</span>
                       </>
                     ) : (
-                      <span>{opt.label}</span>
+                      <span>{opt?.label}</span>
                     )}
                   </div>
                 )

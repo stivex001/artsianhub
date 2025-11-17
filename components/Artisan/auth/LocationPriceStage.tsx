@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { BackIcon } from "@/components/assets/icons/NavIcons";
@@ -14,8 +14,8 @@ import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
-import { gender } from "../settings/data";
-import { Country, useLocation } from "@/api/crud/locations";
+import { Country } from "@/api/crud/locations";
+import { useLocationSelector } from "@/hooks/useLocationSelector";
 
 type Props = {};
 
@@ -37,19 +37,16 @@ const fields: Field[] = [
     name: "pricePerHour",
     type: "number",
     errorMessage: "Price per hour is required",
-    isRequired: true,
   },
   {
     name: "country",
     type: "text",
     errorMessage: "Country is required",
-    isRequired: true,
   },
   {
     name: "city",
     type: "text",
     errorMessage: "City is required",
-    isRequired: true,
   },
 ];
 
@@ -71,47 +68,14 @@ export const LocationPriceStage = (props: Props) => {
   const selectedState = watch("state");
 
   const { isValid } = formState;
-  const { getAllCountries, getCountryStates, getCountryStatesCity } =
-    useLocation();
 
-  const { data } = getAllCountries();
-  const { data: stateData, isPending: stateLoading } =
-    getCountryStates(selectedCountry);
-
-  const { data: cityData, isPending: cityLoading } = getCountryStatesCity(
-    selectedCountry,
-    selectedState
-  );
-
-  console.log(cityData, "datat")
-  const countriesData = data?.data;
-
-  const countryOptions =
-    countriesData?.map((country) => ({
-      value: country.code,
-      label: country.name,
-    })) || [];
-
-  const stateOptions =
-    stateData?.data?.map((s: any) => ({
-      value: s.code,
-      label: s.name,
-    })) || [];
-
-  const cityOptions =
-    cityData?.data?.map((c: any) => ({
-      value: c.code,
-      label: c.name,
-    })) || [];
-
-  useEffect(() => {
-    setValue("state", "");
-    setValue("city", "");
-  }, [selectedCountry]);
-
-  useEffect(() => {
-    setValue("city", "");
-  }, [selectedState]);
+  const {
+    countryOptions,
+    stateOptions,
+    cityOptions,
+    stateLoading,
+    cityLoading,
+  } = useLocationSelector(selectedCountry, selectedState, setValue);
 
   const { createArtisanProfile } = useUser();
   const { mutate: createProfile, isPending } = createArtisanProfile;
@@ -138,6 +102,9 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("primaryLocation", data?.primaryLocation);
       formData.append("workDistanceKm", data?.workDistanceKm);
       formData.append("pricePerHour", data?.pricePerHour);
+      formData.append("country", data?.country);
+      formData.append("state", data?.state);
+      formData.append("city", data?.city);
 
       createProfile(formData, {
         onSuccess: (response: any) => {
@@ -181,11 +148,9 @@ export const LocationPriceStage = (props: Props) => {
           <ControlledInput
             name="primaryLocation"
             control={control}
-            placeholder="Enter your location or region"
-            type="text"
             label="Primary Location"
+            placeholder="Enter your location"
             variant="primary"
-            rules={{ required: true }}
           />
 
           <ControlledSelect
@@ -199,25 +164,41 @@ export const LocationPriceStage = (props: Props) => {
           />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-5">
-          <ControlledSelect
-            name="state"
-            label="State"
-            options={stateOptions}
-            control={control}
-            variant="primary"
-            placeholder="Select state"
-          />
+        {selectedCountry && (
+          <div className="grid lg:grid-cols-2 gap-5">
+            {stateLoading ? (
+              <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+            ) : (
+              <ControlledSelect
+                name="state"
+                label="State"
+                options={stateOptions}
+                control={control}
+                variant="primary"
+                placeholder={"Select state"}
+                searchable
+              />
+            )}
 
-          <ControlledSelect
-            name="city"
-            label="City"
-            options={cityOptions}
-            control={control}
-            variant="primary"
-            placeholder="Select city"
-          />
-        </div>
+            {selectedState && (
+              <>
+                {cityLoading ? (
+                  <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+                ) : (
+                  <ControlledSelect
+                    name="city"
+                    label="City"
+                    options={cityOptions}
+                    control={control}
+                    variant="primary"
+                    placeholder={"Select city"}
+                    searchable
+                  />
+                )}
+              </>
+            )}
+          </div>
+        )}
 
         <ControlledRangeSelector
           name="workDistanceKm"
