@@ -78,12 +78,11 @@ const ClientPage = () => {
       <ClientNav />
       <ClientHero
         defaultLocation={filters.city}
-        onSearch={(q: string, city: string) =>
-          setFilters({ q, city })
-        }
+        onSearch={(q: string, city: string) => setFilters({ q, city })}
         onClear={() => setFilters({ q: "", city: "" })}
         isLoading={loading}
       />
+
       <ArtisanAroundYou
         artisans={artisansToShow}
         isPending={loading}
