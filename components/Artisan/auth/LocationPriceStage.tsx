@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
+import { Country } from "@/api/crud/locations";
+import { useLocationSelector } from "@/hooks/useLocationSelector";
 
 type Props = {};
 
@@ -34,7 +37,16 @@ const fields: Field[] = [
     name: "pricePerHour",
     type: "number",
     errorMessage: "Price per hour is required",
-    isRequired: true,
+  },
+  {
+    name: "country",
+    type: "text",
+    errorMessage: "Country is required",
+  },
+  {
+    name: "city",
+    type: "text",
+    errorMessage: "City is required",
   },
 ];
 
@@ -49,12 +61,21 @@ export const LocationPriceStage = (props: Props) => {
   } = useArtisanProfileStore();
   const [firstName, setFirstName] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const { control, handleSubmit, formState, getValues } = useDynamicForm(
-    fields,
-    {}
-  );
+  const { control, handleSubmit, formState, watch, setValue } =
+    useDynamicForm<Country>(fields, {});
+
+  const selectedCountry = watch("country");
+  const selectedState = watch("state");
 
   const { isValid } = formState;
+
+  const {
+    countryOptions,
+    stateOptions,
+    cityOptions,
+    stateLoading,
+    cityLoading,
+  } = useLocationSelector(selectedCountry, selectedState, setValue);
 
   const { createArtisanProfile } = useUser();
   const { mutate: createProfile, isPending } = createArtisanProfile;
@@ -81,6 +102,9 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("primaryLocation", data?.primaryLocation);
       formData.append("workDistanceKm", data?.workDistanceKm);
       formData.append("pricePerHour", data?.pricePerHour);
+      formData.append("country", data?.country);
+      formData.append("state", data?.state);
+      formData.append("city", data?.city);
 
       createProfile(formData, {
         onSuccess: (response: any) => {
@@ -120,15 +144,61 @@ export const LocationPriceStage = (props: Props) => {
         onSubmit={handleSubmit(handleSubmitProfile)}
         className="flex flex-col gap-5"
       >
-        <ControlledInput
-          name="primaryLocation"
-          control={control}
-          placeholder="Enter your location or region"
-          type="text"
-          label="Primary Location"
-          variant="primary"
-          rules={{ required: true }}
-        />
+        <div className="grid lg:grid-cols-2 gap-5">
+          <ControlledInput
+            name="primaryLocation"
+            control={control}
+            label="Primary Location"
+            placeholder="Enter your location"
+            variant="primary"
+          />
+
+          <ControlledSelect
+            name="country"
+            label="Country"
+            options={countryOptions}
+            control={control}
+            variant="primary"
+            placeholder="Select Country"
+            searchable
+          />
+        </div>
+
+        {selectedCountry && (
+          <div className="grid lg:grid-cols-2 gap-5">
+            {stateLoading ? (
+              <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+            ) : (
+              <ControlledSelect
+                name="state"
+                label="State"
+                options={stateOptions}
+                control={control}
+                variant="primary"
+                placeholder={"Select state"}
+                searchable
+              />
+            )}
+
+            {selectedState && (
+              <>
+                {cityLoading ? (
+                  <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+                ) : (
+                  <ControlledSelect
+                    name="city"
+                    label="City"
+                    options={cityOptions}
+                    control={control}
+                    variant="primary"
+                    placeholder={"Select city"}
+                    searchable
+                  />
+                )}
+              </>
+            )}
+          </div>
+        )}
 
         <ControlledRangeSelector
           name="workDistanceKm"
