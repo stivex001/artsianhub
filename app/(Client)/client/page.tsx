@@ -21,11 +21,11 @@ const ClientPage = () => {
   const { currentUser } = useAuthStore();
 
   const [filters, setFilters] = useState<{
-    category?: string;
-    location?: string;
+    q?: string;
+    city?: string;
   }>({
-    category: "",
-    location: "",
+    q: "",
+    city: "",
   });
   const { getArtisanByCategory, getAllArtisan } = useArtisans();
 
@@ -33,7 +33,7 @@ const ClientPage = () => {
     if (currentUser?.city) {
       setFilters((prev) => ({
         ...prev,
-        location: currentUser.city,
+        city: currentUser.city,
       }));
     }
   }, [currentUser]);
@@ -41,8 +41,8 @@ const ClientPage = () => {
   const { data: allData, isPending: allPending } = getAllArtisan();
   const { data: filteredData, isPending: filteredPending } =
     getArtisanByCategory({
-      category: filters.category,
-      city: filters.location,
+      q: filters.q,
+      city: filters.city,
       page,
       limit,
       sort,
@@ -51,7 +51,7 @@ const ClientPage = () => {
   const allArtisans = allData?.data || [];
   const filteredArtisans = filteredData?.data || [];
 
-  const showingFiltered = filters.category && filters.location;
+  const showingFiltered = filters.q && filters.city;
   const artisansToShow = showingFiltered ? filteredArtisans : allArtisans;
   const loading = showingFiltered ? filteredPending : allPending;
 
@@ -77,11 +77,11 @@ const ClientPage = () => {
     <div className="min-h-screen bg-gray-50">
       <ClientNav />
       <ClientHero
-        defaultLocation={filters.location}
-        onSearch={(category: string, location: string) =>
-          setFilters({ category, location })
+        defaultLocation={filters.city}
+        onSearch={(q: string, city: string) =>
+          setFilters({ q, city })
         }
-        onClear={() => setFilters({ category: "", location: "" })}
+        onClear={() => setFilters({ q: "", city: "" })}
         isLoading={loading}
       />
       <ArtisanAroundYou

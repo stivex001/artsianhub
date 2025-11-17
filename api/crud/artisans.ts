@@ -107,7 +107,7 @@ export interface GetSingleArtisan {
 
 export interface ArtisanDetails {
   data: ArtisanData[];
-  total:number
+  total: number;
 }
 
 export interface ArtisanByCategory {
@@ -197,26 +197,26 @@ export const useArtisans = () => {
       params,
     });
 
-const getArtisanByCategory = (params?: {
-  category?: string;
-  city?: string;
-  page?: number;
-  limit?: number;
-  sort?: string;
-}) => {
-  const enabled = Boolean(params?.category && params?.city);
+  const getArtisanByCategory = (params?: {
+    q?: string;
+    city?: string;
+    country?: string;
+    page?: number;
+    limit?: number;
+    sort?: string;
+  }) => {
+    const enabled = Boolean(params?.q && params?.city);
 
-  return useApiQuery<ArtisanDetails>(
-    ["filtered_artisans", params],
-    {
-      url: `/artisans/search`,
-      method: "GET",
-      params,
-    },
-    { enabled }
-  );
-};
-
+    return useApiQuery<ArtisanDetails>(
+      ["filtered_artisans", params],
+      {
+        url: `/artisans/search`,
+        method: "GET",
+        params,
+      },
+      { enabled }
+    );
+  };
 
   const getArtisanRating = (id: string) =>
     useApiQuery<Rating>(["artisan_rating"], {
