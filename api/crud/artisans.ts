@@ -105,9 +105,19 @@ export interface GetSingleArtisan {
   };
 }
 
+export interface SearchData {
+  _id:string
+  query:string
+}
+
 export interface ArtisanDetails {
   data: ArtisanData[];
   total: number;
+}
+
+export interface SearchQueryDetails {
+  data: SearchData[];
+  
 }
 
 export interface ArtisanByCategory {
@@ -197,6 +207,13 @@ export const useArtisans = () => {
       params,
     });
 
+  const getRecentSearchArtisan = (params?: Record<string, any>) =>
+    useApiQuery<SearchQueryDetails>(["all_recent_artisans", params], {
+      url: `/searches/recent`,
+      method: "GET",
+      params,
+    });
+
   const getArtisanByCategory = (params?: {
     q?: string;
     city?: string;
@@ -251,6 +268,7 @@ export const useArtisans = () => {
     getArtisanById,
     getFilteredByArtisan,
     getSearchByArtisan,
+    getRecentSearchArtisan,
     getArtisanRating,
     getAllArtisanCount,
     getArtisanByCategory,

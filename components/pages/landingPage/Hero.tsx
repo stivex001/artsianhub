@@ -4,22 +4,22 @@ import React, { useState } from "react";
 import { Trusted } from "./Trusted";
 import { SearchIcon } from "@/components/assets/icons/SvgIcons";
 import { PopularService } from "./PopularService";
-import { TrustedBy } from "./TrustedBy";
+// import { TrustedBy } from "./TrustedBy";
 import { useRouter } from "next/navigation";
 
 type Props = {};
 
 export const Hero = (props: Props) => {
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchParams, setSearchParams] = useState<{ categoryId?: string }>({});
+  // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  // const [searchParams, setSearchParams] = useState<{ categoryId?: string }>({});
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = () => {
-    router.push("/auth/login");
-    if (!selectedCategory) return;
-    setSearchParams({ categoryId: selectedCategory });
-  };
+  // const handleSearch = () => {
+  //   router.push("/auth/login");
+  //   if (!selectedCategory) return;
+  //   setSearchParams({ categoryId: selectedCategory });
+  // };
 
   return (
     <section
@@ -55,7 +55,7 @@ export const Hero = (props: Props) => {
               />
             </div>
             <button
-              onClick={handleSearch}
+              // onClick={handleSearch}
               className="bg-darkBlue hover:bg-blue-700 px-8 py-4 rounded-tr-full rounded-br-full  transition-colors duration-200 flex items-center justify-center min-w-[88px]"
             >
               <SearchIcon />
