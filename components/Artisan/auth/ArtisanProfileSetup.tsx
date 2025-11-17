@@ -14,7 +14,7 @@ export const ArtisanProfileSetup = (props: Props) => {
   const renderStage = () => {
     switch (currentStep) {
       case 1:
-        return <PersonalInfoStage />;
+        return <LocationPriceStage />;
       case 2:
         return <ServiceDetailsStage />;
       case 3:

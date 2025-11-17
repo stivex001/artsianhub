@@ -57,7 +57,7 @@ export const ControlledSelect = ({
   }, [])
 
   const baseStyles =
-    "w-full text-sm !h-14 py-3 px-4 border rounded-[10px] bg-white placeholder:text-gray-400 focus:outline-none"
+    "w-full text-sm !h-[44px]  px-4 border rounded-[10px] bg-white placeholder:text-gray-400 focus:outline-none"
   const styles = {
     normal: "!border-white text-black",
     primary: "border-[#E4E5EA] text-black",
@@ -98,7 +98,7 @@ export const ControlledSelect = ({
   )
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1">
       {label && (
         <Label className={cn("text-sm font-medium", labelClassName)}>
           {label}
