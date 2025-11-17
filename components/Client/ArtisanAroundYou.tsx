@@ -9,7 +9,7 @@ type Props = {
   artisans: any[];
   isPending: boolean;
   filters?: {
-    category?: string;
+    q?: string;
     location?: string;
   };
   page: number;
@@ -33,14 +33,13 @@ export const ArtisanAroundYou = ({
   onLimitChange,
   onSortChange,
 }: Props) => {
-  const hasFilters = filters?.category && filters?.location;
+  const hasFilters = filters?.q && filters?.location;
   const totalPages = Math.ceil(total / limit);
   const showEmptyState = !isPending && artisans.length === 0;
 
   return (
     <section className="py-10">
       <div className="max-w-7xl mx-auto px-5">
-
         {/* Heading */}
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -50,7 +49,7 @@ export const ArtisanAroundYou = ({
 
             {hasFilters && (
               <p className="text-body text-sm font-medium capitalize">
-                {`${filters?.category} in ${filters?.location}`}
+                {`${filters?.q} in ${filters?.location}`}
               </p>
             )}
           </div>
@@ -84,14 +83,15 @@ export const ArtisanAroundYou = ({
                 ))}
               </div>
 
-              {/* Pagination BELOW the grid */}
-              <div className="mt-8">
-                <NewPagination
-                  page={page}
-                  totalPages={totalPages}
-                  onPageChange={onPageChange}
-                />
-              </div>
+              {artisans.length > 10 && (
+                <div className="mt-8">
+                  <NewPagination
+                    page={page}
+                    totalPages={totalPages}
+                    onPageChange={onPageChange}
+                  />
+                </div>
+              )}
             </>
           )}
 
@@ -120,7 +120,7 @@ export const ArtisanAroundYou = ({
               <p className="text-gray-500 mb-6">
                 We couldn’t find any{" "}
                 {hasFilters
-                  ? `${filters?.category?.toUpperCase()} in ${filters?.location?.toUpperCase()}`
+                  ? `${filters?.q?.toUpperCase()} in ${filters?.location?.toUpperCase()}`
                   : "artisans around you"}
                 . Try adjusting your search.
               </p>
