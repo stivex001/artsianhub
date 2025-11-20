@@ -13,62 +13,81 @@ import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 
 const ClientPage = () => {
   const { isSettingsOpen, closeSettings } = useModalStore();
+  const { currentUser } = useAuthStore();
+
   const [openIncompleteProfile, setOpenIncompleteProfile] = useState(false);
+
+  // Pagination and sorting
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [sort, setSort] = useState("relevance");
 
-  const { currentUser } = useAuthStore();
-
+  // Filters
   const [filters, setFilters] = useState<{
     q?: string;
     city?: string;
+    country?: string;
   }>({
     q: "",
     city: "",
+    country: "",
   });
-  const { getArtisanByCategory, getAllArtisan } = useArtisans();
 
+  // Set default filters based on current user's saved location
   useEffect(() => {
-    if (currentUser?.city) {
-      setFilters((prev) => ({
-        ...prev,
-        city: currentUser.city,
-      }));
+    if (currentUser) {
+      setFilters({
+        q: "",
+        city: currentUser.city || "",
+        country: currentUser.country || "",
+      });
     }
   }, [currentUser]);
 
+  const { getArtisanByCategory, getAllArtisan } = useArtisans();
+
+  // Should fetch ALL artisans when no location is available
+  const shouldFetchAll = !filters.city || !filters.country;
+
+  // Fetch all artisans
   const { data: allData, isPending: allPending } = getAllArtisan();
+
+  // Fetch filtered artisans
   const { data: filteredData, isPending: filteredPending } =
     getArtisanByCategory({
       q: filters.q,
       city: filters.city,
+      country: filters.country,
       page,
       limit,
       sort,
     });
 
-  const allArtisans = allData?.data || [];
-  const filteredArtisans = filteredData?.data || [];
+  // Decide which list to show
+  const artisansToShow = shouldFetchAll
+    ? allData?.data || []
+    : filteredData?.data || [];
 
-  const showingFiltered = filters.q && filters.city;
-  const artisansToShow = showingFiltered ? filteredArtisans : allArtisans;
-  const loading = showingFiltered ? filteredPending : allPending;
+  const loading = shouldFetchAll ? allPending : filteredPending;
 
+  // Show incomplete profile modal
   useEffect(() => {
     if (currentUser?.isVerified) {
       const isProfileIncomplete =
         !currentUser.firstName || !currentUser.lastName;
+
       if (isProfileIncomplete) {
         setOpenIncompleteProfile(true);
       }
     }
   }, [currentUser]);
 
+  // Reset pagination when filters change
   useEffect(() => {
     setPage(1);
   }, [filters]);
 
+  // Reset pagination when limit or sort changes
   useEffect(() => {
     setPage(1);
   }, [limit, sort]);
@@ -76,10 +95,19 @@ const ClientPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <ClientNav />
+
       <ClientHero
         defaultLocation={filters.city}
-        onSearch={(q: string, city: string) => setFilters({ q, city })}
-        onClear={() => setFilters({ q: "", city: "" })}
+        onSearch={(q: string, city: string) =>
+          setFilters((prev) => ({ ...prev, q, city }))
+        }
+        onClear={() =>
+          setFilters({
+            q: "",
+            city: "",
+            country: currentUser?.country || "",
+          })
+        }
         isLoading={loading}
       />
 
@@ -90,14 +118,16 @@ const ClientPage = () => {
         page={page}
         limit={limit}
         sort={sort}
-        total={showingFiltered ? filteredData?.total : allData?.total}
+        total={shouldFetchAll ? allData?.total : filteredData?.total}
         onPageChange={setPage}
         onLimitChange={setLimit}
         onSortChange={setSort}
       />
 
       <AccountSettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
+
       <Footer />
+
       <IncompleteProfileModal
         isOpen={openIncompleteProfile}
         onClose={() => setOpenIncompleteProfile(false)}

@@ -2,9 +2,7 @@ import ProfileSetupContent from "@/components/Artisan/auth/ProfileSetupContent";
 import { Loader } from "@/components/Loader";
 import React, { Suspense } from "react";
 
-type Props = {};
-
-const ProfileSetup = (props: Props) => {
+const ProfileSetup = () => {
   return (
     <Suspense fallback={<Loader />}>
       <ProfileSetupContent />

@@ -44,6 +44,11 @@ const fields: Field[] = [
     type: "text",
     errorMessage: "Country is required",
   },
+   {
+    name: "state",
+    type: "text",
+    errorMessage: "State is required",
+  },
   {
     name: "city",
     type: "text",

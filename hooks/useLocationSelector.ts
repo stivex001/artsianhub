@@ -20,13 +20,13 @@ export const useLocationSelector = (
 
   const countryOptions =
     countriesData?.data?.map((c) => ({
-      value: c.code,
+      value: c.name,
       label: c.name,
     })) || [];
 
   const stateOptions =
     stateData?.data?.map((s: any) => ({
-      value: s.code,
+      value: s.name,
       label: s.name,
     })) || [];
 

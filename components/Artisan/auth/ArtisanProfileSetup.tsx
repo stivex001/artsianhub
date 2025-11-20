@@ -6,9 +6,8 @@ import { PersonalInfoStage } from "./PersonalInfoStage";
 import { ServiceDetailsStage } from "./ServiceDetailsStage";
 import { LocationPriceStage } from "./LocationPriceStage";
 
-type Props = {};
 
-export const ArtisanProfileSetup = (props: Props) => {
+export const ArtisanProfileSetup = () => {
   const { currentStep } = useArtisanProfileStore();
 
   const renderStage = () => {
