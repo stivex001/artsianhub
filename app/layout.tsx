@@ -7,6 +7,8 @@ import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 import ScrollToTop from "@/components/navigations/ScrollToTop";
+import { Suspense } from "react";
+import { Loader } from "@/components/Loader";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -83,7 +85,7 @@ export default function RootLayout({
           <body className={` ${satoshi.variable} antialiased`}>
             <Toaster position="top-center" />
             <ScrollToTop />
-            {children}
+            <Suspense fallback={<Loader />}>{children}</Suspense>
           </body>
         </ModalCloseProvider>
       </QueryProviders>

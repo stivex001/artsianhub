@@ -19,7 +19,7 @@ export const navLinks: NavLink[] = [
   { id: "findArtisan", label: "Find Artisans" },
   { id: "about", label: "About", href: "/home/about" },
   { id: "estore", label: "eStore" },
-  { id: "learn", label: "Learn Skills", href: "/learn" },
+  { id: "learn", label: "Learn Skills" },
 ];
 
 export const Header = (props: Props) => {

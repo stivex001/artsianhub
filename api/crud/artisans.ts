@@ -106,8 +106,8 @@ export interface GetSingleArtisan {
 }
 
 export interface SearchData {
-  _id:string
-  query:string
+  _id: string;
+  query: string;
 }
 
 export interface ArtisanDetails {
@@ -117,7 +117,6 @@ export interface ArtisanDetails {
 
 export interface SearchQueryDetails {
   data: SearchData[];
-  
 }
 
 export interface ArtisanByCategory {
@@ -169,11 +168,17 @@ export interface ArtisanDashboard {
 }
 
 export const useArtisans = () => {
-  const getAllArtisan = () =>
-    useApiQuery<ArtisanDetails>(["all_artisans"], {
-      url: `/artisans`,
-      method: "GET",
-    });
+  const getAllArtisan = (options?: { enabled?: boolean }) =>
+    useApiQuery<ArtisanDetails>(
+      ["all_artisans"],
+      {
+        url: `/artisans`,
+        method: "GET",
+      },
+      {
+        enabled: options?.enabled ?? true,
+      }
+    );
 
   const getArtisanDashboard = () =>
     useApiQuery<ArtisanDashboard>(["all_artisans_counts"], {
@@ -214,15 +219,19 @@ export const useArtisans = () => {
       params,
     });
 
-  const getArtisanByCategory = (params?: {
-    q?: string;
-    city?: string;
-    country?: string;
-    page?: number;
-    limit?: number;
-    sort?: string;
-  }) => {
-    const enabled = Boolean(params?.q && params?.city);
+  const getArtisanByCategory = (
+    params?: {
+      q?: string;
+      city?: string;
+      country?: string;
+      page?: number;
+      limit?: number;
+      sort?: string;
+    },
+    options?: { enabled?: boolean }
+  ) => {
+    const autoEnabled = Boolean(params?.country);
+    // fetch only when we have user's country
 
     return useApiQuery<ArtisanDetails>(
       ["filtered_artisans", params],
@@ -231,7 +240,9 @@ export const useArtisans = () => {
         method: "GET",
         params,
       },
-      { enabled }
+      {
+        enabled: options?.enabled ?? autoEnabled,
+      }
     );
   };
 

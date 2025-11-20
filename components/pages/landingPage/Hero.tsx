@@ -7,9 +7,7 @@ import { PopularService } from "./PopularService";
 // import { TrustedBy } from "./TrustedBy";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-export const Hero = (props: Props) => {
+export const Hero = () => {
   const router = useRouter();
   // const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   // const [searchParams, setSearchParams] = useState<{ categoryId?: string }>({});

@@ -1,34 +1,35 @@
-import { Beauty } from "@/components/pages/landingPage/Beauty";
 import { Creative } from "@/components/pages/landingPage/Creative";
 import { Digital } from "@/components/pages/landingPage/Digital";
-import { Fashion } from "@/components/pages/landingPage/Fashion";
-import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
-import { FindPerfectArtisan } from "@/components/pages/landingPage/FindPerfectArtisan";
-import { Food } from "@/components/pages/landingPage/Food";
 import { Hero } from "@/components/pages/landingPage/Hero";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
-import { Interior } from "@/components/pages/landingPage/Interior";
 import Review from "@/components/pages/landingPage/Review";
 import { Skilled } from "@/components/pages/landingPage/Skilled";
 import StartEarning from "@/components/pages/landingPage/StartEarning";
-import { Visual } from "@/components/pages/landingPage/Visual";
+import { Descriptions } from "@/components/shared/Headings";
 import React from "react";
 
-type Props = {};
-
-const Home = (props: Props) => {
+const Home = () => {
   return (
     <div className="">
       <Hero />
-      <FindPerfectArtisan />
+      {/* <FindPerfectArtisan /> */}
       {/* <FeaturesArtisan /> */}
       {/* <Fashion /> */}
       {/* <Food /> */}
       {/* <Interior /> */}
       {/* <Beauty /> */}
-      <Creative />
-      <Digital />
-      <Skilled />
+      <section id="findArtisan">
+        <div className="max-w-2xl mx-auto text-center pt-20">
+          <Descriptions
+            title="Find Your Perfect Artisan"
+            desc="Whether you need a tailor, a tech expert, or a home repair specialist,
+                  ArtisansHub has a skilled artisan ready for your project."
+          />
+        </div>
+        <Creative />
+        <Digital />
+        <Skilled />
+      </section>
       {/* <Visual /> */}
       <HowItWorks />
       <StartEarning />

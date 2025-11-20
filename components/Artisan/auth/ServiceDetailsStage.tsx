@@ -7,9 +7,8 @@ import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
 import { BackIcon, NextIcon } from "@/components/assets/icons/NavIcons";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
-import { useCategories } from "@/api/crud/categories";
+import { useCategorySelector } from "@/hooks/useCategorySelector";
 
-type Props = {};
 
 const fields: Field[] = [
   {
@@ -33,9 +32,7 @@ const fields: Field[] = [
   },
 ];
 
-export const ServiceDetailsStage = (props: Props) => {
-  const { getAllCategories } = useCategories();
-
+export const ServiceDetailsStage = () => {
   const {
     setCurrentStep,
     serviceDetails,
@@ -43,16 +40,7 @@ export const ServiceDetailsStage = (props: Props) => {
     updateServiceDetails,
   } = useArtisanProfileStore();
 
-  const { data: category } = getAllCategories();
-  
-
-  const categoryOptions = Array.isArray(category)
-    ? category?.map((cat) => ({
-        id: cat?._id,
-        value: cat?._id,
-        label: cat?.name,
-      }))
-    : [];
+  const { categoryOptions } = useCategorySelector();
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
@@ -68,7 +56,7 @@ export const ServiceDetailsStage = (props: Props) => {
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
 
-     const safeServiceType = Array.isArray(formValues?.serviceCategories)
+    const safeServiceType = Array.isArray(formValues?.serviceCategories)
       ? formValues.serviceCategories
       : typeof formValues?.serviceCategories === "string"
       ? formValues.serviceCategories.split(",")

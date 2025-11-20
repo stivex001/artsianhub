@@ -17,6 +17,10 @@ export interface Category {
   _id: string;
 }
 
+export interface SubCategory {
+  data: Category[];
+}
+
 export const useCategories = () => {
   const getAllCategories = () =>
     useApiQuery<Category[]>(["categories"], {
@@ -29,6 +33,12 @@ export const useCategories = () => {
       url: `/categories/${id}`,
       method: "GET",
       ...options,
+    });
+
+  const getAllSubCategories = () =>
+    useApiQuery<SubCategory>(["sub-categories"], {
+      url: `/sub-categories`,
+      method: "GET",
     });
 
   const createCategory = useApiMutation<AuthResponse, FormData>({
@@ -54,6 +64,7 @@ export const useCategories = () => {
 
   return {
     getAllCategories,
+    getAllSubCategories,
     updateCategory,
     createCategory,
     getCategoryById,
