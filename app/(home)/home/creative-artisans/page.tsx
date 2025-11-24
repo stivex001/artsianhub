@@ -128,7 +128,7 @@ export default function CreativeArtisansPage() {
           ))}
         </div>
       </section> */}
-      <FeaturesArtisan />
+      {/* <FeaturesArtisan /> */}
 
       {/* How It Works */}
       <section className="py-20 px-6 md:px-20 text-center">
