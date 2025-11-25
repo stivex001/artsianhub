@@ -1,7 +1,6 @@
 "use client";
 import { useArtisans } from "@/api/crud/artisans";
 import React from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   setSearchTerm: (value: string) => void;
@@ -14,10 +13,10 @@ export const RecentSearch = ({ setSearchTerm }: Props) => {
 
   return (
     <div className="bg-transparent">
-      {isPending &&
+      {/* {isPending &&
         Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} className="h-8 w-24 rounded-full bg-[#ffffff22]" />
-        ))}
+          <Skeleton key={i} className="px-4 py-2 border border-[#FFFFFF33] rounded-full bg-[#ffffff22]" />
+        ))} */}
       <div className="flex flex-wrap items-center gap-3">
         <p className="text-white font-bold mb-4 text-sm mt-2">Recent Search:</p>
 
