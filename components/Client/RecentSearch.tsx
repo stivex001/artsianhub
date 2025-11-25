@@ -12,14 +12,6 @@ export const RecentSearch = ({ setSearchTerm }: Props) => {
   const { data, isPending } = getRecentSearchArtisan();
   const recentSearch = data?.data || [];
 
-  // remove duplicates by query
-  const uniqueSearches = Array.from(
-    new Map(recentSearch.map((item: any) => [item.query, item])).values()
-  );
-
-  // limit to 8 only
-  const limitedSearches = uniqueSearches.slice(0, 8);
-
   return (
     <div className="bg-transparent">
       {isPending &&
@@ -31,7 +23,7 @@ export const RecentSearch = ({ setSearchTerm }: Props) => {
 
         {/* actual recent search */}
         {!isPending &&
-          limitedSearches.map((q: any) => (
+          recentSearch?.map((q: any) => (
             <button
               key={q._id}
               onClick={() => setSearchTerm(q.query)}

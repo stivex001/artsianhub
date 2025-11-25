@@ -6,7 +6,7 @@ import { FilterBar } from "../shared/FilterBar";
 import { NewPagination } from "../shared/newPagination";
 
 type Props = {
-  artisans: any[];
+  artisans: any;
   isPending: boolean;
   filters?: {
     q?: string;
@@ -78,7 +78,7 @@ export const ArtisanAroundYou = ({
           {!isPending && artisans.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {artisans.map((item) => (
+                {artisans?.map((item:any) => (
                   <ArtisanCard key={item._id} artisan={item} showDate />
                 ))}
               </div>

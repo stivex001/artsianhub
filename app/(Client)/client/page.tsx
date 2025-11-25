@@ -1,96 +1,57 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ClientNav } from "@/components/Client/ClientNav";
 import { ClientHero } from "@/components/Client/ClientHero";
 import Footer from "@/components/navigations/Footer";
 import { ArtisanAroundYou } from "@/components/Client/ArtisanAroundYou";
 import AccountSettingsModal from "@/components/Client/AccountSettingsModal";
-import { useModalStore } from "@/store/useModalStore";
-import { useArtisans } from "@/api/crud/artisans";
-import { useEffect, useState } from "react";
-import { useAuthStore } from "@/store/authStore";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
+import { useModalStore } from "@/store/useModalStore";
+import { useAuthStore } from "@/store/authStore";
+import { useArtisans } from "@/api/crud/artisans";
 
 const ClientPage = () => {
-  const { isSettingsOpen, closeSettings } = useModalStore();
   const { currentUser } = useAuthStore();
+  const { isSettingsOpen, closeSettings } = useModalStore();
+  const { getArtisanAroundMe } = useArtisans();
 
   const [openIncompleteProfile, setOpenIncompleteProfile] = useState(false);
 
-  // Pagination and sorting
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [sort, setSort] = useState("relevance");
-
-  // Filters
-  const [filters, setFilters] = useState<{
-    q?: string;
-    city?: string;
-    country?: string;
-  }>({
+  // Filters + pagination + sorting
+  const [filters, setFilters] = useState({
     q: "",
     city: "",
-    country: "",
+    country: currentUser?.country || "",
+    page: 1,
+    limit: 10,
+    sort: "relevance",
   });
 
-  // Set default filters based on current user's saved location
+  // Load default user location
   useEffect(() => {
     if (currentUser) {
-      setFilters({
-        q: "",
+      setFilters((prev) => ({
+        ...prev,
         city: currentUser.city || "",
         country: currentUser.country || "",
-      });
+      }));
     }
   }, [currentUser]);
 
-  const { getArtisanByCategory, getAllArtisan } = useArtisans();
+  const { data, isPending } = getArtisanAroundMe(filters);
 
-  // Should fetch ALL artisans when no location is available
-  const shouldFetchAll = !filters.city || !filters.country;
+  // Reset page when q, city, limit, or sort changes
+  useEffect(() => {
+    setFilters((prev) => ({ ...prev, page: 1 }));
+  }, [filters.q, filters.city, filters.limit, filters.sort]);
 
-  // Fetch all artisans
-  const { data: allData, isPending: allPending } = getAllArtisan();
-
-  // Fetch filtered artisans
-  const { data: filteredData, isPending: filteredPending } =
-    getArtisanByCategory({
-      q: filters.q,
-      city: filters.city,
-      country: filters.country,
-      page,
-      limit,
-      sort,
-    });
-
-  // Decide which list to show
-  const artisansToShow = shouldFetchAll
-    ? allData?.data || []
-    : filteredData?.data || [];
-
-  const loading = shouldFetchAll ? allPending : filteredPending;
-
-  // Show incomplete profile modal
   useEffect(() => {
     if (currentUser?.isVerified) {
-      const isProfileIncomplete =
-        !currentUser.firstName || !currentUser.lastName;
-
-      if (isProfileIncomplete) {
-        setOpenIncompleteProfile(true);
-      }
+      const incomplete = !currentUser.firstName || !currentUser.lastName;
+      if (incomplete) setOpenIncompleteProfile(true);
     }
   }, [currentUser]);
-
-  // Reset pagination when filters change
-  useEffect(() => {
-    setPage(1);
-  }, [filters]);
-
-  // Reset pagination when limit or sort changes
-  useEffect(() => {
-    setPage(1);
-  }, [limit, sort]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -98,30 +59,37 @@ const ClientPage = () => {
 
       <ClientHero
         defaultLocation={filters.city}
+        isLoading={isPending}
         onSearch={(q: string, city: string) =>
           setFilters((prev) => ({ ...prev, q, city }))
         }
         onClear={() =>
-          setFilters({
+          setFilters((prev) => ({
+            ...prev,
             q: "",
             city: "",
             country: currentUser?.country || "",
-          })
+          }))
         }
-        isLoading={loading}
       />
 
       <ArtisanAroundYou
-        artisans={artisansToShow}
-        isPending={loading}
+        artisans={data?.data || []}
+        isPending={isPending}
         filters={filters}
-        page={page}
-        limit={limit}
-        sort={sort}
-        total={shouldFetchAll ? allData?.total : filteredData?.total}
-        onPageChange={setPage}
-        onLimitChange={setLimit}
-        onSortChange={setSort}
+        page={filters.page}
+        limit={filters.limit}
+        sort={filters.sort}
+        total={data?.total}
+        onPageChange={(page: number) =>
+          setFilters((prev) => ({ ...prev, page }))
+        }
+        onLimitChange={(limit: number) =>
+          setFilters((prev) => ({ ...prev, limit }))
+        }
+        onSortChange={(sort: string) =>
+          setFilters((prev) => ({ ...prev, sort }))
+        }
       />
 
       <AccountSettingsModal isOpen={isSettingsOpen} onClose={closeSettings} />
