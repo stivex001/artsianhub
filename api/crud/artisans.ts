@@ -219,7 +219,7 @@ export const useArtisans = () => {
       params,
     });
 
-  const getArtisanByCategory = (
+  const getArtisanAroundMe = (
     params?: {
       q?: string;
       city?: string;
@@ -230,8 +230,6 @@ export const useArtisans = () => {
     },
     options?: { enabled?: boolean }
   ) => {
-    const autoEnabled = Boolean(params?.country);
-    // fetch only when we have user's country
 
     return useApiQuery<ArtisanDetails>(
       ["filtered_artisans", params],
@@ -240,9 +238,9 @@ export const useArtisans = () => {
         method: "GET",
         params,
       },
-      {
-        enabled: options?.enabled ?? autoEnabled,
-      }
+      // {
+      //   enabled: options?.enabled ?? false,
+      // }
     );
   };
 
@@ -282,7 +280,7 @@ export const useArtisans = () => {
     getRecentSearchArtisan,
     getArtisanRating,
     getAllArtisanCount,
-    getArtisanByCategory,
+    getArtisanAroundMe,
     getArtisanDashboard,
     getMyProfile,
     updateArtisanProfile,
