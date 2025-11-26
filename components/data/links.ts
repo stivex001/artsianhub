@@ -90,8 +90,8 @@ export const useNavigationLinks = () => {
       href: "/home/terms",
     },
     {
-      label: "Accessibilty",
-      href: "#",
+      label: "Join our whatsapp community",
+      href: "https://chat.whatsapp.com/DfYAaRMvqwF3FeLbtyHtrM?mode=hqrt2",
     },
   ];
 

@@ -22,14 +22,14 @@ const subCategories = [
    },
    {
      id: "Mechanics",
-     title: "Mechanics & Bicycle Repair Technicians",
-     description: "Car and bike servicing experts.",
+     title: "Mechanics & Motorbikes Technicians",
+     description: "Car and Motorbike servicing experts.",
      icon: <Mechanic />,
    },
    {
-     id: "Watchmakers",
-     title: "Watchmakers & Clock Restorers",
-     description: "Timepiece repair and restoration..",
+     id: "cleaningServices",
+     title: "Cleaning Services ",
+     description: "Professional home and office cleaning.",
      icon: <Watchmakers />,
    },
    {
@@ -70,7 +70,7 @@ export default function SkilledArtisansPage() {
 
       <section id="categories" className="py-20 px-6 md:px-20">
         <h2 className="text-3xl font-semibold text-center mb-12">
-          Explore Creative Categories
+          Explore Pro Categories
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {subCategories.map((cat) => (
