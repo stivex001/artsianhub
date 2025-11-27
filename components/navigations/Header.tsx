@@ -19,7 +19,7 @@ export const navLinks: NavLink[] = [
   { id: "findArtisan", label: "Find Artisans" },
   { id: "about", label: "About", href: "/home/about" },
   // { id: "estore", label: "eStore" },
-  { id: "learn", label: "Learn Skills" },
+  { id: "learn", label: "Learn Skills", href: "/home/learn-skills" },
 ];
 
 export const Header = (props: Props) => {
@@ -100,7 +100,7 @@ export const Header = (props: Props) => {
             );
           })}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
           <CustomButton
             variant="transparent"
             className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "

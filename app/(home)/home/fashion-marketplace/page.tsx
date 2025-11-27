@@ -1,6 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import FashionSoon from "@/components/assets/images/fashionsoon.jpg";
 
 export default function ArtisansHubHomepage() {
   const router = useRouter();
@@ -9,29 +12,24 @@ export default function ArtisansHubHomepage() {
     <div className="min-h-screen w-full bg-white text-gray-900">
       {" "}
       {/* Hero Section */}{" "}
-      <section className="w-full bg-gradient-to-br from-blue-900 to-blue-600 text-white py-20 px-6 text-center">
-        {" "}
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Connecting Skills to Meet Your Everyday Needs
-        </h1>{" "}
-        <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90">
-          {" "}
-          Book trusted artisans & shop unique fashion pieces from global
-          creative talent.{" "}
-        </p>{" "}
-        <button className="mt-6 px-8 py-3 bg-yellow-400 text-gray-900 rounded-2xl font-medium text-lg shadow-lg hover:bg-yellow-300 transition">
-          {" "}
-          Get Started{" "}
-        </button>{" "}
+      <section className="relative w-full">
+        <div className="">
+          <Image
+            src={FashionSoon}
+            alt="Fashion Coming Soon"
+            className="w-full h-full object-cover object-center"
+            // fill
+            // priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-primary/20"></div>
       </section>
-      {/* Categories Section */}
-      <section className="py-16 px-6 max-w-7xl mx-auto">
+      {/* <section className="py-16 px-6 max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-10">
           Explore Categories
         </h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {/* Category Card */}
           {[
             { title: "Hair & Beauty", icon: "💇🏾‍♀" },
             { title: "Tailors & Fashion Designers", icon: "🧵" },
@@ -52,9 +50,9 @@ export default function ArtisansHubHomepage() {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
       {/* Fashion Marketplace Banner */}
-      <section className="w-full bg-gray-100 py-16 px-6 text-center">
+      {/* <section className="w-full bg-gray-100 py-16 px-6 text-center">
         <h2 className="text-3xl font-bold mb-4">
           Shop the Global Fashion Marketplace
         </h2>
@@ -65,8 +63,7 @@ export default function ArtisansHubHomepage() {
         <button className="px-7 py-3 bg-blue-700 text-white rounded-xl hover:bg-blue-600 transition shadow-md">
           Visit Fashion Store
         </button>
-      </section>
-      {/* Onboarding CTA */}
+      </section> */}
       <section className="py-16 px-6 text-center max-w-4xl mx-auto">
         <h2 className="text-3xl font-bold mb-4">
           Are You an Artisan? Join Free
