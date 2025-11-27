@@ -53,6 +53,26 @@ export const MobileHeader = ({ handleScrollTo, activeSection }: Props) => {
     howitworks: <HowItWorksIcon />,
   };
 
+  const handleNavClick = (linkId: string) => {
+    if (handleScrollTo) {
+      handleScrollTo(linkId);
+    }
+    // Close dropdown after a small delay to ensure scroll completes
+    setTimeout(() => closeDropdown(), 100);
+  };
+
+  const handleLoginClick = () => {
+    closeDropdown();
+    // Use setTimeout to ensure dropdown closes before navigation
+    setTimeout(() => router.push(`/auth/login`), 100);
+  };
+
+  const handleSignupClick = () => {
+    closeDropdown();
+    // Use setTimeout to ensure dropdown closes before navigation
+    setTimeout(() => router.push(`/auth/onboarding`), 100);
+  };
+
   return (
     <div className="relative md:hidden" ref={dropdownRef}>
       <button onClick={toggleDropdown}>
@@ -75,43 +95,51 @@ export const MobileHeader = ({ handleScrollTo, activeSection }: Props) => {
             </div>
 
             <div className="flex flex-col gap-2 mb-5">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => {
-                    handleScrollTo?.(link.id);
-                    closeDropdown();
-                  }}
-                  className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium transition-colors 
-                    ${
-                      activeSection === link.id
-                        ? "text-primary bg-gray-100"
-                        : "text-lightp hover:bg-gray-50"
-                    }`}
-                >
-                  {linkIcons[link.id] && <span>{linkIcons[link.id]}</span>}
-                  {link.label}
-                </button>
-              ))}
+              {navLinks.map((link) => {
+                const icon = linkIcons[link.id];
+
+                const handleClick = () => {
+                  closeDropdown();
+
+                  if (link.href) {
+                    setTimeout(() => router.push(link.href!), 100);
+                    return;
+                  }
+
+                  if (handleScrollTo && link.id) {
+                    setTimeout(() => handleScrollTo(link.id), 50);
+                  }
+                };
+
+                return (
+                  <button
+                    key={link.id}
+                    onClick={handleClick}
+                    className={`w-full flex items-center gap-2 px-3 py-2 rounded-md text-base font-medium transition-colors 
+      ${
+        activeSection === link.id
+          ? "text-primary bg-gray-100"
+          : "text-lightp hover:bg-gray-50"
+      }`}
+                  >
+                    {icon && <span>{icon}</span>}
+                    {link.label}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="flex flex-col gap-3">
               <CustomButton
                 variant="transparent"
                 className="w-full border border-bordergrey rounded-[6px] text-sm text-lightp font-medium"
-                onClick={() => {
-                  router.push(`/auth/login`);
-                  closeDropdown();
-                }}
+                onClick={handleLoginClick}
                 label="Login"
               />
 
               <CustomButton
                 className="w-full"
-                onClick={() => {
-                  router.push(`/auth/onboarding`);
-                  closeDropdown();
-                }}
+                onClick={handleSignupClick}
                 label="Sign Up"
               />
             </div>

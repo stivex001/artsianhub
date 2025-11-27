@@ -66,7 +66,7 @@ export default function DigitalArtisansPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-80"></div>
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl font-medium lg:font-bold text-white mb-4 text-center">
-            Meet the Digital Minds Shaping Everyday Beauty
+           Meet Digital Creatives that meets your everyday needs
           </h1>
           <p className="text-white mb-6 text-center">
             From branding to web design, our digital artisans specialize in
