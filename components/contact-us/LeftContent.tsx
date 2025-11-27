@@ -43,7 +43,7 @@ export const LeftContent = (props: Props) => {
             </div>
             <div>
               <h3 className="font-semibold mb-1">Phone</h3>
-              <p className="text-blue-100">020 3875 1134</p>
+              <p className="text-blue-100">+44 7949 450198</p>
               <p className="text-blue-100 text-sm">
                 (open 24 hours a day, 7 days a week)
               </p>
@@ -56,7 +56,7 @@ export const LeftContent = (props: Props) => {
             </div>
             <div>
               <h3 className="font-semibold mb-1">Office</h3>
-              <p className="text-blue-100">London, United Kingdom</p>
+              <p className="text-blue-100">Chesterfield, United Kingdom</p>
             </div>
           </div>
 

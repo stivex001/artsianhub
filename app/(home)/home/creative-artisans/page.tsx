@@ -4,10 +4,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BrushIcon, CalendarIcon } from "lucide-react";
-import { ScissorsIcon, WeaverIcon } from "@/components/assets/icons/FeaturedIcons";
+import {
+  ScissorsIcon,
+  WeaverIcon,
+} from "@/components/assets/icons/FeaturedIcons";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
 import tailor from "@/components/assets/images/tailor.png";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { useState } from "react";
+import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
 
 const subCategories = [
   {
@@ -50,9 +55,24 @@ const subCategories = [
     icon: <WeaverIcon />,
     link: "/creative/event-planners",
   },
+  {
+    id: "photgrapher",
+    title: "Photographers and Videographers",
+    description:
+      "Designing memorable moments and breathtaking spaces for every occasion.",
+    icon: <WeaverIcon />,
+    link: "/creative/photographers",
+  },
 ];
 
 export default function CreativeArtisansPage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryClick = (category: any) => {
+    setSelectedCategory(category);
+    setIsModalOpen(true);
+  };
   return (
     <div className="min-h-screen bg-white ">
       <section className="relative h-[70vh] pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
@@ -89,6 +109,9 @@ export default function CreativeArtisansPage() {
           {subCategories.map((cat) => (
             <div
               key={cat?.id}
+              onClick={() => handleCategoryClick(cat)}
+              role="button"
+              tabIndex={0}
               className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
             >
               <div className="flex items-center mb-4">{cat?.icon}</div>
@@ -101,33 +124,6 @@ export default function CreativeArtisansPage() {
         </div>
       </section>
 
-      {/* Featured Artisans Section */}
-      {/* <section className="bg-gray-50 py-20 px-6 md:px-20">
-        <h2 className="text-3xl font-semibold text-center mb-12">
-          Featured Artisans
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {featuredArtisans.map((artisan, index) => (
-            <Card
-              key={index}
-              className="border hover:shadow-md transition-shadow"
-            >
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">
-                  {artisan.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="text-gray-600">
-                <p>{artisan.craft}</p>
-                <p className="text-sm text-gray-500">{artisan.location}</p>
-                <Button className="mt-4 w-full" variant="secondary">
-                  View Profile
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section> */}
       {/* <FeaturesArtisan /> */}
 
       {/* How It Works */}
@@ -171,6 +167,11 @@ export default function CreativeArtisansPage() {
           <Link href="/auth/signup?role=client">Join Now</Link>
         </Button>
       </section>
+      <LoginPromptModal
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        selectedCategory={selectedCategory}
+      />
     </div>
   );
 }
