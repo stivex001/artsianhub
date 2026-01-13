@@ -2,7 +2,7 @@ import { ExploreCategiries } from "@/components/pages/landingPage/ExploreCategir
 import { Hero } from "@/components/pages/landingPage/Hero";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import Review from "@/components/pages/landingPage/Review";
-import StartEarning from "@/components/pages/landingPage/StartEarning";
+import ArtisanCTA from "@/components/pages/landingPage/ArtisanCTA";
 import React from "react";
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
       <Hero />
       <ExploreCategiries />
       <HowItWorks />
-      <StartEarning />
+      <ArtisanCTA />
       <Review />
     </div>
   );
