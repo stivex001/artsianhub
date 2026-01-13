@@ -11,7 +11,7 @@ import {
 } from "@/components/assets/icons/FeaturedIcons";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import carpenter from "@/components/assets/images/carpenter.png";
+import carpenter from "@/components/assets/images/profession.jpg";
 import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
 import { useState } from "react";
 
@@ -52,7 +52,7 @@ export default function SkilledArtisansPage() {
   };
   return (
     <div className="min-h-screen bg-white ">
-      <section className="relative h-[70vh] pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
+      <section className="relative h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
         <div className="absolute inset-0">
           <Image
             src={carpenter}
@@ -62,8 +62,8 @@ export default function SkilledArtisansPage() {
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-80"></div>
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
+        {/* <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-bold text-white mb-4 text-center">
            Meet the Professionals For Your Needs
           </h1>
@@ -74,7 +74,7 @@ export default function SkilledArtisansPage() {
           <a href="#categories" className="flex items-center justify-center">
             <CustomButton label="Find an Artisan" />
           </a>
-        </div>
+        </div> */}
       </section>
 
       <section id="categories" className="py-20 px-6 md:px-20">

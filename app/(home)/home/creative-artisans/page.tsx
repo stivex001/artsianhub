@@ -9,7 +9,7 @@ import {
   WeaverIcon,
 } from "@/components/assets/icons/FeaturedIcons";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
-import tailor from "@/components/assets/images/tailor.png";
+import creative from "@/components/assets/images/creative.jpg";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useState } from "react";
 import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
@@ -75,18 +75,18 @@ export default function CreativeArtisansPage() {
   };
   return (
     <div className="min-h-screen bg-white ">
-      <section className="relative h-[70vh] pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
+      <section className="relative h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-6 py-20 bg-[#EFF6FF]">
         <div className="absolute inset-0">
           <Image
-            src={tailor}
+            src={creative}
             alt="Industrial welding with sparks and machinery"
             className="w-full h-full object-cover object-top"
             fill
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-80"></div>
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
+        {/* <div className="relative z-10 max-w-5xl mx-auto text-center">
           <h1 className="text-4xl font-bold text-white mb-4 text-center">
             Meet the Creative Minds Shaping Everyday Beauty
           </h1>
@@ -97,7 +97,7 @@ export default function CreativeArtisansPage() {
           <a href="#categories" className="flex items-center justify-center">
             <CustomButton label="Find an Artisan" />
           </a>
-        </div>
+        </div> */}
       </section>
 
       {/* Subcategory Section */}
