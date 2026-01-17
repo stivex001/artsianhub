@@ -63,18 +63,6 @@ export default function SkilledArtisansPage() {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
-        {/* <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl font-bold text-white mb-4 text-center">
-           Meet the Professionals For Your Needs
-          </h1>
-          <p className="text-white mb-6 text-center">
-            Get skilled home repairs and services from expert trades
-            people—plumbers, electricians, and mechanics.
-          </p>
-          <a href="#categories" className="flex items-center justify-center">
-            <CustomButton label="Find an Artisan" />
-          </a>
-        </div> */}
       </section>
 
       <section
@@ -105,47 +93,6 @@ export default function SkilledArtisansPage() {
 
       {/* <FeaturesArtisan /> */}
 
-      {/* How It Works */}
-      <section className="py-12 md:py-20 px-4 md:px-10 lg:px-20 text-center">
-        <h2 className="text-3xl font-semibold mb-10">How It Works</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-          <div>
-            <h3 className="font-semibold text-lg mb-2">1. Browse</h3>
-            <p className="text-gray-600">
-              Discover creative artisans across different crafts and styles.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg mb-2">2. Connect</h3>
-            <p className="text-gray-600">
-              Chat or book directly with your preferred artisan.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-lg mb-2">3. Collaborate</h3>
-            <p className="text-gray-600">
-              Bring your vision to life with trusted professionals.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Call To Action */}
-      <section className="py-20 px-6 md:px-20 bg-primary text-white text-center ">
-        <h2 className="text-3xl font-semibold mb-4">
-          Ready to collaborate with top artisans?
-        </h2>
-        <p className="mb-8">
-          Join our community and bring your creative ideas to life.
-        </p>
-        <Button
-          variant="secondary"
-          className="bg-white text-blue-600 hover:bg-gray-100"
-          asChild
-        >
-          <Link href="/auth/signup?role=client">Join Now</Link>
-        </Button>
-      </section>
       <LoginPromptModal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}

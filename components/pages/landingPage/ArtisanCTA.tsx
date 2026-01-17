@@ -127,7 +127,7 @@ const ArtisanCTA = () => {
               size="lg"
               className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-6 px-10 text-lg rounded-full shadow-lg shadow-blue-900/50 hover:shadow-blue-900/80 transition-all transform hover:-translate-y-1"
             >
-              Join as an Artisan – £1 Trial
+              Join as an Artisan
             </Button>
 
             <p className="mt-6 text-slate-400 text-sm">
