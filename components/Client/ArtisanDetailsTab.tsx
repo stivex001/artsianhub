@@ -47,12 +47,12 @@ export const ArtisanDetailsTab = (props: Props) => {
       <TabsContent value="about" className="w-full">
         <AboutArtisan artisan={artisan} />
       </TabsContent>
-      <TabsContent value="portfolio" className="w-full">
+      {/* <TabsContent value="portfolio" className="w-full">
         <ArtisanPortfolio id={id} />
-      </TabsContent>
-      <TabsContent value="rating" className="w-full">
+      </TabsContent> */}
+      {/* <TabsContent value="rating" className="w-full">
         <ArtisanRating artisanId={artisan?._id} />
-      </TabsContent>
+      </TabsContent> */}
     </Tabs>
   );
 };

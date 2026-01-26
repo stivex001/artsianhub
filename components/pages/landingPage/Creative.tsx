@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   ScissorsIcon,
   ShoeIcon,
@@ -38,7 +38,7 @@ const defaultCategories: CategoryItem[] = [
 export const Creative = () => {
   const router = useRouter();
   const handleButtonClick = () => {
-    router.push("/home/creative-artisans");
+    router.push("/creative-artisans");
   };
   return (
     <section className="py-20 bg-white">

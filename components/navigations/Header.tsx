@@ -17,9 +17,9 @@ type NavLink = {
 export const navLinks: NavLink[] = [
   { id: "home", label: "Home", href: "/" },
   { id: "findArtisan", label: "Find Artisans" },
-  { id: "about", label: "About", href: "/home/about" },
+  { id: "about", label: "About", href: "/about" },
   // { id: "estore", label: "eStore" },
-  { id: "learn", label: "Learn Skills", href: "/home/learn-skills" },
+  { id: "learn", label: "Learn Skills", href: "/learn-skills" },
 ];
 
 export const Header = (props: Props) => {

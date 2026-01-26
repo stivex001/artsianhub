@@ -15,7 +15,7 @@ const artisanFaqs = [
   },
   {
     q: "How do I join?",
-    a: "Sign up on ArtisansHub.org, create your profile, add your skills or services, and you’ll be visible to customers searching for artisans in your field.",
+    a: "Sign up on ArtisansHub.org, create your profile, add your skills or services, and you'll be visible to customers searching for artisans in your field.",
   },
   {
     q: "Do I need to pay to join?",
@@ -70,7 +70,7 @@ const customerFaqs = [
   },
   {
     q: "Can I leave feedback?",
-    a: "Yes. After using an artisan’s services, you can leave reviews to share your experience, support great artisans, and help others make informed choices.",
+    a: "Yes. After using an artisan's services, you can leave reviews to share your experience, support great artisans, and help others make informed choices.",
   },
   {
     q: "Where is ArtisansHub available?",
@@ -96,7 +96,9 @@ const Faq = () => {
                 <AccordionTrigger className="text-left text-xl font-semibold">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-medium text-base">{item.a}</AccordionContent>
+                <AccordionContent className="font-medium text-base">
+                  {item.a}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -112,7 +114,9 @@ const Faq = () => {
                 <AccordionTrigger className="text-left text-xl font-semibold">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="font-medium text-base">{item.a}</AccordionContent>
+                <AccordionContent className="font-medium text-base">
+                  {item.a}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

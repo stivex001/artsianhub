@@ -4,8 +4,10 @@ import { MapIcon } from "../assets/icons/UsersIcon";
 import { CustomButton } from "../clickable/CustomButton";
 import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
 import { ContactArtisanModal } from "./ContactArtisanModal";
+import { LoginPromptModal } from "../shared/LoginPromptModal";
 import { useParams } from "next/navigation";
 import { useArtisans } from "@/api/crud/artisans";
+import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { ClientInfoSkeleton } from "../loader/ClientInfoSkeleton";
@@ -16,8 +18,19 @@ export const ArtisanContent = ({}: Props) => {
   const params = useParams();
   const id = params.id;
   const [isModalContactOpen, setIsModalContactOpen] = useState(false);
+  const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
+  const { accessToken } = useAuthStore();
 
   const closeModal = () => setIsModalContactOpen(false);
+  const closeLoginPrompt = () => setIsLoginPromptOpen(false);
+
+  const handleContactClick = () => {
+    if (accessToken) {
+      setIsModalContactOpen(true);
+    } else {
+      setIsLoginPromptOpen(true);
+    }
+  };
 
   const { getArtisanById } = useArtisans();
   const { data, isPending } = getArtisanById(`${id}`);
@@ -72,17 +85,21 @@ export const ArtisanContent = ({}: Props) => {
                   label="Contact Artisan"
                   type="button"
                   className="w-full"
-                  onClick={() => setIsModalContactOpen(true)}
+                  onClick={handleContactClick}
                 />
               </div>
             </div>
-            {data && (
+            {data && accessToken && (
               <ContactArtisanModal
                 item={data}
                 isOpen={isModalContactOpen}
                 onClose={closeModal}
               />
             )}
+            <LoginPromptModal
+              isOpen={isLoginPromptOpen}
+              onOpenChange={setIsLoginPromptOpen}
+            />
           </div>
         )}
         <div className="lg:col-span-2">

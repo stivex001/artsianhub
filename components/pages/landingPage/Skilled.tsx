@@ -46,7 +46,7 @@ const defaultCategories: CategoryItem[] = [
 export const Skilled = (props: Props) => {
   const router = useRouter();
   const handleButtonClick = () => {
-    router.push("/home/skilled-artisans");
+    router.push("/skilled-artisans");
   };
 
   return (
