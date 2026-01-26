@@ -30,7 +30,7 @@ const LocationSearch = (props: Props) => {
   const autocompleteService =
     useRef<google.maps.places.AutocompleteService | null>(null);
   const placesService = useRef<google.maps.places.PlacesService | null>(null);
-  const searchTimeout = useRef<NodeJS.Timeout | null>(null);
+  const searchTimeout = useRef<number | null>(null);
 
   // Load Google Maps API
   useEffect(() => {
