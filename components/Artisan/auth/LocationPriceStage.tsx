@@ -42,16 +42,15 @@ const fields: Field[] = [
     name: "country",
     type: "text",
     errorMessage: "Country is required",
+    isRequired: true,
   },
    {
     name: "state",
     type: "text",
-    errorMessage: "State is required",
   },
   {
     name: "city",
     type: "text",
-    errorMessage: "City is required",
   },
 ];
 
@@ -108,8 +107,12 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("workDistanceKm", data?.workDistanceKm);
       formData.append("pricePerHour", data?.pricePerHour);
       formData.append("country", data?.country);
-      formData.append("state", data?.state);
-      formData.append("city", data?.city);
+      if (data?.state) {
+        formData.append("state", data.state);
+      }
+      if (data?.city) {
+        formData.append("city", data.city);
+      }
 
       createProfile(formData, {
         onSuccess: (response: any) => {
@@ -166,6 +169,7 @@ export const LocationPriceStage = (props: Props) => {
             variant="primary"
             placeholder="Select Country"
             searchable
+            rules={{ required: true }}
           />
         </div>
 
@@ -180,7 +184,7 @@ export const LocationPriceStage = (props: Props) => {
                 options={stateOptions}
                 control={control}
                 variant="primary"
-                placeholder={"Select state"}
+                placeholder={"Select state (optional)"}
                 searchable
               />
             )}
@@ -196,7 +200,7 @@ export const LocationPriceStage = (props: Props) => {
                     options={cityOptions}
                     control={control}
                     variant="primary"
-                    placeholder={"Select city"}
+                    placeholder={"Select city (optional)"}
                     searchable
                   />
                 )}
