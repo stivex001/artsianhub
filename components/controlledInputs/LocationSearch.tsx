@@ -30,7 +30,8 @@ const LocationSearch = (props: Props) => {
   const autocompleteService =
     useRef<google.maps.places.AutocompleteService | null>(null);
   const placesService = useRef<google.maps.places.PlacesService | null>(null);
-  const searchTimeout = useRef<number | null>(null);
+  // In Next.js/TS, setTimeout may be typed as NodeJS.Timeout instead of number.
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Load Google Maps API
   useEffect(() => {
