@@ -93,7 +93,7 @@ export const ContactArtisanModal = ({ item, isOpen, onClose, mode }: Props) => {
           onClose();
           reset();
           setFiles([]);
-          router.push(`/client/manage-jobs`);
+          router.push(`/manage-jobs`);
         },
         onError: (error: any) => {
           console.error("Errorcreatingprofile:", error);

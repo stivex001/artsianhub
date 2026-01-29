@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const BaseLayout = ({ children }: Props) => {
+const PublicLayout = ({ children }: Props) => {
   return (
     <div className="">
       <Header />
@@ -19,4 +19,4 @@ const BaseLayout = ({ children }: Props) => {
   );
 };
 
-export default BaseLayout;
+export default PublicLayout;

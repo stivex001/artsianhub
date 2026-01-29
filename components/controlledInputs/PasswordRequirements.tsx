@@ -18,6 +18,14 @@ const rules = [
 export const PasswordRequirements: React.FC<PasswordRequirementsProps> = ({
   password,
 }) => {
+  // Check if all requirements are met
+  const allRequirementsMet = rules.every((rule) => rule.test.test(password || ""));
+
+  // Hide component if all requirements are met
+  if (allRequirementsMet) {
+    return null;
+  }
+
   return (
     <div className="text-xs mt-2 space-y-1">
       {rules.map((rule, idx) => {

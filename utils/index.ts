@@ -1,5 +1,7 @@
 import { endOfDay, startOfDay } from "date-fns";
 
+export { formatCurrency } from "./formatCurrency";
+
 export enum PageTypes {
   CLIENT = "CLIENT",
   ADMIN = "ADMIN",

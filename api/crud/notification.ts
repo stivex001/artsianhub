@@ -19,12 +19,23 @@ export interface NotificationResponse {
   };
 }
 
-export const useNotification = () => {
+type UseNotificationOptions = {
+  /** When false, notification fetch is skipped (e.g. when user is not logged in). Default true. */
+  notificationsEnabled?: boolean;
+};
+
+export const useNotification = (options?: UseNotificationOptions) => {
+  const enabled = options?.notificationsEnabled ?? true;
+
   const getAllNotifications = () =>
-    useApiQuery<NotificationResponse>(["notification"], {
-      url: `/notifications`,
-      method: "GET",
-    });
+    useApiQuery<NotificationResponse>(
+      ["notification"],
+      {
+        url: `/notifications`,
+        method: "GET",
+      },
+      { enabled }
+    );
 
   const markAllNotification = useApiMutation<AuthResponse, any>({
     url: "/notifications/mark-all-read-notification",

@@ -4,8 +4,10 @@ import { MapIcon } from "../assets/icons/UsersIcon";
 import { CustomButton } from "../clickable/CustomButton";
 import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
 import { ContactArtisanModal } from "./ContactArtisanModal";
-import { useParams } from "next/navigation";
+import { LoginPromptModal } from "../shared/LoginPromptModal";
+import { useParams, usePathname } from "next/navigation";
 import { useArtisans } from "@/api/crud/artisans";
+import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { ClientInfoSkeleton } from "../loader/ClientInfoSkeleton";
@@ -14,10 +16,22 @@ type Props = {};
 
 export const ArtisanContent = ({}: Props) => {
   const params = useParams();
+  const pathname = usePathname();
   const id = params.id;
   const [isModalContactOpen, setIsModalContactOpen] = useState(false);
+  const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
+  const { accessToken } = useAuthStore();
 
   const closeModal = () => setIsModalContactOpen(false);
+  const closeLoginPrompt = () => setIsLoginPromptOpen(false);
+
+  const handleContactClick = () => {
+    if (accessToken) {
+      setIsModalContactOpen(true);
+    } else {
+      setIsLoginPromptOpen(true);
+    }
+  };
 
   const { getArtisanById } = useArtisans();
   const { data, isPending } = getArtisanById(`${id}`);
@@ -69,20 +83,33 @@ export const ArtisanContent = ({}: Props) => {
                   ${artisan?.pricePerHour}/hr
                 </div> */}
                 <CustomButton
-                  label="Contact Artisan"
+                  label="Contact Me"
                   type="button"
                   className="w-full"
-                  onClick={() => setIsModalContactOpen(true)}
+                  onClick={handleContactClick}
                 />
               </div>
             </div>
-            {data && (
+            {data && accessToken && (
               <ContactArtisanModal
                 item={data}
                 isOpen={isModalContactOpen}
                 onClose={closeModal}
               />
             )}
+            <LoginPromptModal
+              isOpen={isLoginPromptOpen}
+              onOpenChange={setIsLoginPromptOpen}
+              selectedArtisan={
+                artisan
+                  ? {
+                      name: [artisan.firstName, artisan.lastName].filter(Boolean).join(" ") || "this artisan",
+                      title: artisan.professionalTitle,
+                    }
+                  : undefined
+              }
+              redirectUrl={pathname}
+            />
           </div>
         )}
         <div className="lg:col-span-2">

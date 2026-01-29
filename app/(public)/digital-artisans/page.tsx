@@ -14,6 +14,9 @@ import digital from "@/components/assets/images/digital.jpg";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useState } from "react";
 import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
+import { Descriptions } from "@/components/shared/Headings";
+import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
+import { useArtisans } from "@/api/crud/artisans";
 
 const subCategories = [
   {
@@ -43,8 +46,12 @@ const subCategories = [
 ];
 
 export default function DigitalArtisansPage() {
+  const { getArtisanAroundMe } = useArtisans();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const { data, isPending } = getArtisanAroundMe();
+  const digital_artisan = data?.data || [];
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category);
@@ -92,12 +99,25 @@ export default function DigitalArtisansPage() {
         </div>
       </section>
 
-      {/* <FeaturesArtisan /> */}
+      <section className=" px-4 md:px-10 lg:px-20  text-center">
+        <div className="max-w-2xl mx-auto text-center mb-12">
+          <Descriptions
+            title="Featured Artisans"
+            desc=" Meet some of our top-rated artisans who consistently deliver
+                        exceptional work."
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {digital_artisan?.map((item: any) => (
+            <ArtisanCard key={item._id} artisan={item} />
+          ))}
+        </div>
+      </section>
 
       <LoginPromptModal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory}
+        selectedCategory={selectedCategory ?? undefined}
       />
     </div>
   );

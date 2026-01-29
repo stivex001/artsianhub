@@ -6,8 +6,6 @@ type Props = {
 
 export const AboutArtisan = ({ artisan }: Props) => {
 
-  console.log(artisan, "about_mee");
-  
 
   return (
     <div className="">

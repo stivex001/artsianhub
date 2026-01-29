@@ -41,8 +41,8 @@ const defaultCategories: CategoryItem[] = [
 
 export const Digital = (props: Props) => {
   const router = useRouter();
-   const handleButtonClick = () => {
-    router.push("/home/digital-artisans");
+  const handleButtonClick = () => {
+    router.push("/digital-artisans");
   };
 
   return (

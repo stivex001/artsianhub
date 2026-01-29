@@ -56,7 +56,7 @@ export const useNavigationLinks = () => {
   const aboutLinks = [
     {
       label: "About Us",
-      href: "/home/about",
+      href: "/about",
     },
     {
       label: "Careers",
@@ -68,7 +68,7 @@ export const useNavigationLinks = () => {
     },
     {
       label: "Contact",
-      href: "/home/contact-us",
+      href: "/contact-us",
     },
   ];
 
@@ -79,15 +79,15 @@ export const useNavigationLinks = () => {
     },
     {
       label: "FAQ",
-      href: "/home/faq",
+      href: "/faq",
     },
     {
       label: "Privacy Policy",
-      href: "/home/privacy",
+      href: "/privacy",
     },
     {
       label: "Terms of Service",
-      href: "/home/terms",
+      href: "/terms",
     },
     {
       label: "Join our whatsapp community",

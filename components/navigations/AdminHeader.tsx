@@ -48,7 +48,7 @@ export const AdminHeader = (props: Props) => {
     title = "Calender";
   } else if (pathname === "/artisan/dashboard/portfolio") {
     title = "Portfolio";
-  } else if (pathname === "/artisan/dashboard/subscription") {
+  } else if (pathname.startsWith("/artisan/dashboard/subscription")) {
     title = "Subscription";
   } else if (pathname === "/artisan/dashboard/settings") {
     title = "Settings";

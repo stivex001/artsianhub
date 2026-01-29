@@ -3,71 +3,55 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BrushIcon, CalendarIcon } from "lucide-react";
 import {
-  ScissorsIcon,
-  WeaverIcon,
+  Handymen,
+  Mechanic,
+  Plumbers,
+  Watchmakers,
 } from "@/components/assets/icons/FeaturedIcons";
 import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
-import creative from "@/components/assets/images/creative.jpg";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { useState } from "react";
+import carpenter from "@/components/assets/images/profession.jpg";
 import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
+import { useState } from "react";
+import { useArtisans } from "@/api/crud/artisans";
+import { Descriptions } from "@/components/shared/Headings";
+import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
 
 const subCategories = [
   {
-    id: "hairdressers",
-    title: "Hairdressers & Barbers",
-    description:
-      "Bringing confidence to life through expert styling, grooming, and creative flair.",
-    icon: <BrushIcon />,
-    link: "/creative/hairdressers",
+    id: "Plumbers",
+    title: "Plumbers & Electricians",
+    description: "Home maintenance and repair specialists.",
+    icon: <Plumbers />,
   },
   {
-    id: "tailors",
-    title: "Tailors & Fashion Designers",
-    description:
-      "Crafting unique outfits that blend tradition, creativity, and personal expression.",
-    icon: <ScissorsIcon />,
-    link: "/creative/tailors",
+    id: "Mechanics",
+    title: "Mechanics & Motorbikes Technicians",
+    description: "Car and Motorbike servicing experts.",
+    icon: <Mechanic />,
   },
   {
-    id: "event_planners",
-    title: "Event Planners & Decorators",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <CalendarIcon />,
-    link: "/creative/event-planners",
+    id: "cleaningServices",
+    title: "Cleaning Services ",
+    description: "Professional home and office cleaning.",
+    icon: <Watchmakers />,
   },
   {
-    id: "make_up",
-    title: "Make-up Artists",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/event-planners",
-  },
-  {
-    id: "chef",
-    title: "Chefs",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/event-planners",
-  },
-  {
-    id: "photgrapher",
-    title: "Photographers and Videographers",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/photographers",
+    id: "Handymen",
+    title: "Handymen & General Repair Specialists",
+    description: "Home improvement and DIY professionals..",
+    icon: <Handymen />,
   },
 ];
 
-export default function CreativeArtisansPage() {
+export default function SkilledArtisansPage() {
+  const { getArtisanAroundMe } = useArtisans();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const { data, isPending } = getArtisanAroundMe();
+  const skilled_artisan = data?.data || [];
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category);
@@ -78,7 +62,7 @@ export default function CreativeArtisansPage() {
       <section className="relative min-h-[60vh] md:min-h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 md:px-10 lg:px-20 bg-[#EFF6FF]">
         <div className="absolute inset-0">
           <Image
-            src={creative}
+            src={carpenter}
             alt="Industrial welding with sparks and machinery"
             className="w-full h-full object-cover object-top"
             fill
@@ -88,15 +72,14 @@ export default function CreativeArtisansPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
       </section>
 
-      {/* Subcategory Section */}
       <section
         id="categories"
         className="py-12 md:py-20 px-4 md:px-10 lg:px-20"
       >
         <h2 className="text-3xl font-semibold text-center mb-8 md:mb-12">
-          Explore Creative Categories
+          Explore Pro Categories
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {subCategories.map((cat) => (
             <div
               key={cat?.id}
@@ -114,13 +97,25 @@ export default function CreativeArtisansPage() {
           ))}
         </div>
       </section>
-
-      {/* <FeaturesArtisan /> */}
+      <section className=" px-4 md:px-10 lg:px-20  text-center">
+        <div className="max-w-2xl mx-auto text-center mb-12">
+          <Descriptions
+            title="Featured Artisans"
+            desc=" Meet some of our top-rated artisans who consistently deliver
+                        exceptional work."
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {skilled_artisan?.map((item: any) => (
+            <ArtisanCard key={item._id} artisan={item} />
+          ))}
+        </div>
+      </section>
 
       <LoginPromptModal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory}
+        selectedCategory={selectedCategory ?? undefined}
       />
     </div>
   );

@@ -14,7 +14,7 @@ export const ArtisanCard = ({ artisan }: Props) => {
   return (
     <div
       key={artisan?._id}
-      onClick={() => router.push(`/client/artisan-details/${artisan?._id}`)}
+      onClick={() => router.push(`/artisan-details/${artisan?._id}`)}
       className="bg-white rounded-3xl pt-2 px-2 pb-5 hover:shadow-shadowHover transition overflow-hidden text-left cursor-pointer"
     >
       <div className="relative mb-3">
