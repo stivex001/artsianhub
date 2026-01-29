@@ -5,7 +5,7 @@ import { CustomButton } from "../clickable/CustomButton";
 import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
 import { ContactArtisanModal } from "./ContactArtisanModal";
 import { LoginPromptModal } from "../shared/LoginPromptModal";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import { useArtisans } from "@/api/crud/artisans";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
@@ -16,6 +16,7 @@ type Props = {};
 
 export const ArtisanContent = ({}: Props) => {
   const params = useParams();
+  const pathname = usePathname();
   const id = params.id;
   const [isModalContactOpen, setIsModalContactOpen] = useState(false);
   const [isLoginPromptOpen, setIsLoginPromptOpen] = useState(false);
@@ -82,7 +83,7 @@ export const ArtisanContent = ({}: Props) => {
                   ${artisan?.pricePerHour}/hr
                 </div> */}
                 <CustomButton
-                  label="Contact Artisan"
+                  label="Contact Me"
                   type="button"
                   className="w-full"
                   onClick={handleContactClick}
@@ -99,6 +100,15 @@ export const ArtisanContent = ({}: Props) => {
             <LoginPromptModal
               isOpen={isLoginPromptOpen}
               onOpenChange={setIsLoginPromptOpen}
+              selectedArtisan={
+                artisan
+                  ? {
+                      name: [artisan.firstName, artisan.lastName].filter(Boolean).join(" ") || "this artisan",
+                      title: artisan.professionalTitle,
+                    }
+                  : undefined
+              }
+              redirectUrl={pathname}
             />
           </div>
         )}

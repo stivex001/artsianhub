@@ -1,4 +1,4 @@
-import { ClientNav } from "@/components/Client/ClientNav";
+import { Header } from "@/components/navigations/Header";
 import React, { ReactNode } from "react";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 const SettingsLayout = ({ children }: Props) => {
   return (
     <div className="bg-[#f9f9fb]">
-      <ClientNav brandlogo className="!bg-[#f9f9fb]" />
+      <Header brandlogo className="!bg-[#f9f9fb] fixed top-0 left-0 right-0 z-50" logoHref="/client" />
       <div className="pt-28">
         <div className="min-h-screen flex flex-col gap-5 ">{children}</div>
       </div>

@@ -9,9 +9,11 @@ import { usePathname, useRouter } from "next/navigation";
 
 type Props = {
   brandlogo?: boolean;
+  /** Called when profile dropdown closes (e.g. so parent mobile menu can close) */
+  onParentClose?: () => void;
 };
 
-export const UserProfile = ({ brandlogo }: Props) => {
+export const UserProfile = ({ brandlogo, onParentClose }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,10 +36,11 @@ export const UserProfile = ({ brandlogo }: Props) => {
 
   const closeDropdown = () => {
     setIsDropdownOpen(false);
+    onParentClose?.();
   };
 
   const handleMenuItemClick = (action: string) => {
-    router.push(`/client/${action}`);
+    router.push(`/${action}`);
     closeDropdown();
     // Handle navigation or actions here
   };

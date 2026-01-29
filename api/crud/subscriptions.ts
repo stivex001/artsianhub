@@ -115,6 +115,14 @@ export const useSubscriptions = () => {
     });
   };
 
+  /** Sync subscription from Stripe after successful payment redirect. Call on success callback page. */
+  const syncSubscription = () => {
+    return useApiMutation<{ message: string; data: SubscriptionStatus }, void>({
+      url: "/subscriptions/sync",
+      method: "POST",
+    });
+  };
+
   return {
     getPlans,
     getStatus,
@@ -122,5 +130,6 @@ export const useSubscriptions = () => {
     createCheckout,
     cancelSubscription,
     reactivateSubscription,
+    syncSubscription,
   };
 };

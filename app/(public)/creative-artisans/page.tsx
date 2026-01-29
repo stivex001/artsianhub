@@ -71,7 +71,7 @@ const subCategories = [
 export default function CreativeArtisansPage() {
   const { getArtisanAroundMe } = useArtisans();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<{ title?: string } | null>(null);
 
   const { data, isPending } = getArtisanAroundMe();
   const creative_artisan = data?.data || [];
@@ -139,7 +139,7 @@ export default function CreativeArtisansPage() {
       <LoginPromptModal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory}
+        selectedCategory={selectedCategory ?? undefined}
       />
     </div>
   );

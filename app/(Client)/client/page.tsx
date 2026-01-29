@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ClientNav } from "@/components/Client/ClientNav";
+import { Header } from "@/components/navigations/Header";
 import { ClientHero } from "@/components/Client/ClientHero";
 import Footer from "@/components/navigations/Footer";
 import { ArtisanAroundYou } from "@/components/Client/ArtisanAroundYou";
@@ -55,7 +55,7 @@ const ClientPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ClientNav />
+      <Header className="fixed top-0 left-0 right-0 z-50 bg-transparent" logoHref="/client" brandlogo={false} />
 
       <ClientHero
         defaultLocation={filters.city}

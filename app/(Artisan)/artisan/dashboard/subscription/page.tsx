@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
@@ -8,6 +8,7 @@ import { useSubscriptions } from "@/api/crud/subscriptions";
 import { Check, Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {};
@@ -17,10 +18,11 @@ const SubscriptionPage = (props: Props) => {
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [processingPlanId, setProcessingPlanId] = useState<string | null>(null);
   
-  const { getPlans, getStatus, createCheckout } = useSubscriptions();
+  const { getPlans, getStatus, createCheckout, syncSubscription } = useSubscriptions();
   const { data: plansData, isLoading: plansLoading } = getPlans();
   const { data: statusData, isLoading: statusLoading, refetch: refetchStatus } = getStatus();
   const { mutate: createCheckoutSession, isPending: isCheckoutPending } = createCheckout();
+  const { mutateAsync: syncSubscriptionMutation } = syncSubscription();
 
   const plans = plansData?.data || [];
   const subscriptionStatus = statusData?.data;
@@ -50,24 +52,33 @@ const SubscriptionPage = (props: Props) => {
     );
   };
 
-  // Check for success parameter and session_id
+  // On success redirect: sync subscription with backend, then refetch and clean URL
+  const hasHandledSuccess = useRef(false);
   React.useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const success = urlParams.get("success");
     const sessionId = urlParams.get("session_id");
-    
-    if (success === "true" && sessionId) {
-      // toast.success("Subscription activated! Your profile is now visible to clients.");
-      refetchStatus();
-      // Clean up URL - remove query params
+
+    if (success !== "true" || hasHandledSuccess.current) return;
+    hasHandledSuccess.current = true;
+
+    const run = async () => {
+      if (sessionId) {
+        try {
+          await syncSubscriptionMutation();
+          toast.success("Subscription activated! Your profile is now visible to clients.");
+        } catch (err: any) {
+          toast.error(err?.data?.error || "Failed to sync subscription. Status may update shortly.");
+        }
+      } else {
+        toast.error("Unable to verify subscription. Please check your subscription status.");
+      }
+      await refetchStatus();
       router.replace("/artisan/dashboard/subscription");
-    } else if (success === "true" && !sessionId) {
-      // If success but no session_id, something went wrong
-      toast.error("Unable to verify subscription. Please check your subscription status.");
-      refetchStatus();
-      router.replace("/artisan/dashboard/subscription");
-    }
-  }, [refetchStatus, router]);
+    };
+
+    run();
+  }, [syncSubscriptionMutation, refetchStatus, router]);
 
   return (
     <section className="flex flex-col gap-5">
@@ -76,50 +87,52 @@ const SubscriptionPage = (props: Props) => {
         desc="Subscribe to become visible in the marketplace and start receiving appointment requests"
       />
 
-      {/* Current Subscription Status */}
+      {/* Current Subscription Status - clickable to open history */}
       {!statusLoading && subscriptionStatus && (
-        <Wrapper className="border-l-4 border-l-primary">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div className="flex items-start gap-3">
-              {subscriptionStatus.isActive ? (
-                <Check className="text-green-600 mt-0.5" size={20} />
-              ) : (
-                <AlertCircle className="text-yellow-600 mt-0.5" size={20} />
-              )}
-              <div>
-                <h3 className="text-base font-semibold text-gray-900 mb-1">
-                  {subscriptionStatus.isActive
-                    ? "Active Subscription"
-                    : "No Active Subscription"}
-                </h3>
+        <Link href="/artisan/dashboard/subscription/history" className="block">
+          <Wrapper className="border-l-4 border-l-primary cursor-pointer hover:bg-gray-50/50 transition-colors">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
                 {subscriptionStatus.isActive ? (
-                  <div className="text-sm text-gray-700 space-y-1">
-                    <p>
-                      Plan: <span className="font-medium capitalize">{subscriptionStatus.planType}</span>
-                    </p>
-                    {subscriptionStatus.currentPeriodEnd && (
-                      <p>
-                        Renews:{" "}
-                        <span className="font-medium">
-                          {new Date(subscriptionStatus.currentPeriodEnd).toLocaleDateString()}
-                        </span>
-                      </p>
-                    )}
-                    {subscriptionStatus.cancelAtPeriodEnd && (
-                      <p className="text-yellow-600 font-medium">
-                        Will cancel at period end
-                      </p>
-                    )}
-                  </div>
+                  <Check className="text-green-600 mt-0.5" size={20} />
                 ) : (
-                  <p className="text-sm text-gray-700">
-                    Your profile is not visible to clients. Subscribe to start receiving requests.
-                  </p>
+                  <AlertCircle className="text-yellow-600 mt-0.5" size={20} />
                 )}
+                <div>
+                  <h3 className="text-base font-semibold text-gray-900 mb-1">
+                    {subscriptionStatus.isActive
+                      ? "Active Subscription"
+                      : "No Active Subscription"}
+                  </h3>
+                  {subscriptionStatus.isActive ? (
+                    <div className="text-sm text-gray-700 space-y-1">
+                      <p>
+                        Plan: <span className="font-medium capitalize">{subscriptionStatus.planType}</span>
+                      </p>
+                      {subscriptionStatus.currentPeriodEnd && (
+                        <p>
+                          Renews:{" "}
+                          <span className="font-medium">
+                            {new Date(subscriptionStatus.currentPeriodEnd).toLocaleDateString()}
+                          </span>
+                        </p>
+                      )}
+                      {subscriptionStatus.cancelAtPeriodEnd && (
+                        <p className="text-yellow-600 font-medium">
+                          Will cancel at period end
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-700">
+                      Your profile is not visible to clients. Subscribe to start receiving requests.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </Wrapper>
+          </Wrapper>
+        </Link>
       )}
 
       {/* Subscription Plans */}

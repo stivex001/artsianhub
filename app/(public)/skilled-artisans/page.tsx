@@ -115,7 +115,7 @@ export default function SkilledArtisansPage() {
       <LoginPromptModal
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory}
+        selectedCategory={selectedCategory ?? undefined}
       />
     </div>
   );
