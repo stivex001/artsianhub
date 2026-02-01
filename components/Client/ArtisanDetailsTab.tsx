@@ -10,19 +10,15 @@ import { useArtisans } from "@/api/crud/artisans";
 type Props = {};
 
 export const ArtisanDetailsTab = (props: Props) => {
-  const [activeTab, setActiveTab] = useState<"about" | "portfolio" | "rating">(
-    "about"
-  );
-
   const params = useParams();
   const id = params.id;
   const { getArtisanById } = useArtisans();
   const { data, isPending } = getArtisanById(`${id}`);
 
-    const artisan = data?.data;
+  const artisan = data?.data;
 
   return (
-    <Tabs defaultValue={activeTab} className="flex flex-col gap-6">
+    <Tabs defaultValue="about" className="flex flex-col gap-6">
       <TabsList className="flex items-center justify-start">
         <TabsTrigger
           value="about"

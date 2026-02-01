@@ -78,7 +78,7 @@ export const ArtisanAroundYou = ({
           {!isPending && artisans.length > 0 && (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {artisans?.map((item:any) => (
+                {artisans?.map((item: any) => (
                   <ArtisanCard key={item._id} artisan={item} showDate />
                 ))}
               </div>

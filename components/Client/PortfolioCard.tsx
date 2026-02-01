@@ -21,7 +21,7 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
 
   const closeModal = () => setIsModalOpen(false);
   const artisanPage = pathname.startsWith("/artisan");
-  const clientPage = pathname.startsWith("/client");
+  const clientPage = pathname.startsWith("/");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -36,7 +36,7 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
   const handleClick = () => {
     if (isMobile && clientPage) {
       router.push(
-        `/client/artisan-details/portfolio-details?artisanId=${artisanId}&id=${item?._id}`
+        `/artisan-details/portfolio-details?artisanId=${artisanId}&id=${item?._id}`
       );
     } else if (artisanPage) {
       router.push(`/artisan/dashboard/portfolio/${item?._id}`);
