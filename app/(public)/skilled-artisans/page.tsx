@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useArtisans } from "@/api/crud/artisans";
 import { Descriptions } from "@/components/shared/Headings";
 import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
+import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
 
 const subCategories = [
   {
@@ -106,9 +107,13 @@ export default function SkilledArtisansPage() {
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {skilled_artisan?.map((item: any) => (
-            <ArtisanCard key={item._id} artisan={item} />
-          ))}
+          {isPending
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <CardSkeletonLoader key={i} />
+              ))
+            : skilled_artisan?.map((item: any) => (
+                <ArtisanCard key={item._id} artisan={item} />
+              ))}
         </div>
       </section>
 

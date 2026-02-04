@@ -58,7 +58,7 @@ const LoginContent = (props: Props) => {
     } else if (role === "artisan") {
       router.replace("/artisan/dashboard");
     } else if (role === "client") {
-      router.replace("/client");
+      router.replace("/");
     } else {
       console.log("Role not recognized. Please contact support.");
       router.replace("/auth/login");

@@ -44,7 +44,7 @@ const fields: Field[] = [
     type: "text",
     errorMessage: "Country is required",
   },
-   {
+  {
     name: "state",
     type: "text",
     errorMessage: "State is required",
@@ -250,7 +250,7 @@ export const ClientProfileSetup = (props: Props) => {
           label="Proceed"
           className="w-full rounded-xl"
           variant="primary"
-          onClick={() => router.push(`/client`)}
+          onClick={() => router.push(`/`)}
         />
       </CustomModal>
     </ProfileSetupLayout>

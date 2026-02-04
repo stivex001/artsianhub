@@ -19,23 +19,39 @@ const artisanFaqs = [
   },
   {
     q: "Do I need to pay to join?",
-    a: "No, joining is free. However, you can upgrade to premium plans for added benefits like increased visibility, priority listing, and promotional features.",
+    a: "Yes. ArtisansHub is a professional marketplace designed for serious artisans who want real clients — not just exposure.You can get started with our £1 trial for 30 days, giving you full access to create your profile, showcase your work, and start receiving enquiries.After the trial, your subscription continues at £9 per month to keep your profile visible and your business growing.We don’t offer free listings because clients trust platforms that feature committed professionals.Start your £1 trial today and get discovered.",
   },
   {
-    q: "How do I get customers?",
-    a: "Customers search based on location and skills. If your profile matches their needs, they can contact you directly. Good reviews and ratings will further boost your chances of getting hired.",
+    q: "Why isn’t ArtisansHub free?",
+    a: "Free platforms often attract incomplete profiles and low-quality listings, making it harder for serious artisans to stand out. Our small subscription ensures Higher-quality professionals More serious client enquiries Less competition from inactive profiles A trusted marketplace Think of it as a small investment in your business visibility.",
   },
   {
-    q: "Can I sell products as an artisan?",
-    a: "Yes. You can list and sell ready-made items (e.g., furniture, crafts, fashion products) through the ArtisansHub eStore.",
+    q: "What do I get with my subscription?",
+    a: "Your membership includes:✔ A professional public profile ✔ Visibility in local search ✔ Direct client enquiries ✔ Portfolio uploads ✔ Reviews to build trust ✔ Ongoing platform promotion Everything is designed to help you attract more clients.",
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. There are no long-term contracts. You can cancel whenever you choose — but most artisans stay because the visibility and enquiries make it worthwhile.",
+  },
+  {
+    q: "How quickly can I start getting clients?",
+    a: "As soon as your profile is live, clients searching in your area can find and contact you.The more complete and professional your profile is, the higher your chances of receiving enquiries.",
+  },
+  {
+    q: "Is ArtisansHub only for established artisans?",
+    a: "No — we welcome both experienced professionals and emerging talent. If you are confident in your skill and ready for real opportunities, ArtisansHub is built for you.",
+  },
+  {
+    q: "Who can join ArtisansHub?",
+    a: "We accept artisans across multiple categories, including Fashion & tailoring Beauty & wellness Catering & baking Crafts & handmade goods Creative services Home improvement Digital services If you have a skill people need — you belong here.",
   },
   {
     q: "How will I get paid?",
     a: "Currently, customers pay you directly. Secure online payment solutions are being integrated for safer and faster transactions.",
   },
   {
-    q: "Does ArtisansHub provide training?",
-    a: "Yes. You will have access to training, grants, and resources designed to help you improve your craft and expand your business.",
+    q: "Why should I join now?",
+    a: "Early artisans benefit from ⭐ Less competition ⭐ Higher visibility ⭐ Stronger local recognition ⭐ First access to clients Joining early positions you ahead of others.",
   },
   {
     q: "Is my profile verified?",

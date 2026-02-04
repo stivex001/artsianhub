@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono, Inter } from "next/font/google";
+// import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
@@ -10,20 +10,15 @@ import ScrollToTop from "@/components/navigations/ScrollToTop";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
 
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
-
 // const inter = Inter({
-//   variable: "--font-inter-sans",
 //   subsets: ["latin"],
+//   weight: ["100", "200", "300", "400", "500", "600", "700"],
 // });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 const satoshi = localFont({
   src: [
