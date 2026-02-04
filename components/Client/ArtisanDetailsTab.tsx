@@ -44,7 +44,7 @@ export const ArtisanDetailsTab = (props: Props) => {
         <AboutArtisan artisan={artisan} />
       </TabsContent>
       <TabsContent value="portfolio" className="w-full">
-        <ArtisanPortfolio id={id} />
+        <ArtisanPortfolio id={artisan?._id} />
       </TabsContent>
       <TabsContent value="rating" className="w-full">
         <ArtisanRating artisanId={artisan?._id} />

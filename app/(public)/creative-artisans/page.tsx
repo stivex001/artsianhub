@@ -1,21 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { BrushIcon, CalendarIcon } from "lucide-react";
 import {
   ScissorsIcon,
   WeaverIcon,
 } from "@/components/assets/icons/FeaturedIcons";
-import { FeaturesArtisan } from "@/components/pages/landingPage/FeaturesArtisan";
 import creative from "@/components/assets/images/creative.jpg";
-import { CustomButton } from "@/components/clickable/CustomButton";
 import { useState } from "react";
 import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
 import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
 import { useArtisans } from "@/api/crud/artisans";
 import { Descriptions } from "@/components/shared/Headings";
+import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
 
 const subCategories = [
   {
@@ -71,7 +68,9 @@ const subCategories = [
 export default function CreativeArtisansPage() {
   const { getArtisanAroundMe } = useArtisans();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<{ title?: string } | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<{
+    title?: string;
+  } | null>(null);
 
   const { data, isPending } = getArtisanAroundMe();
   const creative_artisan = data?.data || [];
@@ -130,9 +129,13 @@ export default function CreativeArtisansPage() {
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {creative_artisan?.map((item: any) => (
-            <ArtisanCard key={item._id} artisan={item} />
-          ))}
+          {isPending
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <CardSkeletonLoader key={i} />
+              ))
+            : creative_artisan?.map((item: any) => (
+                <ArtisanCard key={item._id} artisan={item} />
+              ))}
         </div>
       </section>
 
