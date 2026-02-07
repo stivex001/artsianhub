@@ -43,7 +43,7 @@ export const ReviewModal = ({
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
-    {}
+    {},
   );
 
   const { isValid } = formState;
@@ -71,7 +71,6 @@ export const ReviewModal = ({
         onClose();
       },
       onError: (error: any) => {
-        console.log(error, "err_reviw");
         toast.error(error?.data?.error);
       },
     });

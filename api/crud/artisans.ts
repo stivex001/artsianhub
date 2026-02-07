@@ -88,6 +88,7 @@ export interface GetSingleArtisan {
     primaryLocation: string;
     serviceType: string[];
     serviceCategories: string[];
+    subCategories: string[];
     workingDaysAndHours: [];
     description: string;
     pricePerHour: number;

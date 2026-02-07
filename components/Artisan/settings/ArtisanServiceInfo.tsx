@@ -10,6 +10,7 @@ import React from "react";
 import { useCategories } from "@/api/crud/categories";
 import { useArtisans } from "@/api/crud/artisans";
 import { toast } from "sonner";
+import { useCategorySelector } from "@/hooks/useCategorySelector";
 
 type Props = {};
 
@@ -24,12 +25,13 @@ const fields: Field[] = [
     type: "text",
   },
   {
-    name: "serviceCategories",
+    name: "subCategories",
     type: "multiselect",
   },
 ];
 
 export const ArtisanServiceInfo = (props: Props) => {
+  const { subCategoryOptions } = useCategorySelector();
   const { updateArtisanProfile, getMyProfile } = useArtisans();
   const { data: profile, refetch } = getMyProfile();
   const personalInfo = profile?.data;
@@ -37,42 +39,30 @@ export const ArtisanServiceInfo = (props: Props) => {
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      serviceCategories:
-        personalInfo?.serviceCategories?.map((cat: any) => cat?._id) || [],
+      subCategories:
+        personalInfo?.subCategories?.map((cat: any) => cat?._id) || [],
       professionalTitle: personalInfo?.professionalTitle,
       skillDescription: personalInfo?.skillDescription,
-    }
+    },
   );
-
-  const { getAllCategories } = useCategories();
-
-  const { data: category } = getAllCategories();
-
-  const categoryOptions = Array.isArray(category)
-    ? category?.map((cat) => ({
-        id: cat?._id,
-        value: cat?._id,
-        label: cat?.name,
-      }))
-    : [];
 
   const { mutate: updatePersonalInfo, isPending } = updateArtisanProfile;
 
   const handleEditProfileInfo = async (data: any) => {
     const formData = new FormData();
 
-    const safeServiceCategory = Array.isArray(data?.serviceCategories)
-      ? data.serviceCategories
-      : typeof data?.serviceCategories === "string"
-      ? data.serviceCategories.split(",")
-      : [];
+    const safeServiceCategory = Array.isArray(data?.subCategories)
+      ? data.subCategories
+      : typeof data?.subCategories === "string"
+        ? data.subCategories.split(",")
+        : [];
 
     try {
       // Append form values
       formData.append("professionalTitle", data.professionalTitle);
       formData.append("skillDescription", data.skillDescription);
 
-      formData.append("serviceCategories", JSON.stringify(safeServiceCategory));
+      formData.append("subCategories", JSON.stringify(safeServiceCategory));
 
       updatePersonalInfo(formData, {
         onSuccess: (response: any) => {
@@ -99,9 +89,9 @@ export const ArtisanServiceInfo = (props: Props) => {
 
       <div className="flex flex-col gap-5">
         <ControlledSelect
-          name="serviceCategories"
+          name="subCategories"
           label="Service Category"
-          options={categoryOptions}
+          options={subCategoryOptions}
           control={control}
           variant="primary"
           placeholder="Select Service Category"
