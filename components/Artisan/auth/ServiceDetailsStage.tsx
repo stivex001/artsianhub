@@ -40,7 +40,7 @@ export const ServiceDetailsStage = () => {
     updateServiceDetails,
   } = useArtisanProfileStore();
 
-  const { categoryOptions } = useCategorySelector();
+  const { subCategoryOptions } = useCategorySelector();
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
@@ -51,7 +51,7 @@ export const ServiceDetailsStage = () => {
     }
   );
 
-  const { isValid, errors } = formState;
+  const { isValid } = formState;
 
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
@@ -88,7 +88,7 @@ export const ServiceDetailsStage = () => {
           <ControlledSelect
             name="serviceCategories"
             label="Service Category"
-            options={categoryOptions}
+            options={subCategoryOptions}
             control={control}
             variant="primary"
             placeholder="Select Service Category"

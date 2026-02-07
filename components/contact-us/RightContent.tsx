@@ -12,22 +12,41 @@ import { Controller } from "react-hook-form";
 type Props = {};
 
 const fields: Field[] = [
-  { name: "name", type: "text", errorMessage: "Name is required", isRequired: true },
-  { name: "email", type: "email", errorMessage: "Email is required", isRequired: true },
-  { name: "phone", type: "text", errorMessage: "Phone Number is required", isRequired: true },
-  { name: "message", type: "text", errorMessage: "Message is required", isRequired: true },
+  {
+    name: "name",
+    type: "text",
+    errorMessage: "Name is required",
+    isRequired: true,
+  },
+  {
+    name: "email",
+    type: "email",
+    errorMessage: "Email is required",
+    isRequired: true,
+  },
+  {
+    name: "phone",
+    type: "text",
+    errorMessage: "Phone Number is required",
+    isRequired: true,
+  },
+  {
+    name: "message",
+    type: "text",
+    errorMessage: "Message is required",
+    isRequired: true,
+  },
   { name: "mode", type: "string", errorMessage: "Preferred mode is required" },
 ];
 
 export const RightContent = (props: Props) => {
   const router = useRouter();
   const { control, handleSubmit, formState } = useDynamicForm(fields, {
-    mode: "email", 
+    mode: "email",
   });
 
-  const {errors} = formState
-  console.log(errors, "err_");
-  
+  const { errors } = formState;
+
   const { createContactUs } = useContactUs();
   const { isPending, mutateAsync } = createContactUs;
 
@@ -49,7 +68,9 @@ export const RightContent = (props: Props) => {
 
   return (
     <div className="bg-white rounded-3xl shadow-cardShadow p-12">
-      <h2 className="text-2xl font-bold text-paragrah mb-6">Send us a Message</h2>
+      <h2 className="text-2xl font-bold text-paragrah mb-6">
+        Send us a Message
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <ControlledInput
