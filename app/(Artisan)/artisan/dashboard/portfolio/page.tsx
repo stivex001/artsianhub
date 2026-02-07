@@ -4,13 +4,13 @@ import { useServices } from "@/api/crud/services";
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
 import { AddIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { PortfolioCard } from "@/components/Client/PortfolioCard";
 import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
 import { Descriptions } from "@/components/shared/Headings";
 import { useAuthStore } from "@/store/authStore";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FolderPlus } from "lucide-react";
+import { PortfolioCard } from "@/components/Client/PortfolioCard";
 
 const Portfolio = () => {
   const [isModalProjectOpen, setIsModalProjectOpen] = useState(false);
@@ -77,8 +77,8 @@ const Portfolio = () => {
               transition={{ delay: 0.3 }}
               className="mt-3 max-w-md text-gray-500"
             >
-              You haven’t added any projects to your portfolio.  
-              Add your first one to showcase your skills and experience.
+              You haven’t added any projects to your portfolio. Add your first
+              one to showcase your skills and experience.
             </motion.p>
 
             <motion.div

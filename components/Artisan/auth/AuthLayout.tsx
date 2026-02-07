@@ -2,7 +2,7 @@
 import Image, { StaticImageData } from "next/image";
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import logo from "@/components/assets/images/nw.png";
+import logo from "@/components/assets/images/newA.png";
 
 type Props = {
   children: ReactNode;

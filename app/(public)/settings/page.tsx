@@ -2,7 +2,10 @@
 
 import React, { useState } from "react";
 import { ProfileIcon } from "@/components/assets/icons/UsersIcon";
-import { CalenderIcon, SecurityIcon } from "@/components/assets/icons/LinksIcon";
+import {
+  CalenderIcon,
+  SecurityIcon,
+} from "@/components/assets/icons/LinksIcon";
 import { PersonalInfo } from "@/components/Client/settings/PersonalInfo";
 import { Preference } from "@/components/Client/settings/Preference";
 import { Security } from "@/components/Client/settings/Security";
@@ -31,7 +34,6 @@ const ClientSettings = () => {
 
   return (
     <div className="min-h-screen bg-white py-5">
-  
       <div className="flex overflow-x-auto border-b border-gray-200">
         {tabs.map((tab) => {
           const Icon = tab.icon;

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import logo from "@/components/assets/images/n.png";
-import hub from "@/components/assets/images/nw.png";
+import hub from "@/components/assets/images/newA.png";
 import hubn from "@/components/assets/images/n.png";
 import { CustomButton } from "../clickable/CustomButton";
 import { MobileHeader } from "./MobileHeader";
@@ -22,7 +22,7 @@ export type NavLink = {
 
 export const navLinks: NavLink[] = [
   { id: "home", label: "Home", href: "/" },
-  { id: "findArtisan", label: "Find Artisans" },
+  { id: "findArtisan", label: "Find Artisans", href: "/#findArtisan" },
   { id: "about", label: "About", href: "/about" },
   { id: "learn", label: "Learn Skills", href: "/learn-skills" },
 ];
@@ -81,11 +81,11 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
   }, []);
 
   const logoSrc = brandlogo === true ? hubn : brandlogo === false ? hub : logo;
-  const headerClassName = className ?? "bg-white h-24 w-full";
+  const headerClassName = className ?? "bg-white h-24 lg:h-20 w-full";
 
   return (
     <header className={headerClassName}>
-      <div className="max-w-6xl mx-auto flex items-center justify-between py-5 px-4 md:max-w-7xl">
+      <div className="max-w-7xl mx-auto flex items-center justify-between py-5 px-4">
         <Link
           href={logoHref}
           onClick={() => logoHref === "/" && handleScrollTo("home")}
@@ -105,13 +105,34 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
               "transition text-lightp font-medium text-base hover:text-primary";
             const activeClasses = isActive ? "text-primary" : "";
 
+            const handleClick = (e: React.MouseEvent) => {
+              setIsMenuOpen(false);
+              if (link.href?.startsWith("/#")) {
+                const id = link.href.split("#")[1];
+                const element = document.getElementById(id);
+                if (element) {
+                  e.preventDefault();
+                  handleScrollTo(id);
+                }
+              } else if (
+                link.href === "/" &&
+                window.location.pathname === "/"
+              ) {
+                const element = document.getElementById("home");
+                if (element) {
+                  e.preventDefault();
+                  handleScrollTo("home");
+                }
+              }
+            };
+
             if (link.href) {
               return (
                 <Link
                   key={link.id}
                   href={link.href}
                   className={`${baseClasses} ${activeClasses}`}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={handleClick}
                 >
                   {link.label}
                 </Link>

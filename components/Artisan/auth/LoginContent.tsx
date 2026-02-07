@@ -68,7 +68,7 @@ const LoginContent = (props: Props) => {
   // If already logged in and no redirect param, send them to role dashboard
   useEffect(() => {
     if (accessToken && currentUser && !redirect) {
-      redirectByRole(currentUser.role);
+      redirectByRole(currentUser?.role);
     }
   }, [accessToken, currentUser, redirect]);
 
