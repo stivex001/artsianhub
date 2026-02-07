@@ -6,7 +6,7 @@ import { useNavigationLinks } from "../data/links";
 import { FooterLinks } from "./FooterLinks";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import footerbg from "@/components/assets/images/nw.png";
+import footerbg from "@/components/assets/images/newA.png";
 import Link from "next/link";
 
 const Footer = () => {
@@ -38,7 +38,11 @@ const Footer = () => {
       <Container className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-12">
         <div className="space-y-6">
           <Link href="/" className="">
-            <Image src={footerbg} alt="our logo" className="w-36 h-20" />
+            <Image
+              src={footerbg}
+              alt="our logo"
+              className="w-40 h-24 object-cover"
+            />
           </Link>
           <h3 className="text-base text-placeholderText">
             Connecting skilled artisans with customers worldwide. Discover,
@@ -68,7 +72,7 @@ const Footer = () => {
       </Container>
       <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row lg:items-center justify-between gap-5 border-t border-[#1F2937] pt-8">
         <p className="text-sm text-[#9CA3AF]">
-          © 2025 ArtisansHub.org. All rights reserved.
+          © {new Date().getFullYear()} ArtisansHub.org. All rights reserved.
         </p>
         <div className="flex flex-col md:flex-row lg:items-center gap-x-6 gap-y-5">
           <Link href="/privacy" className="text-sm text-[#9CA3AF]">

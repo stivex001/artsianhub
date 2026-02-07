@@ -14,8 +14,9 @@ export default function ForbiddenPage() {
     if (isLoggedIn) {
       // send them to their dashboard based on role
       if (currentUser?.role === "admin") router.push("/admin/dashboard");
-      else if (currentUser?.role === "artisan") router.push("/artisan/dashboard");
-      else if (currentUser?.role === "client") router.push("/client");
+      else if (currentUser?.role === "artisan")
+        router.push("/artisan/dashboard");
+      else if (currentUser?.role === "client") router.push("/");
       else router.push("/");
     } else {
       router.push("/");

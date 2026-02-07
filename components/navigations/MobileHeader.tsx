@@ -17,7 +17,12 @@ type Props = {
   brandlogo?: boolean;
 };
 
-export const MobileHeader = ({ handleScrollTo, activeSection, isLoggedIn, brandlogo }: Props) => {
+export const MobileHeader = ({
+  handleScrollTo,
+  activeSection,
+  isLoggedIn,
+  brandlogo,
+}: Props) => {
   const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -103,6 +108,20 @@ export const MobileHeader = ({ handleScrollTo, activeSection, isLoggedIn, brandl
                 const handleClick = () => {
                   closeDropdown();
 
+                  if (link.href?.startsWith("/#")) {
+                    const id = link.href.split("#")[1];
+                    const element = document.getElementById(id);
+                    if (element) {
+                      handleScrollTo?.(id);
+                      return;
+                    }
+                  }
+
+                  if (link.href === "/" && window.location.pathname === "/") {
+                    handleScrollTo?.("home");
+                    return;
+                  }
+
                   if (link.href) {
                     setTimeout(() => router.push(link.href!), 100);
                     return;
@@ -133,10 +152,7 @@ export const MobileHeader = ({ handleScrollTo, activeSection, isLoggedIn, brandl
 
             <div className="flex flex-col gap-3">
               {isLoggedIn ? (
-                <div
-                  className="relative"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <div className="relative" onClick={(e) => e.stopPropagation()}>
                   <UserProfile
                     brandlogo={brandlogo}
                     onParentClose={closeDropdown}

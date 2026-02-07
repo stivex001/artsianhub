@@ -19,7 +19,7 @@ const ProfileSetupLayout = ({ children, title, desc, art, role }: Props) => {
     <div className="lg:px-6 py-6  flex h-screen overflow-hidden">
       <div className="hidden lg:flex flex-col justify-center bg-[#f9f9fb]  lg:w-1/2 relative rounded-3xl p-8 z-10">
         <Link
-          href={role === "client" ? "/client" : "/artisan/dashboard"}
+          href={role === "client" ? "/" : "/artisan/dashboard"}
           className="absolute top-8 left-8 w-36 h-20"
         >
           <Image

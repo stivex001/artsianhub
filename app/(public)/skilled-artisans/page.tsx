@@ -18,8 +18,10 @@ import { useArtisans } from "@/api/crud/artisans";
 import { Descriptions } from "@/components/shared/Headings";
 import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
 import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
+import { useSearchParams } from "next/navigation";
+import { useCategories } from "@/api/crud/categories";
 
-const subCategories = [
+const dummySubCategories = [
   {
     id: "Plumbers",
     title: "Plumbers & Electricians",
@@ -47,7 +49,16 @@ const subCategories = [
 ];
 
 export default function SkilledArtisansPage() {
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get("categoryId");
+
   const { getArtisanAroundMe } = useArtisans();
+  const { getSubCategoryByCategoryId } = useCategories();
+
+  const { data: subCat, isPending: subPending } = getSubCategoryByCategoryId(
+    categoryId || "",
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -58,6 +69,31 @@ export default function SkilledArtisansPage() {
     setSelectedCategory(category);
     setIsModalOpen(true);
   };
+
+  const subCatList = Array.isArray(subCat)
+    ? subCat
+    : (subCat as any)?.data || [];
+
+  const transformedSubCategories = subCatList.map((backendSub: any) => {
+    const dummyMatch = dummySubCategories.find(
+      (ds) => ds.title === backendSub.name,
+    );
+    if (dummyMatch) {
+      return {
+        ...dummyMatch,
+        id: backendSub._id,
+        title: backendSub.name,
+      };
+    }
+    return {
+      id: backendSub._id,
+      title: backendSub.name,
+      description: "Explore our expert pro services in this category.",
+      icon: <Plumbers />,
+      link: "#",
+    };
+  });
+
   return (
     <div className="min-h-screen bg-white ">
       <section className="relative min-h-[60vh] md:min-h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 md:px-10 lg:px-20 bg-[#EFF6FF]">
@@ -81,21 +117,32 @@ export default function SkilledArtisansPage() {
           Explore Pro Categories
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {subCategories.map((cat) => (
-            <div
-              key={cat?.id}
-              onClick={() => handleCategoryClick(cat)}
-              role="button"
-              tabIndex={0}
-              className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
-            >
-              <div className="flex items-center mb-4">{cat?.icon}</div>
-              <h3 className="text-lg font-semibold mb-2">{cat?.title}</h3>
-              <p className="text-gray-600 text-base leading-relaxed">
-                {cat?.description}
-              </p>
-            </div>
-          ))}
+          {subPending
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-xl p-6 shadow-boxShadow animate-pulse"
+                >
+                  <div className="w-12 h-12 bg-gray-200 rounded-full mb-4"></div>
+                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-full"></div>
+                </div>
+              ))
+            : transformedSubCategories.map((cat: any) => (
+                <div
+                  key={cat?.id}
+                  onClick={() => handleCategoryClick(cat)}
+                  role="button"
+                  tabIndex={0}
+                  className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
+                >
+                  <div className="flex items-center mb-4">{cat?.icon}</div>
+                  <h3 className="text-lg font-semibold mb-2">{cat?.title}</h3>
+                  <p className="text-gray-600 text-base leading-relaxed">
+                    {cat?.description}
+                  </p>
+                </div>
+              ))}
         </div>
       </section>
       <section className=" px-4 md:px-10 lg:px-20  text-center">

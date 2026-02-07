@@ -3,9 +3,9 @@ import React from "react";
 import ArtisanBreadCrumbs from "@/components/Artisan/portfolio/BreadCrumbs";
 import Wrapper from "@/components/shared/Wrapper";
 import { useParams } from "next/navigation";
+import { useAppointments } from "@/api/crud/appointments";
 import { ClientInfo } from "@/components/Artisan/manageAppointment/ClientInfo";
 import { ClientDescription } from "@/components/Artisan/manageAppointment/ClientDescription";
-import { useAppointments } from "@/api/crud/appointments";
 
 type Props = {};
 

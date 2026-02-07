@@ -35,6 +35,13 @@ export const useCategories = () => {
       ...options,
     });
 
+  const getSubCategoryByCategoryId = (id: string, options?: object) =>
+    useApiQuery<SubCategory>(["sub-categories", id], {
+      url: `/sub-categories/by-category?categoryId=${id}`,
+      method: "GET",
+      ...options,
+    });
+
   const getAllSubCategories = () =>
     useApiQuery<SubCategory>(["sub-categories"], {
       url: `/sub-categories`,
@@ -65,6 +72,7 @@ export const useCategories = () => {
   return {
     getAllCategories,
     getAllSubCategories,
+    getSubCategoryByCategoryId,
     updateCategory,
     createCategory,
     getCategoryById,

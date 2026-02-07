@@ -88,7 +88,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
         <button
           onClick={() => {
             if (isMobile) {
-              router.push("/client/settings");
+              router.push("//settings");
             } else {
               openSettings();
             }

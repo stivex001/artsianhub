@@ -7,9 +7,9 @@ import {
   CalenderIcon,
   SecurityIcon,
 } from "@/components/assets/icons/LinksIcon";
-import { PersonalInfo } from "@/components/Client/settings/PersonalInfo";
 import ArtisanAccountSetting from "@/components/Artisan/settings/ArtisanAccountSetting";
 import KYC from "@/components/Artisan/settings/KYC";
+import { PersonalInfo } from "@/components/Client/settings/PersonalInfo";
 
 type Props = {};
 
