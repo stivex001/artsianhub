@@ -28,9 +28,9 @@ export const AboutArtisan = ({ artisan }: Props) => {
         <h2 className="text-xl font-bold text-paragrah mb-3">
           Services Offered
         </h2>
-        {artisan?.serviceCategories?.length > 0 && (
+        {artisan?.subCategories?.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {artisan?.serviceCategories?.map((service: any) => (
+            {artisan?.subCategories?.map((service: any) => (
               <span
                 key={service?._id}
                 className="px-3 py-2 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"

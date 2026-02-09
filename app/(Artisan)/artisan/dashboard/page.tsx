@@ -10,23 +10,25 @@ import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 import { useAuthStore } from "@/store/authStore";
 import { useSubscriptions } from "@/api/crud/subscriptions";
 import React, { useEffect, useState } from "react";
+import { AuthLoadingScreen } from "@/components/auth/AuthLoader";
 
 type Props = {};
 
 const ArtisanDashboard = (props: Props) => {
   const [openIncompleteProfile, setOpenIncompleteProfile] = useState(false);
 
-  const { currentUser } = useAuthStore();
+  const { currentUser, isHydrated } = useAuthStore();
   const { getArtisanDashboard } = useArtisans();
-  const { data, isLoading } = getArtisanDashboard();
-  const dashboardData = data?.data;
-  const metrics = dashboardData?.metrics;
-  const recentAppointment = dashboardData?.recentAppointments;
+  const { data, isLoading: isDashboardLoading } = getArtisanDashboard();
 
   // Check subscription status
   const { getStatus } = useSubscriptions();
-  const { data: subscriptionData } = getStatus();
-  const isSubscribed = subscriptionData?.data?.isActive || false;
+  const { data: subscriptionData, isLoading: isSubscriptionLoading } =
+    getStatus();
+
+  // Wait for hydration and data loading to prevent layout shift and flickering
+  const isPageLoading =
+    !isHydrated || isDashboardLoading || isSubscriptionLoading;
 
   useEffect(() => {
     if (currentUser?.isVerified) {
@@ -38,15 +40,24 @@ const ArtisanDashboard = (props: Props) => {
     }
   }, [currentUser]);
 
+  if (isPageLoading) {
+    return <AuthLoadingScreen message="Loading dashboard..." />;
+  }
+
+  const dashboardData = data?.data;
+  const metrics = dashboardData?.metrics;
+  const recentAppointment = dashboardData?.recentAppointments;
+  const isSubscribed = subscriptionData?.data?.isActive || false;
+
   return (
     <section className="flex flex-col gap-5">
       <SubscriptionBanner isSubscribed={isSubscribed} />
-      <Statistics isLoading={isLoading} metrics={metrics} />
+      <Statistics isLoading={isDashboardLoading} metrics={metrics} />
       <ToDoList />
       {/* <AppointmentDetailsStats /> */}
       <RecentAppointments
         appointments={recentAppointment}
-        isLoading={isLoading}
+        isLoading={isDashboardLoading}
       />
 
       <IncompleteProfileModal

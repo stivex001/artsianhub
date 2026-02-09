@@ -45,7 +45,7 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
 
   // Show loading screen while hydrating
   if (!isHydrated) {
-    return <AuthLoadingScreen message="Authenticating..." />;
+    return <AuthLoadingScreen message="Loading..." />;
   }
 
   if (!accessToken || (role && !allowedRoles.includes(role))) {

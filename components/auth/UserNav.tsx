@@ -76,7 +76,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
         </button>
 
         <button
-          onClick={() => router.push("/settings")}
+          onClick={() => handleMenuItemClick("settings")}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <SettingsIcon />
