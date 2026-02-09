@@ -177,7 +177,7 @@ export default function CreativeArtisansPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {isPending
-            ? Array.from({ length: 8 }).map((_, i) => (
+            ? Array.from({ length: 2 }).map((_, i) => (
                 <CardSkeletonLoader key={i} />
               ))
             : creative_artisan?.map((item: any) => (

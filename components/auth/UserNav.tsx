@@ -22,21 +22,11 @@ type UserNavProps = {
 };
 
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
-  const pathname = usePathname();
   const router = useRouter();
-  const [isMobile, setIsMobile] = useState(false);
 
   const { logout } = useAuthStore();
   const { getCurrentUser } = useUser();
   const { data: user } = getCurrentUser();
-  const { openSettings } = useModalStore();
-
-  useEffect(() => {
-    const checkScreenSize = () => setIsMobile(window.innerWidth < 768);
-    checkScreenSize(); // run on mount
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
 
   const profilePhoto = user?.data?.profilePicture;
   const currentUser = user?.data;
@@ -86,14 +76,7 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
         </button>
 
         <button
-          onClick={() => {
-            if (isMobile) {
-              router.push("//settings");
-            } else {
-              openSettings();
-            }
-            onClose();
-          }}
+          onClick={() => router.push("/settings")}
           className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
         >
           <SettingsIcon />

@@ -38,7 +38,7 @@ export const ArtisanContent = ({}: Props) => {
   const artisan = data?.data;
 
   return (
-    <div className="my-6">
+    <div className="">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
         {/* Left Column - Profile Card */}
         {isPending ? (

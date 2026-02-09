@@ -2,26 +2,24 @@
 
 import React, { useState } from "react";
 import { NotificationIcon } from "../assets/icons/NavIcons";
-import UserDesc from "../UserDesc";
 import { MobileNav } from "./MobileNav";
-import { BackArrowIcon } from "../assets/icons/NavigationIcons";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useNotification } from "@/api/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
 import ava from "@/components/assets/images/ava.svg";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { useArtisans } from "@/api/crud/artisans";
+import { AuthSpinner } from "../auth/AuthLoader";
 
 type Props = {};
 
 export const AdminHeader = (props: Props) => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const [openNotification, setOpenNotification] = useState(false);
 
-  const { currentUser } = useAuthStore();
+  const { currentUser, isHydrated } = useAuthStore();
   const { getMyProfile } = useArtisans();
   const { data: profile } = getMyProfile();
 
@@ -41,7 +39,10 @@ export const AdminHeader = (props: Props) => {
   let subtitle = "";
 
   if (pathname === "/artisan/dashboard") {
-    title = `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`;
+    title =
+      isHydrated && currentUser
+        ? `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`
+        : "Welcome Back!";
     subtitle =
       "Track appointments, update your portfolio, and stay connected with new clients.";
   } else if (pathname === "/artisan/dashboard/calender") {
@@ -91,13 +92,19 @@ export const AdminHeader = (props: Props) => {
         </div>
 
         <div className="w-10 h-10">
-          <Image
-            src={profilePhoto || ava}
-            alt={`avatar`}
-            width={40}
-            height={40}
-            className="w-full h-full object-cover rounded-full"
-          />
+          {!isHydrated ? (
+            <div className="w-full h-full flex items-center justify-center">
+              <AuthSpinner size="sm" />
+            </div>
+          ) : (
+            <Image
+              src={profilePhoto || ava}
+              alt={`avatar`}
+              width={40}
+              height={40}
+              className="w-full h-full object-cover rounded-full"
+            />
+          )}
         </div>
       </div>
     </header>

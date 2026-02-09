@@ -18,7 +18,7 @@ export const ArtisanCard = ({ artisan }: Props) => {
       className="bg-white rounded-3xl pt-2 px-2 pb-5 hover:shadow-shadowHover transition overflow-hidden text-left cursor-pointer"
     >
       <div className="relative mb-3">
-        <div className="relative h-60 w-full overflow-hidden rounded-xl">
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl">
           {artisan?.profilePicture ? (
             <Image
               src={artisan.profilePicture}

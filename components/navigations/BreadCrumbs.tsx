@@ -16,19 +16,19 @@ const BreadCrumbs = (props: Props) => {
   const artisan = data?.data;
 
   return (
-    <nav className="bg-white sticky top-20 z-10">
+    <nav className="bg-white mb-5">
       <div className="">
-        <div className="flex items-center space-x-2 text-sm text-[#667185]">
-          <Link
-            href="/"
+        <div className="flex items-center md:gap-2 gap-1 text-sm text-[#667185]">
+          <button
+            onClick={() => router.back()}
             className="text-[#667185] text-sm font-medium hover:text-blue-600 transition-colors"
           >
             Home
-          </Link>
+          </button>
           <span>{`>`}</span>
           <button
             onClick={() => router.back()}
-            className="hover:text-blue-600 transition-colors capitalize"
+            className="hover:text-blue-600 text-sm transition-colors capitalize"
           >
             {artisan?.professionalTitle}
           </button>

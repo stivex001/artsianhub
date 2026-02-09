@@ -3,6 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
+import { AuthLoadingScreen } from "../auth/AuthLoader";
 
 type Props = {
   allowedRoles: string[];
@@ -13,11 +14,14 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { accessToken, currentUser } = useAuthStore();
+  const { accessToken, currentUser, isHydrated } = useAuthStore();
 
   const role = currentUser?.role;
 
   useEffect(() => {
+    // Don't redirect until hydration is complete
+    if (!isHydrated) return;
+
     if (!accessToken) {
       const fullPath = `${pathname}${
         searchParams.toString() ? `?${searchParams.toString()}` : ""
@@ -29,7 +33,20 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
     if (role && !allowedRoles.includes(role)) {
       router.replace("/403");
     }
-  }, [accessToken, role, pathname, searchParams, router, allowedRoles]);
+  }, [
+    accessToken,
+    role,
+    pathname,
+    searchParams,
+    router,
+    allowedRoles,
+    isHydrated,
+  ]);
+
+  // Show loading screen while hydrating
+  if (!isHydrated) {
+    return <AuthLoadingScreen message="Authenticating..." />;
+  }
 
   if (!accessToken || (role && !allowedRoles.includes(role))) {
     return null;
