@@ -49,12 +49,18 @@ export interface CurrentUser {
   };
 }
 
-export const useUser = () => {
+export const useUser = (options?: { enabled?: boolean }) => {
   const getCurrentUser = () =>
-    useApiQuery<CurrentUser>(["currentUser"], {
-      url: `/profile`,
-      method: "GET",
-    });
+    useApiQuery<CurrentUser>(
+      ["currentUser"],
+      {
+        url: `/profile`,
+        method: "GET",
+      },
+      {
+        enabled: options?.enabled ?? true,
+      },
+    );
 
   const createArtisanProfile = useApiMutation<AuthResponse, FormData>({
     url: "/artisans",
@@ -65,7 +71,7 @@ export const useUser = () => {
   });
 
   const createClientProfile = useApiMutation<AuthResponse, FormData>({
-    url: "/s",
+    url: "/clients",
     method: "POST",
     headers: {
       "Content-Type": "multipart/form-data",
@@ -73,7 +79,7 @@ export const useUser = () => {
   });
 
   const updateClientProfile = useApiMutation<AuthResponse, FormData>({
-    url: `/s`,
+    url: `/clients`,
     method: "PUT",
     headers: {
       "Content-Type": "multipart/form-data",

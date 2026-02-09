@@ -28,7 +28,7 @@ export const RatingOverview = ({ ratings, totalReview }: Props) => {
     <div>
       <h2 className="text-xl font-bold text-paragrah mb-3">Ratings</h2>
 
-      <div className="flex items-center gap-5 md:gap-8">
+      <div className="flex flex-col md:flex-row items-center gap-5 md:gap-8">
         {/* Average Rating */}
         <div className="flex flex-col items-center">
           <div className="text-3xl font-bold text-paragrah mb-2">

@@ -13,6 +13,7 @@ import { NotificationIcon } from "../assets/icons/NavIcons";
 import { NotificationModal } from "../shared/NotificationModal";
 import { useAuthStore } from "@/store/authStore";
 import { useNotification } from "@/api/crud/notification";
+import { InlineAuthLoader } from "../auth/AuthLoader";
 
 export type NavLink = {
   id: string;
@@ -41,11 +42,11 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [openNotification, setOpenNotification] = useState(false);
 
-  const { accessToken } = useAuthStore();
+  const { accessToken, isHydrated } = useAuthStore();
   const isLoggedIn = !!accessToken;
 
   const { getAllNotifications } = useNotification({
-    notificationsEnabled: isLoggedIn,
+    notificationsEnabled: isLoggedIn && isHydrated,
   });
   const { data: notify } = getAllNotifications();
   const notificationData = notify?.data?.notifications || [];
@@ -82,6 +83,56 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
 
   const logoSrc = brandlogo === true ? hubn : brandlogo === false ? hub : logo;
   const headerClassName = className ?? "bg-white h-24 lg:h-20 w-full";
+
+  // Render auth buttons/profile based on hydration state
+  const renderAuthSection = () => {
+    // Show loading spinner while hydrating to prevent flicker
+    if (!isHydrated) {
+      return <InlineAuthLoader height="h-10" />;
+    }
+
+    if (isLoggedIn) {
+      return (
+        <>
+          <div
+            onClick={() => setOpenNotification((prev) => !prev)}
+            className="relative cursor-pointer bg-white rounded-full"
+          >
+            <NotificationIcon />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 right-2 text-[#AE2525] font-semibold text-base">
+                {unreadCount}
+              </span>
+            )}
+            {openNotification && (
+              <NotificationModal
+                onClose={() => setOpenNotification(false)}
+                notifications={notificationData}
+                total={total}
+              />
+            )}
+          </div>
+          <UserProfile brandlogo={brandlogo} />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <CustomButton
+          variant="transparent"
+          className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
+        >
+          <Link href="/auth/login">Login</Link>
+        </CustomButton>
+        <CustomButton>
+          <Link href="/auth/onboarding" className="font-light">
+            Sign Up
+          </Link>
+        </CustomButton>
+      </>
+    );
+  };
 
   return (
     <header className={headerClassName}>
@@ -152,49 +203,14 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          {isLoggedIn ? (
-            <>
-              <div
-                onClick={() => setOpenNotification((prev) => !prev)}
-                className="relative cursor-pointer bg-white rounded-full"
-              >
-                <NotificationIcon />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 right-2 text-[#AE2525] font-semibold text-base">
-                    {unreadCount}
-                  </span>
-                )}
-                {openNotification && (
-                  <NotificationModal
-                    onClose={() => setOpenNotification(false)}
-                    notifications={notificationData}
-                    total={total}
-                  />
-                )}
-              </div>
-              <UserProfile brandlogo={brandlogo} />
-            </>
-          ) : (
-            <>
-              <CustomButton
-                variant="transparent"
-                className="border border-bordergrey rounded-[6px] text-sm text-lightp font-medium "
-              >
-                <Link href="/auth/login">Login</Link>
-              </CustomButton>
-              <CustomButton>
-                <Link href="/auth/signup?role=client" className="font-light">
-                  Sign Up
-                </Link>
-              </CustomButton>
-            </>
-          )}
+          {renderAuthSection()}
         </div>
 
         <MobileHeader
           handleScrollTo={handleScrollTo}
           activeSection={activeSection}
-          isLoggedIn={isLoggedIn}
+          isLoggedIn={isHydrated ? isLoggedIn : undefined}
+          isHydrated={isHydrated}
           brandlogo={brandlogo}
         />
       </div>

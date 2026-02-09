@@ -54,7 +54,7 @@ const ManageJob = (props: Props) => {
         onTabChange={setActiveTab}
       />
 
-      <div className="flex items-center gap-2 py-2 px-3 lg:w-[320px] border border-gray-300 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+      <div className="flex items-center gap-2 py-2 px-3 border border-gray-300 rounded-xl focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
         <div className="pointer-events-none">
           <Search className="h-5 w-5 text-gray-400" />
         </div>

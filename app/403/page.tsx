@@ -3,9 +3,10 @@
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { CustomButton } from "@/components/clickable/CustomButton";
+import { AuthLoadingScreen } from "@/components/auth/AuthLoader";
 
 export default function ForbiddenPage() {
-  const { currentUser, accessToken } = useAuthStore();
+  const { currentUser, accessToken, isHydrated } = useAuthStore();
   const router = useRouter();
 
   const isLoggedIn = !!accessToken && !!currentUser;
@@ -26,6 +27,11 @@ export default function ForbiddenPage() {
   const handleLogin = () => {
     router.push("/auth/login");
   };
+
+  // Show loading while hydrating to prevent flash
+  if (!isHydrated) {
+    return <AuthLoadingScreen message="Loading..." />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">

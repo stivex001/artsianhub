@@ -8,12 +8,12 @@ type Props = {
 const DetailsLayout = ({ children }: Props) => {
   return (
     <div className="">
-      <div className="mt-20 max-w-7xl mx-auto px-5">
-       {children}
-        <div className="min-h-screen flex flex-col gap-4 ">
-          {/* <BreadCrumbs /> */}
-          {/* {children} */}
-        </div>
+      <div className="my-5 max-w-7xl mx-auto px-5">
+        <BreadCrumbs />
+        {children}
+        {/* <div className="min-h-screen flex flex-col gap-4 ">
+          {children}
+        </div> */}
       </div>
     </div>
   );

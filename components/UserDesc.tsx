@@ -5,27 +5,41 @@ import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
 import React, { useState } from "react";
 import { DropdownModal } from "./shared/DropdownModal";
-import { PolygonGrey, PolygonWhite } from "./assets/icons/NavIcons";
+import { PolygonGrey } from "./assets/icons/NavIcons";
 import { UserDropdownContent } from "./shared/UserDropdownContent";
 import { useUser } from "@/api/crud/user";
+import { AuthSpinner } from "./auth/AuthLoader";
 
 type Props = {};
 
 const UserDesc = (props: Props) => {
-  const { currentUser } = useAuthStore();
+  const { currentUser, isHydrated } = useAuthStore();
   const { getCurrentUser } = useUser();
   const { data: user } = getCurrentUser();
-
-  
 
   const profilePhoto = user?.profilePhoto?.url;
 
   const initials = getUserInitials(
     currentUser?.firstName,
-    currentUser?.lastName
+    currentUser?.lastName,
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Show loading state while hydrating
+  if (!isHydrated) {
+    return (
+      <div className="flex items-center gap-3">
+        <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100">
+          <AuthSpinner size="sm" />
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="h-4 w-24 bg-gray-200 rounded animate-pulse" />
+          <div className="h-3 w-16 bg-gray-100 rounded animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
