@@ -37,9 +37,7 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
     if (isMobile || clientPage) {
       setIsModalOpen(true);
     } else {
-      router.push(
-        `/artisan-details/portfolio-details?artisanId=${artisanId}&id=${item?._id}`,
-      );
+      router.push(`/artisan/dashboard/portfolio/${item?._id}`);
     }
   };
 
