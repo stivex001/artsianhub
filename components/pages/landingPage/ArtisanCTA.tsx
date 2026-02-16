@@ -34,13 +34,6 @@ const benefits = [
   },
 ];
 
-const pricingDetails = [
-  "£1 for your first 30 days",
-  "Then £9/month for full visibility and growth",
-  "No free listings – only committed professionals",
-  "Cancel anytime",
-];
-
 const ArtisanCTA = () => {
   const router = useRouter();
 
@@ -93,51 +86,139 @@ const ArtisanCTA = () => {
         </div>
 
         {/* Pricing & Offer Section */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 md:p-12 border border-slate-700 shadow-2xl relative overflow-hidden">
-          <div className="relative z-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Join ArtisansHub – Start with a £1 Trial
-            </h2>
-            <p className="text-slate-400 mb-8 max-w-2xl mx-auto">
-              Create your professional profile and step into a marketplace built
-              for serious artisans.
-            </p>
+        <div className="relative">
+          {/* Decorative Background Elements */}
+          <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
 
-            <div className="flex flex-col md:flex-row gap-8 justify-center items-center mb-10">
-              <ul className="text-left space-y-3">
-                {pricingDetails.map((detail, idx) => (
-                  <li key={idx} className="flex items-center text-slate-300">
-                    <div className="w-2 h-2 rounded-full bg-green-400 mr-3" />
-                    {detail}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="bg-slate-800/80 p-6 rounded-xl border border-slate-600 text-center min-w-[200px]">
-                <p className="text-sm text-slate-400 uppercase tracking-wide font-semibold mb-1">
-                  Start Today
+          <div className="bg-slate-900/40 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-16 border border-slate-700/50 shadow-2xl relative overflow-hidden">
+            <div className="relative z-10">
+              {/* Header */}
+              <div className="mb-12">
+                <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+                  Become a Founding Artisan Today
+                </h2>
+                <p className="text-slate-300 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+                  Lock in our exclusive early supporter rates – limited to our{" "}
+                  <span className="text-blue-400 font-bold underline decoration-blue-500/30 underline-offset-4">
+                    first 300 artisans
+                  </span>
+                  .
                 </p>
-                <div className="text-4xl font-bold text-white mb-1">£1</div>
-                <p className="text-xs text-slate-500">for 30 days</p>
+              </div>
+
+              {/* Pricing Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center mb-12">
+                {/* Phase 1 */}
+                <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-8 transition-transform hover:scale-105 duration-300">
+                  <p className="text-slate-400 font-semibold mb-4 uppercase tracking-wider text-sm">
+                    For the first 3 months
+                  </p>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-bold text-white">£1</span>
+                      <span className="text-slate-500 text-sm">/month</span>
+                    </div>
+                    <div className="h-px w-12 bg-slate-700 my-2" />
+                    <div className="text-slate-300 font-medium">
+                      Or <span className="text-white">£60</span>/year
+                    </div>
+                  </div>
+                </div>
+
+                {/* Phase 2: Highlighted */}
+                <div className="relative group">
+                  {/* Badge */}
+                  <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-20">
+                    <div className="bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 text-xs font-black px-4 py-1.5 rounded-full shadow-lg transform -rotate-1 group-hover:rotate-0 transition-transform">
+                      REWARD FOR EARLY JOINERS
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-b from-blue-600 to-blue-800 rounded-3xl p-10 shadow-2xl shadow-blue-500/20 transform scale-105 border-2 border-blue-400/30 relative overflow-hidden">
+                    {/* Inner Glow */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.2),transparent)] pointer-events-none"></div>
+
+                    <p className="text-blue-100 font-bold mb-4 uppercase tracking-wider text-sm relative z-10">
+                      Founding Member Rate
+                    </p>
+                    <div className="flex flex-col items-center gap-2 relative z-10">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-5xl font-black text-white">
+                          £5
+                        </span>
+                        <span className="text-blue-200 text-sm font-medium">
+                          /month
+                        </span>
+                      </div>
+                      <div className="h-px w-16 bg-blue-400/30 my-3" />
+                      <div className="text-blue-100 font-bold text-lg">
+                        Or <span className="text-white">£60</span>/year
+                      </div>
+                      <div className="mt-4 px-3 py-1 bg-blue-900/40 rounded-lg text-[10px] text-blue-200 border border-blue-400/20 font-bold uppercase tracking-widest">
+                        Limited Offer
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Phase 3 */}
+                <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-8 transition-transform hover:scale-105 duration-300">
+                  <p className="text-slate-400 font-semibold mb-2 uppercase tracking-wider text-sm leading-tight">
+                    New artisans <br />{" "}
+                    <span className="text-slate-500 text-xs font-medium lowercase">
+                      after 6 months
+                    </span>
+                  </p>
+                  <div className="flex flex-col items-center gap-2 mt-4">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-bold text-white">£9</span>
+                      <span className="text-slate-500 text-sm">/month</span>
+                    </div>
+                    <div className="h-px w-12 bg-slate-700 my-2" />
+                    <div className="text-slate-300 font-medium">
+                      Or <span className="text-white">£108</span>/year
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Section */}
+              <div className="max-w-xl mx-auto">
+                <Button
+                  onClick={handleJoinClick}
+                  size="lg"
+                  className="w-full md:w-auto bg-white hover:bg-slate-100 text-blue-600 font-black py-8 px-12 text-xl rounded-2xl shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 transition-all transform hover:-translate-y-1 active:scale-95 mb-6"
+                >
+                  Start Your £1 Trial Today
+                </Button>
+
+                <div className="flex flex-col gap-4">
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    <span className="text-slate-200 font-semibold">
+                      Limited time:
+                    </span>{" "}
+                    Only first 300 artisans will qualify. This offer locks in
+                    your rate and won&apos;t be available later!
+                  </p>
+
+                  <div className="flex items-center justify-center gap-2 text-green-400 text-sm font-semibold">
+                    <CheckCircle className="w-4 h-4" />
+                    Cancel anytime, no obligation
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Tagline */}
+              <div className="mt-16 pt-8 border-t border-slate-800/50">
+                <p className="text-slate-400 text-lg font-medium tracking-wide">
+                  More <span className="text-white">visibility</span>. More{" "}
+                  <span className="text-white">clients</span>. More{" "}
+                  <span className="text-white">orders</span>.
+                </p>
               </div>
             </div>
-
-            <Button
-              onClick={handleJoinClick}
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-6 px-10 text-lg rounded-full shadow-lg shadow-blue-900/50 hover:shadow-blue-900/80 transition-all transform hover:-translate-y-1"
-            >
-              Join as an Artisan
-            </Button>
-
-            <p className="mt-6 text-slate-400 text-sm">
-              List your skills. Get seen. Get hired. Grow your business.
-            </p>
           </div>
-
-          {/* Decorative Background Elements */}
-          <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
         </div>
       </div>
     </section>
