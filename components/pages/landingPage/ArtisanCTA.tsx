@@ -121,7 +121,7 @@ const ArtisanCTA = () => {
                     </div>
                     <div className="h-px w-12 bg-slate-700 my-2" />
                     <div className="text-slate-300 font-medium">
-                      Or <span className="text-white">£60</span>/year
+                      Or <span className="text-white">£51</span>/year
                     </div>
                   </div>
                 </div>
@@ -153,7 +153,7 @@ const ArtisanCTA = () => {
                       </div>
                       <div className="h-px w-16 bg-blue-400/30 my-3" />
                       <div className="text-blue-100 font-bold text-lg">
-                        Or <span className="text-white">£60</span>/year
+                        Or <span className="text-white">£51</span>/year
                       </div>
                       <div className="mt-4 px-3 py-1 bg-blue-900/40 rounded-lg text-[10px] text-blue-200 border border-blue-400/20 font-bold uppercase tracking-widest">
                         Limited Offer
@@ -177,7 +177,7 @@ const ArtisanCTA = () => {
                     </div>
                     <div className="h-px w-12 bg-slate-700 my-2" />
                     <div className="text-slate-300 font-medium">
-                      Or <span className="text-white">£108</span>/year
+                      Or <span className="text-white">£91.8</span>/year
                     </div>
                   </div>
                 </div>
