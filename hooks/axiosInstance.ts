@@ -4,17 +4,18 @@ import axios, { AxiosError } from "axios";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
+  timeout: 15000, // 15 seconds timeout
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    'X-Channel': 1
+    "X-Channel": 1,
   },
 });
 
 axiosInstance.interceptors.request.use((config) => {
   // Access the store state directly without hooks
   const accessToken = useAuthStore.getState().accessToken;
-  
+
   if (accessToken) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
@@ -30,7 +31,7 @@ axiosInstance.interceptors.response.use(
       window.location.href = "/auth/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

@@ -2,6 +2,18 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+  staticPageGenerationTimeout: 120, // Increase timeout for static generation
+  trailingSlash: true,
+  experimental: {
+    staleTimes: {
+      dynamic: 30,
+    },
+  },
   images: {
     remotePatterns: [
       {
