@@ -17,14 +17,24 @@ const SubscriptionPage = (props: Props) => {
   const router = useRouter();
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
   const [processingPlanId, setProcessingPlanId] = useState<string | null>(null);
-  
-  const { getPlans, getStatus, createCheckout, syncSubscription } = useSubscriptions();
+
+  const { getPlans, getStatus, createCheckout, syncSubscription } =
+    useSubscriptions();
   const { data: plansData, isLoading: plansLoading } = getPlans();
-  const { data: statusData, isLoading: statusLoading, refetch: refetchStatus } = getStatus();
-  const { mutate: createCheckoutSession, isPending: isCheckoutPending } = createCheckout();
+  const {
+    data: statusData,
+    isLoading: statusLoading,
+    refetch: refetchStatus,
+  } = getStatus();
+  const { mutate: createCheckoutSession, isPending: isCheckoutPending } =
+    createCheckout();
   const { mutateAsync: syncSubscriptionMutation } = syncSubscription();
 
-  const plans = plansData?.data || [];
+  const plans = (plansData?.data || []).filter(
+    (plan) =>
+      plan.id === "first_3_months_monthly" ||
+      plan.id === "first_3_months_annual",
+  );
   const subscriptionStatus = statusData?.data;
 
   const handleSubscribe = (planType: "monthly" | "annual", planId: string) => {
@@ -45,10 +55,12 @@ const SubscriptionPage = (props: Props) => {
           }
         },
         onError: (error: any) => {
-          toast.error(error?.data?.error || "Failed to create checkout session");
+          toast.error(
+            error?.data?.error || "Failed to create checkout session",
+          );
           setProcessingPlanId(null);
         },
-      }
+      },
     );
   };
 
@@ -66,12 +78,19 @@ const SubscriptionPage = (props: Props) => {
       if (sessionId) {
         try {
           await syncSubscriptionMutation();
-          toast.success("Subscription activated! Your profile is now visible to clients.");
+          toast.success(
+            "Subscription activated! Your profile is now visible to clients.",
+          );
         } catch (err: any) {
-          toast.error(err?.data?.error || "Failed to sync subscription. Status may update shortly.");
+          toast.error(
+            err?.data?.error ||
+              "Failed to sync subscription. Status may update shortly.",
+          );
         }
       } else {
-        toast.error("Unable to verify subscription. Please check your subscription status.");
+        toast.error(
+          "Unable to verify subscription. Please check your subscription status.",
+        );
       }
       await refetchStatus();
       router.replace("/artisan/dashboard/subscription");
@@ -107,13 +126,18 @@ const SubscriptionPage = (props: Props) => {
                   {subscriptionStatus.isActive ? (
                     <div className="text-sm text-gray-700 space-y-1">
                       <p>
-                        Plan: <span className="font-medium capitalize">{subscriptionStatus.planType}</span>
+                        Plan:{" "}
+                        <span className="font-medium capitalize">
+                          {subscriptionStatus.planType}
+                        </span>
                       </p>
                       {subscriptionStatus.currentPeriodEnd && (
                         <p>
                           Renews:{" "}
                           <span className="font-medium">
-                            {new Date(subscriptionStatus.currentPeriodEnd).toLocaleDateString()}
+                            {new Date(
+                              subscriptionStatus.currentPeriodEnd,
+                            ).toLocaleDateString()}
                           </span>
                         </p>
                       )}
@@ -125,7 +149,8 @@ const SubscriptionPage = (props: Props) => {
                     </div>
                   ) : (
                     <p className="text-sm text-gray-700">
-                      Your profile is not visible to clients. Subscribe to start receiving requests.
+                      Your profile is not visible to clients. Subscribe to start
+                      receiving requests.
                     </p>
                   )}
                 </div>
@@ -147,10 +172,11 @@ const SubscriptionPage = (props: Props) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((plan) => {
-            const isPopular = plan.id === "annual";
+            const isPopular = plan.id === "first_3_months_annual";
             const isCurrentPlan =
               subscriptionStatus?.isActive &&
-              subscriptionStatus?.planType === plan.id;
+              subscriptionStatus?.planType ===
+                (plan.interval === "month" ? "monthly" : "annual");
             const isSelected = selectedPlanId === plan.id;
             const isProcessing = processingPlanId === plan.id;
 
@@ -159,13 +185,11 @@ const SubscriptionPage = (props: Props) => {
                 key={plan.id}
                 className={`relative cursor-pointer transition-all ${
                   isPopular ? "ring-2 ring-primary" : ""
-                } ${
-                  isCurrentPlan ? "bg-primary/5" : ""
-                } ${
-                  isSelected && !isCurrentPlan ? "ring-2 ring-primary bg-primary/5" : ""
-                } ${
-                  isProcessing ? "ring-2 ring-primary ring-offset-2" : ""
-                }`}
+                } ${isCurrentPlan ? "bg-primary/5" : ""} ${
+                  isSelected && !isCurrentPlan
+                    ? "ring-2 ring-primary bg-primary/5"
+                    : ""
+                } ${isProcessing ? "ring-2 ring-primary ring-offset-2" : ""}`}
                 onClick={() => !isCurrentPlan && setSelectedPlanId(plan.id)}
               >
                 {isPopular && (
@@ -216,14 +240,22 @@ const SubscriptionPage = (props: Props) => {
                       isCurrentPlan
                         ? "Current Plan"
                         : isProcessing
-                        ? "Processing..."
-                        : "Subscribe Now"
+                          ? "Processing..."
+                          : "Subscribe Now"
                     }
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSubscribe(plan.id as "monthly" | "annual", plan.id);
+                      handleSubscribe(
+                        plan.interval === "month" ? "monthly" : "annual",
+                        plan.id,
+                      );
                     }}
-                    disabled={isCurrentPlan || (isProcessing && processingPlanId !== plan.id) || (processingPlanId !== null && processingPlanId !== plan.id)}
+                    disabled={
+                      isCurrentPlan ||
+                      (isProcessing && processingPlanId !== plan.id) ||
+                      (processingPlanId !== null &&
+                        processingPlanId !== plan.id)
+                    }
                     isLoading={isProcessing}
                     className="w-full"
                     variant={isPopular ? "primary" : "secondary"}
