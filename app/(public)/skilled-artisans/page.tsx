@@ -67,7 +67,6 @@ export default function SkilledArtisansPage() {
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category);
-    setIsModalOpen(true);
   };
 
   const subCatList = Array.isArray(subCat)

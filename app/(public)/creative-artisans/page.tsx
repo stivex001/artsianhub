@@ -87,7 +87,6 @@ export default function CreativeArtisansPage() {
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category);
-    setIsModalOpen(true);
   };
 
   // Ensure we are working with an array even if it's nested in a 'data' property
