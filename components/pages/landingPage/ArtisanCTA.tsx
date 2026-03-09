@@ -121,7 +121,7 @@ const ArtisanCTA = () => {
                     </div>
                     <div className="h-px w-12 bg-slate-700 my-2" />
                     <div className="text-slate-300 font-medium">
-                      Or <span className="text-white">£51</span>/year
+                      Or <span className="text-white">£48</span>/year
                     </div>
                   </div>
                 </div>
