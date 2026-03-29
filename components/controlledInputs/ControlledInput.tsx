@@ -12,7 +12,7 @@ import { ErrorIcon } from "../assets/icons/OtherIcons";
 type ControlledInputProps = {
   name: string;
   label: string;
-  control?: Control<any>;
+  control?: any;
   rules?: RegisterOptions;
   placeholder?: string;
   type?: string;

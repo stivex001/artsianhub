@@ -29,7 +29,7 @@ const fields: Field[] = [
 
 const ForgotPassword = (props: Props) => {
   const router = useRouter();
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  const { control, handleSubmit, formState } = useDynamicForm<any>(fields, {});
 
   const { forgotPassword } = useAuth();
 
