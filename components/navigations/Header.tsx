@@ -35,9 +35,11 @@ type Props = {
   className?: string;
   /** Logo link (e.g. "/client" when on client dashboard) */
   logoHref?: string;
+  /** When true, renders nav links in white for use over dark backgrounds */
+  isTransparent?: boolean;
 };
 
-export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
+export const Header = ({ brandlogo, className, logoHref = "/", isTransparent }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
   const [openNotification, setOpenNotification] = useState(false);
@@ -152,9 +154,12 @@ export const Header = ({ brandlogo, className, logoHref = "/" }: Props) => {
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
-            const baseClasses =
-              "transition text-lightp font-medium text-base hover:text-primary";
-            const activeClasses = isActive ? "text-primary" : "";
+            const baseClasses = isTransparent
+              ? "transition text-white/80 font-medium text-base hover:text-white"
+              : "transition text-lightp font-medium text-base hover:text-primary";
+            const activeClasses = isActive
+              ? isTransparent ? "text-white" : "text-primary"
+              : "";
 
             const handleClick = (e: React.MouseEvent) => {
               setIsMenuOpen(false);
