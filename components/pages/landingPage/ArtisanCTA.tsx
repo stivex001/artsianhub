@@ -64,7 +64,6 @@ const ArtisanCTA = () => {
   return (
     <section className="bg-textdeep py-20 px-4 text-center overflow-hidden">
       <div className="max-w-5xl mx-auto">
-        {/* Badge */}
         <motion.div
           className="flex justify-center mb-8"
           initial={{ opacity: 0, y: -16 }}
@@ -78,7 +77,6 @@ const ArtisanCTA = () => {
           </div>
         </motion.div>
 
-        {/* Main Header */}
         <motion.div
           className="max-w-4xl mx-auto text-white mb-12"
           initial={{ opacity: 0, y: 25 }}
@@ -97,7 +95,6 @@ const ArtisanCTA = () => {
           </p>
         </motion.div>
 
-        {/* Benefits Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16 text-left">
           {benefits.map((benefit, index) => (
             <motion.div
@@ -114,7 +111,6 @@ const ArtisanCTA = () => {
               <p className="text-slate-200 font-medium">{benefit.text}</p>
             </motion.div>
           ))}
-          {/* Connection Statement Card */}
           <motion.div
             custom={benefits.length}
             variants={benefitVariants}
@@ -130,7 +126,6 @@ const ArtisanCTA = () => {
           </motion.div>
         </div>
 
-        {/* Pricing & Offer Section */}
         <motion.div
           className="relative"
           initial={{ opacity: 0, y: 40 }}
@@ -138,7 +133,6 @@ const ArtisanCTA = () => {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: EASE_OUT }}
         >
-          {/* Decorative Background Elements */}
           <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse" />
           <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse" />
 
