@@ -1,20 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import { BrushIcon, CalendarIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ScissorsIcon,
   WeaverIcon,
 } from "@/components/assets/icons/FeaturedIcons";
-import creative from "@/components/assets/images/creative.jpg";
-import { useState } from "react";
-import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
-import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
 import { useArtisans } from "@/api/crud/artisans";
-import { Descriptions } from "@/components/shared/Headings";
-import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
 import { useCategories } from "@/api/crud/categories";
+import { CategoryHero } from "@/components/pages/artisanCategoryPage/CategoryHero";
+import {
+  CategoryCard,
+  CategoryCardSkeleton,
+} from "@/components/pages/artisanCategoryPage/CategoryCard";
+import { CategoryFeaturedArtisans } from "@/components/pages/artisanCategoryPage/CategoryFeaturedArtisans";
+import { ExploreOtherCategories } from "@/components/pages/artisanCategoryPage/ExploreOtherCategories";
 
 const dummySubCategories = [
   {
@@ -68,6 +68,7 @@ const dummySubCategories = [
 ];
 
 export default function CreativeArtisansPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
 
@@ -77,19 +78,19 @@ export default function CreativeArtisansPage() {
     categoryId || "",
   );
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<{
-    title?: string;
-  } | null>(null);
-
   const { data, isPending } = getArtisanAroundMe();
   const creative_artisan = data?.data || [];
 
-  const handleCategoryClick = (category: any) => {
-    setSelectedCategory(category);
+  const handleCategoryClick = (cat: any) => {
+    const params = new URLSearchParams({
+      categoryId: categoryId || "",
+      name: cat.title,
+      categoryName: "Creative Artisans",
+      categorySlug: `/creative-artisans?categoryId=${categoryId}`,
+    });
+    router.push(`/subcategory/${cat.id}?${params.toString()}`);
   };
 
-  // Ensure we are working with an array even if it's nested in a 'data' property
   const subCatList = Array.isArray(subCat)
     ? subCat
     : (subCat as any)?.data || [];
@@ -115,81 +116,55 @@ export default function CreativeArtisansPage() {
   });
 
   return (
-    <div className="min-h-screen bg-white ">
-      <section className="relative min-h-[60vh] md:min-h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 md:px-10 lg:px-20 bg-[#EFF6FF]">
-        <div className="absolute inset-0">
-          <Image
-            src={creative}
-            alt="Industrial welding with sparks and machinery"
-            className="w-full h-full object-cover object-top"
-            fill
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
-      </section>
+    <div className="min-h-screen bg-white">
+      <CategoryHero
+        emoji="🎨"
+        tagline="Mensayhub"
+        title="Creative Artisans"
+        description="Discover talented creatives — from hairdressers and tailors to event planners, chefs, and photographers — all ready to bring your vision to life."
+      />
 
       {/* Subcategory Section */}
       <section
         id="categories"
-        className="py-12 md:py-20 px-4 md:px-10 lg:px-20"
+        className="py-12 md:py-20 px-4 md:px-10 lg:px-20 bg-gray-50"
       >
-        <h2 className="text-3xl font-semibold text-center mb-8 md:mb-12">
-          Explore Creative Categories
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {subPending
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl p-6 shadow-boxShadow animate-pulse"
-                >
-                  <div className="w-12 h-12 bg-gray-200 rounded-full mb-4"></div>
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                </div>
-              ))
-            : transformedSubCategories?.map((cat: any) => (
-                <div
-                  key={cat?.id}
-                  onClick={() => handleCategoryClick(cat)}
-                  role="button"
-                  tabIndex={0}
-                  className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
-                >
-                  <div className="flex items-center mb-4">{cat?.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2">{cat?.title}</h3>
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    {cat?.description}
-                  </p>
-                </div>
-              ))}
-        </div>
-      </section>
-      <section className=" px-4 md:px-10 lg:px-20  text-center">
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <Descriptions
-            title="Featured Artisans"
-            desc=" Meet some of our top-rated artisans who consistently deliver
-                  exceptional work."
-          />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {isPending
-            ? Array.from({ length: 2 }).map((_, i) => (
-                <CardSkeletonLoader key={i} />
-              ))
-            : creative_artisan?.map((item: any) => (
-                <ArtisanCard key={item._id} artisan={item} />
-              ))}
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Explore{" "}
+              <span className="text-[#02198B]">Creative Categories</span>
+            </h2>
+            <p className="text-gray-500 text-base md:text-lg">
+              Find the right creative professional for every occasion.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {subPending
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <CategoryCardSkeleton key={i} />
+                ))
+              : transformedSubCategories?.map((cat: any, i: number) => (
+                  <CategoryCard
+                    key={cat?.id}
+                    id={cat?.id}
+                    title={cat?.title}
+                    description={cat?.description}
+                    onClick={() => handleCategoryClick(cat)}
+                    index={i}
+                  />
+                ))}
+          </div>
         </div>
       </section>
 
-      <LoginPromptModal
-        isOpen={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory ?? undefined}
+      <CategoryFeaturedArtisans
+        artisans={creative_artisan}
+        isLoading={isPending}
+        categoryName="Creative"
       />
+
+      <ExploreOtherCategories currentCategoryTitle="Creative Artisans" />
     </div>
   );
 }
