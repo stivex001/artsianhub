@@ -4,12 +4,118 @@ import React, { useState, useRef } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
-import { useSubscriptions } from "@/api/crud/subscriptions";
-import { Check, Loader2, AlertCircle } from "lucide-react";
+import { useSubscriptions, SubscriptionStatus, SubscriptionStatusValue } from "@/api/crud/subscriptions";
+import { Check, Loader2, AlertCircle, Clock, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SubscriptionPlanId } from "@/types/subscription";
+
+function getStatusBorderColor(status: SubscriptionStatusValue): string {
+  switch (status) {
+    case "active":    return "border-l-green-500";
+    case "trialing":  return "border-l-blue-500";
+    case "past_due":  return "border-l-orange-500";
+    case "incomplete": return "border-l-yellow-500";
+    default:          return "border-l-red-500";
+  }
+}
+
+function getStatusIcon(status: SubscriptionStatusValue) {
+  switch (status) {
+    case "active":
+      return <Check className="text-green-600 mt-0.5 shrink-0" size={20} />;
+    case "trialing":
+      return <Clock className="text-blue-500 mt-0.5 shrink-0" size={20} />;
+    case "past_due":
+    case "incomplete":
+      return <AlertCircle className="text-orange-500 mt-0.5 shrink-0" size={20} />;
+    default:
+      return <XCircle className="text-red-500 mt-0.5 shrink-0" size={20} />;
+  }
+}
+
+function getStatusTitle(status: SubscriptionStatusValue): string {
+  switch (status) {
+    case "active":             return "Active Subscription";
+    case "trialing":           return "Free Trial Active";
+    case "past_due":           return "Payment Failed — Grace Period Active";
+    case "incomplete":         return "Payment Pending";
+    case "incomplete_expired": return "Payment Window Expired";
+    case "unpaid":             return "Unpaid — Access Suspended";
+    case "canceled":           return "Subscription Canceled";
+    case "expired":            return "Subscription Expired";
+    default:                   return "No Active Subscription";
+  }
+}
+
+function getStatusDetail(s: SubscriptionStatus) {
+  const fmt = (d: string) => new Date(d).toLocaleDateString();
+
+  switch (s.status) {
+    case "active":
+      return (
+        <>
+          {s.currentPeriodEnd && (
+            <p>{s.cancelAtPeriodEnd ? "Ends" : "Renews"}: <span className="font-medium">{fmt(s.currentPeriodEnd)}</span></p>
+          )}
+          {s.cancelAtPeriodEnd && (
+            <p className="text-yellow-600 font-medium">Will cancel at period end</p>
+          )}
+        </>
+      );
+    case "trialing":
+      return s.currentPeriodEnd ? (
+        <p>Trial ends: <span className="font-medium">{fmt(s.currentPeriodEnd)}</span></p>
+      ) : null;
+    case "past_due":
+      return (
+        <>
+          {s.gracePeriodEnd && (
+            <p className="text-orange-600 font-medium flex items-center gap-1">
+              <Clock size={13} /> Grace period ends: {fmt(s.gracePeriodEnd)}
+            </p>
+          )}
+          <p className="text-gray-500">Update your payment method to avoid losing access.</p>
+        </>
+      );
+    case "incomplete":
+      return (
+        <p className="text-gray-500">
+          Complete your payment to activate your subscription. Check your bank for a pending approval.
+        </p>
+      );
+    case "incomplete_expired":
+      return (
+        <p className="text-gray-500">
+          The payment window has closed. Please start a new checkout session to subscribe.
+        </p>
+      );
+    case "unpaid":
+      return (
+        <p className="text-gray-500">
+          All payment retries have failed. Your profile is hidden. Start a new subscription to regain access.
+        </p>
+      );
+    case "canceled":
+    case "expired":
+      return (
+        <>
+          {s.currentPeriodEnd && (
+            <p className="text-red-600 font-medium flex items-center gap-1">
+              <Clock size={13} /> Ended on {fmt(s.currentPeriodEnd)}
+            </p>
+          )}
+          <p className="text-gray-500">Your profile is no longer visible. Subscribe below to reactivate.</p>
+        </>
+      );
+    default:
+      return (
+        <p className="text-gray-500">Your profile is not visible to clients. Subscribe to start receiving requests.</p>
+      );
+  }
+}
 
 type Props = {};
 
@@ -32,19 +138,19 @@ const SubscriptionPage = (props: Props) => {
 
   const plans = (plansData?.data || []).filter(
     (plan) =>
-      plan.id === "first_3_months_monthly" ||
-      plan.id === "first_3_months_annual",
+      plan.id === SubscriptionPlanId.FirstThreeMonthsMonthly ||
+      plan.id === SubscriptionPlanId.FirstThreeMonthsAnnual,
   );
   const subscriptionStatus = statusData?.data;
 
-  const handleSubscribe = (planType: "monthly" | "annual", planId: string) => {
+  const handleSubscribe = (planId: SubscriptionPlanId) => {
     setProcessingPlanId(planId);
     const successUrl = `${window.location.origin}/artisan/dashboard/subscription?success=true&session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${window.location.origin}/artisan/dashboard/subscription`;
 
     createCheckoutSession(
       {
-        planType,
+        planType: planId,
         successUrl,
         cancelUrl,
       },
@@ -109,50 +215,25 @@ const SubscriptionPage = (props: Props) => {
       {/* Current Subscription Status - clickable to open history */}
       {!statusLoading && subscriptionStatus && (
         <Link href="/artisan/dashboard/subscription/history" className="block">
-          <Wrapper className="border-l-4 border-l-primary cursor-pointer hover:bg-gray-50/50 transition-colors">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div className="flex items-start gap-3">
-                {subscriptionStatus.isActive ? (
-                  <Check className="text-green-600 mt-0.5" size={20} />
-                ) : (
-                  <AlertCircle className="text-yellow-600 mt-0.5" size={20} />
-                )}
-                <div>
-                  <h3 className="text-base font-semibold text-gray-900 mb-1">
-                    {subscriptionStatus.isActive
-                      ? "Active Subscription"
-                      : "No Active Subscription"}
-                  </h3>
-                  {subscriptionStatus.isActive ? (
-                    <div className="text-sm text-gray-700 space-y-1">
-                      <p>
-                        Plan:{" "}
-                        <span className="font-medium capitalize">
-                          {subscriptionStatus.planType}
-                        </span>
-                      </p>
-                      {subscriptionStatus.currentPeriodEnd && (
-                        <p>
-                          Renews:{" "}
-                          <span className="font-medium">
-                            {new Date(
-                              subscriptionStatus.currentPeriodEnd,
-                            ).toLocaleDateString()}
-                          </span>
-                        </p>
-                      )}
-                      {subscriptionStatus.cancelAtPeriodEnd && (
-                        <p className="text-yellow-600 font-medium">
-                          Will cancel at period end
-                        </p>
-                      )}
-                    </div>
-                  ) : (
-                    <p className="text-sm text-gray-700">
-                      Your profile is not visible to clients. Subscribe to start
-                      receiving requests.
+          <Wrapper
+            className={`border-l-4 cursor-pointer hover:bg-gray-50/50 transition-colors ${getStatusBorderColor(subscriptionStatus.status)}`}
+          >
+            <div className="flex items-start gap-3">
+              {getStatusIcon(subscriptionStatus.status)}
+              <div>
+                <h3 className="text-base font-semibold text-gray-900 mb-1">
+                  {getStatusTitle(subscriptionStatus.status)}
+                </h3>
+                <div className="text-sm text-gray-700 space-y-1">
+                  {subscriptionStatus.planType && (
+                    <p>
+                      Plan:{" "}
+                      <span className="font-medium capitalize">
+                        {subscriptionStatus.planType.replace(/_/g, " ")}
+                      </span>
                     </p>
                   )}
+                  {getStatusDetail(subscriptionStatus)}
                 </div>
               </div>
             </div>
@@ -172,7 +253,7 @@ const SubscriptionPage = (props: Props) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {plans.map((plan) => {
-            const isPopular = plan.id === "first_3_months_annual";
+            const isPopular = plan.id === SubscriptionPlanId.FirstThreeMonthsAnnual;
             const isCurrentPlan =
               subscriptionStatus?.isActive &&
               subscriptionStatus?.planType ===
@@ -245,10 +326,7 @@ const SubscriptionPage = (props: Props) => {
                     }
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSubscribe(
-                        plan.interval === "month" ? "monthly" : "annual",
-                        plan.id,
-                      );
+                      handleSubscribe(plan.id as SubscriptionPlanId);
                     }}
                     disabled={
                       isCurrentPlan ||

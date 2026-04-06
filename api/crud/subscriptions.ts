@@ -1,5 +1,6 @@
 import { useApiMutation } from "@/hooks/useApiMutation";
 import { useApiQuery } from "@/hooks/useApiQuery";
+import { SubscriptionPlanId } from "@/types/subscription";
 
 export interface SubscriptionPlan {
   id: string;
@@ -11,11 +12,22 @@ export interface SubscriptionPlan {
   features: string[];
 }
 
+export type SubscriptionStatusValue =
+  | "incomplete"
+  | "incomplete_expired"
+  | "trialing"
+  | "active"
+  | "past_due"
+  | "unpaid"
+  | "canceled"
+  | "expired"
+  | null;
+
 export interface SubscriptionStatus {
   hasSubscription: boolean;
   isActive: boolean;
-  status: "active" | "past_due" | "canceled" | "expired" | null;
-  planType: "monthly" | "annual" | null;
+  status: SubscriptionStatusValue;
+  planType: string | null;
   currentPeriodStart: string | null;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
@@ -39,7 +51,7 @@ export interface PaymentHistory {
 }
 
 export interface CheckoutRequest {
-  planType: "monthly" | "annual";
+  planType: SubscriptionPlanId;
   successUrl: string;
   cancelUrl: string;
 }

@@ -231,7 +231,6 @@ export const useArtisans = () => {
     },
     options?: { enabled?: boolean }
   ) => {
-
     return useApiQuery<ArtisanDetails>(
       ["filtered_artisans", params],
       {
@@ -239,9 +238,9 @@ export const useArtisans = () => {
         method: "GET",
         params,
       },
-      // {
-      //   enabled: options?.enabled ?? false,
-      // }
+      {
+        enabled: options?.enabled ?? true,
+      }
     );
   };
 

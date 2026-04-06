@@ -13,7 +13,6 @@ export const api = async <T>({
 
     return response?.data;
   } catch (error) {
-    console.log(error, "error_queryy");
     throw globalErrorHandler(error);
   }
 };

@@ -3,7 +3,7 @@ import { useApiMutation } from "@/hooks/useApiMutation";
 
 export const useAuth = () => {
   const registerUser = useApiMutation<AuthResponse, FormData>({
-    url: "/auth/register ",
+    url: "/auth/register",
     method: "POST",
   });
 
