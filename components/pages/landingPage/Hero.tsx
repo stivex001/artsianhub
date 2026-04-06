@@ -7,6 +7,7 @@ import { PopularService } from "./PopularService";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { EASE_OUT } from "@/lib/easing";
+import { useLocationStore } from "@/store/locationStore";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -20,6 +21,14 @@ const fadeUp = {
 export const Hero = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { country } = useLocationStore();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchTerm.trim()) params.set("q", searchTerm.trim());
+    if (country) params.set("country", country);
+    router.push(`/artisans?${params.toString()}`);
+  };
 
   return (
     <section
@@ -91,10 +100,12 @@ export const Hero = () => {
                 placeholder="Search for any service..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 className="w-full px-6 py-4 text-gray-700 bg-transparent border-none outline-none placeholder-gray-400 text-base"
               />
             </div>
             <motion.button
+              onClick={handleSearch}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}
               className="bg-darkBlue hover:bg-blue-700 px-8 py-4 rounded-tr-full rounded-br-full transition-colors duration-200 flex items-center justify-center min-w-[88px]"

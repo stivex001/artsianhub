@@ -1,5 +1,6 @@
 import Footer from "@/components/navigations/Footer";
 import { PublicHeader } from "@/components/navigations/PublicHeader";
+import { LocationDetector } from "@/components/shared/LocationDetector";
 import React from "react";
 
 type Props = {
@@ -10,6 +11,7 @@ const PublicLayout = ({ children }: Props) => {
   return (
     <div className="">
       <PublicHeader />
+      <LocationDetector />
       <div
         id="public-scroll-container"
         className="h-[calc(100vh-96px)] overflow-y-auto scrollbar-hidden"

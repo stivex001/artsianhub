@@ -6,9 +6,9 @@ import {
   Plumbers,
   Watchmakers,
 } from "@/components/assets/icons/FeaturedIcons";
-import { useArtisans } from "@/api/crud/artisans";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCategories } from "@/api/crud/categories";
+import { useArtisansNearMe } from "@/hooks/useArtisansNearMe";
 import { CategoryHero } from "@/components/pages/artisanCategoryPage/CategoryHero";
 import {
   CategoryCard,
@@ -16,6 +16,7 @@ import {
 } from "@/components/pages/artisanCategoryPage/CategoryCard";
 import { CategoryFeaturedArtisans } from "@/components/pages/artisanCategoryPage/CategoryFeaturedArtisans";
 import { ExploreOtherCategories } from "@/components/pages/artisanCategoryPage/ExploreOtherCategories";
+import { LocationBanner } from "@/components/shared/LocationBanner";
 
 const dummySubCategories = [
   {
@@ -49,15 +50,12 @@ export default function SkilledArtisansPage() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
 
-  const { getArtisanAroundMe } = useArtisans();
   const { getSubCategoryByCategoryId } = useCategories();
+  const { artisans: skilled_artisan, isPending, city, country, useCityFilter } = useArtisansNearMe();
 
   const { data: subCat, isPending: subPending } = getSubCategoryByCategoryId(
     categoryId || "",
   );
-
-  const { data, isPending } = getArtisanAroundMe();
-  const skilled_artisan = data?.data || [];
 
   const handleCategoryClick = (cat: any) => {
     const params = new URLSearchParams({
@@ -95,6 +93,7 @@ export default function SkilledArtisansPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <LocationBanner />
       <CategoryHero
         emoji="🔧"
         tagline="Mensayhub"
@@ -138,6 +137,13 @@ export default function SkilledArtisansPage() {
         artisans={skilled_artisan}
         isLoading={isPending}
         categoryName="Pro"
+        locationNote={
+          !useCityFilter && country
+            ? `Showing all artisans in ${country}`
+            : useCityFilter && city
+              ? `Filtered to ${city}`
+              : undefined
+        }
       />
 
       <ExploreOtherCategories currentCategoryTitle="Pro Artisans" />

@@ -22,10 +22,16 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
+// Endpoints that are public — a 401 should never trigger a redirect to login
+const PUBLIC_ENDPOINTS = ["/searches/recent"];
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.response?.status === 401) {
+    const url = error.config?.url ?? "";
+    const isPublic = PUBLIC_ENDPOINTS.some((endpoint) => url.includes(endpoint));
+
+    if (error.response?.status === 401 && !isPublic) {
       // Access the logout function directly from the store
       useAuthStore.getState().logout();
       window.location.href = "/auth/login";

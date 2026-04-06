@@ -10,6 +10,7 @@ interface CategoryFeaturedArtisansProps {
   artisans: any[];
   isLoading: boolean;
   categoryName: string;
+  locationNote?: string;
 }
 
 const containerVariants = {
@@ -44,6 +45,7 @@ export const CategoryFeaturedArtisans = ({
   artisans,
   isLoading,
   categoryName,
+  locationNote,
 }: CategoryFeaturedArtisansProps) => {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
@@ -63,6 +65,11 @@ export const CategoryFeaturedArtisans = ({
           <p className="text-gray-500 text-base md:text-lg">
             Top-rated artisans consistently delivering exceptional work.
           </p>
+          {locationNote && (
+            <p className="mt-3 text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2 inline-block">
+              {locationNote}
+            </p>
+          )}
         </motion.div>
 
         {/* Grid */}

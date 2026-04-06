@@ -6,6 +6,7 @@ import { getSubCategoryMeta } from "./subcategoryMeta";
 import { SubcategoryHero } from "./SubcategoryHero";
 import { FeaturedArtisansGrid } from "./FeaturedArtisansGrid";
 import { ExploreOtherSubcategories } from "./ExploreOtherSubcategories";
+import { LocationBanner } from "@/components/shared/LocationBanner";
 import type { SubcategoryPageClientProps } from "./types";
 
 export const SubcategoryPageClient = ({
@@ -40,6 +41,7 @@ export const SubcategoryPageClient = ({
 
   return (
     <main className="min-h-screen bg-white">
+      <LocationBanner />
       <SubcategoryHero
         subCategoryName={subCategoryName}
         description={meta.description}
