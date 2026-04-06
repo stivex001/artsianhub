@@ -1,8 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Extract the real client IP — Vercel sets x-forwarded-for on prod
+  const forwarded = request.headers.get("x-forwarded-for");
+  const clientIp = forwarded ? forwarded.split(",")[0].trim() : null;
+
+  // Pass the client IP to ip-api so it geolocates the user, not Vercel's server
+  const url = clientIp
+    ? `http://ip-api.com/json/${clientIp}?fields=status,city,country`
+    : "http://ip-api.com/json?fields=status,city,country";
+
   try {
-    const res = await fetch("http://ip-api.com/json?fields=status,city,country", {
+    const res = await fetch(url, {
       next: { revalidate: 0 }, // never cache — each visitor has a different IP
     });
     const data = await res.json();
