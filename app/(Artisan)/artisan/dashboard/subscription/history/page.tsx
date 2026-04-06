@@ -8,6 +8,7 @@ import { ReusableTable } from "@/components/shared/ResuableTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useSubscriptions } from "@/api/crud/subscriptions";
+import { SubscriptionPlanId } from "@/types/subscription";
 import type { PaymentHistory } from "@/api/crud/subscriptions";
 import { Descriptions } from "@/components/shared/Headings";
 import { toast } from "sonner";
@@ -82,7 +83,7 @@ export default function SubscriptionHistoryPage() {
 
     createCheckoutSession(
       {
-        planType: (subscriptionStatus?.planType ?? "monthly") as "monthly" | "annual",
+        planType: (subscriptionStatus?.planType ?? SubscriptionPlanId.FirstThreeMonthsMonthly) as SubscriptionPlanId,
         successUrl,
         cancelUrl,
       },
