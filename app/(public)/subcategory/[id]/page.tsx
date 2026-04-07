@@ -33,10 +33,11 @@ export default async function SubcategoryPage({
   const queryClient = createServerQueryClient();
   const location = await detectLocationFromIp(ip);
 
-  // Prefetch artisans (search by subcategory name) and sibling subcategories concurrently
+  // Prefetch all country artisans (no q) + sibling subcategories concurrently.
+  // Client-side filtering by subCategoryId handles multi-subcategory artisans correctly.
   await Promise.all([
-    location && subCategoryName
-      ? prefetchArtisans(queryClient, location.country, subCategoryName)
+    location
+      ? prefetchArtisans(queryClient, location.country)
       : Promise.resolve(),
     categoryId
       ? prefetchSubCategories(queryClient, categoryId)

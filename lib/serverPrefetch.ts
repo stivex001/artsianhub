@@ -4,7 +4,7 @@
  */
 import { QueryClient } from "@tanstack/react-query";
 import { BASE_URL } from "@/constants";
-import { normalizeCountry } from "@/utils/normalizeCountry";
+import { normalizeCountry, toApiCountry } from "@/utils/normalizeCountry";
 
 // ---------------------------------------------------------------------------
 // QueryClient factory
@@ -156,13 +156,15 @@ export async function prefetchArtisans(
   country: string,
   q?: string
 ): Promise<void> {
+  // country is already normalized (canonical name). Convert to what the DB stores.
+  const dbCountry = toApiCountry(country);
   const key: any[] = q
-    ? ["filtered_artisans", { country, q }]
-    : ["filtered_artisans", { country }];
+    ? ["filtered_artisans", { country: dbCountry, q }]
+    : ["filtered_artisans", { country: dbCountry }];
   try {
     await queryClient.prefetchQuery({
       queryKey: key,
-      queryFn: () => fetchArtisans(country, q),
+      queryFn: () => fetchArtisans(dbCountry, q),
     });
   } catch {
     // client will re-fetch
