@@ -1,7 +1,7 @@
 "use client";
 import { useArtisans } from "@/api/crud/artisans";
 import { useLocationStore } from "@/store/locationStore";
-import { normalizeCountry } from "@/utils/normalizeCountry";
+import { normalizeCountry, toApiCountry } from "@/utils/normalizeCountry";
 
 interface UseArtisansNearMeOptions {
   q?: string; // search term from URL or caller
@@ -13,8 +13,9 @@ export const useArtisansNearMe = ({ q }: UseArtisansNearMeOptions = {}) => {
   const { city, country, isDetected, useCityFilter } = useLocationStore();
   const { getArtisanAroundMe } = useArtisans();
 
+  const normalizedCountry = country ? normalizeCountry(country) : undefined;
   const params = {
-    country: country ? normalizeCountry(country) : undefined,
+    country: normalizedCountry ? toApiCountry(normalizedCountry) : undefined,
     city: useCityFilter && city ? city : undefined,
     q: q || undefined,
   };
@@ -23,7 +24,7 @@ export const useArtisansNearMe = ({ q }: UseArtisansNearMeOptions = {}) => {
     enabled: isDetected, // wait until location is resolved before fetching
   });
 
-  const normalizedUserCountry = country ? normalizeCountry(country) : null;
+  const normalizedUserCountry = normalizedCountry ?? null;
 
   // Client-side country guard: the backend's country filter is unreliable
   // (e.g. it returns country="GB" artisans when querying country="Nigeria").

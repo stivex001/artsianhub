@@ -101,3 +101,21 @@ export function aliasesFor(canonical: string): string[] {
     .map(([k]) => k);
   return [normalized, ...aliases.filter((a) => a !== normalized)];
 }
+
+/**
+ * Maps a canonical country name to the value the backend DB actually stores.
+ * Some countries are stored as ISO codes (e.g. UK artisans have country="GB"),
+ * others as full names (e.g. Nigeria artisans have country="Nigeria").
+ *
+ * Use this when building API query params — NOT for display or client-side filtering.
+ * Client-side filtering always uses normalizeCountry() so it catches all variants.
+ *
+ * Add entries here as you discover backend/DB inconsistencies.
+ */
+const CANONICAL_TO_DB: Record<string, string> = {
+  "United Kingdom": "GB", // DB stores ISO code for UK artisans
+};
+
+export function toApiCountry(canonical: string): string {
+  return CANONICAL_TO_DB[canonical] ?? canonical;
+}

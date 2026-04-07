@@ -18,8 +18,16 @@ export const SubcategoryPageClient = ({
 }: SubcategoryPageClientProps) => {
   const { getSubCategoryByCategoryId } = useCategories();
 
-  // Fetch artisans filtered by location + subcategory name search
-  const { artisans, isPending: artisanLoading } = useArtisansNearMe({ q: subCategoryName });
+  // Fetch all artisans for the user's country, then filter client-side by subCategoryId.
+  // This correctly handles artisans belonging to multiple subcategories — they appear
+  // in every subcategory listed in their subCategories array, not just text-search matches.
+  const { artisans: allArtisans, isPending: artisanLoading } = useArtisansNearMe();
+
+  const artisans = subCategoryId
+    ? allArtisans.filter((a: any) =>
+        a.subCategories?.some((sc: any) => sc._id === subCategoryId)
+      )
+    : allArtisans;
 
   // Fetch siblings (all subcategories in parent category)
   const { data: siblingsData, isPending: siblingsLoading } =
