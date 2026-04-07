@@ -16,7 +16,7 @@ npx jest --testNamePattern "test name"  # Run tests matching a name
 
 ## Architecture Overview
 
-**Mensayhub** (Artisanshub) is a multi-role marketplace platform connecting artisans with clients.
+**Artisanshub** (Artisanshub) is a multi-role marketplace platform connecting artisans with clients.
 
 ### Routing Structure
 
