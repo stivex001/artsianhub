@@ -1,13 +1,20 @@
 "use client";
-import { Descriptions } from "@/components/shared/Headings";
+
 import React, { useEffect, useState } from "react";
 import Categories from "@/components/admin/category/Categories";
 import ViewCategories from "@/components/admin/category/ViewCategories";
+import CreateCategories from "@/components/admin/category/CreateCategories";
 import Wrapper from "@/components/shared/Wrapper";
 import { useRouter, useSearchParams } from "next/navigation";
-import CreateCategories from "@/components/admin/category/CreateCategories";
+import { LayoutGrid, Eye, Plus } from "lucide-react";
 
 type TabKey = "categories" | "view" | "create";
+
+const tabs: { key: TabKey; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+  { key: "categories", label: "Categories", icon: LayoutGrid },
+  { key: "view", label: "View All", icon: Eye },
+  { key: "create", label: "Create New", icon: Plus },
+];
 
 const ManageCategories = () => {
   const searchParams = useSearchParams();
@@ -16,9 +23,7 @@ const ManageCategories = () => {
 
   useEffect(() => {
     const tab = searchParams.get("tab") as TabKey;
-    if (tab) {
-      setActiveTab(tab);
-    }
+    if (tab) setActiveTab(tab);
   }, [searchParams]);
 
   const handleTabChange = (tab: TabKey) => {
@@ -42,39 +47,36 @@ const ManageCategories = () => {
   };
 
   return (
-    <section className="flex flex-col">
-      <Descriptions title="Manage Categories " className="font-normal" />
-
-      <div className="flex items-center justify-between gap-6 mt-10 mb-2.5 px-3">
-        <div className="flex items-center gap-4">
-          <button
-            className={`pb-2 text-base text-secondary ${
-              activeTab === "categories" ? "border-b border-blue-600" : ""
-            }`}
-            onClick={() => handleTabChange("categories")}
-          >
-            Categories
-          </button>
-          <button
-            className={`pb-2 text-base text-secondary ${
-              activeTab === "view" ? "border-b border-blue-600 " : ""
-            }`}
-            onClick={() => handleTabChange("view")}
-          >
-            View Categories
-          </button>
-        </div>
-        <button
-          className={`pb-2 text-base text-secondary ${
-            activeTab === "create" ? "border-b-2 border-blue-600 " : ""
-          }`}
-          onClick={() => handleTabChange("create")}
-        >
-          Create Categories
-        </button>
+    <section className="flex flex-col gap-6">
+      {/* ── Header ──────────────────────────────────────────────── */}
+      <div>
+        <h1 className="text-xl font-bold text-gray-900">Manage Categories</h1>
+        <p className="text-sm text-gray-500 mt-0.5">
+          Organise and manage service categories on the platform
+        </p>
       </div>
-      <Wrapper className="shadow-cardShadow px-3 py-8 border-white">
-        <div>{renderTabContent()}</div>
+
+      {/* ── Tab bar ─────────────────────────────────────────────── */}
+      <div className="flex items-center gap-2 bg-white rounded-2xl p-1.5 border border-gray-100 shadow-sm w-fit">
+        {tabs.map(({ key, label, icon: Icon }) => (
+          <button
+            key={key}
+            onClick={() => handleTabChange(key)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              activeTab === key
+                ? "bg-primary text-white shadow-sm"
+                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+            }`}
+          >
+            <Icon className="w-3.5 h-3.5" />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Content ─────────────────────────────────────────────── */}
+      <Wrapper className="shadow-sm border border-gray-100">
+        {renderTabContent()}
       </Wrapper>
     </section>
   );
