@@ -14,7 +14,7 @@ export const TermsContent = (props: Props) => {
         </Link>
       </h1>
       <p className="text-gray-600">
-        Powered by MensayHub Ltd (UK) and Mensay Enterprises Ltd (Nigeria)
+        Powered by Artisanshub Ltd (UK) and Mensay Enterprises Ltd (Nigeria)
       </p>
 
       <section>
@@ -97,7 +97,7 @@ export const TermsContent = (props: Props) => {
         </h2>
         <p className="text-gray-700 mt-2">
           All content on ArtisansHub.org, including logos, text, graphics, and
-          software, is owned by MensayHub Ltd or its affiliates and may not be
+          software, is owned by Artisanshub Ltd or its affiliates and may not be
           copied, modified, or distributed without prior written consent.
         </p>
       </section>
@@ -118,7 +118,7 @@ export const TermsContent = (props: Props) => {
           9. Contact Information
         </h2>
         <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">
-          <li>UK: support@artisanshub.org – MensayHub Ltd, UK</li>
+          <li>UK: support@artisanshub.org – Artisanshub Ltd, UK</li>
           <li>
             Nigeria: Admin@artisanshub.org – Mensay Enterprises Ltd, Nigeria
           </li>

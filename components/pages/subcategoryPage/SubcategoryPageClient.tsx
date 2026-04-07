@@ -1,6 +1,6 @@
 "use client";
 
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisansNearMe } from "@/hooks/useArtisansNearMe";
 import { useCategories } from "@/api/crud/categories";
 import { getSubCategoryMeta } from "./subcategoryMeta";
 import { SubcategoryHero } from "./SubcategoryHero";
@@ -16,19 +16,14 @@ export const SubcategoryPageClient = ({
   categoryName = "Artisans",
   categorySlug = "/",
 }: SubcategoryPageClientProps) => {
-  const { getArtisanAroundMe } = useArtisans();
   const { getSubCategoryByCategoryId } = useCategories();
 
-  // Fetch artisans — search by subcategory name for best relevance
-  const { data: artisanData, isPending: artisanLoading } = getArtisanAroundMe({
-    q: subCategoryName,
-  });
+  // Fetch artisans filtered by location + subcategory name search
+  const { artisans, isPending: artisanLoading } = useArtisansNearMe({ q: subCategoryName });
 
   // Fetch siblings (all subcategories in parent category)
   const { data: siblingsData, isPending: siblingsLoading } =
     getSubCategoryByCategoryId(categoryId);
-
-  const artisans = artisanData?.data ?? [];
 
   // Normalise sibling data — API returns { data: [...] } or an array directly
   const siblingRaw = Array.isArray(siblingsData)

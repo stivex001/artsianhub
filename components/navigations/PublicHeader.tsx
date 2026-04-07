@@ -31,5 +31,5 @@ export const PublicHeader = () => {
       ? "h-24 lg:h-20 w-full transition-all duration-500 bg-transparent"
       : "bg-white h-24 lg:h-20 w-full transition-all duration-500 shadow-sm";
 
-  return <Header className={headerClass} isTransparent={isHome && !scrolled} />;
+  return <Header className={headerClass} />;
 };
