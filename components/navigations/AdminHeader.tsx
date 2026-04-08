@@ -55,6 +55,24 @@ export const AdminHeader = (props: Props) => {
     title = "Settings";
   } else if (pathname.startsWith("/artisan/dashboard/manage-appointment")) {
     title = "Manage Appointment";
+  } else if (pathname === "/admin/dashboard") {
+    title =
+      isHydrated && currentUser
+        ? `Welcome ${currentUser?.firstName} ${currentUser?.lastName}`
+        : "Welcome Back!";
+    subtitle = "Manage your platform, artisans, and categories from one place.";
+  } else if (pathname.startsWith("/admin/dashboard/manage-artisans")) {
+    title = "Manage Artisans";
+  } else if (pathname.startsWith("/admin/dashboard/manage-contacts")) {
+    title = "Manage Contacts";
+  } else if (pathname.startsWith("/admin/dashboard/manage-categories")) {
+    title = "Manage Categories";
+  } else if (pathname === "/admin/dashboard/portfolio") {
+    title = "Portfolio";
+  } else if (pathname === "/admin/dashboard/settings") {
+    title = "Settings";
+  } else if (pathname.startsWith("/admin/dashboard/subscription")) {
+    title = "Subscription";
   } else {
     title = "Welcome Back!";
     subtitle = "Let's get things done today.";

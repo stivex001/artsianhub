@@ -19,12 +19,13 @@ interface SidebarMenuProps {
 }
 
 const isRouteActive = (currentPath: string, linkPath: string) => {
+  const normalized = currentPath.replace(/\/$/, "") || "/";
   if (linkPath === "/artisan/dashboard") {
-    return currentPath === "/artisan/dashboard";
+    return normalized === "/artisan/dashboard";
   } else if (linkPath === "/admin/dashboard") {
-    return currentPath === "/admin/dashboard";
+    return normalized === "/admin/dashboard";
   }
-  return currentPath === linkPath || currentPath.startsWith(`${linkPath}/`);
+  return normalized === linkPath || normalized.startsWith(`${linkPath}/`);
 };
 
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ links, mobile }) => {
