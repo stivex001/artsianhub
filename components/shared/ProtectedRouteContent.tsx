@@ -8,9 +8,10 @@ import { AuthLoadingScreen } from "../auth/AuthLoader";
 type Props = {
   allowedRoles: string[];
   children: React.ReactNode;
+  loginPath?: string;
 };
 
-const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
+const ProtectedRouteContent = ({ allowedRoles, children, loginPath }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,7 +27,8 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
       const fullPath = `${pathname}${
         searchParams.toString() ? `?${searchParams.toString()}` : ""
       }`;
-      router.replace(`/auth/login?redirect=${encodeURIComponent(fullPath)}`);
+      const redirectTo = loginPath ?? "/auth/login";
+      router.replace(`${redirectTo}?redirect=${encodeURIComponent(fullPath)}`);
       return;
     }
 

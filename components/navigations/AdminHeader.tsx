@@ -20,13 +20,21 @@ export const AdminHeader = (props: Props) => {
   const [openNotification, setOpenNotification] = useState(false);
 
   const { currentUser, isHydrated } = useAuthStore();
+
+  // Admins don't have an artisan profile — skip the /artisans/me call to avoid a
+  // 401 that would clear the token and redirect back to the login page.
+  const isAdmin =
+    isHydrated &&
+    (currentUser?.isAdmin === true || currentUser?.role === "SUPER_ADMIN");
+
   const { getMyProfile } = useArtisans();
-  const { data: profile } = getMyProfile();
+  const { data: profile } = getMyProfile({ enabled: !isAdmin });
 
   const personalInfo = profile?.data;
   const profilePhoto = personalInfo?.profilePicture;
 
-  const { getAllNotifications } = useNotification();
+  // Also gate notifications so admin-only 401s don't blow up the session.
+  const { getAllNotifications } = useNotification({ notificationsEnabled: !isAdmin });
 
   const { data: notify, isPending } = getAllNotifications();
 
@@ -73,6 +81,16 @@ export const AdminHeader = (props: Props) => {
     title = "Settings";
   } else if (pathname.startsWith("/admin/dashboard/subscription")) {
     title = "Subscription";
+  } else if (pathname.startsWith("/admin/dashboard/manage-clients")) {
+    title = "Manage Clients";
+  } else if (pathname.startsWith("/admin/dashboard/bookings")) {
+    title = "Bookings";
+  } else if (pathname.startsWith("/admin/dashboard/support-tickets")) {
+    title = "Support Tickets";
+  } else if (pathname.startsWith("/admin/dashboard/reviews")) {
+    title = "Reviews";
+  } else if (pathname.startsWith("/admin/dashboard/notifications")) {
+    title = "Notifications";
   } else {
     title = "Welcome Back!";
     subtitle = "Let's get things done today.";

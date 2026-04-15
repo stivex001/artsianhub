@@ -153,6 +153,44 @@ export const SecurityIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
+// ── New Admin Nav Icons ────────────────────────────────────────────────────────
+
+export const TicketIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M14.167 2.5H5.833A3.333 3.333 0 0 0 2.5 5.833v8.334A3.333 3.333 0 0 0 5.833 17.5h8.334a3.333 3.333 0 0 0 3.333-3.333V5.833A3.333 3.333 0 0 0 14.167 2.5Z" />
+    <path fill="currentColor" d="M6.667 7.5h6.666a.833.833 0 0 1 0 1.667H6.667A.833.833 0 1 1 6.667 7.5Zm0 3.333h4.166a.833.833 0 1 1 0 1.667H6.667a.833.833 0 0 1 0-1.667Z" />
+  </svg>
+)
+
+export const ClientsIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M14.166 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667Z" />
+    <path fill="currentColor" d="M5.833 9.167a3.333 3.333 0 1 0 0-6.667 3.333 3.333 0 0 0 0 6.667Zm8.834 1.666h-1.5A5.006 5.006 0 0 1 17.5 15.5v.833a.833.833 0 1 1-1.667 0V15.5a3.333 3.333 0 0 0-3.333-3.333h-5a3.333 3.333 0 0 0-3.333 3.333v.833a.833.833 0 1 1-1.667 0V15.5a5.006 5.006 0 0 1 4.333-4.667h-1.5" />
+    <path fill="currentColor" d="M10 10.833a5 5 0 0 1 5 5v.834a.833.833 0 0 1-1.667 0v-.834a3.333 3.333 0 0 0-6.666 0v.834a.833.833 0 0 1-1.667 0v-.834a5 5 0 0 1 5-5Z" />
+  </svg>
+)
+
+export const BookingNavIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M15 2.5H5A2.5 2.5 0 0 0 2.5 5v11.667A.833.833 0 0 0 3.333 17.5h13.334a.833.833 0 0 0 .833-.833V5A2.5 2.5 0 0 0 15 2.5Z" />
+    <path fill="currentColor" d="M6.667 1.667a.833.833 0 0 1 .833.833v1.667a.833.833 0 1 1-1.667 0V2.5a.833.833 0 0 1 .834-.833Zm6.666 0a.833.833 0 0 1 .834.833v1.667a.833.833 0 0 1-1.667 0V2.5a.833.833 0 0 1 .833-.833ZM5.833 8.333h8.334a.833.833 0 0 1 0 1.667H5.833a.833.833 0 1 1 0-1.667Zm0 3.334h5a.833.833 0 0 1 0 1.666h-5a.833.833 0 0 1 0-1.666Z" />
+  </svg>
+)
+
+export const ReviewNavIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M10 2.5 12.09 7.1l5.077.738-3.667 3.572.865 5.045L10 14.01l-4.365 2.444.865-5.045-3.667-3.572L7.91 7.1 10 2.5Z" />
+    <path fill="currentColor" d="M10 2.5 12.09 7.1l5.077.738-3.667 3.572.865 5.045L10 14.01l-4.365 2.444.865-5.045-3.667-3.572L7.91 7.1 10 2.5Z" />
+  </svg>
+)
+
+export const NotifBellIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M10 2.5a5.833 5.833 0 0 0-5.833 5.833v2.5l-1.25 2.5h14.166l-1.25-2.5v-2.5A5.833 5.833 0 0 0 10 2.5Z" />
+    <path fill="currentColor" d="M8.25 15.833a1.75 1.75 0 0 0 3.5 0H8.25Z" />
+  </svg>
+)
+
 export const KycIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

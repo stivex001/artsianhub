@@ -5,12 +5,13 @@ import ProtectedRouteContent from "./ProtectedRouteContent";
 type Props = {
   allowedRoles: string[];
   children: React.ReactNode;
+  loginPath?: string;
 };
 
-export default function ProtectedRoute({ allowedRoles, children }: Props) {
+export default function ProtectedRoute({ allowedRoles, children, loginPath }: Props) {
   return (
     <Suspense fallback={<Loader />}>
-      <ProtectedRouteContent allowedRoles={allowedRoles} children={children} />
+      <ProtectedRouteContent allowedRoles={allowedRoles} loginPath={loginPath} children={children} />
     </Suspense>
   );
 }

@@ -6,7 +6,14 @@ type Props = {
 };
 
 const AdminDashboardLayout = ({ children }: Props) => {
-  return <DashboardLayout allowedRoles={["admin"]}>{children}</DashboardLayout>;
+  return (
+    <DashboardLayout
+      allowedRoles={["admin", "SUPER_ADMIN"]}
+      loginPath="/admin/auth/login"
+    >
+      {children}
+    </DashboardLayout>
+  );
 };
 
 export default AdminDashboardLayout;

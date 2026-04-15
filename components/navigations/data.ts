@@ -1,4 +1,16 @@
-import { BriefCaseIcon, CalenderIcon, DashboardIcon, FolioIcon, SettingsIcon, SubIcon } from "../assets/icons/LinksIcon";
+import {
+  BriefCaseIcon,
+  CalenderIcon,
+  DashboardIcon,
+  FolioIcon,
+  SettingsIcon,
+  SubIcon,
+  TicketIcon,
+  ClientsIcon,
+  BookingNavIcon,
+  ReviewNavIcon,
+  NotifBellIcon,
+} from "../assets/icons/LinksIcon";
 
 export const artisanLinks = [
   {
@@ -11,19 +23,16 @@ export const artisanLinks = [
     label: "Manage Appointment",
     icon: BriefCaseIcon,
   },
-
   {
     path: "/artisan/dashboard/calender",
     label: "Calendar",
     icon: CalenderIcon,
   },
-
   {
     path: "/artisan/dashboard/portfolio",
     label: "Portfolio",
     icon: FolioIcon,
   },
-
   {
     path: "/artisan/dashboard/subscription",
     label: "Subscription",
@@ -48,13 +57,43 @@ export const adminLinks = [
     icon: BriefCaseIcon,
   },
   {
+    path: "/admin/dashboard/manage-clients",
+    label: "Manage Clients",
+    icon: ClientsIcon,
+  },
+  {
     path: "/admin/dashboard/manage-contacts",
     label: "Manage Contacts",
-    icon: DashboardIcon,
+    icon: FolioIcon,
   },
   {
     path: "/admin/dashboard/manage-categories",
     label: "Manage Categories",
-    icon: DashboardIcon,
+    icon: CalenderIcon,
+  },
+  {
+    path: "/admin/dashboard/bookings",
+    label: "Bookings",
+    icon: BookingNavIcon,
+  },
+  {
+    path: "/admin/dashboard/support-tickets",
+    label: "Support Tickets",
+    icon: TicketIcon,
+  },
+  {
+    path: "/admin/dashboard/reviews",
+    label: "Reviews",
+    icon: ReviewNavIcon,
+  },
+  {
+    path: "/admin/dashboard/notifications",
+    label: "Notifications",
+    icon: NotifBellIcon,
+  },
+  {
+    path: "/admin/dashboard/settings",
+    label: "Settings",
+    icon: SettingsIcon,
   },
 ];
