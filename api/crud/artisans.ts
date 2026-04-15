@@ -187,11 +187,11 @@ export const useArtisans = () => {
       method: "GET",
     });
 
-  const getMyProfile = () =>
+  const getMyProfile = (options?: { enabled?: boolean }) =>
     useApiQuery<GetSingleArtisan>(["my-profile"], {
       url: `/artisans/me`,
       method: "GET",
-    });
+    }, { enabled: options?.enabled ?? true });
 
   const getArtisanById = (id: string) =>
     useApiQuery<GetSingleArtisan>(["single-artisan", id], {

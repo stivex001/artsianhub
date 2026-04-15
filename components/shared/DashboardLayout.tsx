@@ -5,16 +5,15 @@ import Sidebar from "@/components/navigations/Sidebar";
 import { AdminHeader } from "@/components/navigations/AdminHeader";
 import ProtectedRoutes from "@/components/shared/ProtectedRoutes";
 
-type Role = "artisan" | "admin" | "client";
-
 type Props = {
   children: ReactNode;
-  allowedRoles: Role[];
+  allowedRoles: string[];
+  loginPath?: string;
 };
 
-const DashboardLayout = ({ children, allowedRoles }: Props) => {
+const DashboardLayout = ({ children, allowedRoles, loginPath }: Props) => {
   return (
-    <ProtectedRoutes allowedRoles={allowedRoles}>
+    <ProtectedRoutes allowedRoles={allowedRoles} loginPath={loginPath}>
       <div className="flex min-h-screen w-full h-full overflow-x-clip">
         <Sidebar />
         <div className="w-full lg:w-[80%] bg-[#f9f9fb] rounded-[10px]">
