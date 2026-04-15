@@ -19,6 +19,10 @@ const ProtectedRouteContent = ({ allowedRoles, children, loginPath }: Props) => 
 
   const role = currentUser?.role;
 
+  // Case-insensitive role check so the API casing (e.g. "ADMIN" vs "admin") never matters
+  const roleAllowed = (r: string | undefined) =>
+    !r || allowedRoles.some((a) => a.toLowerCase() === r.toLowerCase());
+
   useEffect(() => {
     // Don't redirect until hydration is complete
     if (!isHydrated) return;
@@ -32,7 +36,7 @@ const ProtectedRouteContent = ({ allowedRoles, children, loginPath }: Props) => 
       return;
     }
 
-    if (role && !allowedRoles.includes(role)) {
+    if (!roleAllowed(role)) {
       router.replace("/403");
     }
   }, [
@@ -50,7 +54,7 @@ const ProtectedRouteContent = ({ allowedRoles, children, loginPath }: Props) => 
     return <AuthLoadingScreen message="Loading..." />;
   }
 
-  if (!accessToken || (role && !allowedRoles.includes(role))) {
+  if (!accessToken || !roleAllowed(role)) {
     return null;
   }
   return <>{children}</>;

@@ -98,10 +98,13 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  // Already logged in guard
+  // Already logged in guard — send any authenticated admin straight to the dashboard
   useEffect(() => {
-    if (accessToken && currentUser?.role === "SUPER_ADMIN" && !redirect) {
-      router.replace("/admin/dashboard");
+    const isAdmin = currentUser?.isAdmin === true ||
+      currentUser?.role === "ADMIN" ||
+      currentUser?.role === "SUPER_ADMIN";
+    if (accessToken && isAdmin) {
+      router.replace(redirect ?? "/admin/dashboard");
     }
   }, [accessToken, currentUser, redirect, router]);
 
@@ -131,7 +134,9 @@ export default function AdminLoginPage() {
             }
 
             // Map admin object → AuthUser shape
+            // Normalise role to uppercase so SUPER_ADMIN checks are always consistent
             const [firstName, ...rest] = (admin.name ?? "Admin").split(" ");
+            const normalizedRole = (admin.role ?? "ADMIN").toUpperCase();
             setAccessToken(token);
             setCurrentUser({
               _id: admin.id,
@@ -139,7 +144,7 @@ export default function AdminLoginPage() {
               firstName,
               lastName: rest.join(" "),
               email: admin.email,
-              role: admin.role,
+              role: normalizedRole,
               isAdmin: true,
               isArtisan: false,
               isClient: false,

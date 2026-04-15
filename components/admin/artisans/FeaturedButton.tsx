@@ -20,11 +20,19 @@ const FeaturedButton = ({ artisanId, featured, onSuccess }: FeaturedButtonProps)
 
   const handle = async () => {
     try {
-      await mutateAsync({ featured: !featured });
-      toast.success(featured ? "Removed from featured." : "Artisan featured on homepage.");
-      onSuccess();
+      await mutateAsync({ featured: !featured }, {
+        onSuccess: (res) => {
+          console.log(res);
+          toast.success(featured ? "Removed from featured." : "Artisan featured on homepage.");
+          onSuccess();
+        },
+        onError: (error) => {
+          console.log(error, "error");
+          toast.error(error.data?.error);
+        },
+      });
     } catch {
-      toast.error("Failed to update featured status.");
+      console.log("Failed to update featured status.");
     }
   };
 

@@ -191,6 +191,13 @@ export const NotifBellIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
+export const AdminMgmtIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M10 2.5c-2.3 0-4.167 1.567-4.167 3.5S7.7 9.5 10 9.5s4.167-1.567 4.167-3.5S12.3 2.5 10 2.5Z" />
+    <path fill="currentColor" d="M15.833 14.583a.833.833 0 0 1-.833.834H5a.833.833 0 0 1-.833-.834C4.167 12.467 6.8 10.833 10 10.833c1.342 0 2.591.317 3.625.858M14.167 11.667l1.666 1.666 3.334-3.333" />
+  </svg>
+)
+
 export const KycIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

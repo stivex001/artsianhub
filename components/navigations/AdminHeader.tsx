@@ -91,6 +91,10 @@ export const AdminHeader = (props: Props) => {
     title = "Reviews";
   } else if (pathname.startsWith("/admin/dashboard/notifications")) {
     title = "Notifications";
+  } else if (pathname.match(/^\/admin\/dashboard\/manage-admins\/[^/]+/)) {
+    title = "Admin Details";
+  } else if (pathname.startsWith("/admin/dashboard/manage-admins")) {
+    title = "Manage Admins";
   } else {
     title = "Welcome Back!";
     subtitle = "Let's get things done today.";
