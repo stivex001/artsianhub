@@ -1,9 +1,11 @@
 "use client";
 
+"use client";
+
 import React from "react";
 import SidebarMenu from "./SidebarMenu";
 import { usePathname } from "next/navigation";
-import { adminLinks, artisanLinks } from "./data";
+import { adminLinks, artisanLinks, superAdminLinks } from "./data";
 import Link from "next/link";
 import logo from "@/components/assets/images/n.png";
 import { useAuthStore } from "@/store/authStore";
@@ -15,7 +17,8 @@ type Props = {};
 
 const Sidebar = (props: Props) => {
   const pathname = usePathname();
-  const { logout } = useAuthStore();
+  const { logout, currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
 
   const isArtisanPage = pathname.startsWith("/artisan");
   const isAdminPage = pathname.startsWith("/admin");
@@ -36,7 +39,17 @@ const Sidebar = (props: Props) => {
             <SidebarMenu links={artisanLinks} pathname={pathname} />
           )}
           {isAdminPage && (
-            <SidebarMenu links={adminLinks} pathname={pathname} />
+            <>
+              <SidebarMenu links={adminLinks} pathname={pathname} />
+              {isSuperAdmin && (
+                <div className="mt-2">
+                  <p className="px-4 mb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+                    Super Admin
+                  </p>
+                  <SidebarMenu links={superAdminLinks} pathname={pathname} />
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

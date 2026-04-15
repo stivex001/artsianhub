@@ -9,7 +9,7 @@ type Props = {
 const AdminLayout = ({ children }: Props) => {
   return (
     <ProtectedRoutes
-      allowedRoles={["admin", "SUPER_ADMIN"]}
+      allowedRoles={["ADMIN", "SUPER_ADMIN"]}
       loginPath="/admin/auth/login"
     >
       {children}

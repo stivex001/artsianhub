@@ -10,6 +10,7 @@ import {
   BookingNavIcon,
   ReviewNavIcon,
   NotifBellIcon,
+  AdminMgmtIcon,
 } from "../assets/icons/LinksIcon";
 
 export const artisanLinks = [
@@ -95,5 +96,14 @@ export const adminLinks = [
     path: "/admin/dashboard/settings",
     label: "Settings",
     icon: SettingsIcon,
+  },
+];
+
+/** Links only visible to SUPER_ADMIN role — appended after adminLinks in the sidebar */
+export const superAdminLinks = [
+  {
+    path: "/admin/dashboard/manage-admins",
+    label: "Manage Admins",
+    icon: AdminMgmtIcon,
   },
 ];

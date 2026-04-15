@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, BadgeCheck, CreditCard, Crown } from "lucide-react";
-import { ArtisanAccountStatus, UserStatus, BookingStatus } from "@/api/crud/admin";
+import { CheckCircle2, BadgeCheck, CreditCard, Crown, ShieldCheck, Shield } from "lucide-react";
+import { ArtisanAccountStatus, UserStatus, BookingStatus, AdminRole, AdminStatus } from "@/api/crud/admin";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AccountStatusBadge — for artisan account status
@@ -105,6 +105,47 @@ const BOOKING_STATUS_COLORS: Partial<Record<BookingStatus, string>> = {
   "No Show (Artisan)":   "bg-orange-50 text-orange-600 ring-1 ring-orange-200",
   "No Show (Client)":    "bg-orange-50 text-orange-600 ring-1 ring-orange-200",
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AdminRoleBadge — SUPER_ADMIN vs ADMIN
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const AdminRoleBadge = ({ role }: { role?: AdminRole }) =>
+  role === "SUPER_ADMIN" ? (
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-[#02198B]/10 text-[#02198B] ring-1 ring-[#02198B]/20">
+      <ShieldCheck className="w-3.5 h-3.5" />
+      Super Admin
+    </span>
+  ) : (
+    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-600 ring-1 ring-gray-200">
+      <Shield className="w-3.5 h-3.5" />
+      Admin
+    </span>
+  );
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AdminStatusBadge — active / suspended / removed
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const AdminStatusBadge = ({ status }: { status?: AdminStatus }) => {
+  const cfg: Record<AdminStatus, { cls: string; dot: string; label: string }> = {
+    active:    { cls: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200", dot: "bg-emerald-500", label: "Active"    },
+    suspended: { cls: "bg-amber-50 text-amber-700 ring-1 ring-amber-200",       dot: "bg-amber-500",  label: "Suspended" },
+    removed:   { cls: "bg-red-50 text-red-600 ring-1 ring-red-200",             dot: "bg-red-500",    label: "Removed"   },
+  };
+  const s = status ?? "active";
+  const { cls, dot, label } = cfg[s];
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold ${cls}`}>
+      <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
+      {label}
+    </span>
+  );
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BookingStatusBadge — booking status
+// ─────────────────────────────────────────────────────────────────────────────
 
 export const BookingStatusBadge = ({ status }: { status?: BookingStatus }) => {
   if (!status) return <span className="text-gray-400 text-xs">—</span>;

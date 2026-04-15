@@ -502,6 +502,89 @@ export const useAdminNotifications = () => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ADMIN MANAGEMENT (Super Admin only)
+// ─────────────────────────────────────────────────────────────────────────────
+export type AdminRole = "ADMIN" | "SUPER_ADMIN";
+export type AdminStatus = "active" | "suspended" | "removed";
+
+export interface AdminMember {
+  _id: string;
+  name: string;
+  email: string;
+  role: AdminRole;
+  roleLabel?: string;
+  status: AdminStatus;
+  twoFactorEnabled: boolean;
+  emailNotificationPreferences: {
+    high: boolean;
+    medium: boolean;
+    low: boolean;
+  };
+  lastLogin?: string;
+  lastActivity?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CreateAdminBody {
+  name: string;
+  email: string;
+  password: string;
+  role: AdminRole;
+  roleLabel?: string;
+}
+
+export interface UpdateAdminBody {
+  roleLabel?: string;
+  status?: AdminStatus;
+}
+
+export interface ActivityLog {
+  _id: string;
+  adminId: string;
+  adminName: string;
+  adminEmail: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  note: string;
+  ipAddress: string;
+  userAgent: string;
+  metadata: Record<string, unknown> | null;
+  timestamp: string;
+}
+
+export const useAdminManagement = () => {
+  const getAllAdmins = () =>
+    useApiQuery<{ success: boolean; data: AdminMember[] }>(
+      ["admin_members"],
+      { url: "/admin/admins", method: "GET" },
+      { enabled: true }
+    );
+
+  const createAdmin = () =>
+    useApiMutation<{ success: boolean; data: AdminMember }, CreateAdminBody>({
+      url: "/admin/admins",
+      method: "POST",
+    });
+
+  const updateAdmin = (id: string) =>
+    useApiMutation<{ success: boolean; data: AdminMember }, UpdateAdminBody>({
+      url: `/admin/admins/${id}`,
+      method: "PATCH",
+    });
+
+  const getAdminActivity = (id: string) =>
+    useApiQuery<{ success: boolean; data: ActivityLog[] }>(
+      ["admin_activity", id],
+      { url: `/admin/admins/${id}/activity`, method: "GET" },
+      { enabled: !!id }
+    );
+
+  return { getAllAdmins, createAdmin, updateAdmin, getAdminActivity };
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
 // CSV EXPORT
 // ─────────────────────────────────────────────────────────────────────────────
 import { BASE_URL } from "@/constants";

@@ -8,7 +8,7 @@ type Props = {
 const AdminDashboardLayout = ({ children }: Props) => {
   return (
     <DashboardLayout
-      allowedRoles={["admin", "SUPER_ADMIN"]}
+      allowedRoles={["ADMIN", "SUPER_ADMIN"]}
       loginPath="/admin/auth/login"
     >
       {children}
