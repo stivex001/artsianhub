@@ -160,19 +160,64 @@ export const useAdminTickets = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // USER MODERATION — CLIENTS
 // ─────────────────────────────────────────────────────────────────────────────
+export interface ClientNote {
+  _id: string;
+  entityType?: string;
+  entityId?: string;
+  content: string;
+  adminId: string;
+  adminName?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface ClientBooking {
+  _id: string;
+  clientId: string;
+  artisanId: string;
+  location?: string;
+  description?: string;
+  preferredDate?: string;
+  preferredTime?: string;
+  preferredDateTime?: string;
+  email?: string;
+  images?: string[];
+  status: BookingStatus;
+  escalatedToSuperAdmin?: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 export interface ClientProfile {
   _id: string;
+  userId: {
+    _id: string;
+    email: string;
+    isVerified?: boolean;
+    createdAt: string;
+  };
   firstName: string;
   lastName: string;
-  email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   gender?: string;
   dateOfBirth?: string;
-  status: UserStatus;
-  isVerified: boolean;
-  createdAt: string;
+  accountStatus: UserStatus;
+  suspensionReason?: string;
   profilePicture?: string;
-  bookings?: any[];
+  profilePicturePublicId?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface ClientDetailResponse {
+  data: {
+    client: ClientProfile;
+    recentBookings: ClientBooking[];
+    internalNotes: ClientNote[];
+  };
 }
 
 export interface ClientsResponse {
@@ -191,19 +236,25 @@ export const useAdminClients = () => {
     );
 
   const getClientById = (id: string) =>
-    useApiQuery<{ data: ClientProfile }>(
+    useApiQuery<ClientDetailResponse>(
       ["admin_client", id],
       { url: `/admin/clients/${id}`, method: "GET" },
       { enabled: !!id }
     );
 
   const updateClientStatus = (id: string) =>
-    useApiMutation<{ success: boolean }, { status: UserStatus; reason?: string }>({
+    useApiMutation<{ success: boolean }, { accountStatus: UserStatus; reason?: string }>({
       url: `/admin/clients/${id}/status`,
       method: "PATCH",
     });
 
-  return { getAllClients, getClientById, updateClientStatus };
+  const addClientNote = (id: string) =>
+    useApiMutation<{ success: boolean }, { content: string }>({
+      url: `/admin/clients/${id}/notes`,
+      method: "POST",
+    });
+
+  return { getAllClients, getClientById, updateClientStatus, addClientNote };
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
