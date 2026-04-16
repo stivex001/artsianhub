@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { AuthUser } from "@/components/api/type";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";

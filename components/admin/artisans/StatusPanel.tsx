@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { ShieldOff, ChevronDown, Loader2 } from "lucide-react";
-import { useAdminArtisans, ArtisanAccountStatus } from "@/api/crud/admin";
+import { useAdminArtisans, ArtisanAccountStatus } from "@/apis/crud/admin";
 
 const STATUS_OPTIONS: { value: ArtisanAccountStatus; label: string; color: string }[] = [
   { value: "active",    label: "Activate", color: "text-emerald-700" },

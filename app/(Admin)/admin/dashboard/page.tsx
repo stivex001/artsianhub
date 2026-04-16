@@ -12,8 +12,8 @@ import {
   DollarSign,
   Star,
 } from "lucide-react";
-import { useArtisans } from "@/api/crud/artisans";
-import { useAdminAnalytics } from "@/api/crud/admin";
+import { useArtisans } from "@/apis/crud/artisans";
+import { useAdminAnalytics } from "@/apis/crud/admin";
 import StatCard from "@/components/admin/dashboard/StatCard";
 import DashboardCharts from "@/components/admin/dashboard/DashboardCharts";
 import QuickLinks from "@/components/admin/dashboard/QuickLinks";

@@ -1,5 +1,5 @@
 "use client";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { useLocationStore } from "@/store/locationStore";
 import { normalizeCountry, toApiCountry } from "@/utils/normalizeCountry";
 

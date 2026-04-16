@@ -1,5 +1,5 @@
 "use client";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";

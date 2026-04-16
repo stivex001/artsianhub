@@ -7,14 +7,14 @@ import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
-import { Country } from "@/api/crud/locations";
+import { Country } from "@/apis/crud/locations";
 import { useLocationSelector } from "@/hooks/useLocationSelector";
 
 type Props = {};

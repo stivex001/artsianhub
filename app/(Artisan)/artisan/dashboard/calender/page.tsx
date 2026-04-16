@@ -7,8 +7,8 @@ import {
   monthNames,
   dayNames,
 } from "@/components/calender/data";
-import { useAppointments } from "@/api/crud/appointments";
-import type { AppointmentsInfo } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
+import type { AppointmentsInfo } from "@/apis/crud/appointments";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
 import CalendarToolbar, {

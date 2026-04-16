@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Eye, EyeOff, Shield, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAdminAuth } from "@/api/crud/adminAuth";
+import { useAdminAuth } from "@/apis/crud/adminAuth";
 import { useAuthStore } from "@/store/authStore";
 import { AuthUser } from "@/components/api/type";
 import logo from "@/components/assets/images/newA.png";

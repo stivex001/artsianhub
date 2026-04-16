@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 
-import { useAdminArtisans, AdminArtisan, ArtisanAccountStatus, downloadReport } from "@/api/crud/admin";
+import { useAdminArtisans, AdminArtisan, ArtisanAccountStatus, downloadReport } from "@/apis/crud/admin";
 import AdminTable, { TableColumn } from "@/components/admin/shared/AdminTable";
 import { AccountStatusBadge, VerificationBadge } from "@/components/admin/shared/badges";
 import Pagination from "@/components/shared/Pagination";

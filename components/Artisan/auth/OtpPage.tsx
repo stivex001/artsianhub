@@ -12,7 +12,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { toast } from "sonner";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Spinner } from "@/components/shared/Spinner";

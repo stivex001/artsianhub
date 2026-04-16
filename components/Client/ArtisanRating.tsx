@@ -2,7 +2,7 @@
 import React from "react";
 import { RatingOverview } from "./RatingOverview";
 import { ReviewDetails } from "./ReviewDetails";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 import { RatingOverviewSkeleton } from "./reviews/RatingOverviewSkeleton";
 import { ReviewDetailsSkeleton } from "./reviews/ReviewDetailsSkeleton";
 

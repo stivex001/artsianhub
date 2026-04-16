@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { EASE_OUT } from "@/lib/easing";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { dummyCategories } from "@/components/pages/landingPage/ExploreCategiries";
 

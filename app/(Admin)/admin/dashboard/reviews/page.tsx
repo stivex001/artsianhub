@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAdminReviews, REVIEW_STATUSES, ReviewStatus } from "@/api/crud/admin";
+import { useAdminReviews, REVIEW_STATUSES, ReviewStatus } from "@/apis/crud/admin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Wrapper from "@/components/shared/Wrapper";

@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Descriptions } from "@/components/shared/Headings";
 import Wrapper from "@/components/shared/Wrapper";
-import { useSubscriptions, SubscriptionStatus, SubscriptionStatusValue } from "@/api/crud/subscriptions";
+import { useSubscriptions, SubscriptionStatus, SubscriptionStatusValue } from "@/apis/crud/subscriptions";
 import { Check, Loader2, AlertCircle, Clock, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

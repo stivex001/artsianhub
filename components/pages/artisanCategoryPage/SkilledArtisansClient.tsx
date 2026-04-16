@@ -7,7 +7,7 @@ import {
   Watchmakers,
 } from "@/components/assets/icons/FeaturedIcons";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import { useArtisansNearMe } from "@/hooks/useArtisansNearMe";
 import { CategoryHero } from "@/components/pages/artisanCategoryPage/CategoryHero";
 import {

@@ -3,7 +3,7 @@ import { RatingIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Image from "next/image";
 import React, { useState } from "react";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/apis/crud/artisans";
 
 type Props = {
   selectedArtisan: any;

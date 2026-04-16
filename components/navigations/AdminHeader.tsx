@@ -4,12 +4,12 @@ import React, { useState } from "react";
 import { NotificationIcon } from "../assets/icons/NavIcons";
 import { MobileNav } from "./MobileNav";
 import { usePathname } from "next/navigation";
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 import { NotificationModal } from "../shared/NotificationModal";
 import ava from "@/components/assets/images/ava.svg";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { AuthSpinner } from "../auth/AuthLoader";
 
 type Props = {};

@@ -5,11 +5,11 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import Image from "next/image";
 import React from "react";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 
 type Props = {
   selectedArtisan: any;

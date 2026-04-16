@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { reason } from "../settings/data";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 
 type DeclineModalProps = {
   isOpen: boolean;

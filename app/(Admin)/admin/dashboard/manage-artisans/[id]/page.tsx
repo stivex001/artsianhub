@@ -20,7 +20,7 @@ import {
   Star,
 } from "lucide-react";
 
-import { useAdminArtisans } from "@/api/crud/admin";
+import { useAdminArtisans } from "@/apis/crud/admin";
 
 import BackLink from "@/components/admin/shared/BackLink";
 import Section from "@/components/admin/shared/Section";

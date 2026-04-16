@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Trophy, PlayCircle, X, ArrowRight, Loader2 } from "lucide-react";
-import { useAppointments } from "@/api/crud/appointments";
-import { useNotification } from "@/api/crud/notification";
+import { useAppointments } from "@/apis/crud/appointments";
+import { useNotification } from "@/apis/crud/notification";
 import { toast } from "sonner";
 
 type AcceptModalProps = {

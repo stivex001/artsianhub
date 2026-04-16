@@ -428,34 +428,94 @@ export const useAdminReviews = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // BOOKINGS & ENGAGEMENTS
 // ─────────────────────────────────────────────────────────────────────────────
+
+/** Shape returned in the list endpoint (clientId/artisanId are shallow) */
 export interface Booking {
   _id: string;
   status: BookingStatus;
   createdAt: string;
   updatedAt: string;
-  scheduledDate?: string;
-  clientId?: { _id: string; firstName: string; lastName: string; email: string };
+  description?: string;
+  location?: string;
+  preferredDate?: string;
+  preferredTime?: string;
+  preferredDateTime?: string;
+  email?: string;
+  images?: string[];
+  escalatedToSuperAdmin?: boolean;
+  clientId?: { _id: string; firstName: string; lastName: string };
   artisanId?: {
     _id: string;
     firstName: string;
     lastName: string;
     professionalTitle?: string;
   };
-  serviceType?: string;
-  totalAmount?: number;
-  notes?: Array<{ note: string; createdAt: string; createdBy?: string }>;
-  followUps?: Array<{
-    type: FollowUpType;
-    note: string;
-    createdAt: string;
-  }>;
+}
+
+/** Populated client shape inside a booking detail */
+export interface BookingDetailClient {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber?: string;
+  city?: string;
+  profilePicture?: string;
+  accountStatus?: UserStatus;
+  createdAt?: string;
+}
+
+/** Populated artisan shape inside a booking detail */
+export interface BookingDetailArtisan {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  professionalTitle?: string;
+  primaryLocation?: string;
+  profilePicture?: string;
+  accountStatus?: ArtisanAccountStatus;
+}
+
+/** Full booking object returned by the detail endpoint */
+export interface BookingDetail extends Omit<Booking, "clientId" | "artisanId"> {
+  clientId?: BookingDetailClient;
+  artisanId?: BookingDetailArtisan;
+}
+
+export interface BookingNote {
+  _id: string;
+  entityType: string;
+  entityId: string;
+  adminId: string;
+  adminName: string;
+  content: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface BookingFollowUp {
+  _id: string;
+  bookingId: string;
+  adminId: string;
+  type: FollowUpType;
+  status?: string;
+  note: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
+export interface BookingDetailResponse {
+  data: {
+    booking: BookingDetail;
+    internalNotes: BookingNote[];
+    followUps: BookingFollowUp[];
+  };
 }
 
 export interface BookingsResponse {
   data: Booking[];
-  total: number;
-  page: number;
-  limit: number;
+  total?: number;
+  page?: number;
+  limit?: number;
 }
 
 export const useAdminBookings = () => {
@@ -467,25 +527,31 @@ export const useAdminBookings = () => {
     );
 
   const getBookingById = (id: string) =>
-    useApiQuery<{ data: Booking }>(
+    useApiQuery<BookingDetailResponse>(
       ["admin_booking", id],
       { url: `/admin/bookings/${id}`, method: "GET" },
       { enabled: !!id }
     );
 
+  const updateBookingStatus = (id: string) =>
+    useApiMutation<{ success: boolean }, { status: BookingStatus; note?: string }>({
+      url: `/admin/bookings/${id}/status`,
+      method: "PATCH",
+    });
+
   const addBookingNote = (id: string) =>
-    useApiMutation<{ success: boolean }, { note: string }>({
+    useApiMutation<{ data: BookingNote }, { content: string }>({
       url: `/admin/bookings/${id}/notes`,
       method: "POST",
     });
 
   const addFollowUp = (id: string) =>
-    useApiMutation<{ success: boolean }, { type: FollowUpType; note: string }>({
+    useApiMutation<{ data: BookingFollowUp }, { type: FollowUpType; note: string }>({
       url: `/admin/bookings/${id}/follow-up`,
       method: "POST",
     });
 
-  return { getAllBookings, getBookingById, addBookingNote, addFollowUp };
+  return { getAllBookings, getBookingById, updateBookingStatus, addBookingNote, addFollowUp };
 };
 
 // ─────────────────────────────────────────────────────────────────────────────

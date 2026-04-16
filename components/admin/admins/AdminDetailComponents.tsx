@@ -3,7 +3,7 @@
 import React from "react";
 import { format } from "date-fns";
 import { Clock, Globe, Monitor, StickyNote, Activity } from "lucide-react";
-import { ActivityLog } from "@/api/crud/admin";
+import { ActivityLog } from "@/apis/crud/admin";
 import { actionColor, actionLabel } from "@/components/admin/admins/detail-helpers";
 
 // ─────────────────────────────────────────────────────────────────────────────

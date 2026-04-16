@@ -2,7 +2,7 @@
 
 import React from "react";
 import { CheckCircle2, BadgeCheck, CreditCard, Crown, ShieldCheck, Shield } from "lucide-react";
-import { ArtisanAccountStatus, UserStatus, BookingStatus, AdminRole, AdminStatus } from "@/api/crud/admin";
+import { ArtisanAccountStatus, UserStatus, BookingStatus, AdminRole, AdminStatus } from "@/apis/crud/admin";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AccountStatusBadge — for artisan account status

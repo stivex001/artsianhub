@@ -24,7 +24,7 @@ import {
   AdminStatus,
   UpdateAdminBody,
   ActivityLog,
-} from "@/api/crud/admin";
+} from "@/apis/crud/admin";
 import { AdminRoleBadge, AdminStatusBadge } from "@/components/admin/shared/badges";
 
 import { initials, extractErrorMessage } from "@/components/admin/admins/detail-helpers";

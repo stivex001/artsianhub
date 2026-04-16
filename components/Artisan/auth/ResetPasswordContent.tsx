@@ -8,7 +8,7 @@ import { BackNavigation } from "@/components/shared/BackNavigation";
 import { AuthTitle } from "@/components/auth/AuthTitle";
 import { Field } from "@/schemas/dynamicSchema";
 import useDynamicForm from "@/hooks/useDynamicForm";
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { toast } from "sonner";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { CustomButton } from "@/components/clickable/CustomButton";

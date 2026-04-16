@@ -1,4 +1,4 @@
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 
 export const useCategorySelector = () => {
   const { getAllCategories, getAllSubCategories } = useCategories();

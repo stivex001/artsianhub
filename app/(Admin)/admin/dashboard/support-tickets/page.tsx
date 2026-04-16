@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAdminTickets, TICKET_STATUSES, TICKET_PRIORITIES, TicketStatus, TicketPriority } from "@/api/crud/admin";
+import { useAdminTickets, TICKET_STATUSES, TICKET_PRIORITIES, TicketStatus, TicketPriority } from "@/apis/crud/admin";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
@@ -16,7 +16,7 @@ import {
   SlidersHorizontal,
   Download,
 } from "lucide-react";
-import { downloadReport } from "@/api/crud/admin";
+import { downloadReport } from "@/apis/crud/admin";
 
 // ── Priority badge ─────────────────────────────────────────────────────────────
 const PRIORITY_STYLES: Record<TicketPriority, string> = {

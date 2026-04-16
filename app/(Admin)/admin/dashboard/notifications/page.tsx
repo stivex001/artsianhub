@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAdminNotifications } from "@/api/crud/admin";
+import { useAdminNotifications } from "@/apis/crud/admin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Bell, CheckCheck, Check, RefreshCw, Filter } from "lucide-react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 import { formatDistanceToNow } from "date-fns";
 import React, { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";

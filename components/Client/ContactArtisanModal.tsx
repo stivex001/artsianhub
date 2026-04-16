@@ -7,14 +7,14 @@ import { Field } from "@/schemas/dynamicSchema";
 import ControlledInput from "../controlledInputs/ControlledInput";
 import { CustomButton } from "../clickable/CustomButton";
 import useDynamicForm from "@/hooks/useDynamicForm";
-import { GetSingleArtisan } from "@/api/crud/artisans";
+import { GetSingleArtisan } from "@/apis/crud/artisans";
 import { useFileUpload } from "@/hooks/useFileUpload";
 import { FileUpload } from "../controlledInputs/FileUploads";
 import { Label } from "../ui/label";
 import { toast } from "sonner";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 import { useRouter } from "next/navigation";
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 
 type Props = {
   isOpen: boolean;
