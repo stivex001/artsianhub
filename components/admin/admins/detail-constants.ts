@@ -1,4 +1,4 @@
-import { AdminStatus } from "@/api/crud/admin";
+import { AdminStatus } from "@/apis/crud/admin";
 
 export const ACTIVITY_PAGE_SIZE = 8;
 

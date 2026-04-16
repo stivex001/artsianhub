@@ -2,7 +2,7 @@
 import React from "react";
 import Wrapper from "../shared/Wrapper";
 import { useParams } from "next/navigation";
-import { useContactUs } from "@/api/crud/contact";
+import { useContactUs } from "@/apis/crud/contact";
 
 type Props = {};
 

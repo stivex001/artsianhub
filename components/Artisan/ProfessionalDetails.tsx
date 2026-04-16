@@ -1,11 +1,11 @@
 "use client";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/apis/crud/artisans";
 import React, { useState } from "react";
 import DocumentCard from "./DocumentCard";
 import Image from "next/image";
 import { CustomButton } from "../clickable/CustomButton";
 import { toast } from "sonner";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 
 type Props = {
   selectedArtisan: any;

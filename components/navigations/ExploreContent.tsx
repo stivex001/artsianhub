@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
 import { Product, services } from "../data/dummy";
 import { SubNavContents } from "./SubNavContents";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 
 type Props = {
   onClose: (value: boolean) => void;

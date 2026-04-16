@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { UserPlus, ShieldCheck, Clock, KeyRound } from "lucide-react";
 
-import { useAdminManagement, AdminMember } from "@/api/crud/admin";
+import { useAdminManagement, AdminMember } from "@/apis/crud/admin";
 import { useAuthStore } from "@/store/authStore";
 import AdminTable, { TableColumn } from "@/components/admin/shared/AdminTable";
 import { AdminRoleBadge, AdminStatusBadge } from "@/components/admin/shared/badges";

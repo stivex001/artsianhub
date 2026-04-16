@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 import { Descriptions } from "@/components/shared/Headings";
 import { ReusableTable } from "@/components/shared/ResuableTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";

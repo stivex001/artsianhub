@@ -12,7 +12,7 @@ import { UserProfile } from "../auth/UserProfile";
 import { NotificationIcon } from "../assets/icons/NavIcons";
 import { NotificationModal } from "../shared/NotificationModal";
 import { useAuthStore } from "@/store/authStore";
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 import { InlineAuthLoader } from "../auth/AuthLoader";
 
 export type NavLink = {

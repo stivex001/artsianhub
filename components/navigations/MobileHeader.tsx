@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CategoriesIcon, HowItWorksIcon } from "../assets/icons/NavIcons";
 import { ShieldCloseIcon } from "lucide-react";
 import { InlineAuthLoader } from "../auth/AuthLoader";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import {

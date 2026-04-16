@@ -5,7 +5,7 @@ import { AboutArtisan } from "./AboutArtisan";
 import { useParams } from "next/navigation";
 import { ArtisanPortfolio } from "./ArtisanPortfolio";
 import { ArtisanRating } from "./ArtisanRating";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 
 type Props = {};
 

@@ -5,7 +5,7 @@ import { EASE_OUT } from "@/lib/easing";
 import { Users } from "lucide-react";
 import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
 import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
-import type { ArtisanData } from "@/api/crud/artisans";
+import type { ArtisanData } from "@/apis/crud/artisans";
 
 interface FeaturedArtisansGridProps {
   artisans: ArtisanData[];

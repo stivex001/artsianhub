@@ -1,5 +1,5 @@
 "use client";
-import { ContactUsData } from "@/api/crud/contact";
+import { ContactUsData } from "@/apis/crud/contact";
 import { format } from "date-fns";
 import React from "react";
 import GenericTable from "../shared/GenericTable";

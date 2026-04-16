@@ -1,6 +1,6 @@
 "use client";
 
-import { useContactUs } from "@/api/crud/contact";
+import { useContactUs } from "@/apis/crud/contact";
 import ContactUsTable from "@/components/contact-us/ContactUsTable";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import Pagination from "@/components/shared/Pagination";

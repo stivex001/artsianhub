@@ -11,7 +11,7 @@ import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
 import { useLocationSelector } from "@/hooks/useLocationSelector";

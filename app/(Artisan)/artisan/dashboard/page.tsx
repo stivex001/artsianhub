@@ -1,6 +1,6 @@
 "use client";
 
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import AppointmentDetailsStats from "@/components/Artisan/dashboard/AppointmentDetailsStats";
 import { RecentAppointments } from "@/components/Artisan/dashboard/RecentAppointments";
 import Statistics from "@/components/Artisan/dashboard/Statistics";
@@ -8,7 +8,7 @@ import ToDoList from "@/components/Artisan/dashboard/ToDoList";
 import SubscriptionBanner from "@/components/Artisan/dashboard/SubscriptionBanner";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 import { useAuthStore } from "@/store/authStore";
-import { useSubscriptions } from "@/api/crud/subscriptions";
+import { useSubscriptions } from "@/apis/crud/subscriptions";
 import React, { useEffect, useState } from "react";
 import { AuthLoadingScreen } from "@/components/auth/AuthLoader";
 

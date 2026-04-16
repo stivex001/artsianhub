@@ -1,8 +1,8 @@
 "use client";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
+import { ArtisanDetails, useArtisans } from "@/apis/crud/artisans";
 import React from "react";
 import SkeletonLoader from "../shared/SkeletonModal";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 
 type Props = {
   selectedArtisan: any;

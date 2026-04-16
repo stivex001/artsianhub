@@ -8,7 +8,7 @@ import { FaQuoteRight, FaStar } from "react-icons/fa";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails } from "@/apis/crud/artisans";
 // Import Swiper styles
 // import "swiper/css";
 // import "swiper/css/navigation";

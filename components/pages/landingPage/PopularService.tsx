@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { useArtisans } from "@/api/crud/artisans";
-import { useCategories } from "@/api/crud/categories";
+import { useArtisans } from "@/apis/crud/artisans";
+import { useCategories } from "@/apis/crud/categories";
 
 type Props = {
   setSearchTerm: (value: string) => void;

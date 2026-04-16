@@ -1,5 +1,5 @@
 "use client";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ControlledFileUpload } from "@/components/controlledInputs/ControlledFileUpload";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";

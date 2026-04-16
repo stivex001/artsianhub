@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { Send, Loader2, StickyNote, User } from "lucide-react";
-import { useAdminArtisans, InternalNote } from "@/api/crud/admin";
+import { useAdminArtisans, InternalNote } from "@/apis/crud/admin";
 
 interface NotesSectionProps {
   artisanId: string;

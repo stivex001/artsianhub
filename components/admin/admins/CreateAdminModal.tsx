@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { X, Loader2, Eye, EyeOff } from "lucide-react";
-import { useAdminManagement, AdminRole, CreateAdminBody } from "@/api/crud/admin";
+import { useAdminManagement, AdminRole, CreateAdminBody } from "@/apis/crud/admin";
 
 interface CreateAdminModalProps {
   onClose: () => void;

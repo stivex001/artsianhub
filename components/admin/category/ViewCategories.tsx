@@ -1,5 +1,5 @@
 "use client";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import FilterComponent from "@/components/controlledInputs/FilterComponent";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
 import Image from "next/image";

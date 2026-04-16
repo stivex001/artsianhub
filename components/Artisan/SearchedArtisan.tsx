@@ -5,7 +5,7 @@ import Image, { StaticImageData } from "next/image";
 import image1 from "@/components/assets/images/port.png";
 import CustomPagination from "../shared/CustomPagination";
 import { useRouter } from "next/navigation";
-import { ArtisanByCategory, ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanByCategory, ArtisanDetails } from "@/apis/crud/artisans";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
 import { RenderRatings } from "@/utils/RenderRatings";
 

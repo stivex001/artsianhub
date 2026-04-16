@@ -12,9 +12,9 @@ import {
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { usePathname, useRouter } from "next/navigation";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { useModalStore } from "@/store/useModalStore";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 
 type UserNavProps = {
   handleMenuItemClick: any;

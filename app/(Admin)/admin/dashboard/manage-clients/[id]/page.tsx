@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useAdminClients, useAdminSubscriptions, USER_STATUSES, UserStatus } from "@/api/crud/admin";
+import { useAdminClients, useAdminSubscriptions, USER_STATUSES, UserStatus } from "@/apis/crud/admin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useAdminAuth } from "@/api/crud/adminAuth";
+import { useAdminAuth } from "@/apis/crud/adminAuth";
 import logo from "@/components/assets/images/newA.png";
 
 // ── Animation variants ────────────────────────────────────────────────────────

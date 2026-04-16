@@ -23,7 +23,7 @@ import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal"
 import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
 import { ReviewModal } from "@/components/Artisan/manageAppointment/ReviewModal";
 import { ContactArtisanModal } from "../ContactArtisanModal";
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 
 type Props = {
   item: any;

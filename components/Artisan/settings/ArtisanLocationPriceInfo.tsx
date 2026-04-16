@@ -7,7 +7,7 @@ import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
 import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
 
 type Props = {};

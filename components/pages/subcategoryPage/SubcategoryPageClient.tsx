@@ -1,7 +1,7 @@
 "use client";
 
 import { useArtisansNearMe } from "@/hooks/useArtisansNearMe";
-import { useCategories } from "@/api/crud/categories";
+import { useCategories } from "@/apis/crud/categories";
 import { getSubCategoryMeta } from "./subcategoryMeta";
 import { SubcategoryHero } from "./SubcategoryHero";
 import { FeaturedArtisansGrid } from "./FeaturedArtisansGrid";

@@ -3,7 +3,7 @@
 import React from "react";
 import { toast } from "sonner";
 import { BadgeCheck, Loader2 } from "lucide-react";
-import { useAdminArtisans } from "@/api/crud/admin";
+import { useAdminArtisans } from "@/apis/crud/admin";
 
 interface VerifyButtonProps {
   artisanId: string;
