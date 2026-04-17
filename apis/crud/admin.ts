@@ -627,17 +627,23 @@ export const useAdminSubscriptions = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 export interface AdminNotification {
   _id: string;
+  adminId: string | null;
+  targetRole: string;
+  eventType: string;
+  priority: "low" | "medium" | "high";
+  entityType: string;
+  entityId: string;
+  title: string;
   message: string;
-  isRead: boolean;
+  read: boolean;
+  readBy: string[];
   createdAt: string;
-  type?: string;
-  relatedId?: string;
+  updatedAt: string;
 }
 
 export interface AdminNotificationsResponse {
   data: AdminNotification[];
-  total: number;
-  unreadCount: number;
+  unreadCount?: number;
 }
 
 export const useAdminNotifications = () => {
@@ -653,13 +659,13 @@ export const useAdminNotifications = () => {
     );
 
   const markAsRead = (id: string) =>
-    useApiMutation<{ success: boolean }, void>({
+    useApiMutation<{ success: boolean }, undefined>({
       url: `/admin/notifications/${id}/read`,
       method: "PATCH",
     });
 
   const markAllAsRead = () =>
-    useApiMutation<{ success: boolean }, void>({
+    useApiMutation<{ success: boolean }, undefined>({
       url: `/admin/notifications/read-all`,
       method: "PATCH",
     });
