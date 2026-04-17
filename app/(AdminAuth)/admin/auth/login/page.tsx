@@ -90,7 +90,7 @@ export default function AdminLoginPage() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
 
-  const { setAccessToken, setCurrentUser, accessToken, currentUser } = useAuthStore();
+  const { setAccessToken, setRefreshToken, setCurrentUser, accessToken, currentUser } = useAuthStore();
   const { login } = useAdminAuth();
 
   const [email, setEmail] = useState("");
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
         { email: email.trim(), password },
         {
           onSuccess: (response) => {
-            const { token, admin } = response;
+            const { token, refreshToken, admin } = response;
             if (!token || !admin) {
               toast.error("Invalid response from server.");
               return;
@@ -138,6 +138,7 @@ export default function AdminLoginPage() {
             const [firstName, ...rest] = (admin.name ?? "Admin").split(" ");
             const normalizedRole = (admin.role ?? "ADMIN").toUpperCase();
             setAccessToken(token);
+            if (refreshToken) setRefreshToken(refreshToken);
             setCurrentUser({
               _id: admin.id,
               userId: admin.id,

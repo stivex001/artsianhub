@@ -36,6 +36,20 @@ export interface AdminChangePasswordBody {
   newPassword: string;
 }
 
+export interface Admin2FASetupResponse {
+  secret: string;
+  qrCodeUrl: string; // data:image/png;base64 string
+}
+
+export interface AdminRefreshBody {
+  refreshToken: string;
+}
+
+export interface AdminRefreshResponse {
+  success: boolean;
+  token: string;
+}
+
 export type AdminMessageResponse = {
   success: boolean;
   message: string;
@@ -63,10 +77,20 @@ export const useAdminAuth = () => {
     method: "PATCH",
   });
 
-  const logout = useApiMutation<AdminMessageResponse, void>({
+  const logout = useApiMutation<AdminMessageResponse, undefined>({
     url: "/admin/auth/logout",
     method: "POST",
   });
 
-  return { login, forgotPassword, resetPassword, changePassword, logout };
+  const setup2FA = useApiMutation<Admin2FASetupResponse, undefined>({
+    url: "/admin/auth/2fa/setup",
+    method: "POST",
+  });
+
+  const refreshAccessToken = useApiMutation<AdminRefreshResponse, AdminRefreshBody>({
+    url: "/admin/auth/refresh",
+    method: "POST",
+  });
+
+  return { login, forgotPassword, resetPassword, changePassword, logout, setup2FA, refreshAccessToken };
 };
