@@ -3,8 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import Wrapper from "@/components/shared/Wrapper";
-import { ReusableTable } from "@/components/shared/ResuableTable";
+import AdminTable from "@/components/admin/shared/AdminTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useSubscriptions } from "@/apis/crud/subscriptions";
@@ -20,32 +19,32 @@ const paymentColumns = [
   {
     key: "description",
     header: "Description",
-    render: (value: string) => (
-      <span className="text-sm text-body line-clamp-2">{value || "—"}</span>
+    render: (row: PaymentHistory) => (
+      <span className="text-sm text-gray-600 line-clamp-2">{row.description || "—"}</span>
     ),
   },
   {
     key: "amount",
     header: "Amount",
-    render: (value: number, row: PaymentHistory) => (
-      <span className="text-sm font-medium text-paragrah">
-        {typeof value === "number"
-          ? formatCurrency(value, row.currency ?? "gbp")
-          : value}
+    render: (row: PaymentHistory) => (
+      <span className="text-sm font-medium text-gray-900">
+        {typeof row.amount === "number"
+          ? formatCurrency(row.amount, row.currency ?? "gbp")
+          : row.amount ?? "—"}
       </span>
     ),
   },
   {
     key: "status",
     header: "Status",
-    render: (value: string) => <StatusBadge status={value ?? "—"} />,
+    render: (row: PaymentHistory) => <StatusBadge status={row.status ?? "—"} />,
   },
   {
     key: "paidAt",
     header: "Date",
-    render: (value: string) => (
-      <span className="text-sm text-body">
-        {value ? new Date(value).toLocaleDateString(undefined, { dateStyle: "medium" }) : "—"}
+    render: (row: PaymentHistory) => (
+      <span className="text-sm text-gray-600">
+        {row.paidAt ? new Date(row.paidAt).toLocaleDateString(undefined, { dateStyle: "medium" }) : "—"}
       </span>
     ),
   },
@@ -125,31 +124,31 @@ export default function SubscriptionHistoryPage() {
       />
 
       {canRenew && (
-        <Wrapper className="border-l-4 border-l-primary">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className="text-sm text-body">
-              Your subscription has expired. Renew now to become visible to clients again.
-            </p>
-            <CustomButton
-              label="Renew subscription"
-              onClick={handleRenew}
-              isLoading={isCheckoutPending}
-              variant="primary"
-              className="shrink-0"
-            />
-          </div>
-        </Wrapper>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm border-l-4 border-l-primary px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <p className="text-sm text-gray-600">
+            Your subscription has expired. Renew now to become visible to clients again.
+          </p>
+          <CustomButton
+            label="Renew subscription"
+            onClick={handleRenew}
+            isLoading={isCheckoutPending}
+            variant="primary"
+            className="shrink-0"
+          />
+        </div>
       )}
 
-      <Wrapper>
-        <ReusableTable
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <AdminTable
           columns={paymentColumns}
           data={payments}
+          keyExtractor={(row: PaymentHistory) => row.paidAt ?? String(Math.random())}
           loading={isLoading}
-          pagination={pagination}
+          skeletonRows={6}
           emptyMessage="No payment history yet"
+          emptySubMessage="Your subscription payments will appear here"
         />
-      </Wrapper>
+      </div>
     </section>
   );
 }

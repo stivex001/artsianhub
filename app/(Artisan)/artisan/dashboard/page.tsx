@@ -4,7 +4,7 @@ import { useArtisans } from "@/apis/crud/artisans";
 import AppointmentDetailsStats from "@/components/Artisan/dashboard/AppointmentDetailsStats";
 import { RecentAppointments } from "@/components/Artisan/dashboard/RecentAppointments";
 import Statistics from "@/components/Artisan/dashboard/Statistics";
-import ToDoList from "@/components/Artisan/dashboard/ToDoList";
+import QuickLinks from "@/components/Artisan/dashboard/QuickLinks";
 import SubscriptionBanner from "@/components/Artisan/dashboard/SubscriptionBanner";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 import { useAuthStore } from "@/store/authStore";
@@ -53,7 +53,7 @@ const ArtisanDashboard = (props: Props) => {
     <section className="flex flex-col gap-5">
       <SubscriptionBanner isSubscribed={isSubscribed} />
       <Statistics isLoading={isDashboardLoading} metrics={metrics} />
-      <ToDoList />
+      <QuickLinks />
       {/* <AppointmentDetailsStats /> */}
       <RecentAppointments
         appointments={recentAppointment}
