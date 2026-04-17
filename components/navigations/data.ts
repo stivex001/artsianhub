@@ -62,11 +62,11 @@ export const adminLinks = [
     label: "Manage Clients",
     icon: ClientsIcon,
   },
-  {
-    path: "/admin/dashboard/manage-contacts",
-    label: "Manage Contacts",
-    icon: FolioIcon,
-  },
+  // {
+  //   path: "/admin/dashboard/manage-contacts",
+  //   label: "Manage Contacts",
+  //   icon: FolioIcon,
+  // },
   {
     path: "/admin/dashboard/manage-categories",
     label: "Manage Categories",
@@ -93,9 +93,9 @@ export const adminLinks = [
     icon: NotifBellIcon,
   },
   {
-    path: "/admin/dashboard/settings",
-    label: "Settings",
-    icon: SettingsIcon,
+    path: "/admin/dashboard/manage-subscriptions",
+    label: "Subscriptions",
+    icon: SubIcon,
   },
 ];
 

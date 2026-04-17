@@ -606,7 +606,45 @@ export const useAdminBookings = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // SUBSCRIPTIONS
 // ─────────────────────────────────────────────────────────────────────────────
+export type SubscriptionStatus = "active" | "expired" | "cancelled" | "past_due";
+export type SubscriptionPlanType =
+  | "monthly"
+  | "annual"
+  | "first_3_months_annual"
+  | string;
+
+export interface Subscription {
+  _id: string;
+  artisanId: string;
+  userId: { _id: string; email: string };
+  planType: SubscriptionPlanType;
+  status: SubscriptionStatus;
+  autoRenew: boolean;
+  cancelAtPeriodEnd: boolean;
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  gracePeriodEnd?: string | null;
+  isActive: boolean;
+  stripeCustomerId?: string;
+  stripePriceId?: string;
+  stripeSubscriptionId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SubscriptionsResponse {
+  success: boolean;
+  data: Subscription[];
+}
+
 export const useAdminSubscriptions = () => {
+  const getAllSubscriptions = () =>
+    useApiQuery<SubscriptionsResponse>(
+      ["admin_subscriptions"],
+      { url: `/admin/subscriptions`, method: "GET" },
+      { enabled: true }
+    );
+
   const extendSubscription = (artisanId: string) =>
     useApiMutation<{ success: boolean }, { days: number; note?: string }>({
       url: `/admin/subscriptions/${artisanId}/extend`,
@@ -619,7 +657,7 @@ export const useAdminSubscriptions = () => {
       method: "PATCH",
     });
 
-  return { extendSubscription, flagRefund };
+  return { getAllSubscriptions, extendSubscription, flagRefund };
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
