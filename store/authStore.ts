@@ -6,9 +6,11 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 interface AuthState {
   accessToken: string | null;
+  refreshToken: string | null;
   currentUser: AuthUser | null;
   isHydrated: boolean;
   setAccessToken: (token: string | null) => void;
+  setRefreshToken: (token: string | null) => void;
   setCurrentUser: (user: AuthUser | null) => void;
   setHydrated: (hydrated: boolean) => void;
   logout: () => void;
@@ -18,13 +20,15 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
+      refreshToken: null,
       currentUser: null,
       isHydrated: false,
       setAccessToken: (token) => set({ accessToken: token }),
+      setRefreshToken: (token) => set({ refreshToken: token }),
       setCurrentUser: (user) => set({ currentUser: user }),
       setHydrated: (hydrated) => set({ isHydrated: hydrated }),
       logout: () => {
-        set({ accessToken: null, currentUser: null });
+        set({ accessToken: null, refreshToken: null, currentUser: null });
         sessionStorage.clear();
         localStorage.clear();
       },
@@ -38,8 +42,9 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) =>
         ({
           accessToken: state.accessToken,
+          refreshToken: state.refreshToken,
           currentUser: state.currentUser,
-        }) as AuthState, // Cast to AuthState to satisfy strict persistence types while ignoring functions
+        }) as AuthState,
     },
   ),
 );

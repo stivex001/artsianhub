@@ -91,6 +91,12 @@ export const AdminHeader = (props: Props) => {
     title = "Reviews";
   } else if (pathname.startsWith("/admin/dashboard/notifications")) {
     title = "Notifications";
+  } else if (pathname.startsWith("/admin/dashboard/manage-subscriptions")) {
+    title = "Subscriptions";
+  } else if (pathname.startsWith("/admin/dashboard/change-password")) {
+    title = "Change Password";
+  } else if (pathname.startsWith("/admin/dashboard/setup-2fa")) {
+    title = "Two-Factor Authentication";
   } else if (pathname.match(/^\/admin\/dashboard\/manage-admins\/[^/]+/)) {
     title = "Admin Details";
   } else if (pathname.startsWith("/admin/dashboard/manage-admins")) {

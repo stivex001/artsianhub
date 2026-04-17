@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import React from "react";
 import SidebarMenu from "./SidebarMenu";
 import { usePathname } from "next/navigation";
@@ -12,18 +10,28 @@ import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { LogoutIcon } from "../assets/icons/NavigationIcons";
 import Image from "next/image";
+import { KeyRound, ShieldCheck } from "lucide-react";
+import { useAdminAuth } from "@/apis/crud/adminAuth";
 
 type Props = {};
 
 const Sidebar = (props: Props) => {
   const pathname = usePathname();
   const { logout, currentUser } = useAuthStore();
+  const { logout: logoutApi } = useAdminAuth();
   const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
 
   const isArtisanPage = pathname.startsWith("/artisan");
   const isAdminPage = pathname.startsWith("/admin");
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (isAdminPage) {
+      try {
+        await logoutApi.mutateAsync(undefined);
+      } catch {
+        // best effort — clear local state regardless
+      }
+    }
     logout();
     toast.success("Logged out successfully");
   };
@@ -53,8 +61,40 @@ const Sidebar = (props: Props) => {
           )}
         </div>
       </div>
+
+      {/* ── Account (admin only) ──────────────────────────────────────── */}
+      {isAdminPage && (
+        <div className="border-t border-gray-100 pt-3 mt-3 flex flex-col gap-1">
+          <p className="px-4 mb-1 text-[10px] font-semibold text-gray-400 uppercase tracking-widest">
+            Account
+          </p>
+          <Link
+            href="/admin/dashboard/change-password"
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${
+              pathname.startsWith("/admin/dashboard/change-password")
+                ? "bg-primary/5 text-primary font-medium"
+                : "text-body hover:bg-gray-50"
+            }`}
+          >
+            <KeyRound className="w-4 h-4 shrink-0" />
+            Change Password
+          </Link>
+          <Link
+            href="/admin/dashboard/setup-2fa"
+            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-colors ${
+              pathname.startsWith("/admin/dashboard/setup-2fa")
+                ? "bg-primary/5 text-primary font-medium"
+                : "text-body hover:bg-gray-50"
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4 shrink-0" />
+            Setup 2FA
+          </Link>
+        </div>
+      )}
+
       <div
-        className="cursor-pointer  w-full h-14 rounded-2xl px-5 flex items-center gap-3"
+        className="cursor-pointer w-full h-14 rounded-2xl px-5 flex items-center gap-3 mt-2"
         onClick={handleLogout}
       >
         <LogoutIcon />
