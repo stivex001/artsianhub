@@ -81,38 +81,68 @@ export const useAdminAnalytics = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // SUPPORT TICKETS
 // ─────────────────────────────────────────────────────────────────────────────
-export interface TicketReply {
+// Message returned by GET /admin/tickets/:id → data.messages[]
+export interface TicketMessage {
   _id: string;
+  ticketId: string;
+  senderId: string;
+  senderRole: string;
   message: string;
   internal: boolean;
   createdAt: string;
-  author?: { name: string; role: string };
+  updatedAt: string;
 }
 
 export interface Ticket {
   _id: string;
-  subject: string;
+  /** Human-readable ID, e.g. "TKT-OV-FSCHV" */
+  ticketId: string;
+  raisedById: string;
+  raisedByRole: "client" | "artisan";
+  bookingId: string | null;
   category: TicketCategory;
+  subject: string;
+  description: string;
   priority: TicketPriority;
   status: TicketStatus;
-  description: string;
+  assignedAdminId: { _id: string; name: string; email: string } | null;
+  resolutionSummary: string;
+  escalatedToSuperAdmin: boolean;
   createdAt: string;
   updatedAt: string;
-  userId?: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
+}
+
+export interface TicketDetailResponse {
+  data: {
+    ticket: Ticket;
+    messages: TicketMessage[];
   };
-  assignedTo?: { _id: string; name: string; email: string };
-  replies?: TicketReply[];
 }
 
 export interface TicketsResponse {
   data: Ticket[];
-  total: number;
-  page: number;
-  limit: number;
+  total?: number;
+  page?: number;
+  limit?: number;
+}
+
+export interface OutreachPayload {
+  recipientId: string;
+  recipientRole: "artisan" | "client";
+  messageType: string;
+  subject: string;
+  message: string;
+}
+
+export interface OutreachResult {
+  _id: string;
+  recipientId: string;
+  recipientRole: string;
+  adminId: string;
+  messageType: string;
+  subject: string;
+  message: string;
+  createdAt: string;
 }
 
 export const useAdminTickets = () => {
@@ -124,14 +154,14 @@ export const useAdminTickets = () => {
     );
 
   const getTicketById = (id: string) =>
-    useApiQuery<{ data: Ticket }>(
+    useApiQuery<TicketDetailResponse>(
       ["admin_ticket", id],
       { url: `/admin/tickets/${id}`, method: "GET" },
       { enabled: !!id }
     );
 
   const assignTicket = (id: string) =>
-    useApiMutation<{ success: boolean }, { adminId: string }>({
+    useApiMutation<{ success: boolean }, { assignedAdminId: string }>({
       url: `/admin/tickets/${id}/assign`,
       method: "PATCH",
     });
@@ -143,9 +173,26 @@ export const useAdminTickets = () => {
     });
 
   const updateTicketStatus = (id: string) =>
-    useApiMutation<{ success: boolean }, { status: TicketStatus }>({
+    useApiMutation<{ success: boolean }, { status: TicketStatus; resolutionSummary?: string }>({
       url: `/admin/tickets/${id}/status`,
       method: "PATCH",
+    });
+
+  const createOutreach = () =>
+    useApiMutation<{ success: boolean; data: OutreachResult }, OutreachPayload>({
+      url: `/admin/tickets/outreach`,
+      method: "POST",
+    });
+
+  const createTicket = () =>
+    useApiMutation<{ success: boolean }, {
+      subject: string;
+      category: TicketCategory;
+      message: string;
+      priority: TicketPriority;
+    }>({
+      url: `/tickets`,
+      method: "POST",
     });
 
   return {
@@ -154,6 +201,8 @@ export const useAdminTickets = () => {
     assignTicket,
     replyToTicket,
     updateTicketStatus,
+    createOutreach,
+    createTicket,
   };
 };
 
@@ -707,7 +756,7 @@ export const useAdminManagement = () => {
 import { BASE_URL } from "@/constants";
 import { useAuthStore } from "@/store/authStore";
 
-export const downloadReport = (type: "bookings" | "artisans" | "clients" | "reviews") => {
+export const downloadReport = (type: "bookings" | "artisans" | "clients" | "reviews" | "tickets") => {
   const token = useAuthStore.getState().accessToken;
   const url = `${BASE_URL}/admin/reports/export?type=${type}`;
   const a = document.createElement("a");
