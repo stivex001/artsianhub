@@ -18,13 +18,18 @@ import StatCard from "@/components/admin/dashboard/StatCard";
 import DashboardCharts from "@/components/admin/dashboard/DashboardCharts";
 import QuickLinks from "@/components/admin/dashboard/QuickLinks";
 
-const SectionHeading = ({ label }: { label: string }) => (
-  <div className="flex items-center gap-2 mb-4">
-    <div className="w-1 h-4 bg-primary rounded-full" />
-    <h2 className="text-xs font-semibold text-primary uppercase tracking-widest">{label}</h2>
+// ── Section heading ───────────────────────────────────────────────────────────
+const SectionHeading = ({ label, sub }: { label: string; sub?: string }) => (
+  <div className="flex items-center gap-2.5 mb-4">
+    <div className="w-1 h-5 bg-primary rounded-full" />
+    <div>
+      <h2 className="text-xs font-semibold text-primary uppercase tracking-widest">{label}</h2>
+      {sub && <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>}
+    </div>
   </div>
 );
 
+// ── Page ──────────────────────────────────────────────────────────────────────
 const AdminDashboard = () => {
   const { getAllArtisanCount } = useArtisans();
   const { getOverview } = useAdminAnalytics();
@@ -39,7 +44,7 @@ const AdminDashboard = () => {
 
   const donutData = [
     { name: "Active", value: usersCount?.activeArtisans ?? 0, fill: "#22c55e" },
-    { name: "Inactive", value: usersCount?.inactiveArtisans ?? 0, fill: "#f97316" },
+    { name: "Inactive", value: usersCount?.inactiveArtisans ?? 0, fill: "#f59e0b" },
     { name: "Deactivated", value: usersCount?.deactivatedArtisans ?? 0, fill: "#ef4444" },
   ].filter((d) => d.value > 0);
 
@@ -50,10 +55,10 @@ const AdminDashboard = () => {
 
   return (
     <section className="flex flex-col gap-8">
-      {/* ── Platform Overview (analytics) ─────────────────────────── */}
+      {/* ── Platform Overview ─────────────────────────────────── */}
       {overview && (
         <div>
-          <SectionHeading label="Platform Overview" />
+          <SectionHeading label="Platform Overview" sub="High-level platform metrics" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <StatCard
               icon={DollarSign}
@@ -61,13 +66,14 @@ const AdminDashboard = () => {
               value={overview.totalRevenue ? `$${overview.totalRevenue.toLocaleString()}` : 0}
               loading={isAnalyticsPending}
               bg="bg-[#02198B]"
+              href="/admin/dashboard/bookings"
             />
             <StatCard
               icon={CalendarDays}
               label="Total Bookings"
               value={overview.totalBookings}
               loading={isAnalyticsPending}
-              bg="bg-[#1e3a8a]"
+              bg="bg-sky-500"
               href="/admin/dashboard/bookings"
             />
             <StatCard
@@ -75,7 +81,7 @@ const AdminDashboard = () => {
               label="Total Clients"
               value={overview.totalClients}
               loading={isAnalyticsPending}
-              bg="bg-[#0f766e]"
+              bg="bg-teal-500"
               href="/admin/dashboard/manage-clients"
             />
             <StatCard
@@ -83,22 +89,22 @@ const AdminDashboard = () => {
               label="Active Subscriptions"
               value={overview.totalActiveSubscriptions}
               loading={isAnalyticsPending}
-              bg="bg-[#4338ca]"
+              bg="bg-violet-500"
             />
           </div>
         </div>
       )}
 
-      {/* ── Artisan Overview ──────────────────────────────────────── */}
+      {/* ── Artisan Overview ──────────────────────────────────── */}
       <div>
-        <SectionHeading label="Artisan Overview" />
+        <SectionHeading label="Artisan Overview" sub="Registered artisan accounts by status" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <StatCard
             icon={Users}
             label="Total Artisans"
             value={usersCount?.totalArtisans}
             loading={isPending}
-            bg="bg-primary"
+            bg="bg-[#02198B]"
             href="/admin/dashboard/manage-artisans"
           />
           <StatCard
@@ -106,35 +112,35 @@ const AdminDashboard = () => {
             label="Active Artisans"
             value={usersCount?.activeArtisans}
             loading={isPending}
-            bg="bg-[#166534]"
+            bg="bg-emerald-500"
           />
           <StatCard
             icon={UserX}
             label="Inactive Artisans"
             value={usersCount?.inactiveArtisans}
             loading={isPending}
-            bg="bg-[#b45309]"
+            bg="bg-amber-500"
           />
           <StatCard
             icon={ShieldOff}
             label="Deactivated"
             value={usersCount?.deactivatedArtisans}
             loading={isPending}
-            bg="bg-[#991b1b]"
+            bg="bg-red-500"
           />
         </div>
       </div>
 
-      {/* ── Appointment Activity ──────────────────────────────────── */}
+      {/* ── Appointment Activity ──────────────────────────────── */}
       <div>
-        <SectionHeading label="Appointment Activity" />
+        <SectionHeading label="Appointment Activity" sub="Booking outcomes across all artisans" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <StatCard
             icon={CalendarDays}
             label="Total Appointments"
             value={appointmentsCount?.totalAppointments}
             loading={isPending}
-            bg="bg-[#1e3a8a]"
+            bg="bg-blue-600"
             href="/admin/dashboard/bookings"
           />
           <StatCard
@@ -142,33 +148,36 @@ const AdminDashboard = () => {
             label="Accepted"
             value={appointmentsCount?.acceptedAppointments}
             loading={isPending}
-            bg="bg-[#0f766e]"
+            bg="bg-emerald-600"
           />
           <StatCard
             icon={XCircle}
             label="Declined"
             value={appointmentsCount?.declinedAppointments}
             loading={isPending}
-            bg="bg-[#9f1239]"
+            bg="bg-rose-500"
           />
           <StatCard
             icon={Trophy}
             label="Completed"
             value={appointmentsCount?.completedAppointments}
             loading={isPending}
-            bg="bg-[#4338ca]"
+            bg="bg-violet-600"
           />
         </div>
       </div>
 
-      {/* ── Charts ────────────────────────────────────────────────── */}
-      <DashboardCharts
-        revenueData={revenueData}
-        donutData={donutData}
-        isPending={isPending}
-      />
+      {/* ── Analytics Charts ──────────────────────────────────── */}
+      <div>
+        <SectionHeading label="Analytics" sub="Revenue and artisan distribution at a glance" />
+        <DashboardCharts
+          revenueData={revenueData}
+          donutData={donutData}
+          isPending={isPending}
+        />
+      </div>
 
-      {/* ── Quick Actions ─────────────────────────────────────────── */}
+      {/* ── Quick Actions ─────────────────────────────────────── */}
       <QuickLinks />
     </section>
   );

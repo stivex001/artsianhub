@@ -22,7 +22,10 @@ import {
   Clock,
   User,
   CalendarDays,
+  X,
+  Briefcase,
 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 // ─── Time grid constants ─────────────────────────────────────────────────────
 const HOUR_HEIGHT = 64; // px per hour
@@ -108,6 +111,158 @@ const STATUS_CONFIG: Record<
   },
 };
 
+// ─── Appointment Detail Modal ─────────────────────────────────────────────────
+const AppointmentDetailModal = ({
+  apt,
+  onClose,
+}: {
+  apt: Appointment | null;
+  onClose: () => void;
+}) => {
+  if (!apt) return null;
+  const cfg = STATUS_CONFIG[apt.status];
+
+  // Format date nicely
+  const [y, m, d] = apt.date.split("-").map(Number);
+  const dateObj = new Date(y, m - 1, d);
+  const formattedDate = dateObj.toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return (
+    <AnimatePresence>
+      {apt && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            key="backdrop"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+          />
+
+          {/* Modal panel */}
+          <motion.div
+            key="modal"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 16 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+          >
+            <div
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md pointer-events-auto overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Coloured header strip */}
+              <div className={`${cfg.bg} border-b border-gray-100 px-6 pt-6 pb-5`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full mb-3 ${cfg.badge}`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+                      {cfg.label}
+                    </span>
+                    <h2 className={`text-lg font-bold leading-snug ${cfg.text}`}>
+                      {apt.title}
+                    </h2>
+                    {apt.clientName && (
+                      <p className="text-sm text-gray-500 mt-1">with {apt.clientName}</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={onClose}
+                    className="w-8 h-8 rounded-lg bg-white/60 hover:bg-white border border-gray-200 flex items-center justify-center shrink-0 transition-colors mt-0.5"
+                  >
+                    <X className="w-4 h-4 text-gray-500" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Detail rows */}
+              <div className="px-6 py-5 flex flex-col gap-4">
+                {/* Date */}
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/5 flex items-center justify-center shrink-0">
+                    <CalendarDays className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Date</p>
+                    <p className="text-sm font-medium text-gray-900 mt-0.5">{formattedDate}</p>
+                  </div>
+                </div>
+
+                {/* Time */}
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/5 flex items-center justify-center shrink-0">
+                    <Clock className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Time</p>
+                    <p className="text-sm font-medium text-gray-900 mt-0.5">
+                      {apt.startTime} – {apt.endTime}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Location */}
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/5 flex items-center justify-center shrink-0">
+                    <MapPin className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</p>
+                    <p className="text-sm font-medium text-gray-900 mt-0.5">{apt.location || "—"}</p>
+                  </div>
+                </div>
+
+                {/* Client */}
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-primary/5 flex items-center justify-center shrink-0">
+                    <User className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Client</p>
+                    <p className="text-sm font-medium text-gray-900 mt-0.5">{apt.clientName || "—"}</p>
+                  </div>
+                </div>
+
+                {/* Service type */}
+                {apt.serviceType && (
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-primary/5 flex items-center justify-center shrink-0">
+                      <Briefcase className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Service</p>
+                      <p className="text-sm font-medium text-gray-900 mt-0.5">{apt.serviceType}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 pb-5">
+                <button
+                  onClick={onClose}
+                  className="w-full py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-sm font-semibold text-gray-700 transition-colors"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+};
+
 // ─── Appointment Card ─────────────────────────────────────────────────────────
 const AppointmentCard = ({
   apt,
@@ -163,10 +318,12 @@ const WeekView = ({
   currentDate,
   appointments,
   onDayClick,
+  onAppointmentClick,
 }: {
   currentDate: Date;
   appointments: Appointment[];
   onDayClick: (date: Date) => void;
+  onAppointmentClick: (apt: Appointment) => void;
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -265,7 +422,7 @@ const WeekView = ({
 
                   {/* Appointments */}
                   {dayApts.map((apt) => (
-                    <AppointmentCard key={apt.id} apt={apt} />
+                    <AppointmentCard key={apt.id} apt={apt} onClick={() => onAppointmentClick(apt)} />
                   ))}
 
                   {/* Current time line */}
@@ -292,9 +449,11 @@ const WeekView = ({
 const DayView = ({
   currentDate,
   appointments,
+  onAppointmentClick,
 }: {
   currentDate: Date;
   appointments: Appointment[];
+  onAppointmentClick: (apt: Appointment) => void;
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -395,6 +554,7 @@ const DayView = ({
               return (
                 <div
                   key={apt.id}
+                  onClick={() => onAppointmentClick(apt)}
                   className={`
                     absolute left-2 right-2 rounded-xl border-l-4 px-4 py-2.5 overflow-hidden
                     cursor-pointer transition-all hover:shadow-lg hover:z-30 z-10 group
@@ -465,10 +625,12 @@ const MonthView = ({
   currentDate,
   appointments,
   onDayClick,
+  onAppointmentClick,
 }: {
   currentDate: Date;
   appointments: Appointment[];
   onDayClick: (date: Date) => void;
+  onAppointmentClick: (apt: Appointment) => void;
 }) => {
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -536,7 +698,8 @@ const MonthView = ({
                   return (
                     <div
                       key={apt.id}
-                      className={`text-[10px] font-semibold truncate px-1.5 py-0.5 rounded-md border-l-2 ${cfg.bg} ${cfg.border} ${cfg.text}`}
+                      onClick={(e) => { e.stopPropagation(); onAppointmentClick(apt); }}
+                      className={`text-[10px] font-semibold truncate px-1.5 py-0.5 rounded-md border-l-2 cursor-pointer hover:opacity-80 transition-opacity ${cfg.bg} ${cfg.border} ${cfg.text}`}
                     >
                       {apt.title}
                     </div>
@@ -719,6 +882,7 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewType, setViewType] = useState<ViewType>("Weekly");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedApt, setSelectedApt] = useState<Appointment | null>(null);
 
   const { getMyBookings } = useAppointments();
   const { data: bookingsData, isLoading } = getMyBookings();
@@ -814,7 +978,8 @@ const Calendar = () => {
                   return (
                     <div
                       key={apt.id}
-                      className={`rounded-lg p-2.5 border-l-4 ${cfg.bg} ${cfg.border}`}
+                      onClick={() => setSelectedApt(apt)}
+                      className={`rounded-lg p-2.5 border-l-4 cursor-pointer hover:shadow-sm transition-shadow ${cfg.bg} ${cfg.border}`}
                     >
                       <p className={`text-xs font-bold truncate ${cfg.text}`}>{apt.title}</p>
                       <p className="text-[10px] text-gray-500 mt-0.5 truncate">{apt.clientName}</p>
@@ -855,21 +1020,33 @@ const Calendar = () => {
                 currentDate={currentDate}
                 appointments={filteredApts}
                 onDayClick={handleDayClick}
+                onAppointmentClick={setSelectedApt}
               />
             )}
             {viewType === "Day" && (
-              <DayView currentDate={currentDate} appointments={filteredApts} />
+              <DayView
+                currentDate={currentDate}
+                appointments={filteredApts}
+                onAppointmentClick={setSelectedApt}
+              />
             )}
             {viewType === "Monthly" && (
               <MonthView
                 currentDate={currentDate}
                 appointments={filteredApts}
                 onDayClick={handleDayClick}
+                onAppointmentClick={setSelectedApt}
               />
             )}
           </div>
         </Wrapper>
       </div>
+
+      {/* Appointment detail modal */}
+      <AppointmentDetailModal
+        apt={selectedApt}
+        onClose={() => setSelectedApt(null)}
+      />
     </div>
   );
 };
