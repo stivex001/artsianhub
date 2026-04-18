@@ -6,10 +6,9 @@ import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import EmptyTickets from "@/components/admin/tickets/EmptyTickets";
-import OutreachModal from "@/components/admin/tickets/OutreachModal";
 import { PRIORITY_STYLES, STATUS_STYLES, STATUS_LABELS, CATEGORY_LABELS, ROLE_STYLES, formatTicketDate } from "@/components/admin/tickets/ticket-constants";
 import { useRouter } from "next/navigation";
-import { ChevronRight, SlidersHorizontal, Download, Send } from "lucide-react";
+import { ChevronRight, SlidersHorizontal, Download } from "lucide-react";
 
 const filterTabs: { label: string; value: TicketStatus | "all" }[] = [
   { label: "All",         value: "all"             },
@@ -24,7 +23,6 @@ const SupportTicketsPage = () => {
   const router = useRouter();
   const [activeStatus, setActiveStatus] = useState<TicketStatus | "all">("all");
   const [currentPage, setCurrentPage]   = useState(1);
-  const [showOutreach, setShowOutreach] = useState(false);
   const LIMIT = 10;
 
   const { getAllTickets } = useAdminTickets();
@@ -45,20 +43,12 @@ const SupportTicketsPage = () => {
           <h1 className="text-xl font-bold text-gray-900">Support Tickets</h1>
           <p className="text-sm text-gray-500 mt-0.5">Manage and respond to all platform support requests</p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            onClick={() => setShowOutreach(true)}
-            className="flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-xl text-sm font-medium hover:bg-primary/5 transition-colors shrink-0"
-          >
-            <Send className="w-4 h-4" />Create Outreach
-          </button>
-          <button
-            onClick={() => downloadReport("tickets")}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
-          >
-            <Download className="w-4 h-4" />Export CSV
-          </button>
-        </div>
+        <button
+          onClick={() => downloadReport("tickets")}
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
+        >
+          <Download className="w-4 h-4" />Export CSV
+        </button>
       </div>
 
       {/* Filters */}
@@ -182,7 +172,6 @@ const SupportTicketsPage = () => {
         )}
       </Wrapper>
 
-      {showOutreach && <OutreachModal onClose={() => setShowOutreach(false)} />}
     </section>
   );
 };

@@ -11,6 +11,7 @@ import {
   ReviewNavIcon,
   NotifBellIcon,
   AdminMgmtIcon,
+  BroadcastIcon,
 } from "../assets/icons/LinksIcon";
 
 export const artisanLinks = [
@@ -81,6 +82,11 @@ export const adminLinks = [
     path: "/admin/dashboard/support-tickets",
     label: "Support Tickets",
     icon: TicketIcon,
+  },
+  {
+    path: "/admin/dashboard/broadcast-message",
+    label: "Broadcast Message",
+    icon: BroadcastIcon,
   },
   {
     path: "/admin/dashboard/reviews",

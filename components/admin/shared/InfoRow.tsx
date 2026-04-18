@@ -5,7 +5,7 @@ import React from "react";
 interface InfoRowProps {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  value?: string | number | null;
+  value?: React.ReactNode;
 }
 
 /**
@@ -20,7 +20,9 @@ const InfoRow = ({ icon: Icon, label, value }: InfoRowProps) => (
     <div className="min-w-0">
       <p className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">{label}</p>
       <p className="text-sm text-gray-800 font-medium mt-0.5 leading-snug">
-        {value != null && value !== "" ? value : <span className="text-gray-400 font-normal">—</span>}
+        {value != null && value !== "" && value !== false
+          ? value
+          : <span className="text-gray-400 font-normal">—</span>}
       </p>
     </div>
   </div>
