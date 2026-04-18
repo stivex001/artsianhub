@@ -198,6 +198,13 @@ export const AdminMgmtIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
+export const BroadcastIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} fill="none" {...props}>
+    <path fill="currentColor" opacity={0.4} d="M15.833 2.5a.833.833 0 0 0-1.179 0L13.095 4.06A6.667 6.667 0 0 0 10 3.333a6.667 6.667 0 0 0 0 13.334 6.667 6.667 0 0 0 3.095-.727l1.559 1.56a.833.833 0 0 0 1.179-1.179l-1.356-1.355A6.624 6.624 0 0 0 16.667 10a6.624 6.624 0 0 0-1.19-3.812l1.356-1.355A.833.833 0 0 0 15.833 2.5Z" />
+    <path fill="currentColor" d="M10 5.833a4.167 4.167 0 1 0 0 8.334A4.167 4.167 0 0 0 10 5.833Zm0 6.25a2.083 2.083 0 1 1 0-4.166 2.083 2.083 0 0 1 0 4.166Z" />
+  </svg>
+)
+
 export const KycIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -10,7 +10,7 @@ import {
   MapPin,
   Mail,
   Calendar,
-  DollarSign,
+  PoundSterling,
   Ruler,
   Clock,
   Tag,
@@ -19,6 +19,7 @@ import {
   User,
   Star,
 } from "lucide-react";
+import { formatLocation } from "@/utils/normalizeCountry";
 
 import { useAdminArtisans } from "@/apis/crud/admin";
 
@@ -219,14 +220,12 @@ const ArtisanDetails = () => {
               <InfoRow
                 icon={MapPin}
                 label="Location"
-                value={[artisan.primaryLocation, artisan.state, artisan.country]
-                  .filter(Boolean)
-                  .join(", ")}
+                value={formatLocation(artisan.primaryLocation, artisan.state, artisan.country)}
               />
               <InfoRow
-                icon={DollarSign}
+                icon={PoundSterling}
                 label="Price / Hour"
-                value={artisan.pricePerHour != null ? `$${artisan.pricePerHour}/hr` : undefined}
+                value={artisan.pricePerHour != null ? `£${artisan.pricePerHour}/hr` : undefined}
               />
               <InfoRow
                 icon={Ruler}

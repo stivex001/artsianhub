@@ -121,7 +121,7 @@ const buildColumns = (): TableColumn<AdminArtisan>[] => [
     header: "Location",
     width: "min-w-[130px]",
     render: (row) => (
-      <div className="flex items-center gap-1 text-xs text-gray-500">
+      <div className="flex items-center gap-1 text-xs text-gray-500 capitalize">
         <MapPin className="w-3 h-3 shrink-0 text-gray-400" />
         <span className="truncate max-w-[110px]">{row.primaryLocation || "—"}</span>
       </div>
