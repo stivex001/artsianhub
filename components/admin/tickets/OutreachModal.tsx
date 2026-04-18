@@ -16,7 +16,7 @@ const OutreachModal = ({ onClose }: Props) => {
   const outreachMutation = createOutreach();
 
   const [form, setForm] = useState({
-    recipientId:   "",
+    recipientIds:  [] as string[],
     recipientRole: "client" as "client" | "artisan",
     messageType:   "general",
     subject:       "",
@@ -28,11 +28,11 @@ const OutreachModal = ({ onClose }: Props) => {
       setForm((p) => ({ ...p, [key]: e.target.value }));
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
-    setForm((p) => ({ ...p, recipientRole: e.target.value as "client" | "artisan", recipientId: "" }));
+    setForm((p) => ({ ...p, recipientRole: e.target.value as "client" | "artisan", recipientIds: [] }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.recipientId || !form.subject.trim() || !form.message.trim()) return;
+    if (!form.recipientIds.length || !form.subject.trim() || !form.message.trim()) return;
     try {
       await outreachMutation.mutateAsync(form);
       toast.success("Outreach message sent");
@@ -67,8 +67,8 @@ const OutreachModal = ({ onClose }: Props) => {
 
           <RecipientPicker
             role={form.recipientRole}
-            value={form.recipientId}
-            onChange={(id) => setForm((p) => ({ ...p, recipientId: id }))}
+            value={form.recipientIds[0] ?? ""}
+            onChange={(id) => setForm((p) => ({ ...p, recipientIds: id ? [id] : [] }))}
           />
 
           <div className="flex flex-col gap-1.5">
@@ -115,7 +115,7 @@ const OutreachModal = ({ onClose }: Props) => {
             </button>
             <button
               type="submit"
-              disabled={outreachMutation.isPending || !form.recipientId}
+              disabled={outreachMutation.isPending || !form.recipientIds.length}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-white bg-primary hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               <Send className="w-4 h-4" />
