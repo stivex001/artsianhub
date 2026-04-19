@@ -7,28 +7,16 @@ import { Send, Megaphone, Users, MessageSquare, Loader2, RotateCcw } from "lucid
 import { useAdminTickets } from "@/apis/crud/admin";
 import { OUTREACH_MESSAGE_TYPES } from "@/components/admin/tickets/ticket-constants";
 import MultiRecipientPicker from "@/components/admin/broadcast/MultiRecipientPicker";
-
-type Role = "artisan" | "client";
-
-interface Recipient {
-  id: string;
-  name: string;
-  email: string;
-}
-
-const MESSAGE_TYPE_META: Record<string, { label: string; color: string; badge: string }> = {
-  info:         { label: "Info",         color: "text-blue-600",   badge: "bg-blue-50 text-blue-600 ring-1 ring-blue-200"   },
-  welcome:      { label: "Welcome",      color: "text-green-600",  badge: "bg-green-50 text-green-600 ring-1 ring-green-200"  },
-  reminder:     { label: "Reminder",     color: "text-amber-600",  badge: "bg-amber-50 text-amber-600 ring-1 ring-amber-200"  },
-  warning:      { label: "Warning",      color: "text-orange-600", badge: "bg-orange-50 text-orange-600 ring-1 ring-orange-200"},
-  general:      { label: "General",      color: "text-gray-600",   badge: "bg-gray-100 text-gray-600 ring-1 ring-gray-200"    },
-  promotional:  { label: "Promotional",  color: "text-purple-600", badge: "bg-purple-50 text-purple-600 ring-1 ring-purple-200"},
-};
-
-const ROLE_OPTIONS: { value: Role; label: string; desc: string }[] = [
-  { value: "artisan", label: "Artisans",  desc: "Registered service providers" },
-  { value: "client",  label: "Clients",   desc: "Platform users & buyers" },
-];
+import RichTextEditor from "@/components/shared/RichTextEditor";
+import {
+  MESSAGE_TYPE_META,
+  ROLE_OPTIONS,
+  BROADCAST_TIPS,
+  SUBJECT_MAX_LENGTH,
+  PREVIEW_MAX_RECIPIENTS,
+} from "@/components/admin/broadcast/broadcast-constants";
+import type { Role, Recipient } from "@/components/admin/broadcast/broadcast-types";
+import { RenderHtml } from "@/utils/renderHtml";
 
 const BroadcastMessagePage = () => {
   const { createOutreach } = useAdminTickets();
@@ -45,7 +33,7 @@ const BroadcastMessagePage = () => {
 
   const handleRoleChange = (newRole: Role) => {
     setRole(newRole);
-    setRecipients([]); // reset recipients when role switches
+    setRecipients([]);
   };
 
   const handleReset = () => {
@@ -64,9 +52,11 @@ const BroadcastMessagePage = () => {
         recipientRole: role,
         messageType,
         subject: subject.trim(),
-        message: message.trim(),
+        message,
       });
-      toast.success(`Broadcast sent to ${recipients.length} recipient${recipients.length !== 1 ? "s" : ""}.`);
+      toast.success(
+        `Broadcast sent to ${recipients.length} recipient${recipients.length !== 1 ? "s" : ""}.`
+      );
       handleReset();
     } catch {
       toast.error("Failed to send broadcast. Please try again.");
@@ -182,28 +172,27 @@ const BroadcastMessagePage = () => {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="e.g. Platform Update Scheduled"
-              maxLength={120}
+              maxLength={SUBJECT_MAX_LENGTH}
               className="px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900
                 focus:outline-none focus:ring-2 focus:ring-[#02198B]/20 focus:border-[#02198B]/40 transition-all"
             />
-            <p className="text-[11px] text-gray-400 text-right">{subject.length}/120</p>
+            <p className="text-[11px] text-gray-400 text-right">
+              {subject.length}/{SUBJECT_MAX_LENGTH}
+            </p>
           </div>
 
-          {/* Message */}
+          {/* Message — Rich Text Editor */}
           <div className="flex flex-col gap-2">
             <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
               Message <span className="text-red-400">*</span>
             </label>
-            <textarea
+            <RichTextEditor
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={setMessage}
               placeholder="Write your broadcast message here…"
-              rows={5}
               maxLength={1000}
-              className="px-3 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-900 resize-none
-                focus:outline-none focus:ring-2 focus:ring-[#02198B]/20 focus:border-[#02198B]/40 transition-all"
+              minHeight="160px"
             />
-            <p className="text-[11px] text-gray-400 text-right">{message.length}/1000</p>
           </div>
 
           {/* Actions */}
@@ -236,7 +225,7 @@ const BroadcastMessagePage = () => {
           </div>
         </motion.form>
 
-        {/* ── Right: preview card ─────────────────────────────────────────── */}
+        {/* ── Right: preview + tips ───────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -260,35 +249,51 @@ const BroadcastMessagePage = () => {
 
               {/* Subject */}
               <div>
-                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Subject</p>
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                  Subject
+                </p>
                 <p className="text-sm font-semibold text-gray-800 leading-snug">
-                  {subject.trim() || <span className="text-gray-300 italic font-normal">No subject yet</span>}
+                  {subject.trim() || (
+                    <span className="text-gray-300 italic font-normal">No subject yet</span>
+                  )}
                 </p>
               </div>
 
-              {/* Message */}
+              {/* Message — rendered HTML */}
               <div>
-                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Message</p>
-                <p className="text-xs text-gray-600 leading-relaxed whitespace-pre-wrap line-clamp-6">
-                  {message.trim() || <span className="text-gray-300 italic">No message yet</span>}
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+                  Message
                 </p>
+                {message ? (
+                  <RenderHtml
+                    html={message}
+                    className="text-xs text-gray-600 leading-relaxed rich-text-preview line-clamp-[10]"
+                  />
+                ) : (
+                  <p className="text-xs text-gray-300 italic">No message yet</p>
+                )}
               </div>
 
               {/* To */}
               <div className="pt-2 border-t border-gray-100">
-                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">To</p>
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-1.5">
+                  To
+                </p>
                 {recipients.length === 0 ? (
                   <p className="text-xs text-gray-300 italic">No recipients selected</p>
                 ) : (
                   <div className="flex flex-wrap gap-1">
-                    {recipients.slice(0, 5).map((r) => (
-                      <span key={r.id} className="text-[11px] bg-[#02198B]/[0.07] text-[#02198B] px-2 py-0.5 rounded-full font-medium truncate max-w-[140px]">
+                    {recipients.slice(0, PREVIEW_MAX_RECIPIENTS).map((r) => (
+                      <span
+                        key={r.id}
+                        className="text-[11px] bg-[#02198B]/[0.07] text-[#02198B] px-2 py-0.5 rounded-full font-medium truncate max-w-[140px]"
+                      >
                         {r.name}
                       </span>
                     ))}
-                    {recipients.length > 5 && (
+                    {recipients.length > PREVIEW_MAX_RECIPIENTS && (
                       <span className="text-[11px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full font-medium">
-                        +{recipients.length - 5} more
+                        +{recipients.length - PREVIEW_MAX_RECIPIENTS} more
                       </span>
                     )}
                   </div>
@@ -304,12 +309,7 @@ const BroadcastMessagePage = () => {
               <p className="text-[11px] font-semibold text-amber-700 uppercase tracking-wider">Tips</p>
             </div>
             <ul className="flex flex-col gap-2">
-              {[
-                "Keep messages concise and action-oriented.",
-                "Use 'Warning' type for policy or account alerts.",
-                "Use 'Info' for platform updates or announcements.",
-                "Double-check recipients before sending — this cannot be undone.",
-              ].map((tip, i) => (
+              {BROADCAST_TIPS.map((tip, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-amber-700/80">
                   <span className="w-1 h-1 rounded-full bg-amber-400 mt-1.5 shrink-0" />
                   {tip}

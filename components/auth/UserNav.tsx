@@ -1,35 +1,81 @@
 "use client";
+
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import React from "react";
 import ava from "@/components/assets/images/ava.svg";
-import {
-  BillingIcon,
-  BriefcaseIcon,
-  LogoutIcon,
-  ProfileIcon,
-  SettingsIcon,
-} from "../assets/icons/UsersIcon";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/apis/crud/user";
-import { useModalStore } from "@/store/useModalStore";
-import { useArtisans } from "@/apis/crud/artisans";
+import {
+  Briefcase,
+  Settings,
+  LogOut,
+  LifeBuoy,
+  ChevronRight,
+} from "lucide-react";
 
 type UserNavProps = {
-  handleMenuItemClick: any;
-  onClose: any;
+  handleMenuItemClick: (action: string) => void;
+  onClose: () => void;
 };
+
+const MenuItem = ({
+  icon: Icon,
+  label,
+  sublabel,
+  iconBg,
+  iconColor,
+  onClick,
+  danger,
+}: {
+  icon: React.ElementType;
+  label: string;
+  sublabel?: string;
+  iconBg: string;
+  iconColor: string;
+  onClick: () => void;
+  danger?: boolean;
+}) => (
+  <button
+    onClick={onClick}
+    className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all
+      ${danger
+        ? "hover:bg-red-50 text-gray-700 hover:text-red-600"
+        : "hover:bg-gray-50 text-gray-700"
+      }`}
+  >
+    <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-colors ${iconBg}`}>
+      <Icon className={`w-4 h-4 ${iconColor}`} />
+    </div>
+    <div className="flex-1 text-left">
+      <p className={`text-sm font-medium leading-tight ${danger ? "group-hover:text-red-600" : ""}`}>
+        {label}
+      </p>
+      {sublabel && (
+        <p className="text-[11px] text-gray-400 mt-0.5 leading-none">{sublabel}</p>
+      )}
+    </div>
+    {!danger && (
+      <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors" />
+    )}
+  </button>
+);
 
 export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   const router = useRouter();
-
   const { logout } = useAuthStore();
   const { getCurrentUser } = useUser();
   const { data: user } = getCurrentUser();
 
   const profilePhoto = user?.data?.profilePicture;
   const currentUser = user?.data;
+
+  const initials =
+    currentUser?.firstName && currentUser?.lastName
+      ? `${currentUser.firstName[0]}${currentUser.lastName[0]}`.toUpperCase()
+      : "U";
 
   const handleLogout = () => {
     logout();
@@ -39,68 +85,91 @@ export const UserNav = ({ handleMenuItemClick, onClose }: UserNavProps) => {
   };
 
   return (
-    <div className="absolute right-0 top-full mt-2 min-w-[300px] bg-white rounded-[14px] shadow-usershadow p-2.5 z-50">
-      <div className="bg-[#F9F9FB] h-[70px] rounded-2xl p-2.5 flex items-center gap-2">
-        <div className="w-12 h-12 flex-shrink-0">
-          <Image
-            src={profilePhoto || ava}
-            alt={`avatar`}
-            width={48}
-            height={48}
-            className="w-full h-full object-cover rounded-full"
-          />
+    <div className="absolute right-0 top-full mt-2.5 w-[300px] bg-white rounded-2xl shadow-[0_8px_40px_-8px_rgba(0,0,0,0.18),0_0_0_1px_rgba(0,0,0,0.04)] z-50 overflow-hidden">
+
+      {/* ── User info card ─────────────────────────────────────────── */}
+      <div className="relative px-4 pt-4 pb-3.5 bg-gradient-to-br from-[#02198B]/[0.04] to-[#02198B]/[0.02] border-b border-gray-100">
+        <div className="flex items-center gap-3">
+          {/* Avatar */}
+          <div className="w-11 h-11 rounded-xl ring-2 ring-white shadow-sm flex-shrink-0 overflow-hidden">
+            {profilePhoto ? (
+              <Image
+                src={profilePhoto}
+                alt="avatar"
+                width={44}
+                height={44}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-[#02198B] flex items-center justify-center">
+                <span className="text-white text-sm font-bold">{initials}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Name & email */}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-gray-900 truncate">
+              {currentUser?.firstName} {currentUser?.lastName}
+            </p>
+            <p className="text-[11px] text-gray-500 truncate mt-0.5">
+              {currentUser?.email}
+            </p>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-bold text-paragrah text-sm">
-            {currentUser?.firstName} {currentUser?.lastName}
-          </h3>
-          <p className="text-xs text-[#667185]">{currentUser?.email}</p>
+
+        {/* Active badge */}
+        <div className="absolute top-4 right-4 flex items-center gap-1 px-2 py-0.5 bg-green-50 rounded-full border border-green-100">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+          <span className="text-[10px] font-semibold text-green-600">Active</span>
         </div>
       </div>
 
-      <div className="my-2">
-        {/* <button
-          onClick={() => handleMenuItemClick("profile")}
-          className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
+      {/* ── Menu items ─────────────────────────────────────────────── */}
+      <div className="p-2 flex flex-col gap-0.5">
+        <MenuItem
+          icon={Briefcase}
+          label="Manage Jobs"
+          sublabel="View and manage your job listings"
+          iconBg="bg-blue-50"
+          iconColor="text-blue-500"
+          onClick={() => { handleMenuItemClick("manage-jobs"); }}
+        />
+        <MenuItem
+          icon={Settings}
+          label="Account Settings"
+          sublabel="Privacy, security & preferences"
+          iconBg="bg-gray-100"
+          iconColor="text-gray-500"
+          onClick={() => { handleMenuItemClick("settings"); }}
+        />
+        <Link
+          href="/support"
+          onClick={onClose}
+          className="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all hover:bg-gray-50 text-gray-700"
         >
-          <ProfileIcon />
-          <span className="text-sm text-body">Profile</span>
-        </button> */}
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50">
+            <LifeBuoy className="w-4 h-4 text-indigo-500" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-sm font-medium leading-tight">Support Ticket</p>
+            <p className="text-[11px] text-gray-400 mt-0.5 leading-none">Get help from our support team</p>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-gray-400 transition-colors" />
+        </Link>
+      </div>
 
-        <button
-          onClick={() => handleMenuItemClick("manage-jobs")}
-          className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
-        >
-          <BriefcaseIcon />
-          <span className="text-sm text-body">Manage Jobs</span>
-        </button>
-
-        <button
-          onClick={() => handleMenuItemClick("settings")}
-          className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
-        >
-          <SettingsIcon />
-          <span className="text-sm text-body">Account Settings</span>
-        </button>
-
-        {/* <button
-          onClick={() => handleMenuItemClick("billing-payments")}
-          className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
-        >
-          <BillingIcon />
-          <span className="text-sm text-body">Billing & Payments</span>
-        </button> */}
-
-        {/* Divider */}
-        <div className="my-2 border-t border-gray-100"></div>
-
-        <button
+      {/* ── Divider + logout ───────────────────────────────────────── */}
+      <div className="px-2 pb-2">
+        <div className="h-px bg-gray-100 mb-2 mx-1" />
+        <MenuItem
+          icon={LogOut}
+          label="Log Out"
+          iconBg="bg-red-50"
+          iconColor="text-red-400"
           onClick={handleLogout}
-          className="w-full h-[44px] py-3 px-2.5 flex items-center gap-2.5  text-left hover:bg-gray-50 transition-colors"
-        >
-          <LogoutIcon />
-          <span className="text-sm text-body">Log Out</span>
-        </button>
+          danger
+        />
       </div>
     </div>
   );

@@ -312,7 +312,7 @@ export const useAdminSubscriptions = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const useAdminNotifications = () => {
-  const getNotifications = (unreadOnly = false) =>
+  const getNotifications = (unreadOnly = false, enabled = true) =>
     useApiQuery<AdminNotificationsResponse>(
       ["admin_notifications", unreadOnly],
       {
@@ -320,7 +320,7 @@ export const useAdminNotifications = () => {
         method: "GET",
         params: unreadOnly ? { unreadOnly: true } : undefined,
       },
-      { enabled: true }
+      { enabled }
     );
 
   const markAsRead = (id: string) =>
@@ -378,7 +378,7 @@ export const useAdminManagement = () => {
 
 export const downloadReport = (type: "bookings" | "artisans" | "clients" | "reviews" | "tickets") => {
   const token = useAuthStore.getState().accessToken;
-  const url = `${BASE_URL}/admin/reports/export?type=${type}`;
+  const url = `${BASE_URL}/admin/analytics/export?type=${type}`;
   const a = document.createElement("a");
   a.href = url;
   a.setAttribute("download", `${type}_report.csv`);

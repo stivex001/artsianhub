@@ -41,6 +41,11 @@ export const artisanLinks = [
     icon: SubIcon,
   },
   {
+    path: "/artisan/dashboard/support-ticket",
+    label: "Support Ticket",
+    icon: TicketIcon,
+  },
+  {
     path: "/artisan/dashboard/settings",
     label: "Settings",
     icon: SettingsIcon,

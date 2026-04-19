@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAdminClients, UserStatus } from "@/apis/crud/admin";
+import { useAdminClients, UserStatus, downloadReport } from "@/apis/crud/admin";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import { useRouter } from "next/navigation";
-import { Search, X, Users, ChevronRight, SlidersHorizontal, UserCheck, UserX, ShieldOff } from "lucide-react";
+import { Search, X, Users, ChevronRight, SlidersHorizontal, UserCheck, UserX, ShieldOff, Download } from "lucide-react";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 const STATUS_STYLES: Record<UserStatus, string> = {
@@ -136,6 +136,14 @@ const ManageClientsPage = () => {
               {label}
             </div>
           ))}
+          <button
+            onClick={() => downloadReport("clients")}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
+              hover:bg-[#011571] transition-colors shadow-sm shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            Export CSV
+          </button>
         </div>
       </div>
 

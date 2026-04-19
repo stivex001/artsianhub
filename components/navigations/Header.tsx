@@ -3,6 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 import logo from "@/components/assets/images/n.png";
 import hub from "@/components/assets/images/newA.png";
 import hubn from "@/components/assets/images/n.png";
@@ -43,18 +46,40 @@ export const Header = ({ brandlogo, className, logoHref = "/", isTransparent }: 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
   const [openNotification, setOpenNotification] = useState(false);
+  const [pendingMarkId, setPendingMarkId] = useState<string | null>(null);
 
   const { accessToken, isHydrated } = useAuthStore();
   const isLoggedIn = !!accessToken;
+  const queryClient = useQueryClient();
 
-  const { getAllNotifications } = useNotification({
+  const { getAllNotifications, markAllNotification, markAllSingleNotification } = useNotification({
     notificationsEnabled: isLoggedIn && isHydrated,
   });
-  const { data: notify } = getAllNotifications();
+  const { data: notify, refetch } = getAllNotifications();
   const notificationData = notify?.data?.notifications || [];
-  const total = notify?.data?.totalNotification;
-  const unreadNotifications = notificationData?.filter((n) => !n?.read);
-  const unreadCount = unreadNotifications?.length ?? 0;
+  const total = notify?.data?.totalNotification ?? 0;
+  const unreadCount = notificationData.filter((n) => !n?.read).length;
+
+  const { mutate: markAll, isPending: isMarkingAll } = markAllNotification;
+  // Hook is called with pendingMarkId so it has the right URL on the effect trigger
+  const { mutate: markSingle } = markAllSingleNotification(pendingMarkId ?? "");
+
+  // Fire mark-single AFTER re-render so the mutation URL carries the new ID
+  useEffect(() => {
+    if (!pendingMarkId) return;
+    markSingle({}, {
+      onSuccess: () => { refetch(); setPendingMarkId(null); },
+      onError: (e: any) => { toast.error(e?.message ?? "Failed to mark as read"); setPendingMarkId(null); },
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingMarkId]);
+
+  const handleMarkAll = () => {
+    markAll({}, {
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ["notification"] }),
+      onError: (e: any) => toast.error(e?.message ?? "Failed to mark all as read"),
+    });
+  };
 
   const handleScrollTo = (id: string) => {
     const section = document.getElementById(id);
@@ -96,23 +121,32 @@ export const Header = ({ brandlogo, className, logoHref = "/", isTransparent }: 
     if (isLoggedIn) {
       return (
         <>
-          <div
-            onClick={() => setOpenNotification((prev) => !prev)}
-            className="relative cursor-pointer bg-white rounded-full"
-          >
-            <NotificationIcon />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 right-2 text-[#AE2525] font-semibold text-base">
-                {unreadCount}
-              </span>
-            )}
-            {openNotification && (
-              <NotificationModal
-                onClose={() => setOpenNotification(false)}
-                notifications={notificationData}
-                total={total}
-              />
-            )}
+          <div className="relative">
+            <button
+              onClick={() => setOpenNotification((prev) => !prev)}
+              className="relative cursor-pointer bg-white rounded-full"
+            >
+              <NotificationIcon />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center
+                  justify-center rounded-full bg-red-500 text-white text-[10px] font-bold px-1">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              )}
+            </button>
+            <AnimatePresence>
+              {openNotification && (
+                <NotificationModal
+                  onClose={() => setOpenNotification(false)}
+                  notifications={notificationData}
+                  total={total}
+                  onMarkSingle={(id) => setPendingMarkId(id)}
+                  onMarkAll={handleMarkAll}
+                  isMarkingAll={isMarkingAll}
+                  pendingId={pendingMarkId}
+                />
+              )}
+            </AnimatePresence>
           </div>
           <UserProfile brandlogo={brandlogo} />
         </>

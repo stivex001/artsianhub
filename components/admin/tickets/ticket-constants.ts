@@ -61,7 +61,18 @@ export const PRIORITY_COLORS: Record<string, string> = {
   urgent: "text-red-600 bg-red-50",
 };
 
-export const OUTREACH_MESSAGE_TYPES = ["info", "welcome", "reminder", "warning", "general", "promotional"] as const;
+export const OUTREACH_MESSAGE_TYPES = [
+  "welcome",
+  "booking_followup",
+  "completion_checkin",
+  "retention",
+  "warning",
+  "account_notice",
+  "info",
+  "reminder",
+  "general",
+  "promotional",
+] as const;
 
 export const formatTicketDate = (d: string) =>
   new Date(d).toLocaleDateString("en-GB", {

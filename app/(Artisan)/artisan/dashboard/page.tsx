@@ -6,6 +6,7 @@ import { RecentAppointments } from "@/components/Artisan/dashboard/RecentAppoint
 import Statistics from "@/components/Artisan/dashboard/Statistics";
 import QuickLinks from "@/components/Artisan/dashboard/QuickLinks";
 import SubscriptionBanner from "@/components/Artisan/dashboard/SubscriptionBanner";
+import VerificationBadge from "@/components/Artisan/dashboard/VerificationBadge";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 import { useAuthStore } from "@/store/authStore";
 import { useSubscriptions } from "@/apis/crud/subscriptions";
@@ -52,6 +53,7 @@ const ArtisanDashboard = (props: Props) => {
   return (
     <section className="flex flex-col gap-5">
       <SubscriptionBanner isSubscribed={isSubscribed} />
+      <VerificationBadge />
       <Statistics isLoading={isDashboardLoading} metrics={metrics} />
       <QuickLinks />
       {/* <AppointmentDetailsStats /> */}
