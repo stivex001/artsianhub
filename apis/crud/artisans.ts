@@ -97,6 +97,10 @@ export interface GetSingleArtisan {
     profilePicture: string;
     totalReviews: string;
     averageRating: number;
+    isVerified: boolean;
+    verificationStatus: "verified" | "pending" | "unverified" | string;
+    isSubscribed: boolean;
+    accountStatus: string;
     userId: {
       _id: string;
       role: string;

@@ -1,5 +1,6 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { Check } from "lucide-react";
 import alex from "@/components/assets/images/Alex Morgan.png";
 import maria from "@/components/assets/images/Maria Silva.png";
 import olivia from "@/components/assets/images/Olivia Parks.png";
@@ -15,6 +16,7 @@ const artisans = [
     name: "Alex Morgan",
     specialty: "Reclaimed Wood Specialist",
     rating: 4.9,
+    verified: true,
   },
   {
     image: maria,
@@ -22,6 +24,7 @@ const artisans = [
     name: "Maria Silva",
     specialty: "Custom Metal Work",
     rating: 5,
+    verified: true,
   },
   {
     image: olivia,
@@ -29,6 +32,7 @@ const artisans = [
     name: "Kashmala",
     specialty: "Sustainable Materials",
     rating: 4.8,
+    verified: false,
   },
   {
     image: olivia,
@@ -36,6 +40,7 @@ const artisans = [
     name: "Olivia Parks",
     specialty: "Functional Pottery",
     rating: 4.9,
+    verified: true,
   },
 ];
 
@@ -67,6 +72,15 @@ export const FeaturesArtisan = (props: Props) => {
                 <span className="absolute bottom-3 left-3 bg-primary text-white text-base font-medium px-3 py-1 h-8 flex items-center justify-center rounded-full">
                   {artisan.category}
                 </span>
+                {artisan.verified && (
+                  <div
+                    className="absolute top-2.5 right-2.5 w-7 h-7 bg-[#02198B] rounded-full
+                      flex items-center justify-center ring-[2.5px] ring-white shadow-md"
+                    title="Verified Artisan"
+                  >
+                    <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+                  </div>
+                )}
               </div>
               <div className="p-4 w-full">
                 <div className="flex items-center justify-between mb-2">

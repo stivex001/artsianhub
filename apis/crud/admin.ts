@@ -312,7 +312,7 @@ export const useAdminSubscriptions = () => {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const useAdminNotifications = () => {
-  const getNotifications = (unreadOnly = false) =>
+  const getNotifications = (unreadOnly = false, enabled = true) =>
     useApiQuery<AdminNotificationsResponse>(
       ["admin_notifications", unreadOnly],
       {
@@ -320,7 +320,7 @@ export const useAdminNotifications = () => {
         method: "GET",
         params: unreadOnly ? { unreadOnly: true } : undefined,
       },
-      { enabled: true }
+      { enabled }
     );
 
   const markAsRead = (id: string) =>
