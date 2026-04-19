@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAdminReviews, REVIEW_STATUSES, ReviewStatus } from "@/apis/crud/admin";
+import { useAdminReviews, REVIEW_STATUSES, ReviewStatus, downloadReport } from "@/apis/crud/admin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Wrapper from "@/components/shared/Wrapper";
@@ -16,6 +16,7 @@ import {
   MessageSquarePlus,
   AlertTriangle,
   X,
+  Download,
 } from "lucide-react";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -265,6 +266,14 @@ const ReviewsPage = () => {
                 {label}: {reviews.filter((r) => r.status === key).length}
               </span>
             ))}
+            <button
+              onClick={() => downloadReport("reviews")}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
+                hover:bg-[#011571] transition-colors shadow-sm shrink-0"
+            >
+              <Download className="w-4 h-4" />
+              Export CSV
+            </button>
           </div>
         </div>
 
