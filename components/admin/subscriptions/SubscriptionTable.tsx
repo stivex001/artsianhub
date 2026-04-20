@@ -7,6 +7,7 @@ import { Subscription, SubscriptionStatus } from "@/apis/crud/admin";
 import AdminTable, { TableColumn } from "@/components/admin/shared/AdminTable";
 import ExtendModal from "./ExtendModal";
 import RefundFlagModal from "./RefundFlagModal";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   subscriptions: Subscription[];
@@ -35,6 +36,9 @@ function formatDate(iso: string) {
 }
 
 const SubscriptionTable = ({ subscriptions, loading }: Props) => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const [extendTarget, setExtendTarget] = useState<Subscription | null>(null);
   const [refundTarget, setRefundTarget] = useState<Subscription | null>(null);
 
@@ -95,11 +99,11 @@ const SubscriptionTable = ({ subscriptions, loading }: Props) => {
         </span>
       ),
     },
-    {
+    ...(isSuperAdmin ? [{
       key: "actions",
       header: "Actions",
       width: "min-w-[180px]",
-      render: (row) => (
+      render: (row: Subscription) => (
         <div className="flex items-center justify-start gap-2">
           <button
             onClick={(e) => { e.stopPropagation(); setExtendTarget(row); }}
@@ -117,7 +121,7 @@ const SubscriptionTable = ({ subscriptions, loading }: Props) => {
           </button>
         </div>
       ),
-    },
+    }] : []),
   ];
 
   return (

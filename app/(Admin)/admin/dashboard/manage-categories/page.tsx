@@ -7,6 +7,7 @@ import { useAdminCategories } from "@/apis/crud/adminCategories";
 import AdminCategoryList from "@/components/admin/category/AdminCategoryList";
 import AdminCategoryDetail from "@/components/admin/category/AdminCategoryDetail";
 import CategoryFormModal from "@/components/admin/category/CategoryFormModal";
+import { useAuthStore } from "@/store/authStore";
 
 // ── Skeleton ─────────────────────────────────────────────────────────────────
 const PageSkeleton = () => (
@@ -44,6 +45,9 @@ const PageSkeleton = () => (
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 const ManageCategories = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const { getAll } = useAdminCategories();
   const { data, isLoading, refetch } = getAll();
 
@@ -100,14 +104,16 @@ const ManageCategories = () => {
             </div>
           )}
 
-          <button
-            onClick={() => setShowCreate(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#02198B] text-white
-              text-sm font-medium hover:bg-[#011571] transition-colors shadow-sm"
-          >
-            <Plus className="w-4 h-4" />
-            New Category
-          </button>
+          {isSuperAdmin && (
+            <button
+              onClick={() => setShowCreate(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#02198B] text-white
+                text-sm font-medium hover:bg-[#011571] transition-colors shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              New Category
+            </button>
+          )}
         </div>
       </div>
 
@@ -130,14 +136,16 @@ const ManageCategories = () => {
               Categories power your public listings — create the first one to get started.
             </p>
           </div>
-          <button
-            onClick={() => setShowCreate(true)}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#02198B] text-white
-              text-sm font-medium hover:bg-[#011571] transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Create Category
-          </button>
+          {isSuperAdmin && (
+            <button
+              onClick={() => setShowCreate(true)}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#02198B] text-white
+                text-sm font-medium hover:bg-[#011571] transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Create Category
+            </button>
+          )}
         </motion.div>
       ) : (
         <div
@@ -177,6 +185,7 @@ const ManageCategories = () => {
                   category={selected}
                   onRefetch={refetch}
                   onDeleted={handleDeleted}
+                  isSuperAdmin={isSuperAdmin}
                 />
               ) : (
                 <motion.div

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { toast } from "sonner";
 import {
   Lock,
@@ -40,8 +40,9 @@ const OtpInput = ({
   error?: string;
 }) => {
   const slots = 6;
-  const digits = value.padEnd(slots, "").split("").slice(0, slots);
+  const digits = value.padEnd(slots, " ").split("").slice(0, slots);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [focusedIdx, setFocusedIdx] = useState(-1);
 
   const handleKey = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Backspace") {
@@ -69,35 +70,115 @@ const OtpInput = ({
     inputRefs.current[focusIdx]?.focus();
   };
 
+  const filledCount = value.replace(/\s/g, "").length;
+
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest">
-        One-Time Password
-      </label>
-      <div className="flex gap-2" onPaste={handlePaste}>
-        {digits.map((d, i) => (
-          <input
-            key={i}
-            ref={(el) => { inputRefs.current[i] = el; }}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={d.trim()}
-            onChange={(e) => handleChange(i, e)}
-            onKeyDown={(e) => handleKey(i, e)}
-            className={`flex-1 h-12 text-center text-lg font-bold text-white bg-white/[0.04] border rounded-xl transition-all duration-200
-              focus:outline-none focus:ring-2 focus:ring-[#02198B]/60 focus:border-[#02198B]
-              ${d.trim() ? "border-[#02198B]/40 text-[#F0C422]" : "border-white/[0.08]"}
-              ${error ? "border-red-500/60" : ""}`}
-          />
-        ))}
+    <div className="flex flex-col gap-3">
+      {/* Label row */}
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest">
+          Verification Code
+        </label>
+        <span className="text-[10px] font-mono text-[#4B5563]">
+          {filledCount}/6
+        </span>
       </div>
-      {error && (
-        <p className="flex items-center gap-1.5 text-xs text-red-400">
-          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-          {error}
-        </p>
-      )}
+
+      {/* Digit cells */}
+      <div className="flex items-center gap-2" onPaste={handlePaste}>
+        {digits.map((d, i) => {
+          const isFilled = d.trim() !== "";
+          const isActive = focusedIdx === i;
+
+          return (
+            <React.Fragment key={i}>
+              <motion.div
+                // key change triggers spring-bounce when fill state changes
+                key={`slot-${i}-${isFilled}`}
+                className="relative flex-1"
+                initial={isFilled ? { scale: 0.82 } : { scale: 1 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 480, damping: 22 }}
+              >
+                <input
+                  ref={(el) => { inputRefs.current[i] = el; }}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  value={d.trim()}
+                  onChange={(e) => handleChange(i, e)}
+                  onKeyDown={(e) => handleKey(i, e)}
+                  onFocus={() => setFocusedIdx(i)}
+                  onBlur={() => setFocusedIdx(-1)}
+                  aria-label={`Digit ${i + 1} of 6`}
+                  className={`
+                    w-full h-14 text-center text-2xl font-bold font-mono rounded-xl
+                    bg-white/[0.04] border transition-all duration-200
+                    focus:outline-none caret-transparent select-none
+                    ${isFilled ? "text-[#F0C422] border-[#F0C422]/25" : "text-white/80 border-white/[0.08]"}
+                    ${isActive && !error ? "border-[#02198B] shadow-[0_0_0_3px_rgba(2,25,139,0.22)]" : ""}
+                    ${error ? "border-red-500/50 shadow-[0_0_0_2px_rgba(239,68,68,0.12)]" : ""}
+                  `}
+                />
+
+                {/* Blinking cursor in focused empty slot */}
+                {isActive && !isFilled && (
+                  <motion.div
+                    className="absolute bottom-[10px] left-1/2 -translate-x-1/2 w-[2px] h-[18px] bg-[#02198B] rounded-full pointer-events-none"
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.75, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+                  />
+                )}
+
+                {/* Filled gold glow overlay */}
+                {isFilled && (
+                  <div
+                    className="absolute inset-0 rounded-xl pointer-events-none"
+                    style={{ boxShadow: "inset 0 0 0 1px rgba(240,196,34,0.12), 0 4px 14px rgba(240,196,34,0.07)" }}
+                  />
+                )}
+              </motion.div>
+
+              {/* Mid-separator dot between slot 2 and 3 */}
+              {i === 2 && (
+                <div className="flex items-center justify-center w-3 shrink-0">
+                  <div className="w-1 h-1 rounded-full bg-white/[0.15]" />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Progress track */}
+      <div className="h-[2px] bg-white/[0.05] rounded-full overflow-hidden">
+        <motion.div
+          className="h-full rounded-full"
+          style={{
+            background: error
+              ? "rgba(239,68,68,0.65)"
+              : "linear-gradient(90deg, #02198B 0%, #3B5FC0 100%)",
+          }}
+          animate={{ width: `${(filledCount / 6) * 100}%` }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+        />
+      </div>
+
+      {/* Error message */}
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center gap-1.5 text-xs text-red-400"
+          >
+            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

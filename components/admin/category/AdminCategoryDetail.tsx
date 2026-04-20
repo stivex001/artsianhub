@@ -21,6 +21,7 @@ interface Props {
   category: AdminCategory;
   onRefetch: () => void;
   onDeleted: () => void;
+  isSuperAdmin: boolean;
 }
 
 // ── Subcategory card ──────────────────────────────────────────────────────────
@@ -28,10 +29,12 @@ const SubcategoryCard = ({
   sub,
   categoryId,
   onRefetch,
+  isSuperAdmin,
 }: {
   sub: AdminSubcategory;
   categoryId: string;
   onRefetch: () => void;
+  isSuperAdmin: boolean;
 }) => {
   const qc = useQueryClient();
   const { deleteSubcategory, updateSubcategory } = useAdminCategories();
@@ -125,25 +128,27 @@ const SubcategoryCard = ({
           </button>
         </div>
 
-        {/* Hover action buttons */}
-        <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={() => setShowEdit(true)}
-            className="w-6 h-6 rounded-md bg-white/90 border border-gray-200 flex items-center justify-center
-              text-gray-500 hover:text-[#02198B] hover:border-[#02198B]/20 transition-colors shadow-sm"
-            title="Edit"
-          >
-            <Pencil className="w-3 h-3" />
-          </button>
-          <button
-            onClick={() => setShowDelete(true)}
-            className="w-6 h-6 rounded-md bg-white/90 border border-gray-200 flex items-center justify-center
-              text-gray-500 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm"
-            title="Delete"
-          >
-            <Trash2 className="w-3 h-3" />
-          </button>
-        </div>
+        {/* Hover action buttons — SUPER_ADMIN only */}
+        {isSuperAdmin && (
+          <div className="absolute top-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => setShowEdit(true)}
+              className="w-6 h-6 rounded-md bg-white/90 border border-gray-200 flex items-center justify-center
+                text-gray-500 hover:text-[#02198B] hover:border-[#02198B]/20 transition-colors shadow-sm"
+              title="Edit"
+            >
+              <Pencil className="w-3 h-3" />
+            </button>
+            <button
+              onClick={() => setShowDelete(true)}
+              className="w-6 h-6 rounded-md bg-white/90 border border-gray-200 flex items-center justify-center
+                text-gray-500 hover:text-red-600 hover:border-red-200 transition-colors shadow-sm"
+              title="Delete"
+            >
+              <Trash2 className="w-3 h-3" />
+            </button>
+          </div>
+        )}
       </motion.div>
 
       {showEdit && (
@@ -172,7 +177,7 @@ const SubcategoryCard = ({
 };
 
 // ── Main detail component ─────────────────────────────────────────────────────
-const AdminCategoryDetail = ({ category, onRefetch, onDeleted }: Props) => {
+const AdminCategoryDetail = ({ category, onRefetch, onDeleted, isSuperAdmin }: Props) => {
   const qc = useQueryClient();
   const { deleteCategory } = useAdminCategories();
   const deleteMutation = deleteCategory(category._id);
@@ -229,27 +234,29 @@ const AdminCategoryDetail = ({ category, onRefetch, onDeleted }: Props) => {
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  onClick={() => setShowEditCategory(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
-                    bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300
-                    transition-colors shadow-sm"
-                >
-                  <Pencil className="w-3 h-3" />
-                  Edit
-                </button>
-                <button
-                  onClick={() => setShowDeleteCategory(true)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
-                    bg-white border border-gray-200 text-red-500 hover:bg-red-50 hover:border-red-200
-                    transition-colors shadow-sm"
-                >
-                  <Trash2 className="w-3 h-3" />
-                  Delete
-                </button>
-              </div>
+              {/* Actions — SUPER_ADMIN only */}
+              {isSuperAdmin && (
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <button
+                    onClick={() => setShowEditCategory(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
+                      bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300
+                      transition-colors shadow-sm"
+                  >
+                    <Pencil className="w-3 h-3" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteCategory(true)}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
+                      bg-white border border-gray-200 text-red-500 hover:bg-red-50 hover:border-red-200
+                      transition-colors shadow-sm"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                    Delete
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Status badge */}
@@ -292,14 +299,16 @@ const AdminCategoryDetail = ({ category, onRefetch, onDeleted }: Props) => {
                 </span>
               )}
             </div>
-            <button
-              onClick={() => setShowAddSub(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
-                bg-[#02198B] text-white hover:bg-[#011571] transition-colors shadow-sm"
-            >
-              <Plus className="w-3 h-3" />
-              Add Subcategory
-            </button>
+            {isSuperAdmin && (
+              <button
+                onClick={() => setShowAddSub(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium
+                  bg-[#02198B] text-white hover:bg-[#011571] transition-colors shadow-sm"
+              >
+                <Plus className="w-3 h-3" />
+                Add Subcategory
+              </button>
+            )}
           </div>
 
           {subs.length === 0 ? (
@@ -307,12 +316,14 @@ const AdminCategoryDetail = ({ category, onRefetch, onDeleted }: Props) => {
               border-2 border-dashed border-gray-100 rounded-2xl">
               <Tag className="w-8 h-8" />
               <p className="text-xs font-medium text-gray-400">No subcategories yet</p>
-              <button
-                onClick={() => setShowAddSub(true)}
-                className="text-xs font-medium text-[#02198B] hover:underline"
-              >
-                Add the first one
-              </button>
+              {isSuperAdmin && (
+                <button
+                  onClick={() => setShowAddSub(true)}
+                  className="text-xs font-medium text-[#02198B] hover:underline"
+                >
+                  Add the first one
+                </button>
+              )}
             </div>
           ) : (
             <motion.div
@@ -326,6 +337,7 @@ const AdminCategoryDetail = ({ category, onRefetch, onDeleted }: Props) => {
                     sub={sub}
                     categoryId={category._id}
                     onRefetch={onRefetch}
+                    isSuperAdmin={isSuperAdmin}
                   />
                 ))}
               </AnimatePresence>

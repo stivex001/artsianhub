@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import { useAdminBookings, BOOKING_STATUSES, BookingStatus, downloadReport, Booking } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
@@ -85,6 +86,9 @@ function groupByClient(bookings: Booking[]): ClientGroup[] {
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 const BookingsPage = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const router = useRouter();
   const [activeStatus, setActiveStatus] = useState<BookingStatus | "all">("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,13 +132,15 @@ const BookingsPage = () => {
             Monitor all service bookings between artisans and clients
           </p>
         </div>
-        <button
-          onClick={() => downloadReport("bookings")}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
-        >
-          <Download className="w-4 h-4" />
-          Export CSV
-        </button>
+        {isSuperAdmin && (
+          <button
+            onClick={() => downloadReport("bookings")}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            Export CSV
+          </button>
+        )}
       </div>
 
       {/* ── Filter Tabs ─────────────────────────────────────────────── */}
