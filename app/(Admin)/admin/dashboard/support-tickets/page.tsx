@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAdminTickets, TicketStatus, downloadReport } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
@@ -20,6 +21,8 @@ const filterTabs: { label: string; value: TicketStatus | "all" }[] = [
 ];
 
 const SupportTicketsPage = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
   const router = useRouter();
   const [activeStatus, setActiveStatus] = useState<TicketStatus | "all">("all");
   const [currentPage, setCurrentPage]   = useState(1);
@@ -43,12 +46,14 @@ const SupportTicketsPage = () => {
           <h1 className="text-xl font-bold text-gray-900">Support Tickets</h1>
           <p className="text-sm text-gray-500 mt-0.5">Manage and respond to all platform support requests</p>
         </div>
-        <button
-          onClick={() => downloadReport("tickets")}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
-        >
-          <Download className="w-4 h-4" />Export CSV
-        </button>
+        {isSuperAdmin && (
+          <button
+            onClick={() => downloadReport("tickets")}
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors shrink-0"
+          >
+            <Download className="w-4 h-4" />Export CSV
+          </button>
+        )}
       </div>
 
       {/* Filters */}

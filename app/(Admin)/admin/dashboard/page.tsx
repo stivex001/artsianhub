@@ -51,8 +51,8 @@ const AdminDashboard = () => {
   ].filter((d) => d.value > 0);
 
   const revenueData = [
-    { name: "Total Revenue", value: overview?.analytics.revenueBreakdown.totalRevenue ?? 0, color: "#02198B" },
-    { name: "Subscriptions", value: overview?.analytics.revenueBreakdown.totalSubscriptions ?? 0, color: "#F0C422" },
+    { name: "Total Revenue", value: overview?.analytics?.revenueBreakdown?.totalRevenue ?? 0, color: "#02198B" },
+    { name: "Subscriptions", value: overview?.analytics?.revenueBreakdown?.totalSubscriptions ?? 0, color: "#F0C422" },
   ];
 
   return (
@@ -62,13 +62,15 @@ const AdminDashboard = () => {
         <div>
           <SectionHeading label="Platform Overview" sub="High-level platform metrics" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <StatCard
-              icon={PoundSterling}
-              label="Total Revenue"
-              value={platform.totalRevenue ? `£${platform.totalRevenue.toLocaleString()}` : 0}
-              loading={isPending}
-              bg="bg-[#02198B]"
-            />
+            {platform.totalRevenue !== null && (
+              <StatCard
+                icon={PoundSterling}
+                label="Total Revenue"
+                value={platform.totalRevenue ? `£${platform.totalRevenue.toLocaleString()}` : 0}
+                loading={isPending}
+                bg="bg-[#02198B]"
+              />
+            )}
             <StatCard
               icon={CalendarDays}
               label="Total Bookings"
@@ -85,13 +87,15 @@ const AdminDashboard = () => {
               bg="bg-teal-500"
               href="/admin/dashboard/manage-clients"
             />
-            <StatCard
-              icon={Star}
-              label="Active Subscriptions"
-              value={platform.activeSubscriptions}
-              loading={isPending}
-              bg="bg-violet-500"
-            />
+            {platform.activeSubscriptions !== null && (
+              <StatCard
+                icon={Star}
+                label="Active Subscriptions"
+                value={platform.activeSubscriptions}
+                loading={isPending}
+                bg="bg-violet-500"
+              />
+            )}
           </div>
         </div>
       )}
@@ -264,15 +268,17 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* ── Analytics Charts ──────────────────────────────────── */}
-      <div>
-        <SectionHeading label="Analytics" sub="Revenue and artisan distribution at a glance" />
-        <DashboardCharts
-          revenueData={revenueData}
-          donutData={donutData}
-          isPending={isPending}
-        />
-      </div>
+      {/* ── Analytics Charts — SUPER_ADMIN only (analytics is null for regular admins) */}
+      {overview?.analytics !== null && overview?.analytics !== undefined && (
+        <div>
+          <SectionHeading label="Analytics" sub="Revenue and artisan distribution at a glance" />
+          <DashboardCharts
+            revenueData={revenueData}
+            donutData={donutData}
+            isPending={isPending}
+          />
+        </div>
+      )}
 
       {/* ── Quick Actions ─────────────────────────────────────── */}
       <QuickLinks />

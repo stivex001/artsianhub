@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAdminReviews, REVIEW_STATUSES, ReviewStatus, downloadReport } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Wrapper from "@/components/shared/Wrapper";
@@ -201,6 +202,9 @@ const FlagModal = ({
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 const ReviewsPage = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const queryClient = useQueryClient();
   const [activeStatus, setActiveStatus] = useState<ReviewStatus | "all">("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -266,14 +270,16 @@ const ReviewsPage = () => {
                 {label}: {reviews.filter((r) => r.status === key).length}
               </span>
             ))}
-            <button
-              onClick={() => downloadReport("reviews")}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
-                hover:bg-[#011571] transition-colors shadow-sm shrink-0"
-            >
-              <Download className="w-4 h-4" />
-              Export CSV
-            </button>
+            {isSuperAdmin && (
+              <button
+                onClick={() => downloadReport("reviews")}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
+                  hover:bg-[#011571] transition-colors shadow-sm shrink-0"
+              >
+                <Download className="w-4 h-4" />
+                Export CSV
+              </button>
+            )}
           </div>
         </div>
 

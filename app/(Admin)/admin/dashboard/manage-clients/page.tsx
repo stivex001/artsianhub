@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useAdminClients, UserStatus, downloadReport } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
 import { useRouter } from "next/navigation";
@@ -83,6 +84,9 @@ const MobileTableSkeleton = () => (
 
 // ── Page ───────────────────────────────────────────────────────────────────────
 const ManageClientsPage = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const router = useRouter();
   const [activeTab, setActiveTab]     = useState<UserStatus | "all">("all");
   const [search, setSearch]           = useState("");
@@ -136,14 +140,16 @@ const ManageClientsPage = () => {
               {label}
             </div>
           ))}
-          <button
-            onClick={() => downloadReport("clients")}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
-              hover:bg-[#011571] transition-colors shadow-sm shrink-0"
-          >
-            <Download className="w-4 h-4" />
-            Export CSV
-          </button>
+          {isSuperAdmin && (
+            <button
+              onClick={() => downloadReport("clients")}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
+                hover:bg-[#011571] transition-colors shadow-sm shrink-0"
+            >
+              <Download className="w-4 h-4" />
+              Export CSV
+            </button>
+          )}
         </div>
       </div>
 

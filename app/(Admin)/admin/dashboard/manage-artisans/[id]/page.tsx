@@ -22,6 +22,7 @@ import {
 import { formatLocation } from "@/utils/normalizeCountry";
 
 import { useAdminArtisans } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 
 import BackLink from "@/components/admin/shared/BackLink";
 import Section from "@/components/admin/shared/Section";
@@ -43,6 +44,9 @@ const ArtisanDetails = () => {
   const artisanId = params?.id as string;
   const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState<"profile" | "notes">("profile");
+
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
 
   const { getAdminArtisanById } = useAdminArtisans();
   const { data, isLoading, isError } = getAdminArtisanById(artisanId);
@@ -142,11 +146,13 @@ const ArtisanDetails = () => {
                   isVerified={artisan.verificationStatus === "verified"}
                   onSuccess={invalidate}
                 />
-                <FeaturedButton
-                  artisanId={artisanId}
-                  featured={artisan.featuredOnHomepage}
-                  onSuccess={invalidate}
-                />
+                {isSuperAdmin && (
+                  <FeaturedButton
+                    artisanId={artisanId}
+                    featured={artisan.featuredOnHomepage}
+                    onSuccess={invalidate}
+                  />
+                )}
               </div>
             </div>
 

@@ -18,6 +18,7 @@ import {
 import { format } from "date-fns";
 
 import { useAdminArtisans, AdminArtisan, ArtisanAccountStatus, downloadReport } from "@/apis/crud/admin";
+import { useAuthStore } from "@/store/authStore";
 import AdminTable, { TableColumn } from "@/components/admin/shared/AdminTable";
 import { AccountStatusBadge, VerificationBadge } from "@/components/admin/shared/badges";
 import Pagination from "@/components/shared/Pagination";
@@ -156,6 +157,9 @@ const buildColumns = (): TableColumn<AdminArtisan>[] => [
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ManageArtisans = () => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
+
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("all");
   const [searchInput, setSearchInput] = useState("");
@@ -215,14 +219,16 @@ const ManageArtisans = () => {
             View, filter, verify and moderate registered artisans
           </p>
         </div>
-        <button
-          onClick={() => downloadReport("artisans")}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
-            hover:bg-[#011571] transition-colors shadow-sm shrink-0"
-        >
-          <Download className="w-4 h-4" />
-          Export CSV
-        </button>
+        {isSuperAdmin && (
+          <button
+            onClick={() => downloadReport("artisans")}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#02198B] text-white text-sm font-medium
+              hover:bg-[#011571] transition-colors shadow-sm shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            Export CSV
+          </button>
+        )}
       </div>
 
       {/* ── Filter bar ──────────────────────────────────────────── */}
