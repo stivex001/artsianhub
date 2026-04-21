@@ -1,6 +1,6 @@
 "use client";
-import { useAppointments } from "@/api/crud/appointments";
-import { useArtisans } from "@/api/crud/artisans";
+import { useAppointments } from "@/apis/crud/appointments";
+import { useArtisans } from "@/apis/crud/artisans";
 import CustomDatePicker from "@/components/controlledInputs/CustomDatePicker";
 import CustomBarChart from "@/components/shared/CustomBarChart";
 import Wrapper from "@/components/shared/Wrapper";

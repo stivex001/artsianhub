@@ -1,5 +1,5 @@
 "use client";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { renderStars } from "@/utils/RenderRatings";
 import { useParams } from "next/navigation";
 import React from "react";

@@ -1,5 +1,5 @@
 "use client";
-import { useContactUs } from "@/api/crud/contact";
+import { useContactUs } from "@/apis/crud/contact";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import { useRouter } from "next/navigation";

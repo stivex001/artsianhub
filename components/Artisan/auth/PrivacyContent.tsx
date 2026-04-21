@@ -9,7 +9,7 @@ export const PrivacyContent = (props: Props) => {
         Privacy Policy
       </h1>
       <p className="text-gray-700 mb-8 text-center">
-        Powered by: MensayHub Ltd (UK) and Mensay Enterprises Ltd (Nigeria)
+        Powered by: Artisanshub Ltd (UK) and Mensay Enterprises Ltd (Nigeria)
       </p>
 
       <div className="space-y-8 text-gray-700 leading-relaxed">
@@ -169,7 +169,7 @@ export const PrivacyContent = (props: Props) => {
             your data, please contact us:
           </p>
           <ul className="list-disc pl-6 space-y-1 mt-2">
-            <li>UK: support@artisanshub.org – MensayHub Ltd, UK</li>
+            <li>UK: support@artisanshub.org – Artisanshub Ltd, UK</li>
             <li>
               Nigeria: Admin@artisanshub.org – Mensay Enterprises Ltd, Nigeria
             </li>

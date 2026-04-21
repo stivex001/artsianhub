@@ -4,7 +4,7 @@ import image3 from "@/components/assets/images/port.png";
 import Image, { StaticImageData } from "next/image";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useRouter } from "next/navigation";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import SkeletonLoader from "@/components/shared/SkeletonModal";
 
 type Props = {};

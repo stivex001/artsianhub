@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import { BaseModal } from "@/components/shared/BaseModal";

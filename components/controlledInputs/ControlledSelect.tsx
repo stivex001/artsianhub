@@ -72,19 +72,19 @@ export const ControlledSelect = ({
 
   const selectedValues = multi
     ? Array.isArray(value)
-      ? value
-      : typeof value === "string"
+      ? (value as string[])
+      : value && typeof value === "string"
       ? value.split(",").filter(Boolean)
       : []
     : value
-    ? [value]
+    ? [String(value)]
     : []
 
   const toggleOption = (val: string) => {
     if (multi) {
       const exists = selectedValues.includes(val)
       const newValues = exists
-        ? selectedValues.filter((v) => v !== val)
+        ? selectedValues.filter((v: string) => v !== val)
         : [...selectedValues, val]
       onChange(newValues)
     } else {
@@ -172,7 +172,7 @@ export const ControlledSelect = ({
 
       {multi && selectedValues.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {selectedValues.map((val) => {
+          {selectedValues.map((val: string) => {
             const opt = options.find((o) => o.value === val)
             return (
               <div

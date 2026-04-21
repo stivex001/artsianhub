@@ -7,14 +7,14 @@ import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
-import { Country } from "@/api/crud/locations";
+import { Country } from "@/apis/crud/locations";
 import { useLocationSelector } from "@/hooks/useLocationSelector";
 
 type Props = {};
@@ -155,7 +155,7 @@ export const LocationPriceStage = (props: Props) => {
         <div className="grid lg:grid-cols-2 gap-5">
           <ControlledInput
             name="primaryLocation"
-            control={control}
+            control={control as any}
             label="Primary Location"
             placeholder="Enter your location"
             variant="primary"
@@ -165,7 +165,7 @@ export const LocationPriceStage = (props: Props) => {
             name="country"
             label="Country"
             options={countryOptions}
-            control={control}
+            control={control as any}
             variant="primary"
             placeholder="Select Country"
             searchable
@@ -182,7 +182,7 @@ export const LocationPriceStage = (props: Props) => {
                 name="state"
                 label="State"
                 options={stateOptions}
-                control={control}
+                control={control as any}
                 variant="primary"
                 placeholder={"Select state (optional)"}
                 searchable
@@ -198,7 +198,7 @@ export const LocationPriceStage = (props: Props) => {
                     name="city"
                     label="City"
                     options={cityOptions}
-                    control={control}
+                    control={control as any}
                     variant="primary"
                     placeholder={"Select city (optional)"}
                     searchable
@@ -213,14 +213,14 @@ export const LocationPriceStage = (props: Props) => {
           name="workDistanceKm"
           label="Travel Distance"
           desc="How far are you willing to go for work?"
-          control={control}
+          control={control as any}
           type="range"
           minLength={0}
           maxLength={200}
         />
         <ControlledInput
           name="pricePerHour"
-          control={control}
+          control={control as any}
           placeholder="Enter your price"
           type="number"
           label="Starting Price"

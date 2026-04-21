@@ -1,5 +1,5 @@
 "use client";
-import { ReviewInfo } from "@/api/crud/appointments";
+import { ReviewInfo } from "@/apis/crud/appointments";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import React from "react";

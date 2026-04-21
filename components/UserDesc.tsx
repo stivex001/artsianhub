@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { DropdownModal } from "./shared/DropdownModal";
 import { PolygonGrey } from "./assets/icons/NavIcons";
 import { UserDropdownContent } from "./shared/UserDropdownContent";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { AuthSpinner } from "./auth/AuthLoader";
 
 type Props = {};

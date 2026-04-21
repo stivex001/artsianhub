@@ -7,8 +7,8 @@ import { Descriptions } from "@/components/shared/Headings";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
-import { useCategories } from "@/api/crud/categories";
-import { useArtisans } from "@/api/crud/artisans";
+import { useCategories } from "@/apis/crud/categories";
+import { useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
 import { useCategorySelector } from "@/hooks/useCategorySelector";
 

@@ -1,16 +1,29 @@
 "use client";
-import { MapIcon } from "@/components/assets/icons/UsersIcon";
-import { BaseModal } from "@/components/shared/BaseModal";
-import { StatusBadge } from "@/components/shared/StatusBadge";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  X,
+  MapPin,
+  Calendar,
+  Clock,
+  Star,
+  Briefcase,
+  Image as ImageIcon,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import { StatusBadge } from "@/components/shared/StatusBadge";
 import { JobActionButtons } from "./JobActionButtons";
 import { formatDate } from "@/utils/formatDate";
 import { CancelModal } from "@/components/Artisan/manageAppointment/CancelModal";
 import { RescheduleModal } from "@/components/Artisan/manageAppointment/RescheduleModal";
 import { ReviewModal } from "@/components/Artisan/manageAppointment/ReviewModal";
 import { ContactArtisanModal } from "../ContactArtisanModal";
-import { useNotification } from "@/api/crud/notification";
+import { useNotification } from "@/apis/crud/notification";
 
 type Props = {
   item: any;
@@ -19,248 +32,365 @@ type Props = {
   refetch: () => void;
 };
 
+/* ---------- animation variants ---------- */
+const backdropVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.25, ease: "easeOut" as const } },
+  exit: { opacity: 0, transition: { duration: 0.2, ease: "easeIn" as const } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 32, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 320, damping: 30, mass: 0.9 },
+  },
+  exit: {
+    opacity: 0,
+    y: 20,
+    scale: 0.97,
+    transition: { duration: 0.18, ease: "easeIn" as const },
+  },
+};
+
+/* ---------- small helpers ---------- */
+const DetailRow = ({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="flex items-start gap-3 py-3.5 border-b border-bordergrey/50 last:border-0">
+    <div className="mt-0.5 w-8 h-8 rounded-lg bg-operationBg flex items-center justify-center shrink-0 text-primary">
+      {icon}
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className="text-[0.72rem] font-medium text-textgray uppercase tracking-wider mb-0.5">
+        {label}
+      </p>
+      <div className="text-[0.88rem] font-medium text-textdeep">{children}</div>
+    </div>
+  </div>
+);
+
+/* ---------- component ---------- */
 export const JobDetailModal = ({ isOpen, onClose, item, refetch }: Props) => {
-  const jobData = item;
-  const [isModalCancelOpen, setIsModalCanceleOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
   const [isModalReScheduleOpen, setIsModalRescheduleOpen] = useState(false);
   const [isModalReviewOpen, setIsModalReviewOpen] = useState(false);
   const [isModalRebookOpen, setIsModalRebookOpen] = useState(false);
 
+  useEffect(() => { setMounted(true); }, []);
+
   const { getAllNotifications } = useNotification();
-  const { refetch: notifyRefecth } = getAllNotifications();
+  const { refetch: notifyRefetch } = getAllNotifications();
 
-  const handleCancelAppointment = () => {
-    setIsModalCanceleOpen(true);
-  };
+  const jobData = item;
+  const artisan = jobData?.artisanId;
+  const artisanInfo = jobData?.artisanInfo;
 
-  const handleRescheduleAppointment = () => {
-    setIsModalRescheduleOpen(true);
-  };
+  const descriptionText: string = jobData?.description ?? "";
+  const isLongDesc = descriptionText.length > 180;
+  const displayDesc =
+    isLongDesc && !descExpanded
+      ? descriptionText.slice(0, 180) + "…"
+      : descriptionText;
 
-  const handleReviewAppointment = () => {
-    setIsModalReviewOpen(true);
-  };
+  const modal = (
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <>
+          {/* backdrop */}
+          <motion.div
+            key="backdrop"
+            variants={backdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={onClose}
+            className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+            aria-hidden="true"
+          />
 
-  const handleRebookAppointment = () => {
-    setIsModalRebookOpen(true);
-  };
-
-  return (
-    <BaseModal
-      isOpen={isOpen}
-      onClose={onClose}
-      className=" bg-white !rounded-2xl overflow-y-auto no-scrollbar !max-h-[90vh] border-none shadow-none !max-w-[600px]"
-      title="Job Details"
-      footer={
-        <JobActionButtons
-          status={jobData?.status}
-          onCancel={handleCancelAppointment}
-          onReschedule={handleRescheduleAppointment}
-          onMarkNoShow={() => console.log("No show clicked")}
-          onMarkCompleted={() => console.log("Completed clicked")}
-          onReview={handleReviewAppointment}
-          onRebook={handleRebookAppointment}
-        />
-      }
-    >
-      <section className="px-5 space-y-6">
-        <div className="flex flex-col gap-5">
-          <div className="w-full flex items-center">
-            <label className="w-[20%] text-sm font-medium text-paragrah ">
-              Job Title
-            </label>
-            <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.artisanId?.professionalTitle}
-            </p>
-          </div>
-          <div className="w-full flex items-center">
-            <label className="w-[20%] text-sm font-medium text-paragrah ">
-              Status
-            </label>
-            <div className="flex items-center gap-3">
-              <StatusBadge status={jobData?.status} />
-              {jobData?.reason && <span>“{jobData?.reason}”</span>}
-            </div>
-          </div>
-          <div className="w-full flex items-center">
-            <label className="w-[20%] text-sm font-medium text-paragrah ">
-              Service Date
-            </label>
-            <p className="w-[75%] text-sm font-medium text-paragrah">
-              {formatDate(jobData?.preferredDate)} {jobData?.preferredTime}
-            </p>
-          </div>
-          <div className="w-full flex items-center">
-            <label className="w-[20%] text-sm font-medium text-paragrah ">
-              Location
-            </label>
-            <div className="w-[75%] flex items-center gap-1 text-sm font-medium text-paragrah">
-              <MapIcon />
-              <p>{jobData?.location}</p>
-            </div>
-          </div>
-          <div className="w-full flex items-center">
-            <label className="w-[20%] text-sm font-medium text-paragrah ">
-              Service
-            </label>
-            <p className="w-[75%] text-sm font-medium text-paragrah">
-              {jobData?.serviceCategories?.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {jobData?.serviceCategories?.map((service: any) => (
-                    <span
-                      key={service?._id}
-                      className="px-3 py-2 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
-                    >
-                      {service?.name}
-                    </span>
-                  ))}
+          {/* centering shell */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 pointer-events-none">
+            <motion.div
+              key="card"
+              variants={cardVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Job Details"
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-[600px] max-h-[90vh] flex flex-col bg-white rounded-2xl shadow-[0_24px_80px_rgba(2,25,139,0.16)] overflow-hidden pointer-events-auto"
+            >
+              {/* ── sticky header ── */}
+              <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-white border-b border-bordergrey/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-1.5 h-5 rounded-full bg-primary" />
+                  <h2 className="text-[1.05rem] font-bold text-textdeep">Job Details</h2>
                 </div>
-              )}
-            </p>
-          </div>
-
-          {/* Job Description */}
-          <div>
-            <label className="text-sm font-medium text-paragrah  mb-2">
-              Job Description
-            </label>
-            <div className="text-body text-sm leading-relaxed whitespace-pre-line">
-              {jobData?.description}
-            </div>
-          </div>
-
-          {/* Attachments */}
-          {jobData?.images && jobData?.images?.length > 0 ? (
-            <div>
-              <label className="text-sm font-medium text-paragrah  mb-2">
-                Attachments
-              </label>
-              <div className="grid grid-cols-4 gap-2.5">
-                {jobData?.images?.map((attachment: any, index: number) => (
-                  <div
-                    key={attachment?._id}
-                    className="w-full h-[150px] relative rounded-xl overflow-hidden bg-[#F9F9FB] cursor-pointer hover:opacity-80 transition-opacity"
+                <div className="flex items-center gap-2">
+                  <StatusBadge status={jobData?.status} />
+                  <button
+                    onClick={onClose}
+                    aria-label="Close"
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-milky hover:bg-bordergrey/60 text-textgray hover:text-body transition-all duration-150 ml-1"
                   >
-                    <Image
-                      src={attachment?.url}
-                      alt={`Attachment ${index + 1}`}
-                      fill
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
+                    <X size={15} strokeWidth={2.5} />
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="flex items-center justify-center mt-5">
-              {" "}
-              There are no images Attched
-            </div>
-          )}
 
-          <div>
-            <label className="text-sm font-medium text-paragrah mb-2">
-              Artisan Info
-            </label>
-            <div className="flex items-center gap-4 p-0.5 max-h-[126px]">
-              <div className="w-[120px] h-[120px] bg-[#D9D9D9] rounded-2xl">
-                {jobData?.artisanId?.profilePicture ? (
-                  <Image
-                    src={jobData?.artisanId?.profilePicture}
-                    alt=""
-                    width={100}
-                    height={100}
-                    className="w-full h-full rounded-2xl object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-base font-bold text-gray-600">
-                    {jobData?.artisanId?.firstName?.charAt(0)?.toUpperCase()}
-                    {jobData?.artisanId?.lastName?.charAt(0)?.toUpperCase()}
+              {/* ── scrollable body ── */}
+              <div className="flex-1 overflow-y-auto no-scrollbar">
+
+                {/* artisan hero card */}
+                <div className="mx-5 mt-5 p-4 rounded-xl bg-gradient-to-r from-[#02198B08] to-[#516CF408] border border-primary/8">
+                  <div className="flex items-center gap-4">
+                    {/* avatar */}
+                    <div className="w-[68px] h-[68px] rounded-2xl bg-lightgray overflow-hidden shrink-0 shadow-sm">
+                      {artisan?.profilePicture ? (
+                        <Image
+                          src={artisan.profilePicture}
+                          alt={`${artisan.firstName} ${artisan.lastName}`}
+                          width={68}
+                          height={68}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-accountBg flex items-center justify-center text-lg font-bold text-primary">
+                          {artisan?.firstName?.charAt(0)?.toUpperCase()}
+                          {artisan?.lastName?.charAt(0)?.toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* info */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[0.95rem] font-bold text-textdeep truncate">
+                        {artisan?.firstName} {artisan?.lastName}
+                      </p>
+                      <p className="text-[0.8rem] text-textcolor truncate mt-0.5">
+                        {artisan?.professionalTitle}
+                      </p>
+                      <div className="flex items-center gap-3 mt-1.5">
+                        {/* rating */}
+                        <div className="flex items-center gap-1">
+                          <Star size={13} className="fill-accent text-accent" />
+                          <span className="text-[0.78rem] font-semibold text-textdeep">
+                            {artisanInfo?.rating ?? 1}
+                          </span>
+                          <span className="text-[0.75rem] text-textgray">
+                            ({jobData?.completedJobs ?? 0} jobs)
+                          </span>
+                        </div>
+
+                        {/* price */}
+                        {artisanInfo?.pricePerHour && (
+                          <span className="text-[0.78rem] font-bold text-primary">
+                            ${artisanInfo.pricePerHour}/hr
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* location row */}
+                  {artisanInfo?.primaryLocation && (
+                    <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-primary/8">
+                      <MapPin size={13} className="text-textgray shrink-0" />
+                      <span className="text-[0.78rem] text-textcolor">
+                        {artisanInfo.primaryLocation}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* detail rows */}
+                <div className="px-5 mt-5">
+                  <DetailRow
+                    icon={<Briefcase size={15} />}
+                    label="Job Title"
+                  >
+                    {artisan?.professionalTitle ?? "—"}
+                  </DetailRow>
+
+                  <DetailRow
+                    icon={<Calendar size={15} />}
+                    label="Service Date"
+                  >
+                    {formatDate(jobData?.preferredDate)}{" "}
+                    {jobData?.preferredTime && (
+                      <span className="text-textgray font-normal">
+                        · {jobData.preferredTime}
+                      </span>
+                    )}
+                  </DetailRow>
+
+                  <DetailRow
+                    icon={<MapPin size={15} />}
+                    label="Location"
+                  >
+                    {jobData?.location ?? "—"}
+                  </DetailRow>
+
+                  {/* services */}
+                  {jobData?.serviceCategories?.length > 0 && (
+                    <DetailRow
+                      icon={<Clock size={15} />}
+                      label="Services"
+                    >
+                      <div className="flex flex-wrap gap-1.5 mt-1">
+                        {jobData.serviceCategories.map((service: any) => (
+                          <span
+                            key={service?._id}
+                            className="px-2.5 py-1 bg-operationBg text-primary rounded-full text-[0.75rem] font-medium"
+                          >
+                            {service?.name}
+                          </span>
+                        ))}
+                      </div>
+                    </DetailRow>
+                  )}
+
+                  {/* reason if any */}
+                  {jobData?.reason && (
+                    <DetailRow
+                      icon={<FileText size={15} />}
+                      label="Reason"
+                    >
+                      <span className="italic text-textcolor">
+                        &quot;{jobData.reason}&quot;
+                      </span>
+                    </DetailRow>
+                  )}
+                </div>
+
+                {/* description */}
+                {descriptionText && (
+                  <div className="px-5 mt-1 pb-2">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-1 h-4 rounded-full bg-accent" />
+                      <p className="text-[0.78rem] font-semibold text-textgray uppercase tracking-wider">
+                        Job Description
+                      </p>
+                    </div>
+                    <p className="text-[0.86rem] text-body leading-relaxed whitespace-pre-line">
+                      {displayDesc}
+                    </p>
+                    {isLongDesc && (
+                      <button
+                        onClick={() => setDescExpanded((v) => !v)}
+                        className="flex items-center gap-1 mt-1.5 text-[0.78rem] font-semibold text-primary hover:underline"
+                      >
+                        {descExpanded ? (
+                          <><ChevronUp size={13} /> Show less</>
+                        ) : (
+                          <><ChevronDown size={13} /> Read more</>
+                        )}
+                      </button>
+                    )}
                   </div>
                 )}
-              </div>
-              <div className="">
-                <p className="text-base font-bold text-paragrah">
-                  {jobData?.artisanId?.firstName} {jobData?.artisanId?.lastName}
-                </p>
-                <span className="text-body text-sm ">
-                  {jobData?.artisanId?.professionalTitle}
-                </span>
 
-                <div className="flex items-center gap-0.5">
-                  <MapIcon />
-                  <span className="text-body text-sm font-medium">
-                    {jobData?.artisanInfo?.primaryLocation}
-                  </span>
-                </div>
-
-                <div className="flex items-center ">
-                  <div className="flex items-center gap-1">
-                    <svg
-                      className="w-4 h-4 text-yellow-400 fill-current"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                    <span className="text-sm font-medium text-gray-700">
-                      {jobData?.artisanInfo?.rating || 1}
-                    </span>
+                {/* attachments */}
+                <div className="px-5 mt-4 pb-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-1 h-4 rounded-full bg-accent" />
+                    <p className="text-[0.78rem] font-semibold text-textgray uppercase tracking-wider">
+                      Attachments
+                    </p>
                   </div>
-                  <span className="text-sm text-body font-medium">
-                    ({jobData?.completedJobs || 0})
-                  </span>
-                </div>
 
-                <div className="text-base font-bold text-paragrah ">
-                  ${jobData?.artisanInfo?.pricePerHour}/hr
+                  {jobData?.images?.length > 0 ? (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {jobData.images.map((attachment: any, index: number) => (
+                        <div
+                          key={attachment?._id ?? index}
+                          className="aspect-square relative rounded-xl overflow-hidden bg-milky cursor-pointer group"
+                        >
+                          <Image
+                            src={attachment?.url}
+                            alt={`Attachment ${index + 1}`}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-8 rounded-xl bg-milky border border-dashed border-bordergrey">
+                      <ImageIcon size={28} className="text-bordergray mb-2" />
+                      <p className="text-[0.8rem] text-textgray">No attachments</p>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+
+              {/* ── sticky footer ── */}
+              <div className="sticky bottom-0 z-10 px-6 py-4 bg-white border-t border-bordergrey/60">
+                <JobActionButtons
+                  status={jobData?.status}
+                  onCancel={() => setIsModalCancelOpen(true)}
+                  onReschedule={() => setIsModalRescheduleOpen(true)}
+                  onMarkNoShow={() => console.log("No show clicked")}
+                  onMarkCompleted={() => console.log("Completed clicked")}
+                  onReview={() => setIsModalReviewOpen(true)}
+                  onRebook={() => setIsModalRebookOpen(true)}
+                />
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </section>
+        </>
+      )}
+    </AnimatePresence>
+  );
+
+  if (!mounted) return null;
+
+  return (
+    <>
+      {createPortal(modal, document.body)}
+
       <CancelModal
         isOpen={isModalCancelOpen}
-        onClose={() => {
-          setIsModalCanceleOpen(false);
-          onClose();
-        }}
+        onClose={() => { setIsModalCancelOpen(false); onClose(); }}
         id={item?._id}
         refetch={refetch}
-        notifyRefecth={notifyRefecth}
+        notifyRefecth={notifyRefetch}
         user="Client"
       />
-
       <RescheduleModal
         isOpen={isModalReScheduleOpen}
-        onClose={() => {
-          setIsModalRescheduleOpen(false);
-          onClose();
-        }}
+        onClose={() => { setIsModalRescheduleOpen(false); onClose(); }}
         id={item?._id}
         refetch={refetch}
-        notifyRefecth={notifyRefecth}
+        notifyRefecth={notifyRefetch}
       />
       <ReviewModal
         isOpen={isModalReviewOpen}
-        onClose={() => {
-          setIsModalReviewOpen(false);
-          onClose();
-        }}
+        onClose={() => { setIsModalReviewOpen(false); onClose(); }}
         id={item?._id}
-        artisanId={jobData?.artisanId?._id}
-        name={`${jobData?.artisanId?.firstName} ${jobData?.artisanId?.lastName}`}
-        notifyRefecth={notifyRefecth}
+        artisanId={artisan?._id}
+        name={`${artisan?.firstName} ${artisan?.lastName}`}
+        notifyRefecth={notifyRefetch}
       />
       <ContactArtisanModal
         isOpen={isModalRebookOpen}
-        onClose={() => {
-          setIsModalReviewOpen(false);
-          onClose();
-        }}
+        onClose={() => { setIsModalRebookOpen(false); onClose(); }}
         item={jobData}
         mode="rebook"
       />
-    </BaseModal>
+    </>
   );
 };

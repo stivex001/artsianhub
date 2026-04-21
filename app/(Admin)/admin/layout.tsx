@@ -7,7 +7,14 @@ type Props = {
 };
 
 const AdminLayout = ({ children }: Props) => {
-  return <ProtectedRoutes allowedRoles={["admin"]}>{children}</ProtectedRoutes>;
+  return (
+    <ProtectedRoutes
+      allowedRoles={["ADMIN", "SUPER_ADMIN"]}
+      loginPath="/admin/auth/login"
+    >
+      {children}
+    </ProtectedRoutes>
+  );
 };
 
 export default AdminLayout;

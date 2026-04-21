@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { AuthUser } from "@/components/api/type";
 import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";

@@ -1,4 +1,4 @@
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { reason } from "../settings/data";
-import { useAppointments } from "@/api/crud/appointments";
-import { useNotification } from "@/api/crud/notification";
+import { useAppointments } from "@/apis/crud/appointments";
+import { useNotification } from "@/apis/crud/notification";
 
 type DeclineModalProps = {
   isOpen: boolean;

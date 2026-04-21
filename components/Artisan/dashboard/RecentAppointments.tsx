@@ -1,12 +1,12 @@
 "use client";
-import { CustomButton } from "@/components/clickable/CustomButton";
-import { ReusableTable } from "@/components/shared/ResuableTable";
+
+import AdminTable from "@/components/admin/shared/AdminTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import Wrapper from "@/components/shared/Wrapper";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { ArrowUpRight, CalendarDays } from "lucide-react";
 
 type Props = {
   appointments: any;
@@ -16,64 +16,62 @@ type Props = {
 const columns = [
   {
     key: "clientName",
-    header: "Client Name",
-    render: (value: any, row: any) => (
+    header: "Client",
+    render: (row: any) => (
       <div className="flex items-center gap-3">
-        <div className="">
-          {row?.clientId?.profilePicture ? (
-            <div className="w-10 h-10 relative overflow-hidden">
-              <Image
-                src={row?.clientId?.profilePicture}
-                alt={row?.clientId?.firstName}
-                fill
-                className="object-cover rounded-full"
-              />
-            </div>
-          ) : (
-            <div className="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center text-sm font-medium text-gray-700">
-              {row?.clientId?.firstName?.charAt(0)}{row?.clientId?.lastName?.charAt(0)}
-            </div>
-          )}
-        </div>
-        <div className="">
-          <div className="text-sm  text-body">
-            {row?.clientId?.firstName} {row?.clientId?.lastName}
+        {row?.clientId?.profilePicture ? (
+          <div className="w-9 h-9 relative overflow-hidden shrink-0">
+            <Image
+              src={row.clientId.profilePicture}
+              alt={row.clientId.firstName}
+              fill
+              className="object-cover rounded-full ring-2 ring-white shadow-sm"
+            />
           </div>
-        </div>
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#02198B] to-[#1e3a8a] flex items-center justify-center shrink-0 ring-2 ring-white shadow-sm">
+            <span className="text-[11px] font-bold text-white">
+              {row?.clientId?.firstName?.charAt(0)}
+              {row?.clientId?.lastName?.charAt(0)}
+            </span>
+          </div>
+        )}
+        <span className="text-sm font-medium text-gray-900">
+          {row?.clientId?.firstName} {row?.clientId?.lastName}
+        </span>
       </div>
     ),
   },
-  
   {
     key: "services",
-    header: "Job Description",
-    render: (value: any, row: any) => (
-      <span className="text-sm text-gray-900 line-clamp-1">
-        {row?.description}
+    header: "Description",
+    render: (row: any) => (
+      <span className="text-sm text-gray-600 line-clamp-1 max-w-[220px]">
+        {row?.description || "—"}
       </span>
     ),
   },
   {
     key: "location",
     header: "Location",
-    render: (value: any) => (
-      <span className="text-sm text-gray-900 line-clamp-1">{value}</span>
+    render: (row: any) => (
+      <span className="text-sm text-gray-500 line-clamp-1">{row?.location || "—"}</span>
     ),
   },
   {
     key: "status",
     header: "Status",
-    render: (value: any) => <StatusBadge status={value} />,
+    render: (row: any) => <StatusBadge status={row?.status} />,
   },
   {
     key: "date",
     header: "Date",
-    render: (value: any, row: any) => (
-      <div>
-        <div className="text-sm text-gray-900">
+    render: (row: any) => (
+      <div className="flex flex-col">
+        <span className="text-sm text-gray-900 tabular-nums">
           {formatDate(row?.preferredDate)}
-        </div>
-        <div className="text-sm text-gray-500">{row?.preferredTime}</div>
+        </span>
+        <span className="text-xs text-gray-400">{row?.preferredTime}</span>
       </div>
     ),
   },
@@ -81,25 +79,40 @@ const columns = [
 
 export const RecentAppointments = ({ appointments, isLoading }: Props) => {
   const router = useRouter();
+
   return (
-    <Wrapper className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-base font-bold text-paragrah mb-4">
-          Recent Appointments
-        </h1>
-        <CustomButton
-          label="See All"
-          variant="transparent"
-          onClick={() => router.push("/artisan/dashboard/manage-appointment")}
-        />
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 py-4 border-b border-gray-50">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center">
+            <CalendarDays className="w-4 h-4 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-gray-900">Recent Appointments</h2>
+            <p className="text-[11px] text-gray-400 mt-0.5">Your latest booking activity</p>
+          </div>
+        </div>
+        <Link
+          href="/artisan/dashboard/manage-appointment"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-primary bg-primary/5 hover:bg-primary/10 transition-colors"
+        >
+          View All
+          <ArrowUpRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
 
-      <ReusableTable
+      {/* Table */}
+      <AdminTable
         columns={columns}
         data={appointments ?? []}
-        url="/artisan/dashboard/manage-appointment"
+        keyExtractor={(row: any) => row._id ?? row.preferredDate ?? String(Math.random())}
+        onRowClick={(row: any) => router.push(`/artisan/dashboard/manage-appointment/${row._id}`)}
         loading={isLoading}
+        skeletonRows={5}
+        emptyMessage="No recent appointments"
+        emptySubMessage="Client bookings will appear here once you receive them"
       />
-    </Wrapper>
+    </div>
   );
 };

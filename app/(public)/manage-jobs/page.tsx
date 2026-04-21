@@ -1,5 +1,5 @@
 "use client";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 import { AppointmentCard } from "@/components/Client/manageJob/AppointmentCard";
 import { AppointmentCardSkeleter } from "@/components/Client/manageJob/AppointmentCardSkeleter";
 import { ResuablePagination } from "@/components/shared/ResuablePagination";

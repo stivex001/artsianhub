@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PortfolioCard } from "./PortfolioCard";
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { CardSkeletonLoader } from "../loader/CardSkeletonLoader";
 
 type Props = {

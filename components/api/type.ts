@@ -40,6 +40,7 @@ export interface AuthUser {
   newPassword:string;
   confirmPassword: string;
   role: string;
+  roleLabel?: string;
   isArtisan: boolean;
   isAdmin: boolean;
   isVerified: boolean;

@@ -1,5 +1,5 @@
 "use client";
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { MapIcon } from "@/components/assets/icons/UsersIcon";
 import { ProjectDetailsSkeleton } from "@/components/loader/ProjectDetailsSkeleton";
 import Image from "next/image";

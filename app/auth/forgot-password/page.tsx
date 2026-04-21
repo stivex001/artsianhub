@@ -7,7 +7,7 @@ import { Field } from "@/schemas/dynamicSchema";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import loginAuth from "@/components/assets/images/Login.png";
@@ -29,7 +29,7 @@ const fields: Field[] = [
 
 const ForgotPassword = (props: Props) => {
   const router = useRouter();
-  const { control, handleSubmit, formState } = useDynamicForm(fields, {});
+  const { control, handleSubmit, formState } = useDynamicForm<any>(fields, {});
 
   const { forgotPassword } = useAuth();
 

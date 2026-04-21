@@ -3,7 +3,7 @@
 import React from "react";
 import GenericTable from "../shared/GenericTable";
 import { useRouter } from "next/navigation";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails } from "@/apis/crud/artisans";
 import StatusButton from "../shared/StatusButton";
 import { DateTimeDisplay } from "@/utils/DateTimeDisplay";
 import { format } from "date-fns";

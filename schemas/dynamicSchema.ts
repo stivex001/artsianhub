@@ -63,6 +63,7 @@ const createSchema = (fields: Field[]) => {
             /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
             "Password must contain at least one special character"
           );
+        break;
       case "email":
         schemaField = z
           .string({ message: `${field?.name} is required` })

@@ -1,5 +1,5 @@
 
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { AlertCircle } from "lucide-react";
 import { toast } from "sonner";

@@ -8,15 +8,20 @@ import { AuthLoadingScreen } from "../auth/AuthLoader";
 type Props = {
   allowedRoles: string[];
   children: React.ReactNode;
+  loginPath?: string;
 };
 
-const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
+const ProtectedRouteContent = ({ allowedRoles, children, loginPath }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { accessToken, currentUser, isHydrated } = useAuthStore();
 
   const role = currentUser?.role;
+
+  // Case-insensitive role check so the API casing (e.g. "ADMIN" vs "admin") never matters
+  const roleAllowed = (r: string | undefined) =>
+    !r || allowedRoles.some((a) => a.toLowerCase() === r.toLowerCase());
 
   useEffect(() => {
     // Don't redirect until hydration is complete
@@ -26,11 +31,12 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
       const fullPath = `${pathname}${
         searchParams.toString() ? `?${searchParams.toString()}` : ""
       }`;
-      router.replace(`/auth/login?redirect=${encodeURIComponent(fullPath)}`);
+      const redirectTo = loginPath ?? "/auth/login";
+      router.replace(`${redirectTo}?redirect=${encodeURIComponent(fullPath)}`);
       return;
     }
 
-    if (role && !allowedRoles.includes(role)) {
+    if (!roleAllowed(role)) {
       router.replace("/403");
     }
   }, [
@@ -48,7 +54,7 @@ const ProtectedRouteContent = ({ allowedRoles, children }: Props) => {
     return <AuthLoadingScreen message="Loading..." />;
   }
 
-  if (!accessToken || (role && !allowedRoles.includes(role))) {
+  if (!accessToken || !roleAllowed(role)) {
     return null;
   }
   return <>{children}</>;

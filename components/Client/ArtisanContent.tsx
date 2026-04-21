@@ -6,7 +6,7 @@ import { ArtisanDetailsTab } from "./ArtisanDetailsTab";
 import { ContactArtisanModal } from "./ContactArtisanModal";
 import { LoginPromptModal } from "../shared/LoginPromptModal";
 import { useParams, usePathname } from "next/navigation";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import { Star } from "lucide-react";

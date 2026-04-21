@@ -11,7 +11,7 @@ import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
 import { useLocationSelector } from "@/hooks/useLocationSelector";
@@ -141,7 +141,7 @@ export const ClientProfileSetup = (props: Props) => {
           <div className="grid lg:grid-cols-2 gap-5">
             <ControlledInput
               name="firstName"
-              control={control}
+              control={control as any}
               placeholder="Enter first name"
               type="text"
               label="First Name"
@@ -150,7 +150,7 @@ export const ClientProfileSetup = (props: Props) => {
             />
             <ControlledInput
               name="lastName"
-              control={control}
+              control={control as any}
               placeholder="Enter last name"
               type="text"
               label="Last Name"
@@ -161,12 +161,12 @@ export const ClientProfileSetup = (props: Props) => {
           <ControlledPhoneInput
             label="Phone Number"
             name="phoneNumber"
-            control={control}
+            control={control as any}
             rules={{ required: true }}
           />
           {/* <ControlledInput
             name="city"
-            control={control}
+            control={control as any}
             placeholder="Enter your location"
             type="text"
             label="Location / City"
@@ -178,7 +178,7 @@ export const ClientProfileSetup = (props: Props) => {
             name="country"
             label="Country"
             options={countryOptions}
-            control={control}
+            control={control as any}
             variant="primary"
             placeholder="Select Country"
             searchable
@@ -193,7 +193,7 @@ export const ClientProfileSetup = (props: Props) => {
                   name="state"
                   label="State"
                   options={stateOptions}
-                  control={control}
+                  control={control as any}
                   variant="primary"
                   placeholder={"Select state"}
                   searchable
@@ -209,7 +209,7 @@ export const ClientProfileSetup = (props: Props) => {
                       name="city"
                       label="City"
                       options={cityOptions}
-                      control={control}
+                      control={control as any}
                       variant="primary"
                       placeholder={"Select city"}
                       searchable

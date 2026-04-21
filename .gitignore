@@ -19,6 +19,7 @@
 
 # production
 /build
+.claude
 
 # misc
 .DS_Store
@@ -40,3 +41,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 Markdown.pdf
+
+# local dev docs
+ArtisansHub Admin Dashboard.postman_collection.json
+ArtisansHub_Admin_Dashboard_Implementation_Doc.pdf
+RBAC_Update.pdf
+ADMIN_2FA_FLOW.pdf

@@ -1,6 +1,6 @@
 "use client";
 
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
 import { AddIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";

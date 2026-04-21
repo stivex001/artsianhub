@@ -11,7 +11,7 @@ import { Field } from "@/schemas/dynamicSchema";
 import React, { useEffect, useState } from "react";
 import { gender } from "./data";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
 
 type Props = {};

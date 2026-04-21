@@ -4,8 +4,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import ReusableDialog from "@/components/shared/ReuseableDialog";
-import { GetArtianServices, useServices } from "@/api/crud/services";
-import { useUser } from "@/api/crud/user";
+import { GetArtianServices, useServices } from "@/apis/crud/services";
+import { useUser } from "@/apis/crud/user";
 import DeleteServiceModal from "./DeleteServiceModal";
 
 const ServiceList = () => {

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Descriptions } from "@/components/shared/Headings";
 import { DocsUploader } from "@/components/controlledInputs/DocsUploader";
 import { CustomButton } from "@/components/clickable/CustomButton";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
 
 interface UploadedFiles {

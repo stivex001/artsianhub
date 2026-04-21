@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { FaComments } from "react-icons/fa";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails } from "@/apis/crud/artisans";
 
 type Props = {
   selectedArtisan: any;

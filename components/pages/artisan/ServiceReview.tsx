@@ -4,7 +4,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails } from "@/apis/crud/artisans";
 
 type Props = {
   selectedArtisan: any;

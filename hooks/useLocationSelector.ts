@@ -1,4 +1,4 @@
-import { useLocation } from "@/api/crud/locations";
+import { useLocation } from "@/apis/crud/locations";
 import { useEffect } from "react";
 
 export const useLocationSelector = (

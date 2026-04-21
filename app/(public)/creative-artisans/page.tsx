@@ -1,195 +1,37 @@
-"use client";
-
-import Image from "next/image";
-import { BrushIcon, CalendarIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { headers } from "next/headers";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
-  ScissorsIcon,
-  WeaverIcon,
-} from "@/components/assets/icons/FeaturedIcons";
-import creative from "@/components/assets/images/creative.jpg";
-import { useState } from "react";
-import { LoginPromptModal } from "@/components/shared/LoginPromptModal";
-import { ArtisanCard } from "@/components/Artisan/ArtisanCard";
-import { useArtisans } from "@/api/crud/artisans";
-import { Descriptions } from "@/components/shared/Headings";
-import { CardSkeletonLoader } from "@/components/loader/CardSkeletonLoader";
-import { useCategories } from "@/api/crud/categories";
+  createServerQueryClient,
+  detectLocationFromIp,
+  prefetchCategoryPageData,
+} from "@/lib/serverPrefetch";
+import { CreativeArtisansClient } from "@/components/pages/artisanCategoryPage/CreativeArtisansClient";
+import { LocationInitializer } from "@/components/shared/LocationInitializer";
 
-const dummySubCategories = [
-  {
-    id: "hairdressers",
-    title: "Hairdressers & Barbers",
-    description:
-      "Bringing confidence to life through expert styling, grooming, and creative flair.",
-    icon: <BrushIcon />,
-    link: "/creative/hairdressers",
-  },
-  {
-    id: "tailors",
-    title: "Tailors & Fashion Designers",
-    description:
-      "Crafting unique outfits that blend tradition, creativity, and personal expression.",
-    icon: <ScissorsIcon />,
-    link: "/creative/tailors",
-  },
-  {
-    id: "event_planners",
-    title: "Event Planners & Decorators",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <CalendarIcon />,
-    link: "/creative/event-planners",
-  },
-  {
-    id: "make_up",
-    title: "Make-up Artists",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/event-planners",
-  },
-  {
-    id: "chef",
-    title: "Chefs",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/event-planners",
-  },
-  {
-    id: "photgrapher",
-    title: "Photographers and Videographers",
-    description:
-      "Designing memorable moments and breathtaking spaces for every occasion.",
-    icon: <WeaverIcon />,
-    link: "/creative/photographers",
-  },
-];
+interface PageProps {
+  searchParams: Promise<{ categoryId?: string }>;
+}
 
-export default function CreativeArtisansPage() {
-  const searchParams = useSearchParams();
-  const categoryId = searchParams.get("categoryId");
+export default async function CreativeArtisansPage({ searchParams }: PageProps) {
+  const sp = await searchParams;
+  const headersList = await headers();
+  const ip =
+    headersList.get("x-forwarded-for")?.split(",")[0].trim() ?? null;
 
-  const { getArtisanAroundMe } = useArtisans();
-  const { getSubCategoryByCategoryId } = useCategories();
-  const { data: subCat, isPending: subPending } = getSubCategoryByCategoryId(
-    categoryId || "",
+  const queryClient = createServerQueryClient();
+  const location = await detectLocationFromIp(ip);
+
+  await prefetchCategoryPageData(
+    queryClient,
+    "Creative Artisans",
+    location,
+    sp.categoryId
   );
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<{
-    title?: string;
-  } | null>(null);
-
-  const { data, isPending } = getArtisanAroundMe();
-  const creative_artisan = data?.data || [];
-
-  const handleCategoryClick = (category: any) => {
-    setSelectedCategory(category);
-  };
-
-  // Ensure we are working with an array even if it's nested in a 'data' property
-  const subCatList = Array.isArray(subCat)
-    ? subCat
-    : (subCat as any)?.data || [];
-
-  const transformedSubCategories = subCatList.map((backendSub: any) => {
-    const dummyMatch = dummySubCategories.find(
-      (ds) => ds.title === backendSub.name,
-    );
-    if (dummyMatch) {
-      return {
-        ...dummyMatch,
-        id: backendSub._id,
-        title: backendSub.name,
-      };
-    }
-    return {
-      id: backendSub._id,
-      title: backendSub.name,
-      description: "Explore our expert services in this category.",
-      icon: <BrushIcon />,
-      link: "#",
-    };
-  });
-
   return (
-    <div className="min-h-screen bg-white ">
-      <section className="relative min-h-[60vh] md:min-h-screen pt-3 overflow-hidden flex flex-col md:flex-row items-center justify-between px-4 md:px-10 lg:px-20 bg-[#EFF6FF]">
-        <div className="absolute inset-0">
-          <Image
-            src={creative}
-            alt="Industrial welding with sparks and machinery"
-            className="w-full h-full object-cover object-top"
-            fill
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-primary opacity-30"></div>
-      </section>
-
-      {/* Subcategory Section */}
-      <section
-        id="categories"
-        className="py-12 md:py-20 px-4 md:px-10 lg:px-20"
-      >
-        <h2 className="text-3xl font-semibold text-center mb-8 md:mb-12">
-          Explore Creative Categories
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {subPending
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl p-6 shadow-boxShadow animate-pulse"
-                >
-                  <div className="w-12 h-12 bg-gray-200 rounded-full mb-4"></div>
-                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                </div>
-              ))
-            : transformedSubCategories?.map((cat: any) => (
-                <div
-                  key={cat?.id}
-                  onClick={() => handleCategoryClick(cat)}
-                  role="button"
-                  tabIndex={0}
-                  className="bg-white rounded-xl p-6 shadow-boxShadow hover:shadow-md transition-shadow duration-200"
-                >
-                  <div className="flex items-center mb-4">{cat?.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2">{cat?.title}</h3>
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    {cat?.description}
-                  </p>
-                </div>
-              ))}
-        </div>
-      </section>
-      <section className=" px-4 md:px-10 lg:px-20  text-center">
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <Descriptions
-            title="Featured Artisans"
-            desc=" Meet some of our top-rated artisans who consistently deliver
-                  exceptional work."
-          />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {isPending
-            ? Array.from({ length: 2 }).map((_, i) => (
-                <CardSkeletonLoader key={i} />
-              ))
-            : creative_artisan?.map((item: any) => (
-                <ArtisanCard key={item._id} artisan={item} />
-              ))}
-        </div>
-      </section>
-
-      <LoginPromptModal
-        isOpen={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        selectedCategory={selectedCategory ?? undefined}
-      />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <LocationInitializer initialLocation={location} />
+      <CreativeArtisansClient />
+    </HydrationBoundary>
   );
 }

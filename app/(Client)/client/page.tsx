@@ -9,7 +9,7 @@ import AccountSettingsModal from "@/components/Client/AccountSettingsModal";
 import IncompleteProfileModal from "@/components/shared/IncompleteProfileModal";
 import { useModalStore } from "@/store/useModalStore";
 import { useAuthStore } from "@/store/authStore";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 
 const ClientPage = () => {
   const { currentUser } = useAuthStore();

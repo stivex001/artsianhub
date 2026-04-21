@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Category, useCategories } from "@/api/crud/categories";
+import { Category, useCategories } from "@/apis/crud/categories";
 import SkeletonTableLoader from "@/components/shared/SkeletonTableLoader";
 import DeleteCategoryModal from "./DeleteCategoryModal";
 import ReusableDialog from "@/components/shared/ReuseableDialog";
