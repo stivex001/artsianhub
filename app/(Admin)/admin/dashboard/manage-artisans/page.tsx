@@ -25,7 +25,6 @@ import Pagination from "@/components/shared/Pagination";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
-// ─────────────────────────────────────────────────────────────────────────────
 
 const STATUS_TABS: { label: string; value: string; icon: React.ReactNode }[] = [
   { label: "All", value: "all", icon: <Users className="w-3.5 h-3.5" /> },
