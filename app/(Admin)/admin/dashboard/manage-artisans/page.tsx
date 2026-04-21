@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Search,
   SlidersHorizontal,
@@ -101,11 +101,11 @@ const buildColumns = (): TableColumn<AdminArtisan>[] => [
     ),
   },
   {
-    key: "serviceCategories",
+    key: "subCategories",
     header: "Category",
     width: "min-w-[140px]",
     render: (row) => {
-      const cats = row.serviceCategories ?? [];
+      const cats = row.subCategories ?? [];
       if (!cats.length) return <span className="text-gray-400 text-xs">—</span>;
       return (
         <span className="text-xs text-gray-700 font-medium">
@@ -161,9 +161,10 @@ const ManageArtisans = () => {
   const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("all");
   const [searchInput, setSearchInput] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => Number(searchParams.get("page") ?? 1));
 
   const { getAdminArtisans } = useAdminArtisans();
 
@@ -204,7 +205,7 @@ const ManageArtisans = () => {
   };
 
   const handleRowClick = (row: AdminArtisan) => {
-    router.push(`/admin/dashboard/manage-artisans/${row._id}`);
+    router.push(`/admin/dashboard/manage-artisans/${row._id}?page=${currentPage}`);
   };
 
   const columns = buildColumns();

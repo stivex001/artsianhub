@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
@@ -18,6 +18,7 @@ import {
   StickyNote,
   User,
   Star,
+  ShieldCheck,
 } from "lucide-react";
 import { formatLocation } from "@/utils/normalizeCountry";
 
@@ -38,12 +39,15 @@ import VerifyButton from "@/components/admin/artisans/VerifyButton";
 import FeaturedButton from "@/components/admin/artisans/FeaturedButton";
 import NotesSection from "@/components/admin/artisans/NotesSection";
 import HeroSkeleton from "@/components/admin/artisans/HeroSkeleton";
+import KYCTab from "@/components/admin/artisans/KYCTab";
 
 const ArtisanDetails = () => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const artisanId = params?.id as string;
+  const backPage = searchParams.get("page") ?? "1";
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<"profile" | "notes">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "kyc" | "notes">("profile");
 
   const { currentUser } = useAuthStore();
   const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
@@ -61,7 +65,7 @@ const ArtisanDetails = () => {
   if (isLoading) {
     return (
       <section className="flex flex-col gap-5">
-        <BackLink href="/admin/dashboard/manage-artisans" label="Back to Artisans" />
+        <BackLink href={`/admin/dashboard/manage-artisans?page=${backPage}`} label="Back to Artisans" />
         <HeroSkeleton />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {[1, 2, 3].map((i) => (
@@ -78,7 +82,7 @@ const ArtisanDetails = () => {
       <section className="flex flex-col items-center justify-center gap-4 py-24">
         <AlertTriangle className="w-10 h-10 text-amber-400" />
         <p className="text-base font-semibold text-gray-700">Artisan not found</p>
-        <BackLink href="/admin/dashboard/manage-artisans" label="← Back to Artisans" />
+        <BackLink href={`/admin/dashboard/manage-artisans?page=${backPage}`} label="← Back to Artisans" />
       </section>
     );
   }
@@ -87,14 +91,15 @@ const ArtisanDetails = () => {
   const workDays = artisan.workingDaysAndHours ?? [];
 
   const TABS = [
-    { key: "profile", label: "Profile",               icon: User      },
+    { key: "profile", label: "Profile",                 icon: User       },
+    { key: "kyc",     label: "KYC Documents",           icon: ShieldCheck },
     { key: "notes",   label: `Notes (${notes.length})`, icon: StickyNote },
   ] as const;
 
   return (
     <section className="flex flex-col gap-5">
       {/* ── Breadcrumb ──────────────────────────────────────── */}
-      <BackLink href="/admin/dashboard/manage-artisans" label="Back to Artisans" />
+      <BackLink href={`/admin/dashboard/manage-artisans?page=${backPage}`} label="Back to Artisans" />
 
       {/* ── Hero card ───────────────────────────────────────── */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
@@ -246,11 +251,11 @@ const ArtisanDetails = () => {
             </div>
           </Section>
 
-          {/* Service categories */}
-          <Section title="Service Categories">
-            {artisan.serviceCategories?.length ? (
+          {/* Sub-categories */}
+          <Section title="Sub-Categories">
+            {artisan.subCategories?.length ? (
               <div className="flex flex-wrap gap-2">
-                {artisan.serviceCategories.map((cat) => (
+                {artisan.subCategories.map((cat) => (
                   <span
                     key={cat._id}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#02198B]/[0.06] text-[#02198B] text-xs font-medium"
@@ -261,7 +266,7 @@ const ArtisanDetails = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-400">No categories assigned</p>
+              <p className="text-sm text-gray-400">No sub-categories assigned</p>
             )}
 
             {/* Working hours */}
@@ -299,6 +304,14 @@ const ArtisanDetails = () => {
             </div>
           )}
         </div>
+      )}
+
+      {activeTab === "kyc" && (
+        <KYCTab
+          artisanId={artisanId}
+          kyc={artisan.kyc}
+          onSuccess={invalidate}
+        />
       )}
 
       {activeTab === "notes" && (

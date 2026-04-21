@@ -55,9 +55,23 @@ export type AdminMessageResponse = {
   message: string;
 };
 
+// Login can return either full tokens OR a 2FA challenge
+export type AdminLoginResult =
+  | AdminLoginResponse
+  | { requires2FA: true; adminId: string };
+
+export interface Admin2FAEnableBody {
+  token: string;
+}
+
+export interface Admin2FAVerifyBody {
+  adminId: string;
+  token: string;
+}
+
 // ── Hooks ─────────────────────────────────────────────────────────────────────
 export const useAdminAuth = () => {
-  const login = useApiMutation<AdminLoginResponse, AdminLoginBody>({
+  const login = useApiMutation<AdminLoginResult, AdminLoginBody>({
     url: "/admin/auth/login",
     method: "POST",
   });
@@ -87,10 +101,20 @@ export const useAdminAuth = () => {
     method: "POST",
   });
 
+  const enable2FA = useApiMutation<AdminMessageResponse, Admin2FAEnableBody>({
+    url: "/admin/auth/2fa/enable",
+    method: "POST",
+  });
+
+  const verify2FA = useApiMutation<AdminLoginResponse, Admin2FAVerifyBody>({
+    url: "/admin/auth/2fa/verify",
+    method: "POST",
+  });
+
   const refreshAccessToken = useApiMutation<AdminRefreshResponse, AdminRefreshBody>({
     url: "/admin/auth/refresh",
     method: "POST",
   });
 
-  return { login, forgotPassword, resetPassword, changePassword, logout, setup2FA, refreshAccessToken };
+  return { login, forgotPassword, resetPassword, changePassword, logout, setup2FA, enable2FA, verify2FA, refreshAccessToken };
 };

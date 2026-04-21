@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useAdminClients } from "@/apis/crud/admin";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import {
   Mail,
   Phone,
-  Calendar,
   AlertTriangle,
-  User,
   CalendarDays,
   StickyNote,
   Send,
@@ -51,8 +49,10 @@ const PageSkeleton = () => (
 // Page
 // ─────────────────────────────────────────────────────────────────────────────
 const ClientDetailPage = () => {
-  const params   = useParams();
-  const clientId = params?.id as string;
+  const params    = useParams();
+  const searchParams = useSearchParams();
+  const clientId  = params?.id as string;
+  const backPage  = searchParams.get("page") ?? "1";
   const qc       = useQueryClient();
 
   const { getClientById, updateClientStatus, addClientNote } = useAdminClients();
@@ -90,7 +90,7 @@ const ClientDetailPage = () => {
       <div className="flex flex-col items-center justify-center h-64 gap-3 text-gray-400">
         <AlertTriangle className="w-8 h-8" />
         <p className="text-sm">Client not found</p>
-        <BackLink href="/admin/dashboard/manage-clients" label="Back to Clients" />
+        <BackLink href={`/admin/dashboard/manage-clients?page=${backPage}`} label="Back to Clients" />
       </div>
     );
   }
@@ -99,7 +99,7 @@ const ClientDetailPage = () => {
 
   return (
     <section className="flex flex-col gap-5">
-      <BackLink href="/admin/dashboard/manage-clients" label="Back to Clients" />
+      <BackLink href={`/admin/dashboard/manage-clients?page=${backPage}`} label="Back to Clients" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* ── Left column ──────────────────────────────────────────── */}
@@ -151,8 +151,6 @@ const ClientDetailPage = () => {
             <div className="space-y-3.5 pt-4">
               <InfoRow icon={Mail}        label="Email"         value={client.userId?.email} />
               <InfoRow icon={Phone}       label="Phone"         value={client.phoneNumber} />
-              <InfoRow icon={User}        label="Gender"        value={client.gender} />
-              <InfoRow icon={Calendar}    label="Date of Birth" value={formatDateGB(client.dateOfBirth)} />
               <InfoRow icon={MapPin}      label="Location"      value={location} />
               <InfoRow icon={CalendarDays} label="Member Since" value={formatDateGB(client.createdAt ?? client.userId?.createdAt)} />
             </div>

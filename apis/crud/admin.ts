@@ -203,6 +203,12 @@ export const useAdminArtisans = () => {
       method: "PATCH",
     });
 
+  const reviewKyc = (id: string) =>
+    useApiMutation<{ success: boolean }, { status: "approved" | "rejected"; note?: string }>({
+      url: `/admin/artisans/${id}/kyc/review`,
+      method: "PATCH",
+    });
+
   return {
     getAdminArtisans,
     getAdminArtisanById,
@@ -210,6 +216,7 @@ export const useAdminArtisans = () => {
     verifyArtisan,
     addArtisanNote,
     toggleFeatured,
+    reviewKyc,
   };
 };
 

@@ -5,7 +5,7 @@ import { useAdminClients, UserStatus, downloadReport } from "@/apis/crud/admin";
 import { useAuthStore } from "@/store/authStore";
 import Wrapper from "@/components/shared/Wrapper";
 import Pagination from "@/components/shared/Pagination";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X, Users, ChevronRight, SlidersHorizontal, UserCheck, UserX, ShieldOff, Download } from "lucide-react";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -88,9 +88,10 @@ const ManageClientsPage = () => {
   const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab]     = useState<UserStatus | "all">("all");
   const [search, setSearch]           = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => Number(searchParams.get("page") ?? 1));
   const LIMIT = 10;
 
   const { getAllClients } = useAdminClients();
@@ -222,7 +223,7 @@ const ManageClientsPage = () => {
                     <tr
                       key={client._id}
                       className="hover:bg-gray-50/50 cursor-pointer transition-colors"
-                      onClick={() => router.push(`/admin/dashboard/manage-clients/${client._id}`)}
+                      onClick={() => router.push(`/admin/dashboard/manage-clients/${client._id}?page=${currentPage}`)}
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
@@ -260,7 +261,7 @@ const ManageClientsPage = () => {
                 <div
                   key={client._id}
                   className="p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                  onClick={() => router.push(`/admin/dashboard/manage-clients/${client._id}`)}
+                  onClick={() => router.push(`/admin/dashboard/manage-clients/${client._id}?page=${currentPage}`)}
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary font-semibold text-sm">
