@@ -33,11 +33,11 @@ const KycStatusBadge = ({ status }: { status?: KycStatus }) => {
       </span>
     );
   }
-  if (status === "approved") {
+  if (status === "verified") {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 ring-1 ring-green-200">
         <CheckCircle2 className="w-3 h-3" />
-        Approved
+        Verified
       </span>
     );
   }
@@ -116,10 +116,11 @@ const DocCard = ({ label, doc }: DocCardProps) => {
 interface KYCTabProps {
   artisanId: string;
   kyc?: ArtisanKyc;
+  isVerified?: boolean;
   onSuccess: () => void;
 }
 
-const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
+const KYCTab = ({ artisanId, kyc, isVerified, onSuccess }: KYCTabProps) => {
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [rejectNote, setRejectNote] = useState("");
   const { reviewKyc } = useAdminArtisans();
@@ -128,10 +129,14 @@ const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
   const hasDocuments =
     kyc?.govtIdFront || kyc?.govtIdBack || kyc?.certification || kyc?.customerReference;
 
+  // artisan.verificationStatus is the source of truth after a successful review
+  const effectiveStatus: KycStatus | undefined =
+    isVerified ? "verified" : kyc?.status;
+
   const handleApprove = async () => {
     try {
-      await mutateAsync({ status: "approved" });
-      toast.success("KYC approved successfully");
+      await mutateAsync({ status: "verified" });
+      toast.success("KYC verified successfully");
       onSuccess();
     } catch {
       toast.error("Failed to approve KYC. Please try again.");
@@ -176,11 +181,11 @@ const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
             <p className="text-xs text-gray-400 mt-0.5">Review submitted identity and certification documents</p>
           </div>
         </div>
-        <KycStatusBadge status={kyc.status} />
+        <KycStatusBadge status={effectiveStatus} />
       </div>
 
       {/* Rejection note (if rejected) */}
-      {kyc.status === "rejected" && kyc.rejectionNote && (
+      {effectiveStatus === "rejected" && kyc.rejectionNote && (
         <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 border border-red-100">
           <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
           <div>
@@ -206,7 +211,7 @@ const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
       )}
 
       {/* Review actions — only show if documents exist and status is pending/undefined */}
-      {hasDocuments && (!kyc.status || kyc.status === "pending") && (
+      {hasDocuments && (!effectiveStatus || effectiveStatus === "pending") && (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 flex flex-col gap-4">
           <p className="text-sm font-semibold text-gray-700">Review Decision</p>
 
@@ -277,27 +282,27 @@ const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
       )}
 
       {/* Re-review actions for already-decided KYC */}
-      {hasDocuments && kyc.status && kyc.status !== "pending" && (
+      {hasDocuments && effectiveStatus && effectiveStatus !== "pending" && (
         <div className="p-4 rounded-xl bg-white border border-gray-100 shadow-sm flex items-center justify-between gap-4">
           <p className="text-xs text-gray-500">
-            This KYC has been <span className="font-semibold">{kyc.status}</span>. You can reverse the decision below.
+            This KYC has been <span className="font-semibold">{effectiveStatus}</span>. You can reverse the decision below.
           </p>
           <button
             disabled={isPending}
             onClick={async () => {
-              if (kyc.status === "approved") {
+              if (effectiveStatus === "verified") {
                 setShowRejectForm((v) => !v);
               } else {
                 await handleApprove();
               }
             }}
             className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-colors disabled:opacity-50 ${
-              kyc.status === "approved"
+              effectiveStatus === "verified"
                 ? "bg-red-50 text-red-600 hover:bg-red-100 border border-red-100"
                 : "bg-green-50 text-green-700 hover:bg-green-100 border border-green-100"
             }`}
           >
-            {kyc.status === "approved" ? (
+            {effectiveStatus === "verified" ? (
               <><XCircle className="w-3.5 h-3.5" /> Reverse to Rejected</>
             ) : (
               <><CheckCircle2 className="w-3.5 h-3.5" /> Reverse to Approved</>
@@ -307,7 +312,7 @@ const KYCTab = ({ artisanId, kyc, onSuccess }: KYCTabProps) => {
       )}
 
       {/* Reject form when reversing approved status */}
-      {showRejectForm && kyc.status === "approved" && (
+      {showRejectForm && effectiveStatus === "verified" && (
         <div className="flex flex-col gap-3 p-4 rounded-xl bg-white border border-red-100 shadow-sm">
           <p className="text-sm font-semibold text-red-700">Rejection Reason</p>
           <textarea

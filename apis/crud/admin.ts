@@ -204,8 +204,8 @@ export const useAdminArtisans = () => {
     });
 
   const reviewKyc = (id: string) =>
-    useApiMutation<{ success: boolean }, { status: "approved" | "rejected"; note?: string }>({
-      url: `/admin/artisans/${id}/kyc/review`,
+    useApiMutation<{ success: boolean }, { status: "verified" | "rejected"; note?: string }>({
+      url: `/admin/artisans/${id}/verify`,
       method: "PATCH",
     });
 

@@ -209,7 +209,7 @@ export interface KycDocument {
   _id: string;
 }
 
-export type KycStatus = "pending" | "approved" | "rejected";
+export type KycStatus = "pending" | "verified" | "rejected";
 
 export interface ArtisanKyc {
   _id: string;
