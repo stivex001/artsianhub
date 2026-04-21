@@ -310,6 +310,7 @@ const ArtisanDetails = () => {
         <KYCTab
           artisanId={artisanId}
           kyc={artisan.kyc}
+          isVerified={artisan.verificationStatus === "verified"}
           onSuccess={invalidate}
         />
       )}
