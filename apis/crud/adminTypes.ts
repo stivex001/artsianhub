@@ -203,6 +203,24 @@ export interface ClientsResponse {
 export type ArtisanAccountStatus = "active" | "suspended" | "banned";
 export type ArtisanVerificationStatus = "verified" | "unverified";
 
+export interface KycDocument {
+  url: string;
+  publicId: string;
+  _id: string;
+}
+
+export type KycStatus = "pending" | "approved" | "rejected";
+
+export interface ArtisanKyc {
+  _id: string;
+  status?: KycStatus;
+  rejectionNote?: string;
+  govtIdFront?: KycDocument;
+  govtIdBack?: KycDocument;
+  certification?: KycDocument;
+  customerReference?: KycDocument;
+}
+
 export interface AdminArtisan {
   _id: string;
   userId: { _id: string; email: string; role?: string; createdAt: string };
@@ -216,7 +234,7 @@ export interface AdminArtisan {
   state?: string;
   country?: string;
   serviceCategories: { _id: string; name: string }[];
-  subCategories?: string[];
+  subCategories?: { _id: string; name: string }[];
   profilePicture: string;
   accountStatus: ArtisanAccountStatus;
   verificationStatus: ArtisanVerificationStatus;
@@ -230,6 +248,7 @@ export interface AdminArtisan {
   workDistanceKm?: number;
   serviceRadius?: string;
   workingDaysAndHours?: { day: string; startTime: string; endTime: string; _id: string }[];
+  kyc?: ArtisanKyc;
   createdAt: string;
   updatedAt: string;
 }

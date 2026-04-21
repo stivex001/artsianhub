@@ -2,15 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { toast } from "sonner";
-import { Eye, EyeOff, Shield, Lock, Mail, ArrowRight, AlertCircle } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Shield,
+  Lock,
+  Mail,
+  ArrowRight,
+  AlertCircle,
+  Smartphone,
+  ChevronLeft,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useAdminAuth } from "@/apis/crud/adminAuth";
 import { useAuthStore } from "@/store/authStore";
 import { AuthUser } from "@/components/api/type";
 import logo from "@/components/assets/images/newA.png";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 // ── Animated dot-grid background ─────────────────────────────────────────────
 const DotGrid = () => (
@@ -36,6 +51,11 @@ const item: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
+const slideIn: Variants = {
+  hidden: { opacity: 0, x: 24 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: "easeOut" } },
+  exit: { opacity: 0, x: -24, transition: { duration: 0.25, ease: "easeIn" } },
+};
 
 // ── Input component ───────────────────────────────────────────────────────────
 interface InputProps {
@@ -51,7 +71,9 @@ interface InputProps {
   rightSlot?: React.ReactNode;
 }
 
-const DarkInput = ({ id, label, type, value, onChange, placeholder, icon, error, autoComplete, rightSlot }: InputProps) => (
+const DarkInput = ({
+  id, label, type, value, onChange, placeholder, icon, error, autoComplete, rightSlot,
+}: InputProps) => (
   <div className="flex flex-col gap-1.5">
     <label htmlFor={id} className="text-xs font-semibold text-[#9CA3AF] uppercase tracking-widest">
       {label}
@@ -91,16 +113,24 @@ export default function AdminLoginPage() {
   const redirect = searchParams.get("redirect");
 
   const { setAccessToken, setRefreshToken, setCurrentUser, accessToken, currentUser } = useAuthStore();
-  const { login } = useAdminAuth();
+  const { login, verify2FA } = useAdminAuth();
 
+  // ── Credentials step state ───────────────────────────────────────────────
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
 
-  // Already logged in guard — send any authenticated admin straight to the dashboard
+  // ── 2FA step state ───────────────────────────────────────────────────────
+  const [requires2FA, setRequires2FA] = useState(false);
+  const [pendingAdminId, setPendingAdminId] = useState<string | null>(null);
+  const [otpToken, setOtpToken] = useState("");
+  const [otpError, setOtpError] = useState<string | null>(null);
+
+  // Already logged in guard
   useEffect(() => {
-    const isAdmin = currentUser?.isAdmin === true ||
+    const isAdmin =
+      currentUser?.isAdmin === true ||
       currentUser?.role === "ADMIN" ||
       currentUser?.role === "SUPER_ADMIN";
     if (accessToken && isAdmin) {
@@ -118,6 +148,30 @@ export default function AdminLoginPage() {
     return Object.keys(errs).length === 0;
   };
 
+  // Shared: finalise login once we have tokens + admin object
+  const finaliseLogin = (token: string, refreshToken: string | undefined, admin: any) => {
+    const [firstName, ...rest] = (admin.name ?? "Admin").split(" ");
+    const normalizedRole = (admin.role ?? "ADMIN").toUpperCase();
+    setAccessToken(token);
+    if (refreshToken) setRefreshToken(refreshToken);
+    setCurrentUser({
+      _id: admin.id,
+      userId: admin.id,
+      firstName,
+      lastName: rest.join(" "),
+      email: admin.email,
+      role: normalizedRole,
+      roleLabel: admin.roleLabel,
+      isAdmin: true,
+      isArtisan: false,
+      isClient: false,
+      isVerified: true,
+      isActive: true,
+    } as AuthUser);
+    toast.success("Welcome back, Admin!");
+    router.replace(redirect ?? "/admin/dashboard");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
@@ -127,34 +181,19 @@ export default function AdminLoginPage() {
         { email: email.trim(), password },
         {
           onSuccess: (response) => {
-            const { token, refreshToken, admin } = response;
+            // 2FA intercept
+            if ("requires2FA" in response && response.requires2FA) {
+              setPendingAdminId(response.adminId);
+              setRequires2FA(true);
+              return;
+            }
+
+            const { token, refreshToken, admin } = response as import("@/apis/crud/adminAuth").AdminLoginResponse;
             if (!token || !admin) {
               toast.error("Invalid response from server.");
               return;
             }
-
-            // Map admin object → AuthUser shape
-            // Normalise role to uppercase so SUPER_ADMIN checks are always consistent
-            const [firstName, ...rest] = (admin.name ?? "Admin").split(" ");
-            const normalizedRole = (admin.role ?? "ADMIN").toUpperCase();
-            setAccessToken(token);
-            if (refreshToken) setRefreshToken(refreshToken);
-            setCurrentUser({
-              _id: admin.id,
-              userId: admin.id,
-              firstName,
-              lastName: rest.join(" "),
-              email: admin.email,
-              role: normalizedRole,
-              isAdmin: true,
-              isArtisan: false,
-              isClient: false,
-              isVerified: true,
-              isActive: true,
-            } as AuthUser);
-
-            toast.success("Welcome back, Admin!");
-            router.replace(redirect ?? "/admin/dashboard");
+            finaliseLogin(token, refreshToken, admin);
           },
           onError: (error: any) => {
             const msg = error?.data?.message ?? error?.data?.error ?? "Login failed. Check your credentials.";
@@ -167,14 +206,51 @@ export default function AdminLoginPage() {
     }
   };
 
+  const handleVerify2FA = async () => {
+    if (otpToken.length < 6) {
+      setOtpError("Please enter the full 6-digit code.");
+      return;
+    }
+    if (!pendingAdminId) return;
+    setOtpError(null);
+
+    try {
+      await verify2FA.mutateAsync(
+        { adminId: pendingAdminId, token: otpToken },
+        {
+          onSuccess: (response) => {
+            const { token, refreshToken, admin } = response;
+            if (!token || !admin) {
+              toast.error("Invalid response from server.");
+              return;
+            }
+            finaliseLogin(token, refreshToken, admin);
+          },
+          onError: (error: any) => {
+            const msg = error?.data?.message ?? error?.data?.error ?? "Invalid 2FA token. Please try again.";
+            setOtpError(msg);
+            setOtpToken("");
+          },
+        }
+      );
+    } catch {
+      // handled in onError
+    }
+  };
+
+  const handleBackToLogin = () => {
+    setRequires2FA(false);
+    setPendingAdminId(null);
+    setOtpToken("");
+    setOtpError(null);
+  };
+
   return (
     <div className="min-h-dvh flex bg-[#070B18] overflow-hidden">
       {/* ── Left brand panel (desktop only) ─────────────────────────── */}
       <div className="hidden lg:flex relative w-[42%] flex-col justify-between p-10 overflow-hidden bg-[#060A16]">
-        {/* Dot grid texture */}
         <DotGrid />
 
-        {/* Radial glow from brand color */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -183,20 +259,15 @@ export default function AdminLoginPage() {
           }}
         />
 
-        {/* Top diagonal accent bar */}
         <div
           className="absolute top-0 left-0 w-full h-1"
-          style={{
-            background: "linear-gradient(90deg, #02198B 0%, #F0C422 100%)",
-          }}
+          style={{ background: "linear-gradient(90deg, #02198B 0%, #F0C422 100%)" }}
         />
 
-        {/* Logo */}
         <div className="relative z-10">
           <Image src={logo} alt="ArtisansHub" width={120} height={56} className="object-contain" />
         </div>
 
-        {/* Center copy */}
         <motion.div
           className="relative z-10 flex flex-col gap-6"
           initial={{ opacity: 0, x: -24 }}
@@ -224,11 +295,9 @@ export default function AdminLoginPage() {
           </h1>
 
           <p className="text-[#6B7280] text-sm leading-relaxed max-w-xs">
-            Restricted access for platform administrators. All activity is
-            monitored and logged.
+            Restricted access for platform administrators. All activity is monitored and logged.
           </p>
 
-          {/* Trust badges */}
           <div className="flex flex-col gap-2 mt-2">
             {[
               { icon: Shield, text: "End-to-end encrypted session" },
@@ -245,7 +314,6 @@ export default function AdminLoginPage() {
           </div>
         </motion.div>
 
-        {/* Bottom tagline */}
         <div className="relative z-10">
           <p className="text-[10px] text-[#374151] uppercase tracking-widest">
             ArtisansHub &copy; {new Date().getFullYear()} — Platform Admin
@@ -255,141 +323,273 @@ export default function AdminLoginPage() {
 
       {/* ── Right form panel ─────────────────────────────────────────── */}
       <div className="flex-1 flex items-center justify-center px-5 py-10 lg:px-12">
-        {/* Top bar — mobile only */}
         <div className="absolute top-6 left-5 lg:hidden">
           <Image src={logo} alt="ArtisansHub" width={96} height={44} className="object-contain" />
         </div>
 
-        <motion.div
-          className="w-full max-w-[420px]"
-          variants={container}
-          initial="hidden"
-          animate="show"
-        >
-          {/* Card */}
-          <div
-            className="rounded-2xl p-8 sm:p-10 border"
-            style={{
-              background: "linear-gradient(145deg, rgba(17,24,39,0.95) 0%, rgba(11,15,30,0.98) 100%)",
-              borderColor: "rgba(255,255,255,0.07)",
-              boxShadow: "0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)",
-            }}
-          >
-            {/* Header */}
-            <motion.div variants={item} className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)" }}
+        <div className="w-full max-w-[420px]">
+          <AnimatePresence mode="wait">
+            {/* ── Step 1: Credentials ────────────────────────────────── */}
+            {!requires2FA && (
+              <motion.div
+                key="credentials"
+                variants={slideIn}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+              >
+                <motion.div
+                  variants={container}
+                  initial="hidden"
+                  animate="show"
                 >
-                  <Shield className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-[10px] font-bold text-[#F0C422] uppercase tracking-[0.2em]">
-                  Restricted
-                </span>
-              </div>
-              <h2 className="text-2xl font-black text-white tracking-tight">
-                Admin Sign In
-              </h2>
-              <p className="text-sm text-[#6B7280] mt-1">
-                Authorised personnel only
-              </p>
-            </motion.div>
-
-            {/* Form */}
-            <form onSubmit={handleSubmit} noValidate>
-              <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-5">
-                <motion.div variants={item}>
-                  <DarkInput
-                    id="email"
-                    label="Email address"
-                    type="email"
-                    value={email}
-                    onChange={(v) => { setEmail(v); setErrors((p) => ({ ...p, email: undefined })); }}
-                    placeholder="admin@artisanshub.org"
-                    icon={<Mail className="w-4 h-4" />}
-                    error={errors.email}
-                    autoComplete="email"
-                  />
-                </motion.div>
-
-                <motion.div variants={item}>
-                  <DarkInput
-                    id="password"
-                    label="Password"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(v) => { setPassword(v); setErrors((p) => ({ ...p, password: undefined })); }}
-                    placeholder="••••••••••••"
-                    icon={<Lock className="w-4 h-4" />}
-                    error={errors.password}
-                    autoComplete="current-password"
-                    rightSlot={
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword((p) => !p)}
-                        className="p-1 text-[#4B5563] hover:text-[#9CA3AF] transition-colors"
-                        aria-label={showPassword ? "Hide password" : "Show password"}
-                      >
-                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </button>
-                    }
-                  />
-                </motion.div>
-
-                {/* Forgot password */}
-                <motion.div variants={item} className="flex justify-end -mt-1">
-                  <Link
-                    href="/admin/auth/forgot-password"
-                    className="text-xs text-[#4F7FFF] hover:text-[#7BA7FF] transition-colors font-medium"
-                  >
-                    Forgot password?
-                  </Link>
-                </motion.div>
-
-                {/* Submit */}
-                <motion.div variants={item}>
-                  <button
-                    type="submit"
-                    disabled={login.isPending}
-                    className="group w-full h-12 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  <div
+                    className="rounded-2xl p-8 sm:p-10 border"
                     style={{
-                      background: login.isPending
-                        ? "rgba(2,25,139,0.6)"
-                        : "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)",
-                      boxShadow: login.isPending ? "none" : "0 8px 24px rgba(2,25,139,0.4)",
+                      background:
+                        "linear-gradient(145deg, rgba(17,24,39,0.95) 0%, rgba(11,15,30,0.98) 100%)",
+                      borderColor: "rgba(255,255,255,0.07)",
+                      boxShadow: "0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)",
                     }}
                   >
-                    {login.isPending ? (
+                    {/* Header */}
+                    <motion.div variants={item} className="mb-8">
+                      <div className="flex items-center gap-2 mb-4">
+                        <div
+                          className="w-8 h-8 rounded-lg flex items-center justify-center"
+                          style={{ background: "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)" }}
+                        >
+                          <Shield className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-[10px] font-bold text-[#F0C422] uppercase tracking-[0.2em]">
+                          Restricted
+                        </span>
+                      </div>
+                      <h2 className="text-2xl font-black text-white tracking-tight">
+                        Admin Sign In
+                      </h2>
+                      <p className="text-sm text-[#6B7280] mt-1">Authorised personnel only</p>
+                    </motion.div>
+
+                    {/* Form */}
+                    <form onSubmit={handleSubmit} noValidate>
+                      <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-5">
+                        <motion.div variants={item}>
+                          <DarkInput
+                            id="email"
+                            label="Email address"
+                            type="email"
+                            value={email}
+                            onChange={(v) => { setEmail(v); setErrors((p) => ({ ...p, email: undefined })); }}
+                            placeholder="admin@artisanshub.org"
+                            icon={<Mail className="w-4 h-4" />}
+                            error={errors.email}
+                            autoComplete="email"
+                          />
+                        </motion.div>
+
+                        <motion.div variants={item}>
+                          <DarkInput
+                            id="password"
+                            label="Password"
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(v) => { setPassword(v); setErrors((p) => ({ ...p, password: undefined })); }}
+                            placeholder="••••••••••••"
+                            icon={<Lock className="w-4 h-4" />}
+                            error={errors.password}
+                            autoComplete="current-password"
+                            rightSlot={
+                              <button
+                                type="button"
+                                onClick={() => setShowPassword((p) => !p)}
+                                className="p-1 text-[#4B5563] hover:text-[#9CA3AF] transition-colors"
+                                aria-label={showPassword ? "Hide password" : "Show password"}
+                              >
+                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                              </button>
+                            }
+                          />
+                        </motion.div>
+
+                        <motion.div variants={item} className="flex justify-end -mt-1">
+                          <Link
+                            href="/admin/auth/forgot-password"
+                            className="text-xs text-[#4F7FFF] hover:text-[#7BA7FF] transition-colors font-medium"
+                          >
+                            Forgot password?
+                          </Link>
+                        </motion.div>
+
+                        <motion.div variants={item}>
+                          <button
+                            type="submit"
+                            disabled={login.isPending}
+                            className="group w-full h-12 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            style={{
+                              background: login.isPending
+                                ? "rgba(2,25,139,0.6)"
+                                : "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)",
+                              boxShadow: login.isPending ? "none" : "0 8px 24px rgba(2,25,139,0.4)",
+                            }}
+                          >
+                            {login.isPending ? (
+                              <>
+                                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                                </svg>
+                                Authenticating…
+                              </>
+                            ) : (
+                              <>
+                                Sign In
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                              </>
+                            )}
+                          </button>
+                        </motion.div>
+                      </motion.div>
+                    </form>
+                  </div>
+
+                  <motion.p
+                    variants={item}
+                    className="text-center text-[11px] text-[#374151] mt-5 leading-relaxed"
+                  >
+                    This system is for authorised administrators only.
+                    <br />
+                    Unauthorised access attempts are logged and prosecuted.
+                  </motion.p>
+                </motion.div>
+              </motion.div>
+            )}
+
+            {/* ── Step 2: 2FA Verification ───────────────────────────── */}
+            {requires2FA && (
+              <motion.div
+                key="twofa"
+                variants={slideIn}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+              >
+                <div
+                  className="rounded-2xl p-8 sm:p-10 border"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, rgba(17,24,39,0.95) 0%, rgba(11,15,30,0.98) 100%)",
+                    borderColor: "rgba(255,255,255,0.07)",
+                    boxShadow: "0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)",
+                  }}
+                >
+                  {/* Header */}
+                  <div className="mb-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center"
+                        style={{ background: "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)" }}
+                      >
+                        <Smartphone className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-[10px] font-bold text-[#F0C422] uppercase tracking-[0.2em]">
+                        Two-Factor Auth
+                      </span>
+                    </div>
+                    <h2 className="text-2xl font-black text-white tracking-tight">
+                      Verify your identity
+                    </h2>
+                    <p className="text-sm text-[#6B7280] mt-1 leading-relaxed">
+                      Open your authenticator app and enter the 6-digit code for ArtisansHub.
+                    </p>
+                  </div>
+
+                  {/* OTP Slots — dark themed via className overrides */}
+                  <div className="flex flex-col items-center gap-5 mb-8">
+                    <InputOTP
+                      maxLength={6}
+                      value={otpToken}
+                      onChange={(val) => {
+                        setOtpToken(val);
+                        if (otpError) setOtpError(null);
+                      }}
+                      onComplete={handleVerify2FA}
+                    >
+                      <InputOTPGroup className="gap-2.5">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                          <InputOTPSlot
+                            key={i}
+                            index={i}
+                            className="h-12 w-12 text-base font-bold text-white bg-white/[0.06] border-white/[0.1] data-[active=true]:border-[#02198B] data-[active=true]:ring-[#02198B]/40 rounded-xl"
+                          />
+                        ))}
+                      </InputOTPGroup>
+                    </InputOTP>
+
+                    {otpError && (
+                      <p className="flex items-center gap-1.5 text-xs text-red-400">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        {otpError}
+                      </p>
+                    )}
+
+                    <p className="text-[11px] text-[#4B5563] text-center">
+                      Code refreshes every 30 seconds. Make sure your device clock is synced.
+                    </p>
+                  </div>
+
+                  {/* Verify button */}
+                  <button
+                    onClick={handleVerify2FA}
+                    disabled={verify2FA.isPending || otpToken.length < 6}
+                    className="w-full h-12 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                    style={{
+                      background:
+                        verify2FA.isPending || otpToken.length < 6
+                          ? "rgba(2,25,139,0.5)"
+                          : "linear-gradient(135deg, #02198B 0%, #1E40AF 100%)",
+                      boxShadow:
+                        verify2FA.isPending || otpToken.length < 6
+                          ? "none"
+                          : "0 8px 24px rgba(2,25,139,0.4)",
+                    }}
+                  >
+                    {verify2FA.isPending ? (
                       <>
                         <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                         </svg>
-                        Authenticating…
+                        Verifying…
                       </>
                     ) : (
                       <>
-                        Sign In
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <Shield className="w-4 h-4" />
+                        Verify &amp; Sign In
                       </>
                     )}
                   </button>
-                </motion.div>
-              </motion.div>
-            </form>
-          </div>
 
-          {/* Bottom notice */}
-          <motion.p
-            variants={item}
-            className="text-center text-[11px] text-[#374151] mt-5 leading-relaxed"
-          >
-            This system is for authorised administrators only.
-            <br />
-            Unauthorised access attempts are logged and prosecuted.
-          </motion.p>
-        </motion.div>
+                  {/* Back to login */}
+                  <button
+                    type="button"
+                    onClick={handleBackToLogin}
+                    className="w-full flex items-center justify-center gap-1.5 text-xs text-[#4B5563] hover:text-[#9CA3AF] transition-colors"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    Back to sign in
+                  </button>
+                </div>
+
+                <p className="text-center text-[11px] text-[#374151] mt-5 leading-relaxed">
+                  This system is for authorised administrators only.
+                  <br />
+                  Unauthorised access attempts are logged and prosecuted.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );

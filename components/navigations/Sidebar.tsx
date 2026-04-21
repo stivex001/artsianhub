@@ -37,11 +37,11 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-    <aside className="hidden lg:flex flex-col lg:w-[20%] bg-white h-screen rounded-[10px] overflow-y-scroll scrollbar-hidden py-6 px-4 sticky top-0">
+    <aside className="hidden lg:flex flex-col lg:w-[20%] bg-white h-screen rounded-[10px] py-6 px-4 sticky top-0">
       <Link href="#" className="mb-5 px-4 w-40 h-16">
         <Image src={logo} alt="logo" className="w-full h-full object-cover " />
       </Link>
-      <div className="flex-grow overflow-y-auto no-scrollbar">
+      <div className="flex-grow overflow-y-auto scrollableCSS">
         <div>
           {isArtisanPage && (
             <SidebarMenu links={artisanLinks} pathname={pathname} />

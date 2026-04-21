@@ -10,6 +10,7 @@ import {
   STATUS_COLORS, STATUS_LABELS, CATEGORY_LABELS,
   PRIORITY_COLORS, formatTicketDateTime,
 } from "./ticket-constants";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   ticket: Ticket;
@@ -18,6 +19,8 @@ interface Props {
 }
 
 const TicketMetaCard = ({ ticket, ticketId, onRefetch }: Props) => {
+  const { currentUser } = useAuthStore();
+  const isSuperAdmin = currentUser?.role === "SUPER_ADMIN";
   const queryClient = useQueryClient();
   const { updateTicketStatus, assignTicket } = useAdminTickets();
   const statusMutation = updateTicketStatus(ticketId);
@@ -145,13 +148,15 @@ const TicketMetaCard = ({ ticket, ticketId, onRefetch }: Props) => {
             <span className="text-gray-400">Unassigned</span>
           )}
         </div>
-        <button
-          onClick={() => setShowAssignPanel((v) => !v)}
-          className="flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
-        >
-          <UserCog className="w-3.5 h-3.5" />
-          {ticket.assignedAdminId?._id ? "Reassign" : "Assign Ticket"}
-        </button>
+        {isSuperAdmin && (
+          <button
+            onClick={() => setShowAssignPanel((v) => !v)}
+            className="flex items-center gap-1.5 text-xs font-medium text-primary hover:underline"
+          >
+            <UserCog className="w-3.5 h-3.5" />
+            {ticket.assignedAdminId?._id ? "Reassign" : "Assign Ticket"}
+          </button>
+        )}
       </div>
 
       {showAssignPanel && (
