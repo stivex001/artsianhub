@@ -45,16 +45,28 @@ body {
 }
 
 .scrollableCSS::-webkit-scrollbar {
-  width: 2px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
+}
+
+.scrollableCSS::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
 }
 
 .scrollableCSS::-webkit-scrollbar-thumb {
-  background: #013975;
+  background: linear-gradient(180deg, #02198B 0%, #F0C422 100%);
+  border-radius: 999px;
+  transition: background 0.2s ease;
 }
 
 .scrollableCSS::-webkit-scrollbar-thumb:hover {
-  background: #1c0477;
+  background: linear-gradient(180deg, #011571 0%, #d4a800 100%);
+}
+
+.scrollableCSS {
+  scrollbar-width: thin;
+  scrollbar-color: #02198B transparent;
 }
 
 /* Hide scrollbar globally */
