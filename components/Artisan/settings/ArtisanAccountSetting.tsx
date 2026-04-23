@@ -1,27 +1,19 @@
 "use client";
-import { Descriptions } from "@/components/shared/Headings";
-import { TabComponent } from "@/components/shared/TabComponent";
 import React, { useState } from "react";
 import { ArtisanPersonalInfo } from "./Profile";
 import { ArtisanServiceInfo } from "./ArtisanServiceInfo";
 import { ArtisanLocationPriceInfo } from "./ArtisanLocationPriceInfo";
 import { WorkingHours } from "./WorkingHours";
 
-type Props = {};
-
 const tabs = [
   { key: "personal", label: "Personal Info" },
   { key: "service", label: "Service Details" },
-  { key: "location", label: "Location & Price Details" },
-  { key: "working", label: "Working Days and Hours" },
+  { key: "location", label: "Location & Price" },
+  { key: "working", label: "Working Hours" },
 ];
 
-const ArtisanAccountSetting = (props: Props) => {
+const ArtisanAccountSetting = () => {
   const [activeTab, setActiveTab] = useState("personal");
-
-  const handleTabChange = (key: string) => {
-    setActiveTab(key);
-  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -39,19 +31,24 @@ const ArtisanAccountSetting = (props: Props) => {
   };
 
   return (
-    <section className="flex flex-col gap-10">
-      <div className="flex flex-col gap-5">
-        <Descriptions
-          title="Account Settings"
-          desc="Manage your personal details, services, documents, and preferences. You can update them anytime."
-        />
-
-        <TabComponent
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
-        />
+    <section className="flex flex-col gap-8">
+      {/* ── Sub-tab pill navigation ─────────────────────────────── */}
+      <div className="flex gap-1 bg-gray-100/80 rounded-xl p-1 w-fit flex-wrap">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setActiveTab(tab.key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer whitespace-nowrap ${
+              activeTab === tab.key
+                ? "bg-white text-[#02198B] shadow-sm font-semibold"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
       </div>
+
       <div>{renderTabContent()}</div>
     </section>
   );
