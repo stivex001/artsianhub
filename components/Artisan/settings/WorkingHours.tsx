@@ -1,6 +1,5 @@
 "use client";
 
-import { Descriptions } from "@/components/shared/Headings";
 import React, { useEffect, useState } from "react";
 import { days } from "./data";
 import { TimeDropdown } from "./TimeDropdown";
@@ -8,6 +7,7 @@ import { ToggleSwitch } from "./ToggleSwitch";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { useArtisans } from "@/apis/crud/artisans";
 import { toast } from "sonner";
+import { Clock } from "lucide-react";
 
 type Props = {};
 
@@ -120,19 +120,13 @@ export const WorkingHours = (props: Props) => {
   ) => {
     setSchedule((prev) => ({
       ...prev,
-      [day]: {
-        ...prev[day],
-        [timeType]: time,
-      },
+      [day]: { ...prev[day], [timeType]: time },
     }));
     setDropdownOpen(null);
   };
 
   useEffect(() => {
-    const handleClickOutside = () => {
-      setDropdownOpen(null);
-    };
-
+    const handleClickOutside = () => setDropdownOpen(null);
     if (dropdownOpen) {
       document.addEventListener("click", handleClickOutside);
       return () => document.removeEventListener("click", handleClickOutside);
@@ -143,9 +137,7 @@ export const WorkingHours = (props: Props) => {
 
   const handleEditProfileInfo = async () => {
     const formData = new FormData();
-
     try {
-      // Transform schedule to backend format
       const formatted = Object.entries(schedule)
         .filter(([_, value]) => value.enabled)
         .map(([day, value]) => ({
@@ -158,7 +150,7 @@ export const WorkingHours = (props: Props) => {
 
       updatePersonalInfo(formData, {
         onSuccess: (response: any) => {
-          toast.success(response?.message || "Profile Updated Successfully");
+          toast.success(response?.message || "Schedule Updated Successfully");
           refetch();
         },
         onError: (error: any) => {
@@ -172,40 +164,75 @@ export const WorkingHours = (props: Props) => {
     }
   };
 
+  const enabledCount = Object.values(schedule).filter((d) => d.enabled).length;
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         handleEditProfileInfo();
       }}
-      className="flex flex-col gap-8"
+      className="flex flex-col gap-7"
     >
-      <Descriptions
-        title="Working Days and Hours"
-        desc="Let users know your schedule."
-      />
+      {/* ── Header ───────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="w-0.5 h-3.5 rounded-full bg-[#02198B]" />
+          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+            Weekly Availability
+          </p>
+        </div>
+        {enabledCount > 0 && (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#02198B]/[0.06] text-[#02198B] text-xs font-semibold">
+            <Clock className="w-3 h-3" />
+            {enabledCount} day{enabledCount !== 1 ? "s" : ""} active
+          </span>
+        )}
+      </div>
 
-      <div className="space-y-5">
+      {/* ── Day rows ─────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-2">
         {days?.map(({ key, label }) => {
           const daySchedule = schedule[key as keyof WorkingSchedule];
+          const isEnabled = daySchedule.enabled;
 
           return (
-            <div key={key} className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+            <div
+              key={key}
+              className={`flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all duration-200 ${
+                isEnabled
+                  ? "bg-[#02198B]/[0.03] border-[#02198B]/[0.1]"
+                  : "bg-white border-gray-100 hover:border-gray-200"
+              }`}
+            >
+              {/* Left: toggle + day name */}
+              <div className="flex items-center gap-3.5">
                 <ToggleSwitch
                   enabled={daySchedule.enabled}
                   onChange={() => toggleDay(key as keyof WorkingSchedule)}
                 />
-                <span
-                  className={`font-medium ${
-                    daySchedule.enabled ? "text-gray-900" : "text-gray-400"
-                  }`}
-                >
-                  {label}
-                </span>
+                <div>
+                  <p
+                    className={`text-sm font-semibold leading-tight ${
+                      isEnabled ? "text-gray-900" : "text-gray-400"
+                    }`}
+                  >
+                    {label}
+                  </p>
+                  {isEnabled && (
+                    <p className="text-[10px] text-[#02198B]/60 font-medium mt-0.5">
+                      Available
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div className="flex items-center gap-4">
+              {/* Right: time range */}
+              <div
+                className={`flex items-center gap-3 transition-opacity duration-200 ${
+                  !isEnabled ? "opacity-35 pointer-events-none" : ""
+                }`}
+              >
                 <TimeDropdown
                   day={key as keyof WorkingSchedule}
                   timeType="startTime"
@@ -215,13 +242,7 @@ export const WorkingHours = (props: Props) => {
                   setDropdownOpen={setDropdownOpen}
                   updateTime={updateTime}
                 />
-                <span
-                  className={`text-sm ${
-                    daySchedule.enabled ? "text-gray-500" : "text-gray-300"
-                  }`}
-                >
-                  –
-                </span>
+                <span className="text-gray-300 font-medium text-sm">→</span>
                 <TimeDropdown
                   day={key as keyof WorkingSchedule}
                   timeType="endTime"
@@ -236,11 +257,16 @@ export const WorkingHours = (props: Props) => {
           );
         })}
       </div>
-      <div className="w-fit">
+
+      {/* ── Save footer ──────────────────────────────────────────── */}
+      <div className="flex items-center justify-between pt-5 border-t border-gray-100">
+        <p className="text-xs text-gray-400">
+          Clients see your availability when booking
+        </p>
         <CustomButton
           type="submit"
-          label="Save Changes"
-          className="w-full rounded-[10px]"
+          label="Save Schedule"
+          className="rounded-xl"
           variant="primary"
           disabled={isPending}
           isLoading={isPending}

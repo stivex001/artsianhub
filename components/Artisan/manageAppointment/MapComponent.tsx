@@ -1,13 +1,14 @@
-import Image from "next/image";
+"use client";
+
 import React from "react";
-import mapUrl from "@/components/assets/images/map.png";
+import { InteractiveMap } from "@/components/shared/InteractiveMap";
 
-type Props = {};
+interface Props {
+  address?: string | null;
+  height?: string;
+  zoom?: number;
+}
 
-export const MapComponent = (props: Props) => {
-  return (
-    <div className="w-full relative h-48 bg-gray-200 rounded-xl overflow-hidden">
-      <Image src={mapUrl} alt="map" fill className="object-cover rounded-xl" />
-    </div>
-  );
+export const MapComponent = ({ address, height = "h-48", zoom }: Props) => {
+  return <InteractiveMap address={address} height={height} zoom={zoom} />;
 };

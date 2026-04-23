@@ -47,7 +47,7 @@ export const ClientDescription = ({ appointment, isPending }: Props) => {
         <h3 className="text-base font-bold text-paragrah mb-2">Location</h3>
         <p className="text-body text-sm mb-4">{appointment?.location}</p>
 
-       <MapComponent />
+       <MapComponent address={appointment?.location} />
       </div>
 
       {/* Attached Images */}
