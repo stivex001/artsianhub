@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
@@ -12,6 +13,13 @@ import { Hero } from "@/components/pages/landingPage/Hero";
 import HowItWorks from "@/components/pages/landingPage/HowItWorks";
 import ArtisanCTA from "@/components/pages/landingPage/ArtisanCTA";
 import Review from "@/components/pages/landingPage/Review";
+
+export const metadata: Metadata = {
+  title: "ArtisansHub — Find Skilled Artisans Near You",
+  description:
+    "Browse and hire verified skilled artisans — tailors, carpenters, photographers, and more. ArtisansHub connects you with trusted professionals in your area.",
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const headersList = await headers();

@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
 import React, { ReactNode } from "react";
 
-// Public admin auth layout — no route protection applied
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
+
 const AdminAuthLayout = ({ children }: { children: ReactNode }) => {
   return <>{children}</>;
 };

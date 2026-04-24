@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
@@ -7,6 +8,13 @@ import {
 } from "@/lib/serverPrefetch";
 import { CreativeArtisansClient } from "@/components/pages/artisanCategoryPage/CreativeArtisansClient";
 import { LocationInitializer } from "@/components/shared/LocationInitializer";
+
+export const metadata: Metadata = {
+  title: "Creative Artisans",
+  description:
+    "Discover talented creative artisans — photographers, graphic designers, artists, and content creators. Hire verified creatives on ArtisansHub.",
+  alternates: { canonical: "/creative-artisans" },
+};
 
 interface PageProps {
   searchParams: Promise<{ categoryId?: string }>;
