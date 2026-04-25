@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   title: "Frequently Asked Questions",
@@ -100,9 +101,22 @@ const customerFaqs = [
   },
 ];
 
+const allFaqs = [...artisanFaqs, ...customerFaqs];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: allFaqs.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
 const Faq = () => {
   return (
     <main className="bg-[#F9FAFB] py-16">
+      <JsonLd data={faqSchema} />
       <div className="max-w-5xl mx-auto px-4 lg:px-0">
         <h1 className="text-2xl md:text-5xl font-bold text-gray-900 mb-10 text-center">
           Frequently Asked Questions

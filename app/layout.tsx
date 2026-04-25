@@ -8,6 +8,7 @@ import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
 import ScrollToTop from "@/components/navigations/ScrollToTop";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const satoshi = localFont({
   src: [
@@ -73,6 +74,44 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <JsonLd data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "ArtisansHub",
+            alternateName: "ArtisansHub.org",
+            url: "https://artisanshub.org",
+            logo: "https://artisanshub.org/images/logo.png",
+            foundingLocation: { "@type": "Place", name: "United Kingdom" },
+            contactPoint: {
+              "@type": "ContactPoint",
+              email: "support@artisanshub.org",
+              contactType: "customer service",
+              availableLanguage: "English",
+            },
+            sameAs: [
+              "https://www.facebook.com/artisanshub",
+              "https://www.instagram.com/artisanshub",
+              "https://www.linkedin.com/company/artisanshub",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "ArtisansHub",
+            url: "https://artisanshub.org",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: "https://artisanshub.org/artisans?search={search_term_string}",
+              },
+              "query-input": "required name=search_term_string",
+            },
+          },
+        ]} />
+      </head>
       <QueryProviders>
         <ModalCloseProvider>
           <body className={` ${satoshi.variable} antialiased`}>

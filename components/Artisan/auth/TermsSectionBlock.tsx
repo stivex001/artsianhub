@@ -44,6 +44,7 @@ function ContactCard() {
         {[
           { label: "General",    href: "mailto:support@artisanshub.org",  text: "support@artisanshub.org" },
           { label: "Privacy",    href: "mailto:privacy@artisanshub.org",  text: "privacy@artisanshub.org" },
+          { label: "Phone",      href: "tel:+447949450198",               text: "+44 7949 450198" },
         ].map(({ label, href, text }) => (
           <div key={label} className="flex items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-widest text-gray-400 w-28">{label}</span>

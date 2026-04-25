@@ -66,8 +66,8 @@ export function TermsContent() {
             <p className="text-lg md:text-xl text-blue-200 mb-8 font-medium">ArtisansHub.org — Operated by MensayHub Ltd</p>
             <div className="flex flex-wrap gap-4">
               {[
-                { label: "Version", value: "2.0" },
-                { label: "Effective", value: "24 April 2026" },
+                { label: "Version", value: "3.0" },
+                { label: "Effective", value: "25 April 2026" },
                 { label: "Jurisdiction", value: "England & Wales" },
                 { label: "Sections", value: "23" },
               ].map(({ label, value }) => (
@@ -122,7 +122,7 @@ export function TermsContent() {
               <TermsSectionBlock key={section.id} section={section} />
             ))}
             <motion.footer variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="pt-8 mt-8 border-t text-center space-y-3" style={{ borderColor: "rgba(2,25,139,0.1)" }}>
-              <p className={`${playfair.className} italic text-gray-400 text-sm`}>Version 2.0 · Effective 24 April 2026 · MensayHub Ltd · ArtisansHub.org</p>
+              <p className={`${playfair.className} italic text-gray-400 text-sm`}>Version 3.0 · Effective 25 April 2026 · MensayHub Ltd · ArtisansHub.org</p>
               <p className="text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 This document has been drafted for use by ArtisansHub.org. It is intended as a comprehensive operational document.
                 Users are advised that while this document is thorough, it does not constitute formal legal advice.
