@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
@@ -7,6 +8,13 @@ import {
 } from "@/lib/serverPrefetch";
 import { SkilledArtisansClient } from "@/components/pages/artisanCategoryPage/SkilledArtisansClient";
 import { LocationInitializer } from "@/components/shared/LocationInitializer";
+
+export const metadata: Metadata = {
+  title: "Skilled Artisans",
+  description:
+    "Find experienced skilled artisans for home repairs, construction, carpentry, plumbing, and more. Hire trusted professionals on ArtisansHub.",
+  alternates: { canonical: "/skilled-artisans" },
+};
 
 interface PageProps {
   searchParams: Promise<{ categoryId?: string }>;

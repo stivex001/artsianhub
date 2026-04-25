@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import {
@@ -7,6 +8,13 @@ import {
 } from "@/lib/serverPrefetch";
 import { DigitalArtisansClient } from "@/components/pages/artisanCategoryPage/DigitalArtisansClient";
 import { LocationInitializer } from "@/components/shared/LocationInitializer";
+
+export const metadata: Metadata = {
+  title: "Digital Artisans",
+  description:
+    "Hire verified digital artisans — web developers, UI/UX designers, video editors, and social media managers. Find digital talent on ArtisansHub.",
+  alternates: { canonical: "/digital-artisans" },
+};
 
 interface PageProps {
   searchParams: Promise<{ categoryId?: string }>;

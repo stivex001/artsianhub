@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Learn Skills",
+  description:
+    "Discover training and skill-building resources on ArtisansHub. Level up your craft and grow your business.",
+  alternates: { canonical: "/learn-skills" },
+};
 
 import learnskill from "@/components/assets/images/learnskill.jpg";
 

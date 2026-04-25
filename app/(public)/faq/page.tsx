@@ -1,5 +1,4 @@
-"use client";
-
+import type { Metadata } from "next";
 import React from "react";
 import {
   Accordion,
@@ -7,6 +6,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions",
+  description:
+    "Got questions about ArtisansHub? Find answers about joining as an artisan, hiring, payments, verification, and more.",
+  alternates: { canonical: "/faq" },
+};
 
 const artisanFaqs = [
   {

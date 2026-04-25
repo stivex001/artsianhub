@@ -1,129 +1,172 @@
-"use client"
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import React from "react";
+import { SECTIONS } from "./terms.data";
+import { TermsSectionBlock } from "./TermsSectionBlock";
+import { TermsTOC } from "./TermsTOC";
+import { playfair, fadeUp } from "./terms.variants";
 
-type Props = {};
+export function TermsContent() {
+  const [activeId, setActiveId] = useState(SECTIONS[0].id);
+  const [tocOpen, setTocOpen] = useState(false);
 
-export const TermsContent = (props: Props) => {
+  const scrollTo = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActiveId(id);
+      setTocOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    const map = new Map<string, number>();
+    SECTIONS.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          map.set(s.id, entry.intersectionRatio);
+          const best = [...map.entries()].sort((a, b) => b[1] - a[1])[0];
+          if (best) setActiveId(best[0]);
+        },
+        { threshold: [0, 0.1, 0.3, 0.5], rootMargin: "0px 0px -40% 0px" }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
   return (
-    <div className="max-w-5xl mx-auto px-4 lg:px-0 space-y-8">
-      <h1 className="text-3xl font-bold text-gray-900">
-        Terms of Service -{" "}
-        <Link href="/" className="text-primary">
-          ArtisansHub.org
-        </Link>
-      </h1>
-      <p className="text-gray-600">
-        Powered by Artisanshub Ltd (UK) and Mensay Enterprises Ltd (Nigeria)
-      </p>
+    <div className="min-h-screen" style={{ background: "#FAFAF8" }}>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">1. Agreement</h2>
-        <p className="text-gray-700 mt-2">
-          By accessing or using ArtisansHub.org, you agree to comply with these
-          Terms of Service. If you do not agree, please do not use the platform.
-        </p>
-      </section>
+      {/* Hero */}
+      <motion.div
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}
+        className="relative overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #02198B 0%, #011266 60%, #000d4d 100%)" }}
+      >
+        <div aria-hidden className="absolute inset-0 opacity-10" style={{ backgroundImage: `radial-gradient(circle at 1px 1px, rgba(240,196,34,0.4) 1px, transparent 0)`, backgroundSize: "32px 32px" }} />
+        <motion.div aria-hidden className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-20" style={{ background: "#F0C422" }} animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
+        <motion.div aria-hidden className="absolute bottom-0 left-1/4 w-64 h-64 rounded-full blur-3xl opacity-10" style={{ background: "#F0C422" }} animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }} />
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          2. Services Provided
-        </h2>
-        <p className="text-gray-700 mt-2">
-          ArtisansHub.org is an online platform that connects artisans with
-          clients for services, training, and product sales. We act solely as an
-          intermediary and are not responsible for the quality, pricing, safety,
-          or outcome of services provided by artisans.
-        </p>
-      </section>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-16 md:py-24">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}>
+            <div className="flex items-center gap-2 mb-6">
+              <span className="h-px w-8" style={{ background: "#F0C422" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#F0C422" }}>Legal Document</span>
+            </div>
+            <h1 className={`${playfair.className} text-4xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] mb-4`}>
+              Terms of<br /><span style={{ color: "#F0C422" }}>Service</span>
+            </h1>
+            <p className="text-lg md:text-xl text-blue-200 mb-8 font-medium">ArtisansHub.org — Operated by MensayHub Ltd</p>
+            <div className="flex flex-wrap gap-4">
+              {[
+                { label: "Version", value: "2.0" },
+                { label: "Effective", value: "24 April 2026" },
+                { label: "Jurisdiction", value: "England & Wales" },
+                { label: "Sections", value: "23" },
+              ].map(({ label, value }) => (
+                <div key={label} className="px-4 py-2 rounded-xl text-sm" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}>
+                  <span className="text-blue-300">{label}: </span>
+                  <span className="text-white font-semibold">{value}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          3. User Responsibilities
-        </h2>
-        <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">
-          <li>
-            You agree to provide accurate and up-to-date information when
-            creating an account or using the platform.
-          </li>
-          <li>
-            You agree to use the platform only for lawful purposes and in
-            compliance with applicable laws.
-          </li>
-          <li>
-            You must respect other users and not engage in harassment, fraud,
-            spamming, or other prohibited conduct.
-          </li>
-        </ul>
-      </section>
+      {/* Important Notice */}
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }} className="max-w-7xl mx-auto px-6 lg:px-12 mt-8">
+        <div className="rounded-2xl p-5 md:p-6 flex gap-4" style={{ background: "rgba(240,196,34,0.08)", border: "1.5px solid rgba(240,196,34,0.35)" }}>
+          <div className="flex-shrink-0 mt-0.5">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(240,196,34,0.2)" }}>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM8 5v3.5M8 10.5v.5" stroke="#92600A" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </div>
+          </div>
+          <div>
+            <p className="font-semibold text-sm mb-1" style={{ color: "#92600A" }}>Important Notice</p>
+            <p className="text-sm leading-relaxed text-amber-900">
+              These Terms of Service constitute a legally binding agreement between you and MensayHub Ltd.
+              Please read them carefully before using ArtisansHub.org. By registering an account or using the platform
+              in any capacity, you confirm that you have read, understood, and agreed to these Terms.
+              These Terms should be read in conjunction with our{" "}
+              <Link href="/privacy" className="underline font-medium">Privacy Policy</Link> and Cookie Policy.
+              If you are unsure about any provision, we recommend seeking independent legal advice.
+            </p>
+          </div>
+        </div>
+      </motion.div>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">4. Payments</h2>
-        <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">
-          <li>
-            Payments made through the platform (where applicable) are processed
-            securely by third-party payment providers.
-          </li>
-          <li>
-            ArtisansHub.org does not hold or manage customer funds unless
-            explicitly stated.
-          </li>
-        </ul>
-      </section>
+      {/* Main layout: TOC + Content */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
+        <div className="flex gap-12 lg:gap-16">
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">5. Liability</h2>
-        <p className="text-gray-700 mt-2">
-          We make no guarantees regarding the quality or reliability of services
-          provided by artisans. ArtisansHub.org is not liable for damages,
-          disputes, losses, or claims that may arise from interactions between
-          artisans and clients.
-        </p>
-      </section>
+          {/* Desktop TOC sidebar */}
+          <aside className="hidden lg:block w-56 xl:w-64 flex-shrink-0">
+            <div className="sticky top-8">
+              <div className="rounded-2xl p-4" style={{ background: "white", border: "1px solid rgba(2,25,139,0.1)", boxShadow: "0 4px 24px rgba(2,25,139,0.06)" }}>
+                <TermsTOC activeId={activeId} onSelect={scrollTo} />
+              </div>
+            </div>
+          </aside>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          6. Termination of Use
-        </h2>
-        <p className="text-gray-700 mt-2">
-          We may suspend or terminate your account without notice if you violate
-          these Terms, engage in fraud, or misuse the platform.
-        </p>
-      </section>
+          {/* Content */}
+          <main className="flex-1 min-w-0 space-y-12">
+            {SECTIONS.map((section) => (
+              <TermsSectionBlock key={section.id} section={section} />
+            ))}
+            <motion.footer variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="pt-8 mt-8 border-t text-center space-y-3" style={{ borderColor: "rgba(2,25,139,0.1)" }}>
+              <p className={`${playfair.className} italic text-gray-400 text-sm`}>Version 2.0 · Effective 24 April 2026 · MensayHub Ltd · ArtisansHub.org</p>
+              <p className="text-xs text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                This document has been drafted for use by ArtisansHub.org. It is intended as a comprehensive operational document.
+                Users are advised that while this document is thorough, it does not constitute formal legal advice.
+                MensayHub Ltd recommends periodic review by a qualified UK solicitor to ensure continued compliance with evolving legislation.
+              </p>
+              <div className="flex items-center justify-center gap-4 pt-2">
+                <Link href="/privacy" className="text-xs hover:underline" style={{ color: "#02198B" }}>Privacy Policy</Link>
+                <span className="text-gray-300">·</span>
+                <Link href="/contact-us" className="text-xs hover:underline" style={{ color: "#02198B" }}>Contact Us</Link>
+                <span className="text-gray-300">·</span>
+                <Link href="/" className="text-xs hover:underline" style={{ color: "#02198B" }}>ArtisansHub.org</Link>
+              </div>
+            </motion.footer>
+          </main>
+        </div>
+      </div>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          7. Intellectual Property
-        </h2>
-        <p className="text-gray-700 mt-2">
-          All content on ArtisansHub.org, including logos, text, graphics, and
-          software, is owned by Artisanshub Ltd or its affiliates and may not be
-          copied, modified, or distributed without prior written consent.
-        </p>
-      </section>
+      {/* Mobile floating TOC button */}
+      <div className="lg:hidden fixed bottom-6 right-6 z-50">
+        <motion.button onClick={() => setTocOpen(true)} whileTap={{ scale: 0.92 }} className="w-14 h-14 rounded-2xl shadow-xl flex items-center justify-center relative" style={{ background: "#02198B" }} aria-label="Open table of contents">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 5h16M3 11h10M3 17h13" stroke="white" strokeWidth="2" strokeLinecap="round"/></svg>
+          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center text-gray-900" style={{ background: "#F0C422" }}>{SECTIONS.length}</span>
+        </motion.button>
+      </div>
 
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          8. Governing Law
-        </h2>
-        <p className="text-gray-700 mt-2">
-          For UK users, these Terms are governed by the laws of England and
-          Wales. For Nigerian users, these Terms are governed by the laws of the
-          Federal Republic of Nigeria.
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold text-gray-900">
-          9. Contact Information
-        </h2>
-        <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1">
-          <li>UK: support@artisanshub.org – Artisanshub Ltd, UK</li>
-          <li>
-            Nigeria: Admin@artisanshub.org – Mensay Enterprises Ltd, Nigeria
-          </li>
-        </ul>
-      </section>
+      {/* Mobile TOC drawer */}
+      <AnimatePresence>
+        {tocOpen && (
+          <>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" onClick={() => setTocOpen(false)} />
+            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 28, stiffness: 280 }} className="lg:hidden fixed right-0 top-0 bottom-0 z-50 w-72 shadow-2xl overflow-y-auto" style={{ background: "white" }}>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="font-bold text-gray-900">Contents</h2>
+                  <button onClick={() => setTocOpen(false)} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors" aria-label="Close">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="#374151" strokeWidth="1.8" strokeLinecap="round"/></svg>
+                  </button>
+                </div>
+                <TermsTOC activeId={activeId} onSelect={scrollTo} />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
-};
+}

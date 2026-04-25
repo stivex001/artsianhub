@@ -1,48 +1,16 @@
-"use client";
-
-import React, { useState } from "react";
+import type { Metadata } from "next";
+import React from "react";
 import { LeftContent } from "@/components/contact-us/LeftContent";
 import { RightContent } from "@/components/contact-us/RightContent";
 
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with the ArtisansHub team. We're here to help with any questions about our platform, artisan services, or partnerships.",
+  alternates: { canonical: "/contact-us" },
+};
+
 const ContactUs = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    message: "",
-    communicationMode: "Email",
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleRadioChange = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      communicationMode: value,
-    }));
-  };
-
-  const handleSubmit = async () => {
-    setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Form submitted:", formData);
-      setIsLoading(false);
-      // Reset form or show success message
-    }, 2000);
-  };
-
   return (
     <main className="bg-[#F9FAFB]">
       <div className="max-w-5xl px-4 lg:px-0 mx-auto py-10  space-y-14">

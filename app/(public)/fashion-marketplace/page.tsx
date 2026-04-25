@@ -1,13 +1,18 @@
-"use client";
+import type { Metadata } from "next";
 import React from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 import FashionSoon from "@/components/assets/images/fashionsoon.jpg";
 
-export default function ArtisansHubHomepage() {
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: "Fashion Marketplace",
+  description:
+    "Shop African prints, custom designs, ready-to-wear clothing, bags, shoes, and accessories from verified artisans on ArtisansHub.",
+  alternates: { canonical: "/fashion-marketplace" },
+};
 
+export default function ArtisansHubHomepage() {
   return (
     <div className="min-h-screen w-full bg-white text-gray-900">
       {" "}
@@ -71,12 +76,12 @@ export default function ArtisansHubHomepage() {
         <p className="text-gray-600 mb-6">
           Get visibility, promote your services, and attract customers globally.
         </p>
-        <button
-          onClick={() => router.push("/auth/signup?role=artisan")}
-          className="px-8 py-3 bg-yellow-400 text-gray-900 rounded-xl text-lg font-semibold hover:bg-yellow-300 transition shadow"
+        <Link
+          href="/auth/signup?role=artisan"
+          className="inline-block px-8 py-3 bg-yellow-400 text-gray-900 rounded-xl text-lg font-semibold hover:bg-yellow-300 transition shadow"
         >
           Sign Up as Artisan
-        </button>
+        </Link>
       </section>
     </div>
   );
