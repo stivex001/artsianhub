@@ -13,7 +13,7 @@ type Props = {};
 
 const TermsOfService = (props: Props) => {
   return (
-    <main className="bg-[#F9FAFB] py-16">
+    <main>
       <TermsContent />
     </main>
   );
