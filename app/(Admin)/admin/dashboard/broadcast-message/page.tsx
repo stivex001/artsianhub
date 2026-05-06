@@ -190,7 +190,6 @@ const BroadcastMessagePage = () => {
               value={message}
               onChange={setMessage}
               placeholder="Write your broadcast message here…"
-              maxLength={1000}
               minHeight="160px"
             />
           </div>
