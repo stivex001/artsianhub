@@ -12,7 +12,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/api/crud/auth";
+import { useAuth } from "@/apis/crud/auth";
 import { toast } from "sonner";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { Spinner } from "@/components/shared/Spinner";
@@ -26,7 +26,7 @@ const OtpContent = ({}: Props) => {
   const email = params.get("email");
   const router = useRouter();
   const [otpValue, setOtpValue] = useState("");
-  const [timeLeft, setTimeLeft] = useState(15 * 60);
+  const [timeLeft, setTimeLeft] = useState(3 * 60); // 3 minutes
 
   React.useEffect(() => {
     if (timeLeft <= 0) return;
@@ -62,8 +62,8 @@ const OtpContent = ({}: Props) => {
           router.push(`/auth/profile-setup?role=${role}`);
         },
         onError: (error: any) => {
-          toast.error(error?.message);
-          console.log(error, "errorodod")
+          toast.error(error?.data?.error);
+          console.log(error, "errorodod");
         },
       });
     } catch (error) {
@@ -86,10 +86,10 @@ const OtpContent = ({}: Props) => {
       await resendOtp(payload, {
         onSuccess: (response: any) => {
           toast.success(response?.message);
-          setTimeLeft(15 * 60);
+          setTimeLeft(3 * 60); // reset to 3 minutes on resend
         },
         onError: (error: any) => {
-          toast.error(error?.message);
+          toast.error(error?.data?.error);
         },
       });
     } catch (error) {
@@ -101,7 +101,7 @@ const OtpContent = ({}: Props) => {
     <AuthLayout
       authImg={loginAuth}
       title="Where Great Work Meets Real Opportunities"
-      desc="Whether you're booking help or offering your skills, MensayHub is your trusted space to connect, work, and grow."
+      desc="Whether you're booking help or offering your skills, Artisanshub is your trusted space to connect, work, and grow."
     >
       <div className="flex flex-col gap-10">
         <BackNavigation />

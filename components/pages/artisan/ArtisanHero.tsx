@@ -3,8 +3,7 @@ import { RatingIcon } from "@/components/assets/icons/NavIcons";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import Image from "next/image";
 import React, { useState } from "react";
-import { ArtisanDetails, useArtisans } from "@/api/crud/artisans";
-import { ReviewModal } from "./ReviewModal";
+import { ArtisanDetails, useArtisans } from "@/apis/crud/artisans";
 
 type Props = {
   selectedArtisan: any;
@@ -18,14 +17,6 @@ export const ArtisanHero = ({ selectedArtisan }: Props) => {
 
   return (
     <div className="w-11/12 mx-auto py-8 pb-[160px]">
-      {showModal && (
-        <ReviewModal
-          selectedArtisan={selectedArtisan}
-          onClose={() => setShowModal(false)}
-        />
-      )}
-      {/* Top section with button and rating */}
-
       <div className="flex justify-between mb-6">
         <CustomButton
           label="Leave a review"

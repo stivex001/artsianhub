@@ -36,25 +36,27 @@ function isAxiosError(error: unknown): error is AxiosError {
 
 export const handleNetworkError = (error: any) => {
   if (error?.status === 0 || error?.message?.includes("network error")) {
-    toast.error("Network error", error?.message);
+    // toast.error("Network error", error?.message);
+    console.log("Network error", error?.message);
   }
 };
 
 export const handleAuthenticationError = (error: any) => {
   if (error.status === 401) {
-    toast.error("Not Authenticated Kindly Login", error?.message);
+    console.log("Not Authenticated Kindly Login", error?.message);
+
   }
 };
 
 export const handleForbiddenError = (error: any) => {
   if (error.status === 403) {
-    toast.error("Forbidden error", error?.message);
+    console.log("Forbidden error", error?.message);
   }
 };
 
 export const handleNotFoundError = (error: ApiError) => {
   if (error.status === 404) {
-    console.error("Not found error:", error.message);
+    console.log("Not found error:", error.message);
   }
 };
 

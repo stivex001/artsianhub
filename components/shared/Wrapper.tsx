@@ -1,12 +1,15 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, HTMLAttributes } from "react";
 
-type Props = {
+type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  className?: string;
 };
 
-const Wrapper = ({ children, className }: Props) => {
-  return <div className={`bg-white p-5 rounded-2xl ${className}`}>{children}</div>;
+const Wrapper = ({ children, className, ...props }: Props) => {
+  return (
+    <div className={`bg-white p-5 rounded-2xl ${className || ""}`} {...props}>
+      {children}
+    </div>
+  );
 };
 
 export default Wrapper;

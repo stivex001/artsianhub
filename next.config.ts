@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
+  staticPageGenerationTimeout: 120, // Increase timeout for static generation
+  trailingSlash: true,
+  experimental: {
+    staleTimes: {
+      dynamic: 30,
+    },
+  },
   images: {
     remotePatterns: [
       {
@@ -20,9 +33,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/home",
-        permanent: true, // or false for temporary
+        source: "/home",
+        destination: "/",
+        permanent: true,
       },
     ];
   },

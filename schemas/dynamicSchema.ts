@@ -40,9 +40,17 @@ const createSchema = (fields: Field[]) => {
       case "color":
       case "textarea":
       case "string":
-        schemaField = z
-          .string({ message: `${field?.name} is required` })
-          .min(field.minLength || 1, field.errorMessage || "Invalid  length");
+        if (field.isRequired) {
+          schemaField = z
+            .string({ message: `${field?.name} is required` })
+            .min(field.minLength || 1, field.errorMessage || "Invalid  length");
+        } else {
+          // For optional fields, allow empty strings or undefined
+          schemaField = z.union([
+            z.string().min(field.minLength || 1, field.errorMessage || "Invalid  length"),
+            z.literal(""),
+          ]).optional();
+        }
         break;
       case "password":
         schemaField = z
@@ -55,6 +63,7 @@ const createSchema = (fields: Field[]) => {
             /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
             "Password must contain at least one special character"
           );
+        break;
       case "email":
         schemaField = z
           .string({ message: `${field?.name} is required` })
@@ -62,14 +71,16 @@ const createSchema = (fields: Field[]) => {
         break;
       case "date":
         schemaField = z
-          .union([z.string(), z.date(), z.null()]) // Allow null values
-          .optional() // Optional if not required
+          .string({ message: `${field?.name} is required` })
+          .transform((val) => {
+            // If it's an ISO date (contains "T"), extract only YYYY-MM-DD
+            if (val && val.includes("T")) {
+              return val.split("T")[0];
+            }
+            return val;
+          })
           .refine(
-            (val) =>
-              val === null || // Allow null
-              (typeof val === "string"
-                ? /^\d{4}-\d{2}-\d{2}$/.test(val) // Validate string format
-                : val instanceof Date), // Validate Date object
+            (val) => /^\d{4}-\d{2}-\d{2}$/.test(val),
             field.errorMessage || "Invalid date format (YYYY-MM-DD)"
           );
         break;
@@ -93,11 +104,21 @@ const createSchema = (fields: Field[]) => {
         break;
       case "select":
       case "radio":
-        schemaField = z
-          .string({ message: `${field?.name} is required` })
-          .refine((val) => field.options?.includes(val), {
-            message: field.errorMessage || "Invalid selection",
-          });
+        if (field.isRequired) {
+          schemaField = z
+            .string({ message: `${field?.name} is required` })
+            .refine((val) => field.options?.includes(val), {
+              message: field.errorMessage || "Invalid selection",
+            });
+        } else {
+          // For optional select fields, allow empty strings or undefined
+          schemaField = z.union([
+            z.string().refine((val) => field.options?.includes(val), {
+              message: field.errorMessage || "Invalid selection",
+            }),
+            z.literal(""),
+          ]).optional();
+        }
         break;
       case "checkbox":
         schemaField = z.boolean({ message: `${field?.name} is required` });
@@ -153,7 +174,13 @@ const createSchema = (fields: Field[]) => {
         schemaField = z.any();
     }
 
-    shape[field.name] = field.isRequired ? schemaField : schemaField.optional();
+    // Only apply optional() if not already handled in the field type switch
+    if (field.type === "text" || field.type === "color" || field.type === "textarea" || field.type === "string" || field.type === "select" || field.type === "radio") {
+      // Already handled in the switch statement
+      shape[field.name] = schemaField;
+    } else {
+      shape[field.name] = field.isRequired ? schemaField : schemaField.optional();
+    }
   });
 
   return z.object(shape);

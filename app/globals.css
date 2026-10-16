@@ -11,18 +11,20 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-  scroll-padding-top: 250px;
   scrollbar-width: 0px;
 }
 
+.landing-scroll {
+  scroll-padding-top: 250px;
+}
+
 :root {
-  --font-satoshi: 'SatoshiVariable', sans-serif;
+  --font-satoshi: "SatoshiVariable", sans-serif;
 }
 
 body {
   font-family: var(--font-satoshi);
 }
-
 
 .no-scrollbar::-webkit-scrollbar {
   display: none !important; /* Chrome, Safari */
@@ -43,16 +45,28 @@ body {
 }
 
 .scrollableCSS::-webkit-scrollbar {
-  width: 2px;
-  height: 3px;
+  width: 4px;
+  height: 4px;
+}
+
+.scrollableCSS::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
 }
 
 .scrollableCSS::-webkit-scrollbar-thumb {
-  background: #013975;
+  background: linear-gradient(180deg, #02198B 0%, #F0C422 100%);
+  border-radius: 999px;
+  transition: background 0.2s ease;
 }
 
 .scrollableCSS::-webkit-scrollbar-thumb:hover {
-  background: #1c0477;
+  background: linear-gradient(180deg, #011571 0%, #d4a800 100%);
+}
+
+.scrollableCSS {
+  scrollbar-width: thin;
+  scrollbar-color: #02198B transparent;
 }
 
 /* Hide scrollbar globally */
@@ -119,4 +133,116 @@ input[type="number"] {
 
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
+}
+
+/* ── Tiptap Rich Text Editor ──────────────────────────────────────────────── */
+.rich-text-editor .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.rich-text-editor .tiptap {
+  outline: none;
+}
+
+.rich-text-editor .tiptap h2 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  margin-top: 0.75rem;
+  line-height: 1.4;
+}
+
+.rich-text-editor .tiptap h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.375rem;
+  margin-top: 0.625rem;
+}
+
+.rich-text-editor .tiptap p {
+  margin-bottom: 0.5rem;
+  line-height: 1.65;
+}
+
+.rich-text-editor .tiptap strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+.rich-text-editor .tiptap em {
+  font-style: italic;
+}
+
+.rich-text-editor .tiptap u {
+  text-decoration: underline;
+}
+
+.rich-text-editor .tiptap ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-editor .tiptap ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-editor .tiptap li {
+  margin-bottom: 0.2rem;
+  line-height: 1.6;
+}
+
+.rich-text-editor .tiptap a {
+  color: #02198B;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rich-text-editor .tiptap a:hover {
+  color: #011571;
+}
+
+/* ── Rich text preview (read-only render) ─────────────────────────────────── */
+.rich-text-preview h2 {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.rich-text-preview p {
+  margin-bottom: 0.3rem;
+  line-height: 1.6;
+}
+
+.rich-text-preview strong { font-weight: 700; }
+.rich-text-preview em { font-style: italic; }
+.rich-text-preview u { text-decoration: underline; }
+
+.rich-text-preview ul {
+  list-style-type: disc;
+  padding-left: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.rich-text-preview ol {
+  list-style-type: decimal;
+  padding-left: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.rich-text-preview li { margin-bottom: 0.1rem; }
+
+.rich-text-preview a {
+  color: #02198B;
+  text-decoration: underline;
 }

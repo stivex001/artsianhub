@@ -8,6 +8,7 @@ import {
   UX,
 } from "@/components/assets/icons/FeaturedIcons";
 import digital from "@/components/assets/images/digital.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -39,17 +40,22 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Digital = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/digital-artisans");
+  };
+
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
-        title="Digital & Creative Artisans"
+        title="Digital Artisans"
         subtitle="From branding to web design, our digital artisans specialize in creating engaging and functional online experiences."
         categories={defaultCategories}
         featuredImage={digital}
         backgroundColor="#EFF6FF"
         borderColor="#2563EB"
         buttonText="Explore Digital & Creative Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
         order
       />
     </section>

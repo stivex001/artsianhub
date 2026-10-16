@@ -32,12 +32,15 @@ export const PortfolioModal = ({
         <div className="w-11/12 mx-auto">
           <div>
             <div className="flex justify-between mb-2">
-              <h3 className="text-base font-bold text-paragrah ">
+              <h3 className="text-base font-bold text-paragrah capitalize ">
                 {item?.title}
               </h3>
-              {/* <button onClick={onClose} className="">
-                <X />
-              </button> */}
+              <button
+                onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center bg-[#F9F9FB] rounded-[32px] transition-colors"
+              >
+                <X className="h-5 w-5 text-paragrah" />
+              </button>
             </div>
 
             <div className="flex items-center mb-5">
@@ -50,12 +53,12 @@ export const PortfolioModal = ({
             <p className="text-[#667185] text-sm mb-5">{item?.description}</p>
 
             <div className="flex flex-wrap gap-1">
-              {item?.services?.map((service: any, index: number) => (
+              {item?.serviceType?.map((service: any) => (
                 <span
-                  key={index}
+                  key={service?._id}
                   className="px-3 py-1.5 bg-[#1129A00D] text-body rounded-[20px] text-xs font-medium"
                 >
-                  {service}
+                  {service?.name}
                 </span>
               ))}
             </div>

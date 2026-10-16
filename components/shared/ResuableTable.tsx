@@ -18,8 +18,8 @@ interface TableProps<T = any> {
   loading?: boolean;
   searchable?: boolean;
   searchPlaceholder?: string;
-  setSearchQuery: (query: string) => void;
-  searchQuery: string;
+  setSearchQuery?: (query: string) => void;
+  searchQuery?: string;
   pagination?: {
     currentPage: number;
     totalPages: number;
@@ -36,7 +36,7 @@ export const ReusableTable: React.FC<TableProps> = ({
   loading = false,
   searchable = false,
   searchPlaceholder = "Search...",
-  setSearchQuery,
+  setSearchQuery = () => {},
   searchQuery,
   pagination,
   className = "",
@@ -88,7 +88,10 @@ export const ReusableTable: React.FC<TableProps> = ({
                 <tr key={rowIndex}>
                   {columns.map((col, colIndex) => {
                     const key = col.key.toLowerCase();
-                    const isAvatar = key.includes("avatar") || key.includes("image") || key.includes("photo");
+                    const isAvatar =
+                      key.includes("avatar") ||
+                      key.includes("image") ||
+                      key.includes("photo");
                     return (
                       <td key={colIndex} className="px-3 py-4">
                         {isAvatar ? (
@@ -114,7 +117,7 @@ export const ReusableTable: React.FC<TableProps> = ({
               data.map((row: any, index: number) => (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                  className={`hover:bg-gray-50 transition-colors duration-150 ${url ? "cursor-pointer" : ""}`}
                 >
                   {columns.map((column) => (
                     <td
@@ -122,7 +125,7 @@ export const ReusableTable: React.FC<TableProps> = ({
                       className={`px-3 py-4 whitespace-nowrap text-sm text-body ${
                         column.className || ""
                       }`}
-                      onClick={() => router.push(`${url}/${row?._id}`)}
+                      onClick={url ? () => router.push(`${url}/${row?._id}`) : undefined}
                     >
                       {column.render
                         ? column.render(row[column.key], row)
@@ -136,7 +139,7 @@ export const ReusableTable: React.FC<TableProps> = ({
         </table>
       </div>
 
-      {!loading && data?.length > 10 && (
+      {!loading && pagination && pagination.totalPages > 1 && (
         <ResuablePagination pagination={pagination} />
       )}
     </div>

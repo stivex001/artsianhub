@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const CardSkeletonLoader = () => {
   return (
-    <div className="bg-white rounded-2xl py-4 px-2.5 overflow-hidden flex flex-col gap-3">
+    <div className="rounded-2xl py-4 px-2.5 overflow-hidden flex flex-col gap-3">
       {/* Image placeholder */}
       <Skeleton className="aspect-video w-full rounded-xl" />
 

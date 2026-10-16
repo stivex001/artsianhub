@@ -1,34 +1,28 @@
-import { Label } from "../ui/label";
-import { Control, useController } from "react-hook-form";
-import { cn } from "../../lib/utils";
-import {
-  Select as ShadcnSelect,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ChevronDownIcon } from "lucide-react";
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { Label } from "../ui/label"
+import { Checkbox } from "../ui/checkbox"
+import { Input } from "../ui/input"
+import { ChevronDownIcon } from "lucide-react"
+import { Control, useController } from "react-hook-form"
+import { cn } from "@/lib/utils"
+
+type Option = { value: string; label: string }
 
 type CustomSelectProps = {
-  options: { value: string; label: string }[];
-  placeholder?: string;
-  className?: string;
-  name: string;
-  label?: string;
-  control?: Control<any>;
-  rules?: { required: boolean };
-  variant?: "primary" | "secondary" | "tertiary" | "normal";
-  art?: boolean;
-  labelClassName?: string;
-  multi?: boolean;
-};
+  options: Option[]
+  placeholder?: string
+  className?: string
+  name: string
+  label?: string
+  control?: Control<any>
+  rules?: { required: boolean }
+  variant?: "primary" | "secondary" | "tertiary" | "normal"
+  multi?: boolean
+  searchable?: boolean
+  labelClassName?: string
+}
 
 export const ControlledSelect = ({
   options,
@@ -39,210 +33,167 @@ export const ControlledSelect = ({
   label,
   name,
   variant = "primary",
-  art = false,
-  labelClassName,
   multi = false,
+  searchable = false,
+  labelClassName,
 }: CustomSelectProps) => {
   const {
     field: { onChange, value },
     fieldState: { error, invalid },
-  } = useController({
-    name,
-    control,
-    rules,
-  });
+  } = useController({ name, control, rules })
+
+  const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState("")
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   const baseStyles =
-    "w-full text-[#98A2B3] !h-14 py-3 px-4 placeholder:text-[#98A2B3] border rounded-[10px] !focus:none !outline-none ";
+    "w-full text-sm !h-[44px]  px-4 border rounded-[10px] bg-white placeholder:text-gray-400 focus:outline-none"
   const styles = {
-    normal: "!border-white bg-white !h-14 text-black ",
-    primary: "border-[#E4E5EA] bg-white ",
-    secondary: "border-bordergray bg-white text-black h-14 ",
-    tertiary:
-      "border border-black text-[#9694A4] focus:border-black focus:ring-green-500",
-    invalid: "border-red-500 focus:border-red-500 focus:ring-red-500",
-  };
+    normal: "!border-white text-black",
+    primary: "border-[#E4E5EA] text-black",
+    secondary: "border-bordergray text-black",
+    tertiary: "border border-black text-gray-600",
+    invalid: "border-red-500 text-red-500",
+  }
 
   const inputClassName = cn(baseStyles, styles[variant], {
     [styles.invalid]: invalid,
-  });
+  })
 
-  if (multi) {
-    // Handle both array and string formats
-    let selectedValues: string[] = [];
-    
-    if (Array.isArray(value)) {
-      selectedValues = value;
-    } else if (typeof value === 'string' && value) {
-      // If it's a comma-separated string, convert it to array
-      selectedValues = value.split(',').map(v => v.trim()).filter(Boolean);
+  const selectedValues = multi
+    ? Array.isArray(value)
+      ? (value as string[])
+      : value && typeof value === "string"
+      ? value.split(",").filter(Boolean)
+      : []
+    : value
+    ? [String(value)]
+    : []
+
+  const toggleOption = (val: string) => {
+    if (multi) {
+      const exists = selectedValues.includes(val)
+      const newValues = exists
+        ? selectedValues.filter((v: string) => v !== val)
+        : [...selectedValues, val]
+      onChange(newValues)
+    } else {
+      onChange(val)
+      setOpen(false)
     }
-
-    const toggleOption = (optionValue: string) => {
-      let newValues: string[] = [];
-      if (selectedValues.includes(optionValue)) {
-        newValues = selectedValues.filter((v) => v !== optionValue);
-      } else {
-        newValues = [...selectedValues, optionValue];
-      }
-      // Always ensure we're passing an array
-      onChange(newValues);
-    };
-
-    return (
-      <div className="space-y-2">
-        {label && (
-          <Label
-            htmlFor={name}
-            className={`text-sm font-medium text-paragrah capitalize ${labelClassName}`}
-          >
-            {label}
-          </Label>
-        )}
-
-        <Popover>
-          <PopoverTrigger
-            className={cn(
-              inputClassName,
-              className,
-              "text-left flex items-center justify-between"
-            )}
-          >
-            {selectedValues.length > 0
-              ? `${selectedValues.length} option(s) selected`
-              : placeholder || "Select..."}
-
-            <ChevronDownIcon className="size-6 opacity-50 text-black" />
-          </PopoverTrigger>
-
-          <PopoverContent className="bg-white p-2">
-            {options?.map((option) => {
-              const isChecked = selectedValues.includes(option.value);
-
-              return (
-                <div
-                  key={option.value}
-                  onClick={() => toggleOption(option.value)}
-                  className="w-full flex items-center space-x-2 mb-2 cursor-pointer"
-                >
-                  <Checkbox
-                    checked={isChecked}
-                    onCheckedChange={() => toggleOption(option.value)}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  <span>{option.label}</span>
-                </div>
-              );
-            })}
-          </PopoverContent>
-        </Popover>
-
-        {selectedValues.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {selectedValues.map((val) => {
-              const opt = options.find((o) => o.value === val);
-              return (
-                <div
-                  key={val}
-                  className="px-3 py-1.5 bg-[#1129A00D] rounded-[20px] text-xs font-medium text-body flex items-center gap-1"
-                >
-                  <span>{opt?.label || val}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newValues = selectedValues.filter((v) => v !== val);
-                      onChange(newValues);
-                    }}
-                    className="hover:text-red-700"
-                  >
-                    X
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {error && (
-          <div className="text-red-400 text-xs mt-1">
-            {typeof error === "string" ? error : error.message}
-          </div>
-        )}
-      </div>
-    );
   }
 
-  if (art) {
-    return (
-      <div>
-        <div
-          className={`border border-[#B5B5B5] rounded-[10px] relative mb-4 ${className}`}
-        >
-          <Label
-            className={`text-[#013975] text-sm font-medium absolute -top-3 left-2 w-fit bg-white px-2 ${labelClassName}`}
-          >
-            {label}
-          </Label>
-          <select
-            id={name}
-            name={name}
-            value={value ?? ""}
-            onChange={(e) => onChange(e.target.value)}
-            className={`w-full bg-transparent outline-none py-4 px-3`}
-          >
-            {placeholder && (
-              <option value="" disabled hidden>
-                {placeholder}
-              </option>
-            )}
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {error && (
-          <p className="mt-1 text-xs text-red-500 capitalize">
-            {error.message}
-          </p>
-        )}
-      </div>
-    );
-  }
+  const filteredOptions = options?.filter((opt) =>
+    opt?.label?.toLowerCase()?.includes(search.toLowerCase())
+  )
 
   return (
     <div className="space-y-1">
       {label && (
-        <Label
-          htmlFor={name}
-          className={`text-sm font-medium text-paragrah capitalize ${labelClassName}`}
-        >
+        <Label className={cn("text-sm font-medium", labelClassName)}>
           {label}
         </Label>
       )}
 
-      <ShadcnSelect value={value} onValueChange={onChange}>
-        <SelectTrigger className={cn(inputClassName, className)}>
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent className="bg-white">
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </ShadcnSelect>
+      <div className={cn("relative", className)} ref={dropdownRef}>
+        <div
+          className={cn(
+            inputClassName,
+            "flex justify-between items-center cursor-pointer"
+          )}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          {selectedValues.length > 0
+            ? multi
+              ? `${selectedValues.length} selected`
+              : options.find((o) => o.value === selectedValues[0])?.label || placeholder
+            : placeholder || "Select..."}
+          <ChevronDownIcon className="size-5 text-muted-foreground" />
+        </div>
 
-      {error && (
-        <div className="text-red-400 text-xs flex items-center gap-1 mt-1">
-          <div className="w-3 h-3 rounded-full text-white bg-red-500 flex items-center justify-center">
-            !
+        {open && (
+          <div className="absolute mt-2 w-full z-50 bg-white shadow-md rounded-lg p-4 max-h-60 overflow-y-auto cursor-pointer">
+            {searchable && (
+              <div className="mb-3">
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  className="h-8 text-sm"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
+            )}
+
+            {filteredOptions?.length > 0 ? (
+              filteredOptions?.map((opt) => {
+                const checked = selectedValues.includes(opt.value)
+                return (
+                  <div
+                    key={opt.value}
+                    className={cn(
+                      "flex items-center space-x-2 mb-2",
+                      !multi && "hover:bg-gray-100 px-2 py-1 rounded"
+                    )}
+                    onClick={() => {
+                      if (!multi) toggleOption(opt.value)
+                    }}
+                  >
+                    {multi ? (
+                      <>
+                        <Checkbox
+                          checked={checked}
+                          onCheckedChange={() => toggleOption(opt.value)}
+                        />
+                        <span>{opt?.label}</span>
+                      </>
+                    ) : (
+                      <span>{opt?.label}</span>
+                    )}
+                  </div>
+                )
+              })
+            ) : (
+              <p className="text-sm text-muted-foreground">No options found</p>
+            )}
           </div>
-          <p>{typeof error === "string" ? error : error.message}</p>
+        )}
+      </div>
+
+      {multi && selectedValues.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {selectedValues.map((val: string) => {
+            const opt = options.find((o) => o.value === val)
+            return (
+              <div
+                key={val}
+                className="px-3 py-1.5 bg-gray-100 rounded-full text-xs font-semibold text-gray-700 flex items-center gap-1"
+              >
+                <span>{opt?.label || val}</span>
+                <button
+                  type="button"
+                  onClick={() => toggleOption(val)}
+                  className="text-red-500 hover:text-red-700"
+                >
+                  ×
+                </button>
+              </div>
+            )
+          })}
         </div>
       )}
+
+      {error && <p className="text-xs text-red-500 mt-1">{error?.message}</p>}
     </div>
-  );
-};
+  )
+}

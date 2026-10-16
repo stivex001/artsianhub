@@ -1,39 +1,26 @@
 "use client";
-import { useArtisans } from "@/api/crud/artisans";
+import { useArtisans } from "@/apis/crud/artisans";
 import { renderStars } from "@/utils/RenderRatings";
 import { useParams } from "next/navigation";
 import React from "react";
 
-// Mock data - replace with actual data
-const mockRatingData = {
-  averageRating: 4.7,
-  totalRatings: 267,
-  ratingBreakdown: {
-    5: 180,
-    4: 60,
-    3: 15,
-    2: 8,
-    1: 4,
-  },
+type Props = {
+  ratings: any;
+  totalReview: any;
 };
 
-type Props = {};
-
-export const RatingOverview = (props: Props) => {
+export const RatingOverview = ({ ratings, totalReview }: Props) => {
   const params = useParams();
   const id = params.id;
   const { getArtisanById } = useArtisans();
   const { data, isPending } = getArtisanById(`${id}`);
 
   const artisan = data?.data;
-  const ratingData = artisan;
+  const ratingData = ratings;
 
   const getRatingPercentage = (rating: number) => {
-    const count = ratingData?.ratingBreakdown?.[rating] || 0;
-    const totalReviews =
-      typeof ratingData?.totalReviews === "number"
-        ? ratingData.totalReviews
-        : 0;
+    const count = ratingData?.[rating] || 0;
+    const totalReviews = typeof totalReview === "number" ? totalReview : 0;
     return totalReviews > 0 ? (count / totalReviews) * 100 : 0;
   };
 
@@ -41,17 +28,17 @@ export const RatingOverview = (props: Props) => {
     <div>
       <h2 className="text-xl font-bold text-paragrah mb-3">Ratings</h2>
 
-      <div className="flex items-center gap-5 md:gap-8">
+      <div className="flex flex-col md:flex-row items-center gap-5 md:gap-8">
         {/* Average Rating */}
         <div className="flex flex-col items-center">
           <div className="text-3xl font-bold text-paragrah mb-2">
-            {ratingData?.averageRating}
+            {artisan?.averageRating}
           </div>
           <div className="mb-2">
-            {renderStars(Math.floor(ratingData?.averageRating ?? 0), "md")}
+            {renderStars(Math.floor(artisan?.averageRating ?? 0), "md")}
           </div>
           <div className="text-body text-sm font-medium">
-            {ratingData?.totalReviews} Ratings
+            {totalReview} Ratings
           </div>
         </div>
 
@@ -77,7 +64,7 @@ export const RatingOverview = (props: Props) => {
                 />
               </div>
               <div className="text-sm text-gray-600 w-8">
-                {ratingData?.totalReviews}
+                {ratingData?.[rating] || 0}
               </div>
             </div>
           ))}

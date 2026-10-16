@@ -6,9 +6,8 @@ import { PersonalInfoStage } from "./PersonalInfoStage";
 import { ServiceDetailsStage } from "./ServiceDetailsStage";
 import { LocationPriceStage } from "./LocationPriceStage";
 
-type Props = {};
 
-export const ArtisanProfileSetup = (props: Props) => {
+export const ArtisanProfileSetup = () => {
   const { currentStep } = useArtisanProfileStore();
 
   const renderStage = () => {
@@ -26,6 +25,7 @@ export const ArtisanProfileSetup = (props: Props) => {
 
   return (
     <ProfileSetupLayout
+      role="artisan"
       art
       title="Setup Your Artisan Profile"
       desc="Help customers discover your services by telling us about your skills, service location, and experience. Build trust and start getting booked."

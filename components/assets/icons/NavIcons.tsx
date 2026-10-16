@@ -99,6 +99,30 @@ export const NotificationIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+export const NotificatiIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={24}
+    height={24}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#064E34"
+      strokeLinecap="round"
+      strokeMiterlimit={10}
+      strokeWidth={1.5}
+      d="M12 6.44v3.33M12.02 2C8.34 2 5.36 4.98 5.36 8.66v2.1c0 .68-.28 1.7-.63 2.28l-1.27 2.12c-.78 1.31-.24 2.77 1.2 3.25a23.34 23.34 0 0 0 14.73 0 2.22 2.22 0 0 0 1.2-3.25l-1.27-2.12c-.35-.58-.63-1.61-.63-2.28v-2.1C18.68 5 15.68 2 12.02 2Z"
+    />
+    <path
+      stroke="#064E34"
+      strokeMiterlimit={10}
+      strokeWidth={1.5}
+      d="M15.33 18.82c0 1.83-1.5 3.33-3.33 3.33-.91 0-1.75-.38-2.35-.98-.6-.6-.98-1.44-.98-2.35"
+    />
+  </svg>
+);
+
 export const RatingIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -213,5 +237,69 @@ export const BackIcon = (props: SVGProps<SVGSVGElement>) => (
       strokeWidth={1.5}
       d="M3.542 10.729h12.5M8.583 15.749l-5.042-5.02 5.042-5.02"
     />
+  </svg>
+);
+
+export const ClockIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#98A2B3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M17.708 10A7.708 7.708 0 0 1 10 17.71 7.708 7.708 0 0 1 2.292 10 7.708 7.708 0 0 1 10 2.292 7.708 7.708 0 0 1 17.708 10Z"
+      clipRule="evenodd"
+    />
+    <path
+      stroke="#98A2B3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="m12.86 12.452-3.142-1.874V6.54"
+    />
+  </svg>
+)
+
+export const CalenderIconUi = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <path
+      stroke="#8692A6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M2.577 7.837H17.43M13.702 11.091h.007M10.004 11.091h.008M6.298 11.091h.008M13.702 14.33h.007M10.004 14.33h.008M6.298 14.33h.008M13.37 1.667v2.742M6.638 1.667v2.742"
+    />
+    <path
+      stroke="#8692A6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M13.532 2.983H6.476c-2.447 0-3.976 1.364-3.976 3.87v7.541c0 2.545 1.529 3.94 3.976 3.94h7.048c2.455 0 3.976-1.371 3.976-3.877V6.853c.008-2.506-1.513-3.87-3.968-3.87Z"
+      clipRule="evenodd"
+    />
+  </svg>
+)
+
+export const CategoriesIcon = () => (
+  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M4 4h6v6H4V4zm10 0h6v6h-6V4zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+  </svg>
+);
+
+export const HowItWorksIcon = () => (
+  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2a10 10 0 1010 10A10.011 10.011 0 0012 2zm0 17a1.5 1.5 0 111.5-1.5A1.502 1.502 0 0112 19zm1.4-4.75a1 1 0 00-.4.8v.45h-2v-.45a2.967 2.967 0 011.2-2.4 4.538 4.538 0 001.1-1.1 1.948 1.948 0 10-3.3-1.95H8.5a4 4 0 117.3 2.7 6.017 6.017 0 01-1.4 1.55z" />
   </svg>
 );

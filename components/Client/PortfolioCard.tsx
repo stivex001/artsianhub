@@ -21,7 +21,7 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
 
   const closeModal = () => setIsModalOpen(false);
   const artisanPage = pathname.startsWith("/artisan");
-  const clientPage = pathname.startsWith("/client");
+  const clientPage = pathname.startsWith("/artisan-details");
 
   useEffect(() => {
     const checkMobile = () => {
@@ -34,14 +34,10 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
   }, []);
 
   const handleClick = () => {
-    if (isMobile && clientPage) {
-      router.push(
-        `/client/artisan-details/portfolio-details?artisanId=${artisanId}&id=${item?._id}`
-      );
-    } else if (artisanPage) {
-      router.push(`/artisan/dashboard/portfolio/${item?._id}`);
-    } else {
+    if (isMobile || clientPage) {
       setIsModalOpen(true);
+    } else {
+      router.push(`/artisan/dashboard/portfolio/${item?._id}`);
     }
   };
 
@@ -66,9 +62,9 @@ export const PortfolioCard = ({ item, showDate, artisanId }: Props) => {
             {item?.title}
           </h3>
 
-          <div className="flex  mb-2">
+          <div className="flex items-center mb-2">
             <MapIcon />
-            <span className="w-[90%] text-body text-sm font-medium">
+            <span className="w-[90%] text-body text-sm font-medium line-clamp-1">
               {item?.location}
             </span>
           </div>

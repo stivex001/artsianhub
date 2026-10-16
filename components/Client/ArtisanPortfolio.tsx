@@ -2,7 +2,7 @@
 
 import React from "react";
 import { PortfolioCard } from "./PortfolioCard";
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { CardSkeletonLoader } from "../loader/CardSkeletonLoader";
 
 type Props = {
@@ -22,7 +22,7 @@ export const ArtisanPortfolio = ({ id }: Props) => {
       <div>
         {isPending && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: 2 }).map((_, i) => (
               <CardSkeletonLoader key={i} />
             ))}
           </div>

@@ -1,26 +1,14 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import "swiper/swiper-bundle.css";
 import QueryProviders from "@/contexts/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ModalCloseProvider } from "@/contexts/SheetCloseModal";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
-
-// const inter = Inter({
-//   variable: "--font-inter-sans",
-//   subsets: ["latin"],
-// });
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import ScrollToTop from "@/components/navigations/ScrollToTop";
+import { Suspense } from "react";
+import { Loader } from "@/components/Loader";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 const satoshi = localFont({
   src: [
@@ -34,8 +22,49 @@ const satoshi = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "MENSAYHUB",
-  description: "Mensayhub",
+  metadataBase: new URL("https://artisanshub.org"),
+  title: {
+    default: "ArtisansHub — Find Skilled Artisans Near You",
+    template: "%s | ArtisansHub",
+  },
+  description:
+    "Connect with verified skilled artisans — tailors, carpenters, photographers, and more. Hire or become an artisan on ArtisansHub.",
+  keywords: [
+    "artisans",
+    "skilled workers",
+    "hire artisan",
+    "freelance craftsmen",
+    "Nigeria artisans",
+    "find artisan",
+    "chesterfield artisans",
+    "UK artisans",
+  ],
+  openGraph: {
+    type: "website",
+    url: "https://artisanshub.org",
+    siteName: "ArtisansHub",
+    title: "ArtisansHub — Find Skilled Artisans Near You",
+    description:
+      "Connect with verified skilled artisans — tailors, carpenters, photographers, and more.",
+    images: [{ url: "/images/og-image.png", width: 1200, height: 630, alt: "ArtisansHub" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ArtisansHub — Find Skilled Artisans Near You",
+    description:
+      "Connect with verified skilled artisans — tailors, carpenters, photographers, and more.",
+    images: ["/images/og-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
@@ -46,42 +75,49 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="UTF-8" />
-        <meta name="description" content="MENSAYHUB" />
-        <meta property="og:title" content="MENSAYHUB" />
-        <meta property="og:description" content="MENSAYHUB" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <meta property="og:url" content="https://www.mensayhub.com" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="keywords" content="MENSAYHUBs ecommerce" />
-        <link rel="icon" href="/images/darklogo.svg" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="canonical" href="https://www.mensayhub.com" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
+        <JsonLd data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "ArtisansHub",
+            alternateName: "ArtisansHub.org",
+            url: "https://artisanshub.org",
+            logo: "https://artisanshub.org/images/logo.png",
+            foundingLocation: { "@type": "Place", name: "United Kingdom" },
+            contactPoint: {
+              "@type": "ContactPoint",
+              email: "support@artisanshub.org",
+              contactType: "customer service",
+              availableLanguage: "English",
+            },
+            sameAs: [
+              "https://www.facebook.com/artisanshub",
+              "https://www.instagram.com/artisanshub",
+              "https://www.linkedin.com/company/artisanshub",
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "ArtisansHub",
+            url: "https://artisanshub.org",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: "https://artisanshub.org/artisans?search={search_term_string}",
+              },
+              "query-input": "required name=search_term_string",
+            },
+          },
+        ]} />
       </head>
       <QueryProviders>
         <ModalCloseProvider>
           <body className={` ${satoshi.variable} antialiased`}>
             <Toaster position="top-center" />
-            {children}
+            <ScrollToTop />
+            <Suspense fallback={<Loader />}>{children}</Suspense>
           </body>
         </ModalCloseProvider>
       </QueryProviders>

@@ -84,7 +84,7 @@ const ControlledRangeSelector: React.FC<ControlledInputProps> = ({
             placeholder={placeholder}
             onChange={onChange}
             onBlur={onBlur}
-            value={value}
+            value={value ?? 0}
             ref={ref}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
             {...props}
@@ -98,7 +98,7 @@ const ControlledRangeSelector: React.FC<ControlledInputProps> = ({
           />
         </div>
         <span className="text-base font-semibold text-gray-900 min-w-[60px]">
-          {value}m
+          {value} Miles
         </span>
       </div>
 

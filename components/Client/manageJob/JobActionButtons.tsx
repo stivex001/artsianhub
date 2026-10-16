@@ -7,6 +7,8 @@ type Props = {
   onReschedule?: () => void;
   onMarkNoShow?: () => void;
   onMarkCompleted?: () => void;
+  onReview?: () => void;
+  onRebook?: () => void;
 };
 
 export const JobActionButtons = ({
@@ -15,17 +17,19 @@ export const JobActionButtons = ({
   onReschedule,
   onMarkNoShow,
   onMarkCompleted,
+  onReview,
+  onRebook,
 }: Props) => {
   const actions: React.ReactNode[] = [];
 
-  if (status === "Pending" || status === "accepted") {
+  if (status === "Pending" || status === "Accepted") {
     actions.push(
       <CustomButton
         key="cancel"
         label="Cancel Request"
         type="button"
         className="w-fit"
-        variant={status === "accepted" ? "transparent" : "primary"}
+        variant={status === "Accepted" ? "transparent" : "primary"}
         onClick={onCancel}
       />
     );
@@ -43,7 +47,7 @@ export const JobActionButtons = ({
     );
   }
 
-   if (status === "Declined" || status === "cancelled") {
+  if (status === "Declined" || status === "cancelled") {
     actions.push(
       <CustomButton
         key="reschedule"
@@ -55,7 +59,7 @@ export const JobActionButtons = ({
     );
   }
 
-  if (status === "inprogress") {
+  if (status === "In Progress") {
     actions.push(
       <CustomButton
         key="no-show"
@@ -66,7 +70,7 @@ export const JobActionButtons = ({
         onClick={onMarkNoShow}
       />,
       <CustomButton
-        key="complete"
+        key="Complete"
         label="Mark as Completed"
         type="button"
         className="w-fit"
@@ -74,10 +78,22 @@ export const JobActionButtons = ({
         onClick={onMarkCompleted}
       />
     );
-    
   }
 
-   if (status === "completed") {
+  if (status === "Cancelled (Client)") {
+    actions.push(
+      <CustomButton
+        key="Complete"
+        label="Rebook Artisan"
+        type="button"
+        className="w-fit"
+        variant="primary"
+        onClick={onRebook}
+      />
+    );
+  }
+
+  if (status === "Completed") {
     actions.push(
       <CustomButton
         key="rebook"
@@ -93,15 +109,10 @@ export const JobActionButtons = ({
         type="button"
         className="w-fit"
         variant="primary"
-        onClick={onMarkCompleted}
+        onClick={onReview}
       />
     );
-    
   }
 
-  return (
-    <div className="flex items-center justify-end gap-5">
-      {actions}
-    </div>
-  );
+  return <div className="flex items-center justify-end gap-5">{actions}</div>;
 };

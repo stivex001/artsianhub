@@ -2,7 +2,7 @@
 
 import { getUserInitials } from "@/utils/getUserInitials";
 import Image from "next/image";
-import { ArtisanDetails } from "@/api/crud/artisans";
+import { ArtisanDetails } from "@/apis/crud/artisans";
 import { format } from "date-fns";
 
 type ArtisanProfileProps = {

@@ -1,3 +1,4 @@
+"use client";
 import {
   BeautyIcon,
   CraftIcon,
@@ -9,11 +10,10 @@ import {
   VisualIcon,
 } from "@/components/assets/icons/OtherIcons";
 import { Descriptions } from "@/components/shared/Headings";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-type Props = {};
-
-const categories = [
+export const categories = [
   {
     icon: FashionIcon,
     title: "Fashion & Textile",
@@ -44,11 +44,12 @@ const categories = [
   },
   {
     icon: CraftIcon,
-    title: "Craft & Handmade",
+    title: "Craft & Handmade Goods Artisans",
   },
 ];
 
-export const FindPerfectArtisan = (props: Props) => {
+export const FindPerfectArtisan = () => {
+  const router = useRouter();
   return (
     <section className="bg-milky py-20 px-4 text-center">
       <div className="max-w-6xl mx-auto">
@@ -61,12 +62,13 @@ export const FindPerfectArtisan = (props: Props) => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-6 md:gap-y-16">
-          {categories.map((category, index) => {
+          {categories?.map((category, index) => {
             const Icon = category.icon;
             return (
               <div
                 key={index}
-                className="bg-white border border-[#F3F4F6] max-h-44 shadow-boxshadow rounded-lg p-6 flex flex-col gap-4 items-center hover:shadow-md transition"
+                onClick={() => router.push("/auth/login")}
+                className="bg-white border cursor-pointer border-[#F3F4F6] max-h-44 shadow-boxshadow rounded-lg p-6 flex flex-col gap-4 items-center hover:shadow-md transition"
               >
                 <Icon />
                 <h3 className="text-xl font-semibold text-textdeep">

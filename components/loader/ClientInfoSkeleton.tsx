@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const ClientInfoSkeleton = () => {
   return (
-    <div className="lg:w-80 flex flex-col">
+    <div className=" lg:w-80 flex flex-col">
       <Skeleton className="w-full h-[300px] rounded-2xl mb-4" />
 
       <Skeleton className="h-6 w-2/3 mb-2 rounded" />

@@ -11,6 +11,7 @@ import {
   WeaverIcon,
 } from "@/components/assets/icons/FeaturedIcons";
 import cook from "@/components/assets/images/cook.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -39,7 +40,7 @@ const defaultCategories: CategoryItem[] = [
     description: "Specialist meat and seafood preparation.",
     icon: <FishMonger />,
   },
-   {
+  {
     id: "Cheesemakers",
     title: "Cheesemakers",
     description: "Traditional and modern dairy artisans.",
@@ -48,8 +49,12 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Food = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
         title="Food & Culinary Artisans"
         subtitle="Bring flavor to your events or home with our skilled food artisans who specialize in culinary creations."
@@ -58,7 +63,7 @@ export const Food = (props: Props) => {
         backgroundColor="#FFFBEB"
         borderColor="#D97706"
         buttonText="Explore Food & Culinary Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
         order
       />
     </section>

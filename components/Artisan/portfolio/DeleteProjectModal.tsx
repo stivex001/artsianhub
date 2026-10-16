@@ -1,4 +1,4 @@
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import { DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { CustomModal } from "@/components/modals/CustomModal";

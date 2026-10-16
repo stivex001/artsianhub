@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import { Search, MessageCircle, FileCheck, Star } from "lucide-react";
-import { Descriptions } from "@/components/shared/Headings";
+import { motion } from "framer-motion";
+import { EASE_OUT } from "@/lib/easing";
 
 interface Step {
   id: number;
@@ -43,54 +46,78 @@ const defaultSteps: Step[] = [
   },
 ];
 
+const stepVariants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE_OUT, delay: i * 0.13 },
+  }),
+};
+
 const HowItWorks: React.FC<HowItWorksProps> = ({
   title = "How It Works",
   subtitle = "It's simple to find an artisan or join as one. Here's how:",
   steps = defaultSteps,
 }) => {
   return (
-    <section id="howitworks" className={`bg-white py-20 px-4 text-center`}>
+    <section id="howitworks" className="bg-white py-20 px-4 text-center">
       <div className="max-w-6xl mx-auto">
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <Descriptions title={title} desc={subtitle} />
-        </div>
+        <motion.div
+          className="max-w-2xl mx-auto text-center mb-14"
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            {title}
+          </h2>
+          <p className="text-sm text-gray-500">{subtitle}</p>
+        </motion.div>
 
-        {/* Steps Container */}
         <div className="relative">
-          {/* Steps Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
             {steps.map((step, index) => (
-              <div
+              <motion.div
                 key={step.id}
+                custom={index}
+                variants={stepVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-60px" }}
                 className="relative flex flex-col items-center"
               >
-                {/* Connector Line for Desktop */}
+                {/* Connector lines */}
                 {index > 0 && (
-                  <div className="hidden md:block absolute top-12 -left-1/2 w-9/12 h-0.5 bg-gray-300"></div>
+                  <div className="hidden lg:block absolute top-12 -left-1/2 w-9/12 h-px bg-gradient-to-r from-transparent via-gray-200 to-gray-200" />
                 )}
                 {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 right-0 w-1/2 h-0.5 bg-gray-300"></div>
+                  <div className="hidden lg:block absolute top-12 right-0 w-1/2 h-px bg-gradient-to-r from-gray-200 to-transparent" />
                 )}
 
-                {/* Step Card */}
-                <div className="p-3">
-                  <div className="relative mb-6">
-                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-[#071D8A] text-white rounded-full flex items-center justify-center text-sm font-bold z-20">
+                <motion.div
+                  className="p-4 rounded-2xl w-full hover:bg-blue-50/40 transition-colors duration-300"
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+                >
+                  <div className="relative mb-6 inline-block">
+                    {/* Step number badge */}
+                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-[#071D8A] text-white rounded-full flex items-center justify-center text-xs font-bold z-20 shadow-md shadow-blue-900/30">
                       {step.id}
                     </div>
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
                       {step.icon}
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className="text-base font-semibold text-gray-900 mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-500 text-sm leading-relaxed">
                     {step.description}
                   </p>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>

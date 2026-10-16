@@ -33,7 +33,7 @@ export const FooterLinks = ({ links, title }: LinksProps) => {
         className={`flex flex-col space-y-2 `}
       >
         {links.map((link) => (
-          <Link key={link.label} href={link.href} className="text-base text-placeholderText">
+          <Link key={link.label} href={link.href} className="text-base text-placeholderText whitespace-nowrap">
             {link.label}
           </Link>
         ))}

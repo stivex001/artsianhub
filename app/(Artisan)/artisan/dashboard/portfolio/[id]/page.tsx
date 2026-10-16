@@ -1,5 +1,5 @@
 "use client";
-import { useServices } from "@/api/crud/services";
+import { useServices } from "@/apis/crud/services";
 import ArtisanBreadCrumbs from "@/components/Artisan/portfolio/BreadCrumbs";
 import { CreateProjectModal } from "@/components/Artisan/portfolio/CreateProjectModal";
 import { DeleteProjectModal } from "@/components/Artisan/portfolio/DeleteProjectModal";

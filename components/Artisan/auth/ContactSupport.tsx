@@ -9,11 +9,11 @@ type Props = {
 export const ContactSupport = ({ className }: Props) => {
   return (
     <Link
-      href={"/auth/onboarding"}
-      className={`text-sm  text-paragrah flex items-center justify-center ${className}`}
+      href="mailto:support@artisanshub.org"
+      className={`text-sm text-paragraph flex items-center justify-center ${className}`}
     >
       Having a bit of trouble?{" "}
-      <span className="text-primary ml-1 font-medium">Contact Support</span>{" "}
+      <span className="text-primary ml-1 font-medium">Contact Support</span>
     </Link>
   );
 };

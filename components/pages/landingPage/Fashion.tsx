@@ -7,6 +7,7 @@ import {
   WeaverIcon,
 } from "@/components/assets/icons/FeaturedIcons";
 import tailor from "@/components/assets/images/tailor.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -38,8 +39,13 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Fashion = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
-    <section id="categories" className="py-20 px-4 bg-white">
+    <section id="categories" className="py-20  bg-white">
       <FeaturedCard
         title="Fashion & Textile Artisans"
         subtitle="Explore top-tier fashion and textile artisans who specialize in custom designs, alterations, and more."
@@ -48,7 +54,7 @@ export const Fashion = (props: Props) => {
         backgroundColor="#FFFBEB"
         borderColor="#D97706"
         buttonText="Explore Fashion & Textile Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
       />
     </section>
   );

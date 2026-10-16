@@ -9,13 +9,16 @@ type PersonalInfo = {
 };
 
 type ServiceDetails = {
-  serviceCategory: string[] | string;
+  serviceCategories: string[] | string;
   professionalTitle: string;
   skillDescription: string;
 };
 
 type LocationPriceDetails = {
   primaryLocation: string;
+  country: string;
+  state: string;
+  city: string;
   pricePerHour: number;
   workDistanceKm: number;
 };
@@ -55,12 +58,15 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
     profilePicture: null,
   },
   serviceDetails: {
-    serviceCategory: [],
+    serviceCategories: [],
     professionalTitle: "",
     skillDescription: "",
   },
   locationPriceDetails: {
     primaryLocation: "",
+    country: "",
+    state: "",
+    city: "",
     pricePerHour: 1,
     workDistanceKm: 1,
   },
@@ -102,12 +108,15 @@ export const useArtisanProfileStore = create<ArtisanProfileState>((set) => ({
         profilePicture: null,
       },
       serviceDetails: {
-        serviceCategory: [],
+        serviceCategories: [],
         professionalTitle: "",
         skillDescription: "",
       },
       locationPriceDetails: {
         primaryLocation: "",
+        country: "",
+        state: "",
+        city: "",
         pricePerHour: 1,
         workDistanceKm: 1,
       },

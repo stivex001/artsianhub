@@ -1,4 +1,4 @@
-import { useServices } from "@/api/crud/services";
+
 import { DeleteIcon } from "@/components/assets/icons/ModalIcon";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
@@ -9,13 +9,14 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "sonner";
 import { reason } from "../settings/data";
-import { useAppointments } from "@/api/crud/appointments";
+import { useAppointments } from "@/apis/crud/appointments";
 
 type DeclineModalProps = {
   isOpen: boolean;
   onClose: () => void;
   id?: any;
   refetch: () => void;
+  notifyRefecth: () => void;
   user: string;
 };
 
@@ -33,6 +34,7 @@ export const CancelModal = ({
   onClose,
   id,
   refetch,
+  notifyRefecth,
   user,
 }: DeclineModalProps) => {
   const router = useRouter();
@@ -65,6 +67,7 @@ export const CancelModal = ({
         console.log(response, "res");
         toast.success(response?.message);
         refetch();
+        notifyRefecth();
         onClose();
       },
       onError: (error: any) => {

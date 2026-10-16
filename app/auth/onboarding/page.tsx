@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import logo from "@/public/single.svg";
+import logo from "@/components/assets/images/n.png";
 import Image from "next/image";
 import hire from "@/components/assets/images/hire.svg";
 import artisan from "@/components/assets/images/artisan.svg";
 import { RighArrow } from "@/components/assets/icons/SvgIcons";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Onboarding = () => {
   const router = useRouter();
@@ -28,21 +29,28 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-white hidden lg:block">
-        <div className="max-w-6xl mx-auto px-4 py-4">
+      <div className="bg-white hidden lg:block w-40 h-20 mt-4  ">
+        {/* <Link href="/" className="max-w-6xl  mx-auto px-4 py-4">
           <Image src={logo} alt="logo" />
-        </div>
+        </Link> */}
+        <Link href="/" className=" ">
+          <Image
+            src={logo}
+            alt="logo"
+            className="w-full h-full object-cover "
+          />
+        </Link>
       </div>
 
       {/* Main Content */}
       <div className="max-w-3xl mx-auto px-4 py-16 ">
         <div className="text-center mb-10">
           <h1 className="md:text-4xl text-2xl font-[900] text-paragrah mb-1">
-            Welcome to ArtisanHub
+            Welcome to ArtisansHub
           </h1>
           <p className="text-sm text-body">
-            To help you get started, choose if you'd like to join MensayHubas a
-            creative or a hirer.
+            To help you get started, choose if you'd like to join ArtisansHub as
+            a creative or a hirer.
           </p>
         </div>
 
@@ -62,12 +70,12 @@ const Onboarding = () => {
                 <Image src={hire} alt="hire" />
               </div>
               <h3 className="text-base font-bold text-gray-900 mb-1">
-                I want to hire artisans
+                Find an Artisan
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Looking for someone to fix something, build, repair, sew, or
-                install? We'll help you find skilled artisans near you — fast,
-                affordable, and reliable
+                Your project deserves the best craftsmanship. Search for
+                trusted, skilled artisans near you Compare prices and reviews
+                Book quickly and securely Get quality work, on time
               </p>
             </div>
           </div>
@@ -86,11 +94,13 @@ const Onboarding = () => {
                 <Image src={artisan} alt="hire" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-1">
-                I'm an artisan
+                Work as an Artisan...start Getting Jobs
               </h3>
               <p className="text-gray-600 text-sm leading-relaxed">
-                Have a skill you want to earn from? Whether you fix, build,
-                clean, sew, or paint — this is the place for you.
+                Have a skill to share? We&apos;ll connect you to customers who
+                need you. Create your free profile and showcase your work Get
+                matched with local job requests Set your own prices and schedule
+                Earn more and grow your reputation
               </p>
             </div>
           </div>

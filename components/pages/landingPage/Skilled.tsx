@@ -12,6 +12,7 @@ import {
   Watchmakers,
 } from "@/components/assets/icons/FeaturedIcons";
 import carpenter from "@/components/assets/images/carpenter.png";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
@@ -43,17 +44,22 @@ const defaultCategories: CategoryItem[] = [
 ];
 
 export const Skilled = (props: Props) => {
+  const router = useRouter();
+  const handleButtonClick = () => {
+    router.push("/skilled-artisans");
+  };
+
   return (
-    <section className="py-20 px-4 bg-white">
+    <section className="py-20 bg-white">
       <FeaturedCard
-        title="Skilled Trades & Repair Artisans"
-        subtitle="Get skilled home repairs and services from expert tradespeople—plumbers, electricians, and mechanics."
+        title="Pro Artisans"
+        subtitle="Get skilled home repairs and services from expert trades people—plumbers, electricians, and mechanics."
         categories={defaultCategories}
         featuredImage={carpenter}
         backgroundColor="#F4F5F6"
         borderColor="#4B5563"
         buttonText="Explore Skilled Trades & Repair Artisans"
-        onButtonClick={() => console.log("Button clicked")}
+        onButtonClick={() => handleButtonClick()}
       />
     </section>
   );

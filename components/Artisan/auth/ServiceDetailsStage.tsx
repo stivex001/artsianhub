@@ -7,9 +7,8 @@ import { Field } from "@/schemas/dynamicSchema";
 import React from "react";
 import { BackIcon, NextIcon } from "@/components/assets/icons/NavIcons";
 import { useArtisanProfileStore } from "@/store/artisanProfileStore";
-import { useCategories } from "@/api/crud/categories";
+import { useCategorySelector } from "@/hooks/useCategorySelector";
 
-type Props = {};
 
 const fields: Field[] = [
   {
@@ -26,16 +25,14 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
-    name: "serviceCategory",
+    name: "serviceCategories",
     type: "multiselect",
     errorMessage: "Kindly select Category",
     isRequired: false,
   },
 ];
 
-export const ServiceDetailsStage = (props: Props) => {
-  const { getAllCategories } = useCategories();
-
+export const ServiceDetailsStage = () => {
   const {
     setCurrentStep,
     serviceDetails,
@@ -43,40 +40,31 @@ export const ServiceDetailsStage = (props: Props) => {
     updateServiceDetails,
   } = useArtisanProfileStore();
 
-  const { data: category } = getAllCategories();
-  
-
-  const categoryOptions = Array.isArray(category)
-    ? category?.map((cat) => ({
-        id: cat?._id,
-        value: cat?._id,
-        label: cat?.name,
-      }))
-    : [];
+  const { subCategoryOptions } = useCategorySelector();
 
   const { control, handleSubmit, formState, getValues } = useDynamicForm(
     fields,
     {
-      serviceCategory: serviceDetails.serviceCategory,
+      serviceCategories: serviceDetails.serviceCategories,
       professionalTitle: serviceDetails.professionalTitle,
       skillDescription: serviceDetails.skillDescription,
     }
   );
 
-  const { isValid, errors } = formState;
+  const { isValid } = formState;
 
   const handleCreateServiceDetails = () => {
     const formValues = getValues();
 
-     const safeServiceType = Array.isArray(formValues?.serviceCategory)
-      ? formValues.serviceCategory
-      : typeof formValues?.serviceCategory === "string"
-      ? formValues.serviceCategory.split(",")
+    const safeServiceType = Array.isArray(formValues?.serviceCategories)
+      ? formValues.serviceCategories
+      : typeof formValues?.serviceCategories === "string"
+      ? formValues.serviceCategories.split(",")
       : [];
 
     updateServiceDetails({
       ...formValues,
-      serviceCategory: safeServiceType,
+      serviceCategories: safeServiceType,
     });
     markStepCompleted("serviceDetails");
     setCurrentStep(3);
@@ -98,9 +86,9 @@ export const ServiceDetailsStage = (props: Props) => {
       >
         <div className="flex flex-col gap-5">
           <ControlledSelect
-            name="serviceCategory"
+            name="serviceCategories"
             label="Service Category"
-            options={categoryOptions}
+            options={subCategoryOptions}
             control={control}
             variant="primary"
             placeholder="Select Service Category"

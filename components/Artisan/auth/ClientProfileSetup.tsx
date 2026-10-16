@@ -11,9 +11,11 @@ import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
 import { ControlledPhoneInput } from "@/components/controlledInputs/ControlledPhoneInput";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/authStore";
+import { useLocationSelector } from "@/hooks/useLocationSelector";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
 
 type Props = {};
 
@@ -38,10 +40,19 @@ const fields: Field[] = [
     isRequired: true,
   },
   {
+    name: "country",
+    type: "text",
+    errorMessage: "Country is required",
+  },
+  {
+    name: "state",
+    type: "text",
+    errorMessage: "State is required",
+  },
+  {
     name: "city",
     type: "text",
-    errorMessage: "location is required",
-    isRequired: true,
+    errorMessage: "City is required",
   },
 ];
 
@@ -53,12 +64,21 @@ export const ClientProfileSetup = (props: Props) => {
 
   const { setCurrentUser } = useAuthStore();
 
-  const { control, handleSubmit, formState } = useDynamicForm<AuthUser>(
-    fields,
-    {}
-  );
+  const { control, handleSubmit, formState, watch, setValue } =
+    useDynamicForm<AuthUser>(fields, {});
+
+  const selectedCountry = watch("country");
+  const selectedState = watch("state");
 
   const { isValid } = formState;
+
+  const {
+    countryOptions,
+    stateOptions,
+    cityOptions,
+    stateLoading,
+    cityLoading,
+  } = useLocationSelector(selectedCountry, selectedState, setValue);
 
   const { createClientProfile } = useUser();
   const { mutate: createProfile, isPending } = createClientProfile;
@@ -72,6 +92,8 @@ export const ClientProfileSetup = (props: Props) => {
       formData.append("firstName", data?.firstName);
       formData.append("lastName", data?.lastName);
       formData.append("phoneNumber", data?.phoneNumber);
+      formData.append("country", data?.country);
+      formData.append("state", data?.state);
       formData.append("city", data?.city);
 
       createProfile(formData, {
@@ -95,6 +117,7 @@ export const ClientProfileSetup = (props: Props) => {
 
   return (
     <ProfileSetupLayout
+      role="client"
       title="Let’s Personalize Your Experience"
       desc="Add a few details to help us connect you with the right artisans near you. This only takes a minute."
     >
@@ -118,7 +141,7 @@ export const ClientProfileSetup = (props: Props) => {
           <div className="grid lg:grid-cols-2 gap-5">
             <ControlledInput
               name="firstName"
-              control={control}
+              control={control as any}
               placeholder="Enter first name"
               type="text"
               label="First Name"
@@ -127,7 +150,7 @@ export const ClientProfileSetup = (props: Props) => {
             />
             <ControlledInput
               name="lastName"
-              control={control}
+              control={control as any}
               placeholder="Enter last name"
               type="text"
               label="Last Name"
@@ -138,18 +161,64 @@ export const ClientProfileSetup = (props: Props) => {
           <ControlledPhoneInput
             label="Phone Number"
             name="phoneNumber"
-            control={control}
+            control={control as any}
             rules={{ required: true }}
           />
-          <ControlledInput
+          {/* <ControlledInput
             name="city"
-            control={control}
+            control={control as any}
             placeholder="Enter your location"
             type="text"
             label="Location / City"
             variant="primary"
             rules={{ required: true }}
+          /> */}
+
+          <ControlledSelect
+            name="country"
+            label="Country"
+            options={countryOptions}
+            control={control as any}
+            variant="primary"
+            placeholder="Select Country"
+            searchable
           />
+
+          {selectedCountry && (
+            <div className="grid lg:grid-cols-2 gap-5">
+              {stateLoading ? (
+                <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+              ) : (
+                <ControlledSelect
+                  name="state"
+                  label="State"
+                  options={stateOptions}
+                  control={control as any}
+                  variant="primary"
+                  placeholder={"Select state"}
+                  searchable
+                />
+              )}
+
+              {selectedState && (
+                <>
+                  {cityLoading ? (
+                    <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+                  ) : (
+                    <ControlledSelect
+                      name="city"
+                      label="City"
+                      options={cityOptions}
+                      control={control as any}
+                      variant="primary"
+                      placeholder={"Select city"}
+                      searchable
+                    />
+                  )}
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className="w-fit self-end">
           <CustomButton
@@ -181,7 +250,7 @@ export const ClientProfileSetup = (props: Props) => {
           label="Proceed"
           className="w-full rounded-xl"
           variant="primary"
-          onClick={() => router.push(`/client`)}
+          onClick={() => router.push(`/`)}
         />
       </CustomModal>
     </ProfileSetupLayout>

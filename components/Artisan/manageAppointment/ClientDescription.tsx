@@ -4,6 +4,8 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import React from "react";
+import { MapComponent } from "./MapComponent";
+
 
 type Props = {
   appointment: any;
@@ -45,15 +47,7 @@ export const ClientDescription = ({ appointment, isPending }: Props) => {
         <h3 className="text-base font-bold text-paragrah mb-2">Location</h3>
         <p className="text-body text-sm mb-4">{appointment?.location}</p>
 
-        {/* Map */}
-        <div className="w-full h-48 bg-gray-200 rounded-xl overflow-hidden">
-          {/* <img
-                  src={appointment?.mapUrl}
-                  alt="Location map"
-                  className="w-full h-full object-cover"
-                /> */}
-          <MapImage />
-        </div>
+       <MapComponent address={appointment?.location} />
       </div>
 
       {/* Attached Images */}

@@ -1,4 +1,4 @@
-import { Category, useCategories } from "@/api/crud/categories";
+import { Category, useCategories } from "@/apis/crud/categories";
 import { CustomButton } from "@/components/clickable/CustomButton";
 import { AlertCircle } from "lucide-react";
 import { toast } from "sonner";

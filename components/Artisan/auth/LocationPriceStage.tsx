@@ -7,12 +7,15 @@ import ControlledInput from "@/components/controlledInputs/ControlledInput";
 import useDynamicForm from "@/hooks/useDynamicForm";
 import { Field } from "@/schemas/dynamicSchema";
 import ControlledRangeSelector from "@/components/controlledInputs/ControlledRangeSelector";
-import { useUser } from "@/api/crud/user";
+import { useUser } from "@/apis/crud/user";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
 import { CustomModal } from "@/components/modals/CustomModal";
 import { ConfirmIcon } from "@/components/assets/icons/ModalIcon";
 import { useRouter } from "next/navigation";
+import { ControlledSelect } from "@/components/controlledInputs/ControlledSelect";
+import { Country } from "@/apis/crud/locations";
+import { useLocationSelector } from "@/hooks/useLocationSelector";
 
 type Props = {};
 
@@ -34,7 +37,20 @@ const fields: Field[] = [
     name: "pricePerHour",
     type: "number",
     errorMessage: "Price per hour is required",
+  },
+  {
+    name: "country",
+    type: "text",
+    errorMessage: "Country is required",
     isRequired: true,
+  },
+   {
+    name: "state",
+    type: "text",
+  },
+  {
+    name: "city",
+    type: "text",
   },
 ];
 
@@ -49,12 +65,21 @@ export const LocationPriceStage = (props: Props) => {
   } = useArtisanProfileStore();
   const [firstName, setFirstName] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const { control, handleSubmit, formState, getValues } = useDynamicForm(
-    fields,
-    {}
-  );
+  const { control, handleSubmit, formState, watch, setValue } =
+    useDynamicForm<Country>(fields, {});
+
+  const selectedCountry = watch("country");
+  const selectedState = watch("state");
 
   const { isValid } = formState;
+
+  const {
+    countryOptions,
+    stateOptions,
+    cityOptions,
+    stateLoading,
+    cityLoading,
+  } = useLocationSelector(selectedCountry, selectedState, setValue);
 
   const { createArtisanProfile } = useUser();
   const { mutate: createProfile, isPending } = createArtisanProfile;
@@ -75,12 +100,19 @@ export const LocationPriceStage = (props: Props) => {
       formData.append("professionalTitle", serviceDetails?.professionalTitle);
       formData.append("skillDescription", serviceDetails?.skillDescription);
       formData.append(
-        "serviceCategory",
-        JSON.stringify(serviceDetails?.serviceCategory)
+        "serviceCategories",
+        JSON.stringify(serviceDetails?.serviceCategories)
       );
       formData.append("primaryLocation", data?.primaryLocation);
       formData.append("workDistanceKm", data?.workDistanceKm);
       formData.append("pricePerHour", data?.pricePerHour);
+      formData.append("country", data?.country);
+      if (data?.state) {
+        formData.append("state", data.state);
+      }
+      if (data?.city) {
+        formData.append("city", data.city);
+      }
 
       createProfile(formData, {
         onSuccess: (response: any) => {
@@ -95,7 +127,7 @@ export const LocationPriceStage = (props: Props) => {
           resetProfile();
         },
         onError: (error: any) => {
-          toast.error(error?.message || "Something went wrong");
+          toast.error(error?.data?.error || "Something went wrong");
           console.error("Create Profile Error:", error);
         },
       });
@@ -120,28 +152,75 @@ export const LocationPriceStage = (props: Props) => {
         onSubmit={handleSubmit(handleSubmitProfile)}
         className="flex flex-col gap-5"
       >
-        <ControlledInput
-          name="primaryLocation"
-          control={control}
-          placeholder="Enter your location or region"
-          type="text"
-          label="Primary Location"
-          variant="primary"
-          rules={{ required: true }}
-        />
+        <div className="grid lg:grid-cols-2 gap-5">
+          <ControlledInput
+            name="primaryLocation"
+            control={control as any}
+            label="Primary Location"
+            placeholder="Enter your location"
+            variant="primary"
+          />
+
+          <ControlledSelect
+            name="country"
+            label="Country"
+            options={countryOptions}
+            control={control as any}
+            variant="primary"
+            placeholder="Select Country"
+            searchable
+            rules={{ required: true }}
+          />
+        </div>
+
+        {selectedCountry && (
+          <div className="grid lg:grid-cols-2 gap-5">
+            {stateLoading ? (
+              <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+            ) : (
+              <ControlledSelect
+                name="state"
+                label="State"
+                options={stateOptions}
+                control={control as any}
+                variant="primary"
+                placeholder={"Select state (optional)"}
+                searchable
+              />
+            )}
+
+            {selectedState && (
+              <>
+                {cityLoading ? (
+                  <div className="h-[48px] w-full rounded-lg bg-gray-200 animate-pulse"></div>
+                ) : (
+                  <ControlledSelect
+                    name="city"
+                    label="City"
+                    options={cityOptions}
+                    control={control as any}
+                    variant="primary"
+                    placeholder={"Select city (optional)"}
+                    searchable
+                  />
+                )}
+              </>
+            )}
+          </div>
+        )}
 
         <ControlledRangeSelector
           name="workDistanceKm"
           label="Travel Distance"
           desc="How far are you willing to go for work?"
-          control={control}
+          control={control as any}
           type="range"
           minLength={0}
           maxLength={200}
         />
         <ControlledInput
           name="pricePerHour"
-          control={control}
+          control={control as any}
           placeholder="Enter your price"
           type="number"
           label="Starting Price"
@@ -176,7 +255,7 @@ export const LocationPriceStage = (props: Props) => {
       >
         <div>
           <h1 className="text-paragrah font-bold text-xl">
-            Welcome to MensayHub, {firstName}!
+            Welcome to ArtisansHub, {firstName}!
           </h1>
           <p className="text-sm text-body">
             Your profile is now live. Start receiving job requests, managing

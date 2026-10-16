@@ -29,16 +29,24 @@ export interface AuthUser {
   phoneNumber: string;
   dateOfBirth: string;
   specialization: string;
+  city: string;
+  state: string;
+  country: string;
   residentialAddress: string;
   gender: string;
   email: string;
   profilePicture: string;
   password: string;
+  newPassword:string;
   confirmPassword: string;
   role: string;
+  roleLabel?: string;
   isArtisan: boolean;
   isAdmin: boolean;
+  isVerified: boolean;
   isClient: boolean;
+  /** Not returned by the backend yet; treated as false when absent. */
+  isMember?: boolean;
   artisanId: ID;
 }
 
