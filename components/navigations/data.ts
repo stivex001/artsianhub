@@ -36,6 +36,11 @@ export const artisanLinks = [
     icon: FolioIcon,
   },
   {
+    path: "/artisan/dashboard/events",
+    label: "My Events",
+    icon: BookingNavIcon,
+  },
+  {
     path: "/artisan/dashboard/subscription",
     label: "Subscription",
     icon: SubIcon,

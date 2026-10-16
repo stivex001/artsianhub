@@ -1,4 +1,6 @@
 import { MetadataRoute } from "next";
+import { getAllEventsServer } from "@/lib/events/serverEvents";
+import { eventPath } from "@/lib/events/helpers";
 
 const BASE = "https://artisanshub.org";
 const API = "https://api.artisanshub.org";
@@ -11,6 +13,9 @@ const staticRoutes: MetadataRoute.Sitemap = [
   { url: `${BASE}/digital-artisans`, priority: 0.8, changeFrequency: "weekly" },
   { url: `${BASE}/fashion-marketplace`, priority: 0.8, changeFrequency: "weekly" },
   { url: `${BASE}/learn-skills`, priority: 0.7, changeFrequency: "weekly" },
+  { url: `${BASE}/events/`, priority: 0.8, changeFrequency: "weekly" },
+  { url: `${BASE}/events/community/`, priority: 0.6, changeFrequency: "weekly" },
+  { url: `${BASE}/membership/`, priority: 0.8, changeFrequency: "monthly" },
   { url: `${BASE}/about`, priority: 0.6, changeFrequency: "monthly" },
   { url: `${BASE}/faq`, priority: 0.5, changeFrequency: "monthly" },
   { url: `${BASE}/contact-us`, priority: 0.5, changeFrequency: "monthly" },
@@ -43,5 +48,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // API unavailable at build time — sitemap still valid for static routes
   }
 
-  return [...staticRoutes, ...artisanRoutes];
+  // Past events stay in the sitemap permanently (ongoing SEO value).
+  const eventRoutes: MetadataRoute.Sitemap = (await getAllEventsServer())
+    .filter((e) => e.status !== "draft")
+    .map((e) => ({
+      url: `${BASE}${eventPath(e.slug)}`,
+      priority: 0.8,
+      changeFrequency: "weekly" as const,
+    }));
+
+  return [...staticRoutes, ...eventRoutes, ...artisanRoutes];
 }

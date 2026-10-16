@@ -29,6 +29,7 @@ export const navLinks: NavLink[] = [
   { id: "findArtisan", label: "Find Artisans", href: "/#findArtisan" },
   { id: "about", label: "About", href: "/about" },
   { id: "learn", label: "Learn Skills", href: "/learn-skills" },
+  { id: "events", label: "Events", href: "/events" },
 ];
 
 type Props = {

@@ -45,6 +45,8 @@ export interface AuthUser {
   isAdmin: boolean;
   isVerified: boolean;
   isClient: boolean;
+  /** Not returned by the backend yet; treated as false when absent. */
+  isMember?: boolean;
   artisanId: ID;
 }
 
